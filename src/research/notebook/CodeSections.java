@@ -56,8 +56,12 @@ public class CodeSections
 
 	public void runAll()
 	{
-		int ix = 0;
+		for(CodeSection s: sections)
+		{
+			s.setWaiting();
+		}
 		
+		int ix = 0;
 		while(ix < size())
 		{
 			CodeSection s = sections.get(ix);

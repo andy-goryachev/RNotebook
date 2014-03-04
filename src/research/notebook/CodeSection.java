@@ -71,6 +71,12 @@ public class CodeSection
 	}
 	
 	
+	protected void setWaiting()
+	{
+		right.setText("?");
+	}
+	
+	
 	protected void stopped(ScriptBody p)
 	{
 		if(process == p)
