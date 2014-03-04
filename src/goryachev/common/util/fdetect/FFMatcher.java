@@ -1,0 +1,55 @@
+// Copyright (c) 2012-2014 Andy Goryachev <andy@goryachev.com>
+package goryachev.common.util.fdetect;
+import goryachev.common.util.CException;
+import goryachev.common.util.Parsers;
+
+
+public abstract class FFMatcher
+{
+	public abstract FileType match(String filename, byte[] b);
+	
+	
+	//
+	
+	
+	public static byte[] bytes(String hex)
+	{
+		byte[] b = Parsers.parseByteArray(hex);
+		if(b == null)
+		{
+			throw new CException("unable to parse: " + hex);
+		}
+		return b;
+	}
+	
+	
+	public static boolean match(byte[] b, String pattern)
+	{
+		return match(b, bytes(pattern));
+	}
+	
+	
+	public static boolean match(byte[] b, byte[] pattern)
+	{
+		return match(b, pattern, 0);
+	}
+	
+	
+	public static boolean match(byte[] bytes, byte[] pattern, int offset)
+	{
+		if(bytes.length < (pattern.length + offset))
+		{
+			return false;
+		}
+		
+		for(int i=0; i<pattern.length; i++)
+		{
+			if(bytes[i + offset] != pattern[i])
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+}

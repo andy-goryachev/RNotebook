@@ -1,0 +1,66 @@
+// Copyright (c) 2008-2014 Andy Goryachev <andy@goryachev.com>
+package goryachev.common.ui;
+import goryachev.common.ui.theme.CTabbedPaneUI;
+import java.awt.Component;
+import java.awt.Container;
+import javax.swing.JTabbedPane;
+
+
+public class CTabbedPane
+	extends JTabbedPane
+{
+	public CTabbedPane()
+	{
+		setFocusable(false);
+	}
+	
+	
+	public void updateUI()
+	{
+		setUI(new CTabbedPaneUI());
+	}
+	
+	
+	public CTabbedPaneUI getCTabbedPaneUI()
+	{
+		return (CTabbedPaneUI)getUI();
+	}
+	
+	
+	public void setEnabled(Component c, boolean on)
+	{
+		int ix = indexOfComponent(c);
+		if(ix >=0 )
+		{
+			setEnabledAt(ix, on);
+		}
+	}
+
+
+	public Component[] getPanels()
+	{
+		int sz = getTabCount();
+		Component[] cs = new Component[sz];
+		for(int i=0; i<sz; i++)
+		{
+			cs[i] = getComponentAt(i);
+		}
+		return cs;
+	}
+
+
+	// select the tab which is the ancestor of the specified component 
+	public static void selectTab(Component c)
+	{
+		while(c != null)
+		{
+			Container parent = c.getParent();
+			if(parent instanceof JTabbedPane)
+			{
+				((JTabbedPane)parent).setSelectedComponent(c);
+			}
+			
+			c = parent;
+		}
+	}
+}

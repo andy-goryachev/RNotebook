@@ -1,0 +1,132 @@
+// Copyright (c) 2010-2014 Andy Goryachev <andy@goryachev.com>
+package goryachev.common.ui;
+import goryachev.common.ui.table.CTableSelector;
+import goryachev.common.ui.table.ZModel;
+import goryachev.common.ui.table.ZTable;
+import goryachev.common.util.CList;
+import java.awt.Component;
+import javax.swing.JPopupMenu;
+
+
+/** Base class for table-detail kind of panels */
+public abstract class TableDetailViewPanel<T>
+	extends CPanel
+{
+	protected abstract void onTableSelectionChanged();
+	
+	protected JPopupMenu createTablePopup() { return null; }
+	
+	protected void onTableDoubleClick() { }
+	
+	//
+	
+	public final ZModel<T> model;
+	public final ZTable table;
+	public final CScrollPane scroll;
+	public final CTableSelector selector;
+	public final CSplitPane split;
+	public final CPanel detailPanel;
+
+
+	public TableDetailViewPanel(String name, ZModel<T> m)
+	{
+		this.model = m;
+		setName(name);
+		
+		table = new ZTable(model);
+		table.setSortable(true);
+		
+		selector = new CTableSelector(table, true, false, true)
+		{
+			public void tableSelectionChangeDetected()
+			{
+				onTableSelectionChanged();
+			}
+		};
+
+		scroll = new CScrollPane(table, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.getViewport().setBackground(Theme.textBG());
+		
+		new CPopupMenuController(table, scroll)
+		{
+			public JPopupMenu constructPopupMenu()
+			{
+				return createTablePopup();
+			}
+			
+			public void onDoubleClick()
+			{
+				onTableDoubleClick();
+			}
+		};
+
+		CPanel p = new CPanel();
+		p.setCenter(scroll);
+		
+		// detail
+		
+		detailPanel = new CPanel();
+		detailPanel.setName("detail");
+		detailPanel.setBackground(Theme.textBG());
+		
+		// layout
+		
+		split = new CSplitPane(false, p, detailPanel);
+		split.setName("split");
+		split.setBorder(CBorder.NONE);
+		
+		setCenter(split);
+	}
+	
+	
+	public CList<T> getSelectedEntries()
+	{
+		CList<T> sel = model.getSelectedEntries(selector);
+		return sel;
+	}
+	
+	
+	public T getSelectedEntry()
+	{
+		return model.getSelectedEntry(selector);
+	}
+	
+	
+	public boolean select(T item)
+	{
+		int ix = model.indexOfKey(item);
+		if(ix < 0)
+		{
+			return false;
+		}
+		else
+		{
+			selector.setSelectedModelRow(ix);
+			return true;
+		}
+	}
+	
+	
+	public void setDetailPane(Component c)
+	{
+		GlobalSettings.storePreferences(detailPanel);
+
+		detailPanel.setCenter(c);
+		
+		GlobalSettings.restorePreferences(detailPanel);
+		detailPanel.validate();
+		detailPanel.repaint();
+	}
+	
+	
+	public void selectAll()
+	{
+		table.selectAll();
+	}
+	
+
+	public void selectFirstRow()
+	{
+		selector.selectFirstRow();
+	}
+}

@@ -1,0 +1,245 @@
+// Copyright (c) 2007-2014 Andy Goryachev <andy@goryachev.com>
+package goryachev.common.ui;
+import goryachev.common.ui.image.Scalr;
+import goryachev.common.util.FileTools;
+import goryachev.common.util.Log;
+import goryachev.common.util.TextTools;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ByteLookupTable;
+import java.awt.image.ColorConvertOp;
+import java.awt.image.LookupOp;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+
+public class ImageTools
+{
+	public static BufferedImage colorImage(BufferedImage in, Color c)
+	{
+		BufferedImage image = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		
+		// first convert to grayscale
+		new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null).filter(in,image);
+		
+		// grayscale to colored image lookup
+		byte[] r = buildLookup(c.getRed());
+		byte[] g = buildLookup(c.getGreen());
+		byte[] b = buildLookup(c.getBlue());
+		byte[] a = buildAlpha();
+		return new LookupOp(new ByteLookupTable(0,new byte[][] { r,g,b,a }),null).filter(image,image);
+	}
+	
+	
+	public static BufferedImage colorImage(int w, int h, Color c)
+	{
+		BufferedImage im = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = im.createGraphics();
+		try
+		{
+			g.setColor(c);
+			g.fillRect(0, 0, w, h);
+		}
+		finally
+		{
+			g.dispose();
+		}
+		return im;
+	}
+	
+	
+	public static ImageIcon colorIcon(ImageIcon ic, Color c)
+	{
+		BufferedImage image = new BufferedImage(ic.getIconWidth(), ic.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+
+		// get buffered image from button's icon
+		Graphics2D gr = image.createGraphics();
+		gr.drawImage(ic.getImage(),0,0,null);
+		gr.dispose();
+
+		return new ImageIcon(colorImage(image,c));
+	}
+	
+	
+	private static byte[] buildLookup(int hi)
+	{
+		byte[] ba = new byte[256];
+		for(int i=0; i<256; i++)
+		{
+			ba[i] = (byte)(Math.ceil(hi*i/255f));
+		}
+		return ba;
+	}
+	
+	
+	private static byte[] buildAlpha()
+	{
+		byte[] ba = new byte[256];
+		for(int i=0; i<256; i++)
+		{
+			ba[i] = (byte)i;
+		}
+		return ba;
+	}
+	
+	
+	public static BufferedImage create(int width, int height, Color c)
+	{
+		BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		if(c != null)
+		{
+			Graphics2D g = im.createGraphics();
+			g.setColor(c);
+			g.fillRect(0, 0, width, height);
+			g.dispose();
+		}
+		return im;
+	}
+	
+	
+	public static byte[] toPNG(BufferedImage im) throws Exception
+	{
+		if(im == null)
+		{
+			return null;
+		}
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ImageIO.write(im, "PNG", out);
+		return out.toByteArray();
+	}
+	
+	
+	// TODO shadow, or use Scaler
+	public static BufferedImage scaleImage(BufferedImage im, int w, int h)
+	{
+		if(im == null)
+		{
+			return null;
+		}
+		
+		if((im.getWidth() > w) || (im.getHeight() > h))
+		{
+			float rx = w / (float)im.getWidth(); 
+			float ry = h / (float)im.getHeight();
+			if(rx < ry)
+			{
+				// reduce height
+				h = Math.round(im.getHeight() * rx);
+			}
+			else
+			{
+				// reduce width
+				w = Math.round(im.getWidth() * ry);
+			}
+			
+			return Scalr.resize(im, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, w, h, Scalr.OP_ANTIALIAS);
+		}
+		else
+		{
+			return im;
+		}
+	}
+	
+	
+	public static BufferedImage toBufferedImage(Image image)
+	{
+		if(image instanceof BufferedImage)
+		{
+			return (BufferedImage)image;
+		}
+		else
+		{
+			return toImageARGB(image);
+		}
+	}
+	
+	
+	public static BufferedImage toImageARGB(Image image)
+	{
+		// may need to wait for Toolkit.prepareImage() in a bg thread
+		int h = image.getHeight(null);
+		int w = image.getWidth(null);
+		BufferedImage im = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = im.createGraphics();
+		try
+		{
+			g.drawImage(image, 0, 0, null);
+		}
+		finally
+		{
+			g.dispose();
+		}
+		return im;
+	}
+
+
+	public static BufferedImage read(byte[] b) throws Exception
+	{
+		if(b == null)
+		{
+			return null;
+		}
+		return ImageIO.read(new ByteArrayInputStream(b));
+	}
+	
+	
+	public static void write(BufferedImage im, String filename) throws Exception
+	{
+		write(im, new File(filename));
+	}
+	
+	
+	public static void write(BufferedImage im, File f) throws Exception
+	{
+		String format = guessImageFormat(f.getName());
+		FileTools.ensureParentFolder(f);
+		ImageIO.write(im, format, f);
+	}
+	
+	
+	public static String guessImageFormat(String name)
+	{
+		if(TextTools.endsWithIgnoreCase(name, ".jpg") || TextTools.endsWithIgnoreCase(name, ".jpeg"))
+		{
+			return "JPG";
+		}
+		else if(TextTools.endsWithIgnoreCase(name, ".gif"))
+		{
+			return "GIF";
+		}
+		else
+		{
+			// returns lossless format by default
+			return "PNG";
+		}
+	}
+
+
+	/** creates a blank (or transparent) image with the same dimensions and type as the supplied one */
+	public static BufferedImage createBlank(BufferedImage im)
+	{
+		return new BufferedImage(im.getWidth(), im.getHeight(), im.getType());
+	}
+	
+	
+	/** loads a BufferedImage from a resource relative to the supplied class */
+	public static BufferedImage local(Class c, String name)
+	{
+		try
+		{
+			return ImageIO.read(c.getResourceAsStream(name));
+		}
+		catch(Exception e)
+		{
+			Log.print("Image not found: " + name);
+			return colorImage(16, 16, Color.red);
+		}
+	}
+}

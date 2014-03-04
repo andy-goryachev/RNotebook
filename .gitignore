@@ -1,0 +1,9 @@
+/out/
+/user.home/
+/test/
+/test.out/
+/build/
+~*
+*.log
+/*.jar
+/*.dat
