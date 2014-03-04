@@ -24,8 +24,7 @@ public class ScriptBody
 	}
 	
 	
-	// TODO return eval result?
-	public void process() throws Throwable
+	public Object process() throws Throwable
 	{
 		// TODO move outside somewhere
 		ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
@@ -47,7 +46,8 @@ public class ScriptBody
 		engine.put("sys", sys);
 
 		// run script
-		engine.eval(script);
+		Object rv = engine.eval(script);
+		return rv;
 	}
 	
 	

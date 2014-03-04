@@ -1,7 +1,9 @@
 // Copyright (c) 2014 Andy Goryachev <andy@goryachev.com>
 package research.notebook;
+import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CComboBox;
+import goryachev.common.ui.CFocusMonitor;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Colors;
@@ -10,6 +12,9 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
@@ -19,6 +24,8 @@ import javax.swing.border.CompoundBorder;
 public class NotebookPanel
 	extends CPanel
 {
+	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
+
 	public final CComboBox typeField;
 	private CPanel panel;
 	private CodeSections codes;
@@ -166,6 +173,7 @@ public class NotebookPanel
 		JTextArea t = textArea(text);
 		t.setFont(Theme.monospacedFont());
 		t.setBackground(codeColor);
+		UI.whenFocused(t, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
 		return t;
 	}
 	
@@ -203,5 +211,16 @@ public class NotebookPanel
 		t.setLineWrap(true);
 		t.setBorder(BORDER_TEXT);
 		return t;
+	}
+	
+	
+	protected void actionRunCurrent()
+	{
+		JComponent c = CFocusMonitor.getLastTextComponent();
+		CodeSection s = CodeSections.get(c);
+		if(s != null)
+		{
+			s.runSection();
+		}
 	}
 }

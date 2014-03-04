@@ -1,6 +1,7 @@
 // Copyright (c) 2014 Andy Goryachev <andy@goryachev.com>
 package research.notebook;
 import goryachev.common.ui.BackgroundThread;
+import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import javax.swing.JLabel;
@@ -77,22 +78,29 @@ public class CodeSection
 	}
 	
 	
-	protected void stopped(ScriptBody p)
+	protected void finished(ScriptBody p, Object rv)
 	{
 		if(process == p)
 		{
 			right.setText("=");
+			
+			// TODO return result may be anything (chart? table?)
+			// decide how to process it
+			result.a(rv);
 
 			resultField.setText(result.getAndClear());
-			resultField.setCaretPosition(0);
 		}
 	}
 	
 	
-	protected void error(Throwable e)
+	protected void error(ScriptBody p, Throwable e)
 	{
-		// TODO
-		Log.err(e);
+		if(process == p)
+		{
+			right.setText("ERR");
+			
+			resultField.setText(CKit.stackTrace(e));
+		}
 	}
 	
 	
@@ -104,21 +112,21 @@ public class CodeSection
 		
 		new BackgroundThread("script")
 		{
+			private Object rv;
+			
 			public void process() throws Throwable
 			{
-				// TODO result
-				p.process();
+				rv = p.process();
 			}
 			
 			public void success()
 			{
-				// TODO result
-				stopped(p);
+				finished(p, rv);
 			}
 			
 			public void onError(Throwable e)
 			{
-				error(e);
+				error(p, e);
 			}
 		}.start();
 	}
