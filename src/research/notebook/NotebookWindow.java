@@ -109,9 +109,7 @@ public class NotebookWindow
 		b.addSection(SectionType.H1, "Example");
 		b.addSection(SectionType.TEXT, "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.");
 		b.addSection(SectionType.CODE, "var a = 5;\nprint(a);");
-		b.addSection(SectionType.RESULT, "5");
-		b.addSection(SectionType.CODE, "// there will be syntax highlighting\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!);");
-		b.addSection(SectionType.RESULT, "a\nb3\nHello, world!");
+		b.addSection(SectionType.CODE, "// there will be syntax highlighting\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');");
 		b.addSection(SectionType.TEXT, "And this is how the notebook page will look like.\nThe end.");
 		return b;
 	}

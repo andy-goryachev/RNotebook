@@ -8,7 +8,6 @@ import goryachev.common.ui.Colors;
 import goryachev.common.ui.Gray;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
-import goryachev.common.util.CList;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -22,13 +21,13 @@ public class NotebookPanel
 {
 	public final CComboBox typeField;
 	private CPanel panel;
-	private Border BORDER_LABEL = new CBorder(4, 2, 5, 2);
-	private Border BORDER_TEXT = new CompoundBorder(new CBorder(0, 0, 0, 1, new Color(244, 128, 128)), new CBorder(2, 2, 5, 2));
-	private Dimension LEFT_SIZE = new Dimension(100, -1);
-	private Dimension RIGHT_SIZE = new Dimension(75, -1);
-	private Color codeColor = new Gray(248);
-	private Color resultColor = Colors.eclipseGreen;
 	private CodeSections codes;
+	private static Border BORDER_LABEL = new CBorder(4, 2, 5, 2);
+	private static Border BORDER_TEXT = new CompoundBorder(new CBorder(0, 0, 0, 1, new Color(244, 128, 128)), new CBorder(2, 2, 5, 2));
+	private static Dimension LEFT_SIZE = new Dimension(100, -1);
+	private static Dimension RIGHT_SIZE = new Dimension(75, -1);
+	private static Color codeColor = new Gray(248);
+	private static Color resultColor = Colors.eclipseGreen;
 	
 	
 	public NotebookPanel()
@@ -108,13 +107,21 @@ public class NotebookPanel
 		{
 		case CODE:
 			JLabel left = labelLeft("In (" + row + "):");
-			JLabel right = labelRight(">");
+			JLabel right = labelRight(" ");
 			JTextArea t = code(text);
-			codes.addSection(t, left, right);
+			JTextArea r = result(null);
+			codes.addSection(t, left, right, r);
 			
 			panel.add(0, row, left);
 			panel.add(1, row, t);
 			panel.add(2, row, right);
+			
+			row++;
+			panel.getTableLayout().insertRow(row, CPanel.PREFERRED);
+			
+			panel.add(0, row, labelLeft("Out (" + row + "):"));
+			panel.add(1, row, r);
+			
 			break;
 			
 		case H1:
@@ -122,11 +129,6 @@ public class NotebookPanel
 		case H3:
 			panel.add(0, row, 1, row, h1(text));
 			break;
-			
-//		case RESULT:
-//			panel.add(0, row, labelLeft("Out (" + row + "):"));
-//			panel.add(1, row, result(text));
-//			break;
 			
 		case TEXT:
 		default:
@@ -184,7 +186,7 @@ public class NotebookPanel
 	}
 	
 	
-	protected JTextArea result(String text)
+	protected static JTextArea result(String text)
 	{
 		JTextArea t = textArea(text);
 		t.setFont(Theme.monospacedFont());
@@ -194,7 +196,7 @@ public class NotebookPanel
 	}
 	
 	
-	protected JTextArea textArea(String text)
+	protected static JTextArea textArea(String text)
 	{
 		JTextArea t = new JTextArea(text);
 		t.setWrapStyleWord(true);

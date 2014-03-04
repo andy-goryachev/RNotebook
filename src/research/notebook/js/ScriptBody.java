@@ -9,7 +9,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 
-public class ScriptThread
+public class ScriptBody
 {
 	private static ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 	protected ScriptLogger logger;
@@ -17,13 +17,14 @@ public class ScriptThread
 	private Sys sys;
 	
 	
-	public ScriptThread(ScriptLogger m, String script)
+	public ScriptBody(ScriptLogger m, String script)
 	{
 		this.logger = m;
 		this.script = script;
 	}
 	
 	
+	// TODO return eval result?
 	public void process() throws Throwable
 	{
 		// TODO move outside somewhere
@@ -47,6 +48,12 @@ public class ScriptThread
 
 		// run script
 		engine.eval(script);
+	}
+	
+	
+	public void cancel()
+	{
+		// TODO
 	}
 
 
