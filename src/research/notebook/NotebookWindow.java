@@ -3,6 +3,7 @@ package research.notebook;
 import goryachev.common.ui.AppFrame;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
+import goryachev.common.ui.CFocusMonitor;
 import goryachev.common.ui.CMenu;
 import goryachev.common.ui.CMenuBar;
 import goryachev.common.ui.CMenuItem;
@@ -11,6 +12,7 @@ import goryachev.common.ui.Menus;
 import goryachev.common.ui.TButton;
 import goryachev.common.ui.Theme;
 import java.awt.Component;
+import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 import research.notebook.icons.ToolboxIcons;
 
@@ -19,6 +21,8 @@ public class NotebookWindow
 	extends AppFrame
 {
 	public final CAction dummyAction = new CAction() { public void action() { } };
+	
+	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
 	public final NotebookPanel notebookPanel;
 	
 	
@@ -89,7 +93,7 @@ public class NotebookWindow
 		t.add(new TButton(ToolboxIcons.InsertAbove, "Insert Section Above", true, dummyAction));
 		t.add(new TButton(ToolboxIcons.InsertBelow, "Insert Section Below", true, dummyAction));
 		t.space();
-		t.add(new TButton(ToolboxIcons.Start, "Run", true, dummyAction));
+		t.add(new TButton(ToolboxIcons.Start, "Run", true, runCurrentAction));
 		t.add(new TButton(ToolboxIcons.Stop, "Interrupt", true, dummyAction));
 		t.space();
 		t.add(notebookPanel.typeField);
@@ -112,5 +116,16 @@ public class NotebookWindow
 		b.addSection(SectionType.CODE, "// there will be syntax highlighting\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');");
 		b.addSection(SectionType.TEXT, "And this is how the notebook page will look like.\nThe end.");
 		return b;
+	}
+	
+	
+	protected void actionRunCurrent()
+	{
+		JComponent c = CFocusMonitor.getLastTextComponent();
+		CodeSection s = CodeSections.get(c);
+		if(s != null)
+		{
+			s.runSection();
+		}
 	}
 }
