@@ -33,8 +33,9 @@ public class NotebookPanel
 	private static Border BORDER_TEXT = new CompoundBorder(new CBorder(0, 0, 0, 1, new Color(244, 128, 128)), new CBorder(2, 2, 5, 2));
 	private static Dimension LEFT_SIZE = new Dimension(100, -1);
 	private static Dimension RIGHT_SIZE = new Dimension(75, -1);
-	private static Color codeColor = new Gray(248);
-	private static Color resultColor = Colors.eclipseGreen;
+	protected static Color codeColor = new Gray(248);
+	protected static Color resultColor = Colors.eclipseGreen;
+	protected static Color errorColor = Color.red;
 	
 	
 	public NotebookPanel()

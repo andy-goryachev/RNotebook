@@ -2,7 +2,6 @@
 package research.notebook;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CKit;
-import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -66,8 +65,9 @@ public class CodeSection
 	}
 	
 	
-	protected void start()
+	protected synchronized void start()
 	{
+		result.clear();
 		right.setText("*");
 	}
 	
@@ -86,9 +86,14 @@ public class CodeSection
 			
 			// TODO return result may be anything (chart? table?)
 			// decide how to process it
+			if(result.isNotEmpty())
+			{
+				result.nl();
+			}
 			result.a(rv);
 
 			resultField.setText(result.getAndClear());
+			resultField.setForeground(NotebookPanel.resultColor);
 		}
 	}
 	
@@ -100,6 +105,7 @@ public class CodeSection
 			right.setText("ERR");
 			
 			resultField.setText(CKit.stackTrace(e));
+			resultField.setForeground(NotebookPanel.errorColor);
 		}
 	}
 	
