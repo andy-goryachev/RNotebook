@@ -2,7 +2,6 @@
 package goryachev.common.ui;
 import goryachev.common.util.MailTools;
 import goryachev.common.util.ProductInfo;
-import goryachev.common.util.TXT;
 import java.awt.Component;
 
 
@@ -16,7 +15,7 @@ public class ContactSupport
 		try
 		{
 			String email = ProductInfo.getSupportEmail();
-			String subject = TXT.get("ContactSupport.subject.question about PRODUCT", "Question about {0}", Application.getTitle());
+			String subject = "Question about " + Application.getTitle() + " ver. " + Application.getVersion();
 			MailTools.mail(email, subject, body);
 		}
 		catch(Exception e)

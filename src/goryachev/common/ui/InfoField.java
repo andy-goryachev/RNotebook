@@ -1,9 +1,13 @@
 // Copyright (c) 2013-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
+import goryachev.common.util.CBrowser;
 import goryachev.common.util.CKit;
 import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
 import javax.swing.JTextPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.text.EditorKit;
 import javax.swing.text.StyledEditorKit;
 
@@ -41,6 +45,23 @@ public class InfoField
 		setFocusable(false);
 		setForeground(Theme.fieldFG());
 		setOpaque(false);
+		
+		addHyperlinkListener(new HyperlinkListener()
+		{
+			public void hyperlinkUpdate(HyperlinkEvent ev)
+			{
+				if(ev.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
+				{
+					onHyperLink(ev.getURL());
+				}
+			}
+		});
+	}
+	
+	
+	protected void onHyperLink(URL url)
+	{
+		CBrowser.openLinkQuiet(url);
 	}
 	
 	

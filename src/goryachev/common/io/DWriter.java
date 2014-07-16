@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 
-// raw binary data writer
+/** Conventient binary data writer */
 public class DWriter
 	extends OutputStream
 {

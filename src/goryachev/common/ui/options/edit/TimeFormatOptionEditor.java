@@ -8,11 +8,6 @@ import java.text.SimpleDateFormat;
 public class TimeFormatOptionEditor
 	extends ChoiceOptionEditor<SimpleDateFormat>
 {
-	public final static String FORMAT_12H = "h:mm a";
-	public final static String FORMAT_12H_SECONDS = "h:mm:ss a";
-	public final static String FORMAT_24H = "HH:mm";
-	public final static String FORMAT_24H_SECONDS = "HH:mm:ss";
-	
 	private CLookup lookup;
 	
 	
@@ -22,17 +17,17 @@ public class TimeFormatOptionEditor
 		
 		Long t = System.currentTimeMillis();
 		
-		String time12 = new SimpleDateFormat(FORMAT_12H).format(t);
-		String time12s = new SimpleDateFormat(FORMAT_12H_SECONDS).format(t);
-		String time24 = new SimpleDateFormat(FORMAT_24H).format(t);
-		String time24s = new SimpleDateFormat(FORMAT_24H_SECONDS).format(t);
+		String time12 = new SimpleDateFormat(TimeFormatOption.FORMAT_12H).format(t);
+		String time12s = new SimpleDateFormat(TimeFormatOption.FORMAT_12H_SECONDS).format(t);
+		String time24 = new SimpleDateFormat(TimeFormatOption.FORMAT_24H).format(t);
+		String time24s = new SimpleDateFormat(TimeFormatOption.FORMAT_24H_SECONDS).format(t);
 		
 		lookup = new CLookup
 		(
-			time12,  FORMAT_12H,
-			time12s, FORMAT_12H_SECONDS,
-			time24,  FORMAT_24H,
-			time24s, FORMAT_24H_SECONDS
+			time12,  TimeFormatOption.FORMAT_12H,
+			time12s, TimeFormatOption.FORMAT_12H_SECONDS,
+			time24,  TimeFormatOption.FORMAT_24H,
+			time24s, TimeFormatOption.FORMAT_24H_SECONDS
 		);
 		
 		setChoices(new String[]

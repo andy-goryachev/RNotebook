@@ -93,6 +93,13 @@ public class CDocumentBuilder
 		insert(s, a);
 		return this;
 	}
+	
+	
+	public CDocumentBuilder append(char c)
+	{
+		insert(String.valueOf(c), a);
+		return this;
+	}
 
 
 	public CDocumentBuilder bold(String s)
@@ -231,9 +238,9 @@ public class CDocumentBuilder
 
 	public CDocumentBuilder nl(int n)
 	{
-		for(int i = 0; i < n; i++)
+		for(int i=0; i<n; i++)
 		{
-			append("\n");
+			append('\n');
 		}
 		return this;
 	}
@@ -241,7 +248,17 @@ public class CDocumentBuilder
 
 	public CDocumentBuilder sp()
 	{
-		return a(" ");
+		return a(' ');
+	}
+	
+	
+	public CDocumentBuilder sp(int n)
+	{
+		for(int i=0; i<n; i++)
+		{
+			append(' ');
+		}
+		return this;
 	}
 	
 

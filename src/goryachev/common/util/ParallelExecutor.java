@@ -1,6 +1,6 @@
 // Copyright (c) 2012-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,14 +18,19 @@ public class ParallelExecutor
 	
 	public ParallelExecutor(String name)
 	{
-		this(name, Runtime.getRuntime().availableProcessors(), 60);
+		this(name, 60);
 	}
 	
 	
-	public ParallelExecutor(String name, int processCount, int keepAliveTimeSeconds)
+	public ParallelExecutor(String name, int keepAliveTimeSeconds)
 	{
 		this.name = name;
-		exec = new ThreadPoolExecutor(processCount, processCount, keepAliveTimeSeconds, TimeUnit.SECONDS, new LinkedBlockingQueue(), this);
+		
+		// freezes if too many nested CJobs
+		//exec = new ThreadPoolExecutor(processCount, processCount, keepAliveTimeSeconds, TimeUnit.SECONDS, new LinkedBlockingQueue(), this);
+
+		exec = new ThreadPoolExecutor(0, Integer.MAX_VALUE, keepAliveTimeSeconds, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), this);
+
 		exec.allowCoreThreadTimeOut(true);
 	}
 	
@@ -42,7 +47,7 @@ public class ParallelExecutor
 	}
 	
 	
-	public synchronized void close()
+	public synchronized void shutdown()
 	{
 		if(!closed)
 		{
@@ -50,6 +55,7 @@ public class ParallelExecutor
 			
 			try
 			{
+				// why wait?
 				exec.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
 			}
 			catch(Exception e)
@@ -63,18 +69,13 @@ public class ParallelExecutor
 	
 	protected synchronized boolean isClosed()
 	{
+		// why is this needed?
 		return closed;
 	}
 	
 	
 	public void submit(Runnable r)
 	{
-		if(isClosed())
-		{
-			// or log it silently?
-			throw new CException("CJob execution has been shut down.");
-		}
-		
 		exec.execute(r);
 	}
 }

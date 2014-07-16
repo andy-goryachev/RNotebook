@@ -23,7 +23,7 @@ public class AboutDialog
 	{
 		super(parent, "AboutDialog", true);
 		setTitle(TXT.get("AboutDialog.title.PRODUCT VERSION", "About {0} {1}", Application.getTitle(), Application.getVersion()));
-		setMinimumSize(400, 300);
+		setMinimumSize(500, 300);
 		setSize(550, 400);
 
 		panel = new StandardDialogPanel();

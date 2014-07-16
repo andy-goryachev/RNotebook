@@ -232,6 +232,7 @@ public class TestRunner
 			try
 			{
 				testMethod.invoke(instance);
+				testMethod.checkNoException();
 			}
 			catch(InvocationTargetException e)
 			{
@@ -366,6 +367,20 @@ public class TestRunner
 			}
 			
 			return !expected.isAssignableFrom(e.getClass());
+		}
+		
+		
+		public void checkNoException() throws Exception
+		{
+			Class<? extends Throwable> expected = ((Test)annotation).expected();
+			if(expected == Test.NoThrowable.class)
+			{
+				return;
+			}
+			else if(expected != null)
+			{
+				throw new Exception("This test case is expected to throw an " + CKit.simpleName(expected));
+			}
 		}
 	
 	

@@ -41,15 +41,32 @@ public class CTableRowHeader
 	{
 		if(table == null)
 		{
-			return new Dimension(20,10);
+			return new Dimension(20, 10);
 		}
 		else
 		{
 			setupRenderer();
-			renderer.setText(getTextForRow(table.getRowCount()-1));
+
+			// compute preferred size roughly based on the number of table rows
+			String tx;
+			int sz = table.getRowCount();
+			if(sz < 10000)
+			{
+				tx = "0000";
+			}
+			else if(sz < 100000000)
+			{
+				tx = "00000000";
+			}
+			else
+			{
+				tx = "0000000000";
+			}
+			
+			renderer.setText(tx);
 			int w = renderer.getPreferredSize().width + 1;
 			int h = table.getPreferredSize().height;
-			return new Dimension(w,h);
+			return new Dimension(w, h);
 		}
 	}
 	

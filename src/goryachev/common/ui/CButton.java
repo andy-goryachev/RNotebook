@@ -88,6 +88,14 @@ public class CButton
 	}
 	
 	
+	public CButton(Icon icon, String text, Action a, Color highlight)
+	{
+		this(text, a);
+		setIcon(icon);
+		setHighlight(highlight);
+	}
+	
+	
 	public CButton(Action a, Color highlight)
 	{
 		this(a);

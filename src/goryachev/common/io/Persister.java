@@ -522,7 +522,7 @@ public class Persister
 
 			public void write(Object x, PrimitiveOutputStream out) throws Exception
 			{
-				byte[] a = (byte[])x;
+				char[] a = (char[])x;
 				int sz = a.length;
 				out.writeRawInt(sz);
 				for(int i=0; i<sz; i++)

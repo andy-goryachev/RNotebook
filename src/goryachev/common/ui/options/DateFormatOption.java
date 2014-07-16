@@ -1,7 +1,6 @@
 // Copyright (c) 2010-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.options;
 import goryachev.common.util.CSettings;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
@@ -9,6 +8,14 @@ import java.util.Collection;
 public class DateFormatOption
 	extends COption<SimpleDateFormat>
 {
+	public final static String FORMAT_DDMMYYYY_DASH = "dd-MM-yyyy";
+	public final static String FORMAT_DDMMYYYY_DOT = "dd.MM.yyyy";
+	public final static String FORMAT_DDMMYYYY_SLASH = "dd/MM/yyyy";
+	public final static String FORMAT_MMDDYYYY_SLASH = "MM/dd/yyyy";
+	public final static String FORMAT_YYYYMMDD_DASH = "yyyy-MM-dd";
+	public final static String FORMAT_YYYYMMDD_DOT = "yyyy.MM.dd";
+	
+
 	public DateFormatOption(String id, CSettings settings, Collection<COption<?>> list)
 	{
 		super(id, settings, list);
@@ -23,15 +30,7 @@ public class DateFormatOption
 
 	public SimpleDateFormat defaultValue()
 	{
-		DateFormat f = DateFormat.getDateInstance(DateFormat.SHORT);
-		if(f instanceof SimpleDateFormat)
-		{
-			return (SimpleDateFormat)f;
-		}
-		else
-		{
-			return new SimpleDateFormat("yyyy/MM/DD");
-		}
+		return new SimpleDateFormat(FORMAT_YYYYMMDD_DOT);
 	}
 
 
@@ -43,6 +42,6 @@ public class DateFormatOption
 
 	public String toProperty(SimpleDateFormat f)
 	{
-		return f.toPattern();
+		return f == null ? null : f.toPattern();
 	}
 }

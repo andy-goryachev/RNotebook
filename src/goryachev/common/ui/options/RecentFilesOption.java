@@ -48,10 +48,10 @@ public abstract class RecentFilesOption
 		CList<File> a = new CList();
 		try
 		{
-			if(s != null)
+			s = CKit.decompressString(s);
+			
+			if(CKit.isNotBlank(s))
 			{
-				s = CKit.decompressString(s);
-				
 				for(String name: CKit.split(s, DIVIDER))
 				{
 					a.add(new File(name));

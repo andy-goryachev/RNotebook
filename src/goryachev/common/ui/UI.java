@@ -725,11 +725,17 @@ public class UI
 	}
 	
 	
+	public static Rectangle getScreenBounds()
+	{
+		return GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+	}
+	
+	
 	public static void resize(Window w, float fraction)
 	{
 		if(needsSize(w))
 		{
-			Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+			Rectangle screen = getScreenBounds();
 			w.setSize(Math.round(screen.width * fraction), Math.round(screen.height * fraction));
 			center(w);
 		}
@@ -738,7 +744,7 @@ public class UI
 	
 	public static void center(Window w)
 	{
-		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Rectangle screen = getScreenBounds();
 		w.setLocation
 		(
 			screen.x + (screen.width - w.getWidth())/2,
@@ -754,7 +760,7 @@ public class UI
 //		w = d.width == 0 ? w : d.width;
 //		h = d.height == 0 ? h : d.height;
 		
-		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Rectangle screen = getScreenBounds();
 		Rectangle parent;
 		
 		if(parentWindow == null)
@@ -1155,6 +1161,7 @@ public class UI
 	}
 	
 	
+	/** returns all visible windows of the specified type */
 	public static <T extends Window> CList<T> getWindowsOfType(Class<T> type)
 	{
 		CList<T> ws = new CList();
@@ -1285,6 +1292,12 @@ public class UI
 	public static boolean isAltPressed(InputEvent ev)
 	{
 		return ((ev.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
+	}
+	
+	
+	public static boolean isBlank(JTextComponent c)
+	{
+		return CKit.isBlank(c.getText());
 	}
 
 
@@ -1577,4 +1590,39 @@ public class UI
 			}
 		}
 	}
+
+
+	public static void validateAndRepaint(Component c)
+    {
+		if(c instanceof JFrame)
+		{
+			validateAndRepaint(((JFrame)c).getContentPane());
+		}
+		else
+		{
+			c.validate();
+			c.repaint();
+		}
+    }
+
+
+	/** cascade child window */ 
+	public static void cascade(Window parent, Window child)
+    {
+		int shift = 30;
+		
+		Rectangle r = parent.getBounds();
+		r.x += shift;
+		r.y += shift;
+		
+		Rectangle screen = getScreenBounds();
+		if(!screen.contains(r))
+		{
+			// simply relocate to 0,0
+			r.x = screen.x;
+			r.y = screen.y;
+		}
+		
+		child.setBounds(r);
+    }
 }

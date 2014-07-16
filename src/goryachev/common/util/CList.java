@@ -1,7 +1,6 @@
 // Copyright (c) 2007-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 
@@ -21,19 +20,30 @@ public class CList<T>
 	
 	public CList(Collection<? extends T> c)
 	{
-		super(c);
+		super(c == null ? 0 : c.size());
+		if(c != null)
+		{
+			addAll(c);
+		}
 	}
 	
 	
 	public CList(T[] a)
 	{
-		super(Arrays.asList(a));
+		super(a == null ? 0 : a.length);
+		if(a != null)
+		{
+			addAll(a);
+		}
 	}
 	
 	
 	public CList(T item)
 	{
-		add(item);
+		if(item != null)
+		{
+			add(item);
+		}
 	}
 	
 	

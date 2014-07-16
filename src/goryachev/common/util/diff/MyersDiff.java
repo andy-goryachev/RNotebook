@@ -171,12 +171,16 @@ public class MyersDiff
 		int sz = 2 * (dataA.length + dataB.length + 2);
 		downVector = new int[sz];
 		upVector = new int[sz];
-		
-		compute();
 	}
 	
 	
-	protected void compute() throws InterruptedException
+	public void compute() throws InterruptedException
+	{
+		findLongestCommonSequence(0, dataA.length, 0, dataB.length);
+	}
+	
+	
+	public void computeAndOptimize() throws InterruptedException
 	{
 		findLongestCommonSequence(0, dataA.length, 0, dataB.length);
 		optimize(dataA,modifiedA);

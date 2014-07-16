@@ -820,4 +820,16 @@ public class FileTools
 		File dst = new File(f.getParent(), newName);
 		return f.renameTo(dst);
 	}
+	
+	
+	/** create a backup copy of a file (by renaming it to *.backup) */
+	public static void createBackup(File f)
+	{
+		// delete old backup
+		File backup = new File(f.getAbsolutePath() + ".backup");
+		backup.delete();
+		
+		// backup
+		f.renameTo(backup);		
+	}
 }

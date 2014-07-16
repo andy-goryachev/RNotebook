@@ -1,7 +1,7 @@
 // Copyright (c) 2006-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.util.CKit;
-import goryachev.common.util.Cancellable;
+import goryachev.common.util.CancellableThread;
 import java.awt.EventQueue;
 
 
@@ -14,8 +14,7 @@ import java.awt.EventQueue;
 // error()   - in EDT thread
 //
 public abstract class BackgroundThread
-	extends Thread
-	implements Cancellable
+	extends CancellableThread
 {
 	/** executed in the background thread */
 	public abstract void process() throws Throwable;
@@ -33,7 +32,6 @@ public abstract class BackgroundThread
 	//
 	
 	
-	private volatile boolean cancelled;
 	private long startTime;
 	
 	
@@ -91,31 +89,6 @@ public abstract class BackgroundThread
 	public synchronized long getStartTime()
 	{
 		return startTime;
-	}
-	
-	
-	public synchronized void cancel()
-	{
-		cancelled = true;
-		interrupt();
-	}
-	
-	
-	public synchronized boolean isCancelled()
-	{
-		return cancelled;
-	}
-	
-	
-	public synchronized boolean canRun()
-	{
-		return !cancelled;
-	}
-	
-	
-	public void checkCancelled()
-	{
-		CKit.checkCancelled();
 	}
 	
 	

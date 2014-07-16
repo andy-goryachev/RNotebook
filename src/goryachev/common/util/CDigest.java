@@ -3,7 +3,7 @@ package goryachev.common.util;
 import java.security.MessageDigest;
 
 
-/** Wrapped MessageDigest with a few convenience methods */
+/** Wrapped MessageDigest with a few convenience methods, as well as safe methods to compute hashes of sequential objects. */
 public class CDigest
 {
 	public static class SHA512 extends CDigest
@@ -41,6 +41,7 @@ public class CDigest
 	private static final byte LONG = 4;
 	private static final byte FLOAT = 5;
 	private static final byte DOUBLE = 6;
+	private static final byte CHAR = 7;
 	private MessageDigest md;
 	
 	
@@ -76,22 +77,27 @@ public class CDigest
 		else if(x instanceof Integer)
 		{
 			md.update(INT);
-			md((Integer)x);
+			updateInt((Integer)x);
 		}
 		else if(x instanceof Long)
 		{
 			md.update(LONG);
-			md((Long)x);
+			updateLong((Long)x);
+		}
+		else if(x instanceof char[])
+		{
+			md.update(CHAR);
+			updateCharArray((char[])x);
 		}
 		else if(x instanceof Float)
 		{
 			md.update(FLOAT);
-			md(Float.floatToIntBits((Float)x));
+			updateInt(Float.floatToIntBits((Float)x));
 		}
 		else if(x instanceof Double)
 		{
 			md.update(DOUBLE);
-			md(Double.doubleToRawLongBits((Double)x));
+			updateLong(Double.doubleToRawLongBits((Double)x));
 		}
 		else
 		{
@@ -106,7 +112,7 @@ public class CDigest
 	}
 	
 	
-	protected void md(int x)
+	public void updateInt(int x)
 	{
 		md.update((byte)(x >> 24));
 		md.update((byte)(x >> 16));
@@ -115,7 +121,7 @@ public class CDigest
 	}
 	
 	
-	protected void md(long x)
+	public void updateLong(long x)
 	{
 		md.update((byte)(x >> 56));
 		md.update((byte)(x >> 48));
@@ -128,9 +134,27 @@ public class CDigest
 	}
 	
 	
+	public void updateCharArray(char[] cs)
+	{
+		int sz = cs.length;
+		for(int i=0; i<sz; i++)
+		{
+			char c = cs[i];
+			md.update((byte)(c >> 8));
+			md.update((byte)c);
+		}
+	}
+	
+	
 	public byte[] digest()
 	{
 		return md.digest();
+	}
+	
+	
+	public String digestString()
+	{
+		return Hex.toHexString(digest());
 	}
 	
 	

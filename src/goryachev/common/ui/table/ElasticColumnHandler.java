@@ -63,6 +63,13 @@ public class ElasticColumnHandler
 	
 	
 	/** convenience method */
+	public String formatTime(Object x)
+	{
+		return Theme.formatTime(x);
+	}
+	
+	
+	/** convenience method */
 	public String formatDate(Object x)
 	{
 		return Theme.formatDate(x);

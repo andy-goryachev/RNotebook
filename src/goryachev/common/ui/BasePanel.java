@@ -98,10 +98,26 @@ public class BasePanel
 	public JTextArea setCenterTextArea()
 	{
 		JTextArea t = new JTextArea();
+		t.setBorder(new CBorder(4));
 		t.setFont(Theme.plainFont());
 		t.setEditable(false);
 		t.setWrapStyleWord(true);
 		t.setLineWrap(true);
+		
+		CScrollPane scroll = new CScrollPane(t, false);
+		setCenter(scroll);
+		validateRepaint();
+		return t;
+	}
+	
+	
+	public CTextPane setCenterTextPane()
+	{
+		CTextPane t = new CTextPane();
+		t.setBorder(new CBorder(4));
+		t.setFont(Theme.plainFont());
+		t.setEditable(false);
+		t.setScrollableTracksViewportWidth(true);
 		
 		CScrollPane scroll = new CScrollPane(t, false);
 		setCenter(scroll);
@@ -138,7 +154,7 @@ public class BasePanel
 	}
 
 	
-	public CHtmlPane setCenterHtmlPane()
+	public CHtmlPane setCenterHtml()
 	{
 		CHtmlPane t = new CHtmlPane();
 		t.setEditable(false);
@@ -146,6 +162,14 @@ public class BasePanel
 		CScrollPane scroll = new CScrollPane(t, false);
 		setCenter(scroll);
 		validateRepaint();
+		return t;
+	}
+	
+	
+	public CHtmlPane setCenterHtml(String html)
+	{
+		CHtmlPane t = setCenterHtml();
+		t.setText0(html);
 		return t;
 	}
 	

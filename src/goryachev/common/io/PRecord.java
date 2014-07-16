@@ -8,6 +8,7 @@ import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
 import goryachev.common.util.SB;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 
 public class PRecord
@@ -99,17 +100,153 @@ public class PRecord
 		}
 		return null;
 	}
-	
-	
+
+
 	public boolean hasAttribute(String key)
 	{
 		return (data().get(key) != null);
 	}
+
+
+	public char[] getCharArray(String key)
+	{
+		return Parsers.parseCharArray(getAttribute(key));
+	}
 	
 	
+	public static char[] getCharArray(PRecord r, String key)
+	{
+		if(r != null)
+		{
+			return r.getCharArray(key);
+		}
+		return null;
+	}
+
+
 	public String getString(String key)
 	{
 		return Parsers.parseString(getAttribute(key));
+	}
+	
+	
+	public static String getString(PRecord r, String key)
+	{
+		return r == null ? null : r.getString(key);
+	}
+	
+	
+	public Float getFloat(String key)
+	{
+		return Parsers.parseFloat(getAttribute(key));
+	}
+	
+	
+	public float getFloat(String key, float defaultValue)
+	{
+		Float v = getFloat(key);
+		return v == null ? defaultValue : v;
+	}
+	
+	
+	public static float getFloat(PRecord r, String key, float defaultValue)
+	{
+		if(r != null)
+		{
+			return r.getFloat(key, defaultValue);
+		}
+		return defaultValue;
+	}
+	
+	
+	public static Integer getInteger(PRecord r, String key)
+	{
+		if(r != null)
+		{
+			return r.getInteger(key);
+		}
+		return null;
+	}
+	
+	
+	public Integer getInteger(String key)
+	{
+		return Parsers.parseInteger(getAttribute(key));
+	}
+	
+	
+	public int getInt(String key, int defaultValue)
+	{
+		Integer v = getInteger(key);
+		return v == null ? defaultValue : v;
+	}
+	
+	
+	public static int getInt(PRecord r, String key, int defaultValue)
+	{
+		if(r != null)
+		{
+			return r.getInt(key, defaultValue);
+		}
+		return defaultValue;
+	}
+	
+	
+	public Long getLong(String key)
+	{
+		return Parsers.parseLong(getAttribute(key));
+	}
+	
+	
+	public long getLong(String key, long defaultValue)
+	{
+		Long v = getLong(key);
+		return v == null ? defaultValue : v;
+	}
+	
+	
+	public static long getLong(PRecord r, String key, long defaultValue)
+	{
+		if(r != null)
+		{
+			return r.getLong(key, defaultValue);
+		}
+		return defaultValue;
+	}
+	
+	
+	public static Long getLong(PRecord r, String key)
+	{
+		return r == null ? null : r.getLong(key);
+	}
+	
+	
+	public CList getList(String key)
+	{
+		Object v = getAttribute(key);
+		if(v instanceof CList)
+		{
+			return (CList)v;
+		}
+		return null;
+	}
+	
+	
+	public boolean getBoolean(String key)
+	{
+		return Parsers.parseBooleanStrict(getAttribute(key));
+	}
+	
+	
+	public BigInteger getBigInteger(String key)
+	{
+		return Parsers.parseBigInteger(getAttribute(key));
+	}
+	
+	
+	public byte[] getByteArray(String key)
+	{
+		return Parsers.parseByteArray(getAttribute(key));
 	}
 
 

@@ -988,7 +988,7 @@ public class TextTools
 	}
 
 
-	public static int countChars(String s, char c)
+	public static int countChar(String s, char c)
 	{
 		if(s != null)
 		{

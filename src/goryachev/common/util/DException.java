@@ -3,34 +3,67 @@ package goryachev.common.util;
 
 
 /** 
- * An Exception with an Object payload, 
+ * An Exception with an Object problem identifier, 
  * useful for fast exception handling where "exception type" is determined by a fast comparison
- *    <pre>(e.getMessage() == CONSTANT)</pre>
+ *    <pre>(e.getProblem() == CONSTANT)</pre>
  * and additional parameters can be obtained by
  *    <pre>DException.getPayload(e)</pre>
+ *    
+ * id, message, throwable
  */
 public class DException
 	extends Exception
 {
-	private Object payload;
+	private Object problem;
 	
 	
-	public DException(String message, Object payload, Throwable cause)
+	public DException(Object problem, String message, Throwable cause)
 	{
 		super(message, cause);
-		this.payload = payload;
+		setProblem(problem);
 	}
 	
 	
-	public DException(String message, Object payload)
+	public DException(Object problem, Throwable cause)
 	{
-		this.payload = payload;
+		super(cause);
+		setProblem(problem);
 	}
 	
 	
-	public Object getPayload()
+	public DException(Object problem, String message)
 	{
-		return payload;
+		super(message);
+		setProblem(problem);
+	}
+	
+	
+	public DException(Object problem)
+	{
+		super(problem.toString());
+		setProblem(problem);
+	}
+	
+	
+	private void setProblem(Object x)
+	{
+		if(x == null)
+		{
+			throw new NullPointerException();
+		}
+		this.problem = x;
+	}
+	
+	
+	public Object getProblem()
+	{
+		return problem;
+	}
+	
+	
+	public String getProblemString()
+	{
+		return problem.toString();
 	}
 		
 	
@@ -44,20 +77,20 @@ public class DException
 	}
 	
 	
-	public static Object getPayload(Throwable e)
+	public static Object getProblem(Throwable e)
 	{
 		DException de = get(e);
 		if(de != null)
 		{
-			return de.getPayload();
+			return de.getProblem();
 		}
 		return null;
 	}
 	
 		
-	public static String getStringPayload(Throwable e)
+	public static String getProblemString(Throwable e)
 	{
-		Object x = getPayload(e);
+		Object x = getProblem(e);
 		if(x instanceof String)
 		{
 			return (String)x;

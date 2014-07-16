@@ -699,4 +699,10 @@ public class Theme
 	{
 		return new SpinningGearIcon(size);
 	}
+
+
+	public static Font getFont(double scale, boolean bold)
+	{
+		return UI.deriveFont(plainFont(), bold, (float)scale);
+	}
 }

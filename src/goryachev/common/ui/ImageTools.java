@@ -110,8 +110,21 @@ public class ImageTools
 			return null;
 		}
 		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream out = new ByteArrayOutputStream(32768);
 		ImageIO.write(im, "PNG", out);
+		return out.toByteArray();
+	}
+	
+	
+	public static byte[] toJPG(BufferedImage im) throws Exception
+	{
+		if(im == null)
+		{
+			return null;
+		}
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream(32768);
+		ImageIO.write(im, "JPG", out);
 		return out.toByteArray();
 	}
 	

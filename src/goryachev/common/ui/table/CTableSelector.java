@@ -125,8 +125,16 @@ public abstract class CTableSelector
 		{
 			if(!ev.getValueIsAdjusting())
 			{
-				selected = table.getSelectedRows();
-				
+				// selection model may contain rows even when the table is empty
+				if(table.getRowCount() == 0)
+				{
+					selected = NONE;
+				}
+				else
+				{
+					selected = table.getSelectedRows();
+				}
+
 				try
 				{
 					tableSelectionChangeDetected();

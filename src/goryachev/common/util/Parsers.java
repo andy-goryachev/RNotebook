@@ -3,6 +3,9 @@ package goryachev.common.util;
 import java.awt.Color;
 import java.io.File;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.TimeZone;
 import javax.swing.Icon;
 
@@ -200,11 +203,22 @@ public class Parsers
 	
 	public static String parseString(Object x)
 	{
-		if(x != null)
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof String)
+		{
+			return (String)x;
+		}
+		else if(x instanceof char[])
+		{
+			return new String((char[])x);
+		}
+		else
 		{
 			return x.toString();
 		}
-		return null;
 	}
 	
 	
@@ -242,6 +256,20 @@ public class Parsers
 	}
 	
 	
+	public static char[] parseCharArray(Object x)
+	{
+		if(x instanceof char[])
+		{
+			return (char[])x;
+		}
+		else if(x instanceof String)
+		{
+			return ((String)x).toCharArray();
+		}
+		return null;
+	}
+	
+	
 	public static boolean parseBool(Object x)
 	{
 		return parseBool(x, false);
@@ -256,7 +284,8 @@ public class Parsers
 		}
 		else if(x != null)
 		{
-			return "true".equals(x.toString());
+			String s = x.toString();
+			return "true".equalsIgnoreCase(s) || "y".equalsIgnoreCase(s);
 		}
 
 		return defaultValue;
@@ -407,4 +436,30 @@ public class Parsers
 			return null;
 		}
 	}
+
+
+	public static ByteBuffer parseByteBuffer(Object x)
+    {
+		if(x != null)
+		{
+			if(x instanceof byte[])
+			{
+				return ByteBuffer.wrap((byte[])x);
+			}
+		}
+	    return null;
+    }
+
+
+	public static <T> HashSet<T> parseHashSet(Object x)
+    {
+		if(x != null)
+		{
+			if(x instanceof Collection)
+			{
+				return new HashSet((Collection)x);
+			}
+		}
+	    return new HashSet();
+    }
 }

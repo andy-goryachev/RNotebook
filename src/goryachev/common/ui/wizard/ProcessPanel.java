@@ -29,6 +29,8 @@ public abstract class ProcessPanel
 	
 	protected abstract void onSuccess();
 	
+	protected void onFailure(Throwable e) { }
+	
 	//
 	
 	public final CAction cancelAction = new CAction() { public void action() { actionCancel(); }};
@@ -131,6 +133,7 @@ public abstract class ProcessPanel
 			public void onError(Throwable e)
 			{
 				setResult(this, e);
+				onFailure(e);
 			}
 		};
 
@@ -236,7 +239,6 @@ public abstract class ProcessPanel
 			error = null;
 			
 			setStatusIcon(CIcons.Cancelled48);
-			setText(TXT.get("ProcessPanel.process.interrupted", "Interrupted"));
 			setText(TXT.get("ProcessPanel.interrupted", "Operation interrupted by user."));
 			updateActions();
 		}

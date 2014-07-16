@@ -31,7 +31,7 @@ public class TreeEntry<T extends CTreeNode>
 	{
 		if(children == null)
 		{
-			children = createChildEntries(item.getChildren());
+			children = createChildEntries(item == null ? null : item.getChildren());
 		}
 		return children;
 	}

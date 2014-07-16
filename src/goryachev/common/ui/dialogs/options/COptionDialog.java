@@ -41,6 +41,12 @@ public class COptionDialog
 
 		UI.whenAncestorOfFocusedComponent(getRootPane(), KeyEvent.VK_ESCAPE, closeAction);
 	}
+	
+	
+	public void setRoot(OptionTreeNode root)
+	{
+		optionPanel.setRoot(root);
+	}
 
 
 	public void onWindowOpened()
@@ -62,25 +68,32 @@ public class COptionDialog
 	{
 		return true;
 	}
-	
-	
+
+
 	public void close()
 	{
-		if(optionPanel.isModified())
+		try
 		{
-			switch(Dialogs.discardChanges(this))
+			if(optionPanel.isModified())
 			{
-			case DISCARD:
-				break;
-			case SAVE:
-				save();
-				break;
-			default:
-				return;
+				switch(Dialogs.discardChanges(this))
+				{
+				case DISCARD:
+					break;
+				case SAVE:
+					save();
+					break;
+				default:
+					return;
+				}
 			}
+
+			super.close();
 		}
-		
-		super.close();
+		catch(Exception e)
+		{
+			Dialogs.err(this, e);
+		}
 	}
 
 
@@ -89,11 +102,11 @@ public class COptionDialog
 		close();	
 	}
 	
-	
-	protected void save()
+
+	protected void save() throws Exception
 	{
 		optionPanel.commit();
-		changed = true;
+		changed = true; // what??
 	}
 	
 	
@@ -105,7 +118,14 @@ public class COptionDialog
 	
 	protected void onOk()
 	{
-		save();
-		super.close();
+		try
+		{
+			save();
+			super.close();
+		}
+		catch(Exception e)
+		{
+			Dialogs.err(this, e);
+		}	
 	}
 }

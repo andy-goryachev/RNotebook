@@ -32,14 +32,14 @@ public class CancellableThread
 	}
 	
 	
-	public void cancel()
+	public synchronized void cancel()
 	{
 		cancelled = true;
 		interrupt();
 	}
 	
 	
-	public boolean isCancelled()
+	public synchronized boolean isCancelled()
 	{
 		return cancelled;
 	}

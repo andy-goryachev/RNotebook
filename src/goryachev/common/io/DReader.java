@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-// raw binary data reader
+/** Conventient binary data reader */
 public class DReader
 	implements Closeable
 {
@@ -108,6 +108,12 @@ public class DReader
 			throw new EOFException();
 		}
 		return (byte)(ch);
+	}
+	
+	
+	public int readByteRaw() throws IOException
+	{
+		return in.read();
 	}
 
 

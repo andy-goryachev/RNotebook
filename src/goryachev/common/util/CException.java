@@ -2,6 +2,7 @@
 package goryachev.common.util;
 
 
+/** RuntimeException with shorter class name */
 public class CException
     extends RuntimeException
 {

@@ -140,7 +140,7 @@ public class NotebookPanel
 			
 		case TEXT:
 		default:
-			panel.add(1, row, text(text));
+			panel.add(1, row, text2(text));
 			break;
 		}
 	}
@@ -187,7 +187,7 @@ public class NotebookPanel
 	}
 	
 	
-	protected JTextArea text(String text)
+	protected JTextArea text2(String text)
 	{
 		JTextArea t = textArea(text);
 		t.setFont(Theme.plainFont());

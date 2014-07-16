@@ -374,6 +374,14 @@ public class CPanel
 	}
 	
 	
+	public InfoField text(String text)
+	{
+		InfoField t = new InfoField(text);
+		t.setForeground(Theme.textFG());
+		return t;
+	}
+	
+	
 	public void setBorder()
 	{
 		setBorder(Theme.BORDER_10);

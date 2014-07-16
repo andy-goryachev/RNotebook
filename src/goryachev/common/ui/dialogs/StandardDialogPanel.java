@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.text.Document;
 
 
+// TODO or BasePanel, make up your mind
 public class StandardDialogPanel
 	extends CPanel
 {

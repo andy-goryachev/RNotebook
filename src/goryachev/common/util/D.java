@@ -3,7 +3,6 @@ package goryachev.common.util;
 import java.awt.Color;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
 import javax.swing.text.AttributeSet;
@@ -70,7 +69,7 @@ public class D
 
 	public static String toHexString(byte[] b, int start, int length)
 	{
-		StringBuilder sb = new StringBuilder(b.length);
+		SB sb = new SB(b.length);
 		int end = start + length;
 		for(int i=start; i<end; i++)
 		{
@@ -160,6 +159,27 @@ public class D
 
 		return sb.toString();
 	}
+	
+	
+    /**
+     * Writes a formatted string to this object's destination using the
+     * specified format string and arguments.
+     *
+     * @param  format
+     *         A format string per {@link java.util.Formatter} rules.
+     *
+     * @param  args
+     *         Arguments referenced by the format specifiers in the format
+     *         string.  If there are more arguments than format specifiers, the
+     *         extra arguments are ignored.  The maximum number of arguments is
+     *         limited by the maximum dimension of a Java array as defined by
+     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     */
+	public static void printf(String format, Object ... args)
+	{
+		String s = String.format(format, args);
+		log(s, 2);
+	}
 
 
 	public static void print()
@@ -176,7 +196,7 @@ public class D
 	
 	public static void print(Object ... a)
 	{
-		StringBuilder sb = new StringBuilder();
+		SB sb = new SB();
 		for(Object x: a)
 		{
 			if(sb.length() > 0)
@@ -189,89 +209,157 @@ public class D
 	}
 	
 	
-	public static void list(Collection<?> a)
+	/** list content of a collection-type or array-type object */
+	public static void list(Object x)
 	{
-		StringBuilder sb = new StringBuilder(a == null ? "null" : String.valueOf(a.size()));
-		if(a != null)
+		if(x instanceof Map)
 		{
-			for(Object d: a)
-			{
-				sb.append("\n");
-				sb.append("    ");
-				sb.append(d);
-			}
+			listMap((Map)x);
 		}
+		else if(x instanceof Iterable)
+		{
+			listIterable((Iterable)x);
+		}
+		else if(x instanceof Enumeration)
+		{
+			listEnumeration((Enumeration)x);
+		}
+		else if(x instanceof Object[])
+		{
+			listObjectArray((Object[])x);
+		}
+		else if(x instanceof int[])
+		{
+			listIntArray((int[])x);
+		}
+		else if(x instanceof long[])
+		{
+			listLongArray((long[])x);
+		}
+		else if(x instanceof AttributeSet)
+		{
+			listAttributeSet((AttributeSet)x);
+		}
+		else 
+		{
+			print(x);
+		}
+	}
+	
+	
+	private static void listMap(Map<?,?> a)
+	{
+		SB sb = new SB();
+		sb.append(a.size());
+		
+		CList<Object> keys = new CList(a.keySet());
+		CSorter.sort(keys);
+		
+		for(Object key: keys)
+		{
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(key);
+			sb.append(": ");
+			sb.append(a.get(key));
+		}
+
 		log(sb.toString(), 2);
 	}
 	
 	
-	public static void list(Map<?,?> a)
+	private static void listIterable(Iterable<?> a)
 	{
-		StringBuilder sb = new StringBuilder(a == null ? "null" : String.valueOf(a.size()));
-		if(a != null)
+		SB sb = new SB();
+
+		for(Object d: a)
 		{
-			CList<Object> keys = new CList(a.keySet());
-			CSorter.sort(keys);
-			
-			for(Object key: keys)
-			{
-				sb.append("\n");
-				sb.append("    ");
-				sb.append(key);
-				sb.append(": ");
-				sb.append(a.get(key));
-			}
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(d);
 		}
+
 		log(sb.toString(), 2);
 	}
 	
 	
-	public static void list(Enumeration<?> a)
+	private static void listEnumeration(Enumeration<?> a)
 	{
-		StringBuilder sb = new StringBuilder(a == null ? "null" : "");
-		if(a != null)
+		SB sb = new SB();
+
+		while(a.hasMoreElements())
 		{
-			while(a.hasMoreElements())
-			{
-				sb.append("\n");
-				sb.append("    ");
-				sb.append(a.nextElement());
-			}
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(a.nextElement());
 		}
+
 		log(sb.toString(), 2);
 	}
 	
 	
-	public static void list(Object[] a)
+	private static void listObjectArray(Object[] a)
 	{
-		StringBuilder sb = new StringBuilder(a == null ? "null" : String.valueOf(a.length));
-		if(a != null)
+		SB sb = new SB();
+		sb.append(a.length);
+		
+		for(Object d: a)
 		{
-			for(Object d: a)
-			{
-				sb.append("\n");
-				sb.append("    ");
-				sb.append(d);
-			}
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(d);
 		}
+
 		log(sb.toString(), 2);
 	}
 	
 	
-	public static void list(AttributeSet as)
+	private static void listIntArray(int[] a)
 	{
-		StringBuilder sb = new StringBuilder(as == null ? "null" : String.valueOf(as.getAttributeCount()));
-		if(as != null)
+		SB sb = new SB();
+		sb.append(a.length);
+		
+		for(int d: a)
 		{
-			Enumeration en = as.getAttributeNames();
-			while(en.hasMoreElements())
-			{
-				Object att = en.nextElement();
-				sb.append("\n");
-				sb.append("    ");
-				sb.append(att);
-			}
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(d);
 		}
+
+		log(sb.toString(), 2);
+	}
+	
+	
+	private static void listLongArray(long[] a)
+	{
+		SB sb = new SB();
+		sb.append(a.length);
+		
+		for(long d: a)
+		{
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(d);
+		}
+
+		log(sb.toString(), 2);
+	}
+	
+	
+	private static void listAttributeSet(AttributeSet as)
+	{
+		SB sb = new SB();
+		sb.append(as.getAttributeCount());
+		
+		Enumeration en = as.getAttributeNames();
+		while(en.hasMoreElements())
+		{
+			Object att = en.nextElement();
+			sb.append("\n");
+			sb.append("    ");
+			sb.append(att);
+		}
+
 		log(sb.toString(), 2);
 	}
 
@@ -390,7 +478,7 @@ public class D
 	{
 		long startAddress = 0;
 		boolean bigfile = ((startAddress + bytes.length) > 65535);
-		StringBuilder sb = new StringBuilder(((bytes.length/16)+1) * 77 + 1);
+		SB sb = new SB(((bytes.length/16)+1) * 77 + 1);
 		
 		int col = 0;
 		long addr = startAddress;
@@ -444,14 +532,14 @@ public class D
 	}
 	
 	
-	private static void hex(StringBuilder sb, int c)
+	private static void hex(SB sb, int c)
 	{
 		sb.append(HEX.charAt((c >> 4) & 0x0f));
 		sb.append(HEX.charAt(c & 0x0f));
 	}
 	
 	
-	private static void dumpAscii(StringBuilder sb, byte[] bytes, int lineStart)
+	private static void dumpAscii(SB sb, byte[] bytes, int lineStart)
 	{
 		// first, print padding
 		sb.append(' ');

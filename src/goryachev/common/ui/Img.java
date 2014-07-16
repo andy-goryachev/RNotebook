@@ -139,7 +139,7 @@ public class Img
 	}
 	
 	
-	private static Img ld(Class c, String name)
+	public static Img load(Class c, String name)
 	{
 		try
 		{

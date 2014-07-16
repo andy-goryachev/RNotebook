@@ -34,7 +34,7 @@ public class AppFrame
 	
 	
 	public final CAction closeAction = new CAction() { public void action() { actionWindowClose(); } }; 
-	public final CAction appExitAction = new CAction() { public void action() { exit(); } }; 
+	public final CAction appExitAction = new CAction() { public void action() { Application.exit(); } }; 
 	
 	protected Rectangle normalBounds;
 	
@@ -139,23 +139,22 @@ public class AppFrame
 			}
 		}
 		
-		if(count == 1)
+		if(count == 0)
+		{
+			Application.exit();
+		}
+		else if(count == 1)
 		{
 			if(last == this)
 			{
 				// exit when closing the last window
-				exit();
+				Application.exit();
 			}
 		}
-				
+		
+		// close after exit in order to write a proper snapshot
 		setVisible(false);
 		dispose();
-	}
-	
-	
-	public void exit()
-	{
-		Application.exit();
 	}
 	
 	
@@ -180,22 +179,38 @@ public class AppFrame
 	}
 	
 	
-	private void setContentPaneComponent(Component c, Object constraints)
+	protected void setContentPaneComponent(Component c, Object constraints)
 	{
 		Container cp = getContentPane();
-		Component old = ((BorderLayout)cp.getLayout()).getLayoutComponent(constraints);
+		Component old = getContentPaneComponent(constraints);
 		if(old != null)
 		{
 			cp.remove(old);
 		}
 		
-		cp.add(c, constraints);
+		if(c != null)
+		{
+			cp.add(c, constraints);
+		}
+	}
+	
+	
+	protected Component getContentPaneComponent(Object constraints)
+	{
+		Container cp = getContentPane();
+		return ((BorderLayout)cp.getLayout()).getLayoutComponent(constraints);
 	}
 	
 	
 	public void setCenter(Component c)
 	{
 		setContentPaneComponent(c, BorderLayout.CENTER);
+	}
+	
+	
+	public Component getCenter()
+	{
+		return getContentPaneComponent(BorderLayout.CENTER);
 	}
 	
 	
@@ -211,9 +226,21 @@ public class AppFrame
 	}
 	
 	
+	public Component getSouth()
+	{
+		return getContentPaneComponent(BorderLayout.SOUTH);
+	}
+	
+	
 	public void setNorth(Component c)
 	{
 		setContentPaneComponent(c, BorderLayout.NORTH);
+	}
+	
+	
+	public Component getNorth()
+	{
+		return getContentPaneComponent(BorderLayout.NORTH);
 	}
 	
 	
@@ -223,9 +250,21 @@ public class AppFrame
 	}
 	
 	
+	public Component getLeading()
+	{
+		return getContentPaneComponent(BorderLayout.LINE_START);
+	}
+	
+	
 	public void setTrailing(Component c)
 	{
 		setContentPaneComponent(c, BorderLayout.LINE_END);
+	}
+	
+	
+	public Component getTrailing()
+	{
+		return getContentPaneComponent(BorderLayout.LINE_END);
 	}
 	
 	
@@ -235,9 +274,21 @@ public class AppFrame
 	}
 	
 	
+	public Component getEast()
+	{
+		return getContentPaneComponent(BorderLayout.EAST);
+	}
+	
+	
 	public void setWest(Component c)
 	{
 		setContentPaneComponent(c, BorderLayout.WEST);
+	}
+	
+	
+	public Component getWest()
+	{
+		return getContentPaneComponent(BorderLayout.WEST);
 	}
 	
 
@@ -303,5 +354,17 @@ public class AppFrame
 		r.setJMenuBar(m);
 		r.validate();
 		r.repaint();
+	}
+
+
+	public static void closeAll()
+	{
+		for(Window w: UI.getVisibleWindows())
+		{
+			if(w instanceof AppFrame)
+			{
+				((AppFrame)w).close();
+			}
+		}
 	}
 }

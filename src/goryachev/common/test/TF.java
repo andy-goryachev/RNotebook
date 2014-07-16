@@ -26,12 +26,38 @@ public class TF
 	}
 	
 	
+	/** checks whether an argument is not null */
+	public static void notNull(Object x)
+	{
+		if(x == null)
+		{
+			throw new CException("expecting a non-null value");
+		}
+	}
+	
+	
+	/** checks whether an argument is not null */
+	public static void isNull(Object x)
+	{
+		if(x != null)
+		{
+			throw new CException("expecting a null value");
+		}
+	}
+	
+	
 	public static void isTrue(boolean x)
 	{
 		if(!x)
 		{
 			throw new CException("expression is not true");
 		}
+	}
+	
+	
+	public static void fail()
+	{
+		throw new CException("test failed");
 	}
 
 	

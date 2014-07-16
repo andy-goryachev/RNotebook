@@ -77,4 +77,11 @@ public class ChoiceDialog
 	{
 		return choice;
 	}
+	
+	
+	public int openChoiceDialog()
+	{
+		open();
+		return getChoice();
+	}
 }

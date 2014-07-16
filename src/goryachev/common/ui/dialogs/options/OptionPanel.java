@@ -16,7 +16,6 @@ import goryachev.common.ui.icons.CIcons;
 import goryachev.common.ui.options.OptionEditorInterface;
 import goryachev.common.ui.table.CTableColumn;
 import goryachev.common.ui.table.CTreeTable;
-import goryachev.common.ui.theme.CFieldBorder;
 import goryachev.common.util.CKit;
 import goryachev.common.util.TXT;
 import java.awt.Dimension;
@@ -37,7 +36,6 @@ import javax.swing.event.ListSelectionListener;
 public class OptionPanel
 	extends CPanel
 {
-	public final OptionTreeNode root;
 	public final CTextFieldWithPrompt filter;
 	public final JLabel buttonLabel;
 	public final CPanel filterPanel;
@@ -46,11 +44,12 @@ public class OptionPanel
 	public final JLabel titleField;
 	public final CSplitPane split;
 	public final DelayedAction delayed;
+	private OptionTreeNode root;
 	
 	
-	public OptionPanel(OptionTreeNode root)
+	public OptionPanel(OptionTreeNode r)
 	{
-		this.root = root;
+		this.root = r;
 		
 		delayed = new DelayedAction()
 		{
@@ -140,6 +139,13 @@ public class OptionPanel
 	}
 	
 	
+	public void setRoot(OptionTreeNode root)
+	{
+		this.root = root;
+		tree.setRoot(root, false);
+	}
+	
+	
 	public void autoResizeSplit()
 	{
 		// FIX
@@ -214,35 +220,28 @@ public class OptionPanel
 	}
 
 
-	public void commit()
+	public void commit() throws Exception
 	{
-		try
+		AtomicBoolean store = new AtomicBoolean();
+		AtomicBoolean restart = new AtomicBoolean();
+		
+		commitRecursively(root, store, restart);
+		
+		if(store.get())
 		{
-			AtomicBoolean store = new AtomicBoolean();
-			AtomicBoolean restart = new AtomicBoolean();
+			GlobalSettings.save();
 			
-			commitRecursively(root, store, restart);
-			
-			if(store.get())
-			{
-				GlobalSettings.save();
-				
-				GlobalSettings.refreshListeners();
-			}
-			
-			if(restart.get())
-			{
-				Dialogs.info
-				(
-					this, 
-					TXT.get("COptionPanel.warning.restart.title", "Restart Required"), 
-					TXT.get("COptionPanel.warning.restart.message", "Please restart the application for the changes to take effect.")
-				);
-			}
+			GlobalSettings.refreshListeners();
 		}
-		catch(Exception e)
+		
+		if(restart.get())
 		{
-			Dialogs.err(this, e);
+			Dialogs.info
+			(
+				this, 
+				TXT.get("COptionPanel.warning.restart.title", "Restart Required"), 
+				TXT.get("COptionPanel.warning.restart.message", "Please restart the application for the changes to take effect.")
+			);
 		}
 	}
 	

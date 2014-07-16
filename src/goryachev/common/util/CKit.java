@@ -29,6 +29,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
@@ -49,6 +50,7 @@ public class CKit
 	public static final long MS_IN_10_MINUTES = 600000L;
 	public static final long MS_IN_AN_HOUR = 3600000L;
 	public static final long MS_IN_A_DAY = 86400000L;
+	public static final long MS_IN_A_WEEK = 604800000L;
 	private static AtomicInteger id = new AtomicInteger(); 
 	
 	
@@ -216,6 +218,10 @@ public class CKit
 		{
 			return true;
 		}
+		else if(x instanceof char[])
+		{
+			return ((char[])x).length == 0;
+		}
 		else
 		{
 			// without trim() and allocating a new string
@@ -239,6 +245,25 @@ public class CKit
 	public static boolean isNotBlank(Object x)
 	{
 		return !isBlank(x);
+	}
+	
+	
+	public static boolean isEmpty(Collection<?> x)
+	{
+		if(x != null)
+		{
+			if(x.size() > 0)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
+	public static boolean isNotEmpty(Collection<?> x)
+	{
+		return !isEmpty(x);
 	}
 	
 	
@@ -361,7 +386,13 @@ public class CKit
 
 	public static String readString(Class cs, String resource) throws Exception
 	{
-		Reader in = new InputStreamReader(cs.getResourceAsStream(resource), "UTF-8");
+		return readString(cs.getResourceAsStream(resource));
+	}
+	
+	
+	public static String readString(InputStream is) throws Exception
+	{
+		Reader in = new InputStreamReader(is, "UTF-8");
 		try
 		{
 			SB sb = new SB(16384);
@@ -661,6 +692,12 @@ public class CKit
 	}
 	
 	
+	public static void write(byte[] buffer, String filename) throws Exception
+	{
+		write(buffer, new File(filename));
+	}
+	
+	
 	public static void write(byte[] buffer, File f) throws Exception
 	{
 		FileTools.ensureParentFolder(f);
@@ -885,6 +922,11 @@ public class CKit
 	
 	public static String stackTrace(Throwable e)
 	{
+		if(e == null)
+		{
+			return null;
+		}
+		
 		return stackTrace(e, 0);
 	}
 
@@ -1070,6 +1112,11 @@ public class CKit
 	
 	public static String getExceptionMessage(Throwable e)
 	{
+		if(e == null)
+		{
+			return null;
+		}
+		
 		String msg = e.getMessage();
 		if(isBlank(msg))
 		{
@@ -1197,6 +1244,11 @@ public class CKit
 	
 	public static String compressString(String s) throws Exception
 	{
+		if(s == null)
+		{
+			return "";
+		}
+		
 		ByteArrayOutputStream ba = new ByteArrayOutputStream(s.length() * 2 + 20);
 		DeflaterOutputStream out = new DeflaterOutputStream(ba);
 		byte[] bytes = s.getBytes(CHARSET_UTF8);
@@ -1211,6 +1263,11 @@ public class CKit
 	
 	public static String decompressString(String s) throws Exception
 	{
+		if(s == null)
+		{
+			return null;
+		}
+		
 		byte[] compressed = Hex.parseByteArray(s);
 		InflaterInputStream in = new InflaterInputStream(new ByteArrayInputStream(compressed));
 		ByteArrayOutputStream out = new ByteArrayOutputStream(compressed.length * 2);
@@ -1399,7 +1456,7 @@ public class CKit
 	public static byte[] readBytes(InputStream in, int max) throws Exception
 	{
 		int read = 0;
-		byte[] buf = new byte[65536];
+		byte[] buf = new byte[Math.min(max, 65536)];
 		ByteArrayOutputStream ba = new ByteArrayOutputStream(65536);
 		for(;;)
 		{
@@ -1713,5 +1770,42 @@ public class CKit
 		{
 			return String.valueOf(x);
 		}
+	}
+
+
+	/** concatenates two byte arrays */
+	public static byte[] cat(byte[] a, byte[] b)
+    {
+		byte[] rv = new byte[a.length + b.length];
+		System.arraycopy(a, 0, rv, 0, a.length);
+		System.arraycopy(b, 0, rv, a.length, b.length);
+	    return rv;
+    }
+	
+	
+	public static Properties readProperties(String filename)
+	{
+		return readProperties(new File(filename));
+	}
+	
+	
+	public static Properties readProperties(File f)
+	{
+		Properties p = new Properties();
+		try
+		{
+			FileInputStream in = new FileInputStream(f);
+			try
+			{
+				p.load(in);
+			}
+			finally
+			{
+				CKit.close(in);
+			}
+		}
+		catch(Exception ignore)
+		{ }
+		return p;
 	}
 }

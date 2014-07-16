@@ -2,7 +2,6 @@
 package goryachev.common.util;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class CUnique<T>
@@ -59,7 +58,7 @@ public class CUnique<T>
 //	}
 	
 	
-//	/** Returns true if item an item has been added, false if it was already there */
+	/** Returns true if item an item has been added, false if it was already there */
 	public boolean put(T item)
 	{
 		return items.put(item, Boolean.TRUE) == null;
@@ -140,7 +139,7 @@ public class CUnique<T>
 	}
 	
 	
-	public List<T> asList()
+	public CList<T> asList()
 	{
 		return new CList(items.keySet());
 	}

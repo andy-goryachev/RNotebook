@@ -101,6 +101,7 @@ public class Menus
 	public static final String Replace = TXT.get("Menus.replace", "Replace...");
 	// s
 	public static final String Save = TXT.get("Menus.save", "Save");
+	public static final String SaveAll = TXT.get("Menus.save all", "Save All");
 	public static final String SaveAs = TXT.get("Menus.save as", "Save As...");
 	public static final String SaveAsTemplate = TXT.get("Menus.save as template", "Save As Template");
 	public static final String search = TXT.get("CPrompts.search for something","search");

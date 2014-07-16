@@ -6,7 +6,6 @@ import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
 import goryachev.common.util.TXT;
 import goryachev.common.util.platform.ApplicationSupport;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Window;
 import java.io.File;
@@ -20,29 +19,25 @@ import javax.swing.ImageIcon;
 
 public abstract class Application
 {
-	// or createSplashScreen()
+	/** override to provide splashscreen image */
 	protected Image createSplashImage() { return null; }
 	
-	// after app log is initialized
+	/** called  after app log is initialized */
 	protected void initCustomLog() { }
 
-	// after user preferences are loaded
+	/** called after user preferences are loaded */
 	protected void initI18N() throws Exception { }
 	
-	// before creating main window
+	/** called before creating main window.  In headless mode, use this method to start the headless application */
 	protected abstract void initApplication() throws Exception;
 	
-	// always in EDT, creates main (or first) window
+	/** always in EDT, creates the main window */
 	public abstract void openMainWindow() throws Exception;
 	
 	/** before exiting: return true if it is ok to exit */
 	public boolean exiting() { return true; }
 	
 	public File getAppSettingsDirectory() { return getDefaultSettingsDirectory(); }
-	
-	// allows the app to start if no display is found (as in on server)
-	// return true if app started, false if headless mode is not supported.
-	public boolean startHeadless() { return false; }
 	
 	// to be used in dialogs etc.
 	public abstract String getAppTitle();
@@ -61,6 +56,7 @@ public abstract class Application
 	private static String company = "goryachev.com";
 	protected Window splash;
 	private static Application instance;
+	private static boolean exiting;
 	
 
 	public Application(String profileName, String version, String copyright)
@@ -77,20 +73,6 @@ public abstract class Application
 	}
 	
 	
-	public static ApplicationLicense getLicense()
-	{
-		return instance.getAppLicense();
-	}
-	
-	
-	public ApplicationLicense getAppLicense()
-	{
-		StandardLicense lic = new StandardLicense();
-		lic.setMilitaryClause(true);
-		return lic;
-	}
-	
-	
 	protected void loadUserPreferences()
 	{
 		GlobalSettings.init(getPreferencesFile());
@@ -98,6 +80,12 @@ public abstract class Application
 	
 	
 	public File getLogFolder()
+	{
+		return getDefaultLogFolder();
+	}
+	
+	
+	public static File getDefaultLogFolder()
 	{
 		return new File(Application.getSettingsDirectory(), "logs");
 	}
@@ -119,14 +107,20 @@ public abstract class Application
 		Theme.init();
 	}
 	
-
-	public synchronized void start()
+	
+	private synchronized void setInstance()
 	{
 		if(instance != null)
 		{
 			throw new RuntimeException("Application already started");
 		}
 		instance = this;
+	}
+	
+
+	public final void start()
+	{
+		setInstance();
 		
 		try
 		{
@@ -154,10 +148,6 @@ public abstract class Application
 				}
 			});
 		}
-		catch(HeadlessException e)
-		{
-			handleHeadlessException(e);
-		}
 		catch(Exception e)
 		{
 			Log.err(e);
@@ -166,12 +156,21 @@ public abstract class Application
 		try
 		{
 			loadUserPreferences();
-			initI18N();
 		}
 		catch(Exception e)
 		{
 			Log.err(e);
 			System.exit(-1);
+		}
+		
+		try
+		{
+			initI18N();
+		}
+		catch(Exception e)
+		{
+			Log.err(e);
+			System.exit(-2);
 		}
 		
 		try
@@ -196,7 +195,7 @@ public abstract class Application
 			catch(Exception er)
 			{ }
 			
-			System.exit(-2);
+			System.exit(-3);
 		}
 		
 		if(splash != null)
@@ -221,6 +220,54 @@ public abstract class Application
 		catch(Exception e)
 		{
 			Log.err(e);
+			System.exit(-4);
+		}
+	}
+	
+	
+	// allows the app to start if no display is found (as in on server)
+	// return true if app started, false if headless mode is not supported.
+	public final void startHeadless() 
+	{
+		setInstance();
+		
+		try
+		{
+			initLogger();
+		}
+		catch(Throwable e)
+		{
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			loadUserPreferences();
+		}
+		catch(Exception e)
+		{
+			Log.err(e);
+			System.exit(-1);
+		}
+		
+		try
+		{
+			initI18N();
+		}
+		catch(Exception e)
+		{
+			Log.err(e);
+			System.exit(-2);
+		}
+		
+		try
+		{
+			initApplication();
+		}
+		catch(final Exception e)
+		{
+			// failed app init
+			Log.err(e);
 			System.exit(-3);
 		}
 	}
@@ -238,29 +285,10 @@ public abstract class Application
 			openMainWindow();
 			closeSplashScreen();
 		}
-		catch(HeadlessException e)
-		{
-			handleHeadlessException(e);
-		}
 		catch(Throwable e)
 		{
 			showError(e);
 		}
-	}
-	
-	
-	protected void handleHeadlessException(HeadlessException e)
-	{
-		if(startHeadless())
-		{
-			return;
-		}
-		
-		// can't run headless
-		e.printStackTrace();
-		
-		Log.err(e);
-		System.exit(-33);
 	}
 	
 	
@@ -296,26 +324,41 @@ public abstract class Application
 	
 	public synchronized static void exit()
 	{
-		if(instance != null)
+		exiting = true;
+		
+		try
 		{
-			if(!instance.exiting())
+			if(instance != null)
 			{
-				return;
+				if(!instance.exiting())
+				{
+					return;
+				}
+				
+				savePreferences();
 			}
 			
-			savePreferences();
+			if(ApplicationSupport.shutdownCJobExecutor)
+			{
+				// shutdown CJob executor if it has been started
+				CJob.shutdown();
+			}
+			
+			System.exit(0);
 		}
-		
-		if(ApplicationSupport.shutdownCJobExecutor)
+		finally
 		{
-			// shutdown CJob executor if it has been started
-			CJob.shutdown();
+			exiting = false;
 		}
-		
-		System.exit(0);
 	}
 	
 	
+	public static boolean isExiting()
+	{
+		return exiting;
+	}
+	
+
 	public static void savePreferences()
 	{
 		GlobalSettings.save();
@@ -441,14 +484,12 @@ public abstract class Application
 		{
 			public void action()
 			{
-				ApplicationLicense license = getLicense();
-
 				BaseDialog d = new BaseDialog(getSourceWindow(), "ApplicationLicenseDialog", true);
-				d.setTitle(license.getTitle() + " - " + getTitle() + " " + getVersion());
+				d.setTitle(StandardLicense.getTitle() + " - " + getTitle() + " " + getVersion());
 				
 				BasePanel p = new BasePanel();
 				CTextPane t = p.setCenterCTextPane();
-				t.setDocument(license.getDocument());
+				t.setDocument(StandardLicense.getDocument());
 				t.setCaretPosition(0);
 				p.buttons().add(new CButton(Menus.OK, d.closeDialogAction, true));
 				d.setCenter(p);

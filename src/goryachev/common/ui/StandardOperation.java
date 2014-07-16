@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.Timer;
 
 
-@Deprecated // to be replaced by BaseDialog maybe?
+@Deprecated // replaced with StandardOperationDialog
 public abstract class StandardOperation
 {
 	public abstract JComponent createStartPage(CDialog parent);
@@ -28,7 +28,7 @@ public abstract class StandardOperation
 	
 	private String name;
 	private String title;
-	protected StandardOperationDialog dialog;
+	protected OLD_StandardOperationDialog dialog;
 	protected volatile boolean cancelled;
 	protected int updatePeriod = 500;
 	protected int initialDelay = 150;
@@ -73,12 +73,12 @@ public abstract class StandardOperation
 	
 	public void openDialog(Component parent)
 	{
-		dialog = new StandardOperationDialog(parent, getName(), isModal());
+		dialog = new OLD_StandardOperationDialog(parent, getName(), isModal());
 		dialog.open();
 	}
 	
 	
-	protected void initStartPage(StandardOperationDialog d)
+	protected void initStartPage(OLD_StandardOperationDialog d)
 	{
 		CButtonPanel bp = d.getButtonPanel();
 		bp.removeAll();
@@ -90,13 +90,13 @@ public abstract class StandardOperation
 	}
 	
 	
-	protected ProcessPage_OLD createProcessPage(StandardOperationDialog d)
+	protected ProcessPage_OLD createProcessPage(OLD_StandardOperationDialog d)
 	{
 		return new ProcessPage_OLD();
 	}
 	
 	
-	protected void initResultPage(StandardOperationDialog d, Throwable err)
+	protected void initResultPage(OLD_StandardOperationDialog d, Throwable err)
 	{
 		CButtonPanel bp = d.getButtonPanel();
 		bp.removeAll();
@@ -116,7 +116,7 @@ public abstract class StandardOperation
 	}
 	
 	
-	protected void initCancelledPage(StandardOperationDialog d)
+	protected void initCancelledPage(OLD_StandardOperationDialog d)
 	{
 		CButtonPanel bp = d.getButtonPanel();
 		bp.removeAll();
@@ -168,7 +168,7 @@ public abstract class StandardOperation
 	//
 	
 	
-	public class StandardOperationDialog
+	public class OLD_StandardOperationDialog
 		extends CDialog
 	{
 		public final CAction cancelAction = new CAction() { public void action() { actionCancel(); } };
@@ -179,7 +179,7 @@ public abstract class StandardOperation
 		protected ProcessPage_OLD progressPage;
 		
 	
-		public StandardOperationDialog(Component parent, String name, boolean modal)
+		public OLD_StandardOperationDialog(Component parent, String name, boolean modal)
 		{
 			super(parent, name, modal);
 			setSize(500, 350);

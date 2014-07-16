@@ -1,15 +1,27 @@
 // Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.log;
 import goryachev.common.ui.Application;
+import goryachev.common.util.CComparator;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CSorter;
 import goryachev.common.util.Hex;
 import goryachev.common.util.SB;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Properties;
+import javax.swing.ActionMap;
+import javax.swing.Icon;
+import javax.swing.InputMap;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 
 public class StartupLog
@@ -26,6 +38,15 @@ public class StartupLog
 		extractApp();
 		extractEnvironment();
 		extractSystemProperties();
+		
+		try
+		{
+			extractUIDefaults();
+		}
+		catch(Exception e)
+		{
+			// ignore
+		}
 		
 		String s = sb.toString();
 		sb = null;
@@ -134,5 +155,158 @@ public class StartupLog
 	protected static String unicode(char c)
 	{
 		return "\\u" + Hex.toHexString(c, 4);
+	}
+	
+	
+	protected void describe(Object x)
+	{
+		if(x == null)
+		{
+			return;
+		}
+		else if(x instanceof String)
+		{
+			sb.a('"');
+			sb.a(x);
+			sb.a('"');
+		}
+		else if(x instanceof Color)
+		{
+			sb.a(x.getClass().getSimpleName());
+			
+			Color c = (Color)x;
+			sb.a("(r=").a(c.getRed());
+			sb.a(",g=").a(c.getGreen());
+			sb.a(",b=").a(c.getBlue());
+			
+			if(c.getAlpha() != 255)
+			{
+				sb.a(",a=").a(c.getAlpha());
+			}
+			
+			sb.a(")");
+		}
+		else if(x instanceof Font)
+		{
+			sb.a(x.getClass().getSimpleName());
+			
+			Font f = (Font)x;
+			sb.a("(");
+			sb.a(f.getFamily());
+			
+			if(CKit.notEquals(f.getFamily(), f.getName()))
+			{
+				sb.a("/");
+				sb.a(f.getName());
+			}
+			
+			sb.a(",");
+			sb.a(f.getSize());
+			sb.a(",");
+
+			if(f.isBold())
+			{
+				if(f.isItalic())
+				{
+					sb.a("bolditalic");
+				}
+				else
+				{
+					sb.a("bold");
+				}
+			}
+			else
+			{
+				if(f.isItalic())
+				{
+					sb.a("italic");
+				}
+				else
+				{
+					sb.a("plain");
+				}
+			}
+			
+			sb.a(")");
+		}
+		else if(x instanceof Dimension)
+		{
+			sb.a(x.getClass().getSimpleName());
+			
+			Dimension d = (Dimension)x;
+			sb.a("(w=").a(d.getWidth());
+			sb.a(",h=").a(d.getHeight());
+			sb.a(")");
+		}
+		else if(x instanceof Insets)
+		{
+			sb.a(x.getClass().getSimpleName());
+			
+			Insets m = (Insets)x;
+			sb.a("(t=").a(m.top);
+			sb.a(",l=").a(m.left);
+			sb.a(",b=").a(m.bottom);
+			sb.a(",r=").a(m.right);
+			sb.a(")");
+		}
+		else if(x instanceof Icon)
+		{
+			sb.a(x.getClass().getSimpleName());
+			
+			Icon d = (Icon)x;
+			sb.a("(w=").a(d.getIconWidth());
+			sb.a(",h=").a(d.getIconHeight());
+			sb.a(")");
+		}
+		else if(x instanceof Border)
+		{
+			sb.a(x.getClass().getName());
+		}
+		else if(x instanceof InputMap)
+		{
+			sb.a(x.getClass().getSimpleName());
+		}
+		else if(x instanceof ActionMap)
+		{
+			sb.a(x.getClass().getSimpleName());
+		}
+		else if(x instanceof Component)
+		{
+			sb.a(x.getClass().getName());
+		}
+		else
+		{
+			sb.a(x);
+		}
+	}
+	
+	
+	protected void extractUIDefaults()
+	{
+		sb.a("UIManager.getLookAndFeelDefaults");
+		sb.nl();
+		
+		UIDefaults defs = UIManager.getLookAndFeelDefaults();
+		
+		CList<Object> keys = new CList(defs.keySet());
+		new CComparator<Object>()
+		{
+			public int compare(Object a, Object b)
+			{
+				return compareText(a, b);
+			}
+		}.sort(keys);
+		
+		for(Object key: keys)
+		{
+			sb.tab();
+			sb.a(key);
+			sb.a(" = ");
+			
+			Object v = defs.get(key);
+			describe(v);
+			
+			sb.nl();
+		}
 	}
 }

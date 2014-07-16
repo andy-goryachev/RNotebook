@@ -17,8 +17,8 @@ public abstract class Range<T extends Comparable<T>>
 	public abstract long getItemCountLong();
 	
 	public abstract BigInteger getItemCountBigInteger();
-
-	protected abstract T make(int smallNumber);
+	
+	protected abstract T createSmallNumber(int smallNumber);
 	
 	protected abstract T add(T a, T b);
 	
@@ -33,6 +33,8 @@ public abstract class Range<T extends Comparable<T>>
 	//
 	
 	private CList<T> ranges; // (smaller, larger), (smaller, larger), ... progressively larger
+	public static final char DELIMITER = ',';
+	public static final char SEPARATOR = ':';
 	
 	
 	public Range(T startInclusive, T endInclusive)
@@ -54,9 +56,28 @@ public abstract class Range<T extends Comparable<T>>
 	}
 	
 	
-	protected Range(CList<T> ranges)
+	protected Range(CList<T> r)
 	{
-		this.ranges = ranges;
+		ranges = new CList(r);
+		
+		// validate
+		int sz = ranges.size();
+		if(CKit.isOdd(sz))
+		{
+			throw new CException("should have even number of elements (min,max)[]");
+		}
+		
+		for(int i=0; i<sz-1; i++)
+		{
+			Object min = ranges.get(i);
+			Object max = ranges.get(i + 1);
+			
+			int n = ((Comparable)min).compareTo(max);
+			if(n > 0)
+			{
+				throw new CException("elements in sequence (min,max)[] should increase monotonically");
+			}
+		}
 	}
 	
 	
@@ -82,14 +103,31 @@ public abstract class Range<T extends Comparable<T>>
 	{
 		SB sb = new SB();
 		sb.a("Range[");
+
+		buildPattern(sb);
 		
+		sb.a("]");
+		return sb.toString();
+	}
+	
+	
+	public String toPattern()
+	{
+		SB sb = new SB();
+		buildPattern(sb);
+		return sb.toString();
+	}
+	
+	
+	protected void buildPattern(SB sb)
+	{
 		IntervalStream ss = getIntervalStream();
 		boolean comma = false;
 		while(ss.hasNext())
 		{
 			if(comma)
 			{
-				sb.a(", ");
+				sb.a(DELIMITER);
 			}
 			else
 			{
@@ -104,13 +142,10 @@ public abstract class Range<T extends Comparable<T>>
 			else
 			{
 				sb.a(s.min);
-				sb.a("..");
+				sb.a(SEPARATOR);
 				sb.a(s.max);
 			}
 		}
-		
-		sb.a("]");
-		return sb.toString();
 	}
 	
 	
@@ -176,6 +211,35 @@ public abstract class Range<T extends Comparable<T>>
 	}
 	
 	
+	public boolean contains(T item)
+	{
+		int sz = ranges.size();
+		if(sz > 0)
+		{
+			for(int i=0; i<sz-1; i+=2)
+			{
+				T min = ranges.get(i);
+				T max = ranges.get(i + 1);
+				
+				int cmin = item.compareTo(min);
+				if(cmin < 0)
+				{
+					// * [------]
+					return false;
+				}
+				
+				int cmax = item.compareTo(max);
+				if((cmin >= 0) && (cmax <= 0))
+				{
+					// [---*---]
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
 	protected Range<T> empty()
 	{
 		return create(new CList());
@@ -194,7 +258,7 @@ public abstract class Range<T extends Comparable<T>>
 	protected T size(Interval<T> n)
 	{
 		T sz = subtract(n.max, n.min);
-		return add(sz, make(1));
+		return add(sz, createSmallNumber(1));
 	}
 	
 	
@@ -203,7 +267,7 @@ public abstract class Range<T extends Comparable<T>>
 		Range<T> res = empty();
 		IntervalStream s = getIntervalStream();
 		T left = maxCount;
-		T zero = make(0);
+		T zero = createSmallNumber(0);
 		
 		for(;;)
 		{
@@ -240,12 +304,20 @@ public abstract class Range<T extends Comparable<T>>
 	}
 	
 	
+	/** removes count items from the high end of the range */
+	public Range<T> removeHigh(T count)
+	{
+		Range delta = getRangeHigh(count);
+		return removeRange(delta);
+	}
+	
+	
 	public Range<T> getRangeHigh(T maxCount)
 	{
 		Range<T> res = empty();
 		IntervalStream s = getIntervalStreamReverse();
 		T left = maxCount;
-		T zero = make(0);
+		T zero = createSmallNumber(0);
 		
 		for(;;)
 		{
@@ -305,7 +377,7 @@ public abstract class Range<T extends Comparable<T>>
 	
 	protected T getItemCount(Interval<T> n)
 	{
-		T res = make(1);
+		T res = createSmallNumber(1);
 		if(!n.isPoint())
 		{
 			res = add(res, subtract(n.max, n.min));
@@ -606,6 +678,96 @@ public abstract class Range<T extends Comparable<T>>
 	}
 	
 	
+	public static Range.BIG parseBigInteger(String s) throws Exception
+	{
+		return new Range.BIG(new RangeParser<BigInteger>()
+		{
+			protected BigInteger parseValue(String s) throws Exception
+			{
+				return new BigInteger(s);
+			}
+		}.parse(s));
+	}
+
+	
+	public static Range.INT parseInt(String s) throws Exception
+	{
+		return new Range.INT(new RangeParser<Integer>()
+		{
+			protected Integer parseValue(String s) throws Exception
+			{
+				return Integer.parseInt(s);
+			}
+		}.parse(s));
+	}
+
+
+	public static Range.LONG parseLong(String s) throws Exception
+	{
+		return new Range.LONG(new RangeParser<Long>()
+		{
+			protected Long parseValue(String s) throws Exception
+			{
+				return Long.parseLong(s);
+			}
+		}.parse(s));
+	}
+	
+	
+	//
+	
+	
+	public abstract static class RangeParser<V>
+	{
+		protected abstract V parseValue(String s) throws Exception;
+		
+		//
+		
+		private CList<V> res;
+		
+		
+		public CList<V> parse(String s) throws Exception
+		{
+			if(s == null)
+			{
+				return null;
+			}
+			
+			String[] ss = CKit.split(s, DELIMITER);
+			int sz = ss.length;
+			res = new CList(sz + sz);
+			
+			for(int i=0; i<sz; i++)
+			{
+				String[] sg = CKit.split(ss[i], SEPARATOR);
+				switch(sg.length)
+				{
+				case 1:
+					{
+						V v = parseValue(sg[0].trim());
+						res.add(v);
+						res.add(v);
+					}
+					break;
+				case 2:
+					{
+						V min = parseValue(sg[0].trim());
+						res.add(min);
+						
+						V max = parseValue(sg[1].trim());
+						res.add(max);
+					}
+					break;
+				default:
+					throw new Exception("unparseable " + ss[i]);
+				}
+			}
+			
+			return res;
+		}
+	}
+	
+	
 	//
 	
 	
@@ -749,7 +911,7 @@ public abstract class Range<T extends Comparable<T>>
 		}
 		
 
-		protected Integer make(int n)
+		protected Integer createSmallNumber(int n)
 		{
 			return Integer.valueOf(n);
 		}
@@ -828,7 +990,7 @@ public abstract class Range<T extends Comparable<T>>
 		}
 		
 
-		protected Long make(int n)
+		protected Long createSmallNumber(int n)
 		{
 			return Long.valueOf(n);
 		}
@@ -913,7 +1075,7 @@ public abstract class Range<T extends Comparable<T>>
 		}
 		
 
-		protected BigInteger make(int n)
+		protected BigInteger createSmallNumber(int n)
 		{
 			return BigInteger.valueOf(n);
 		}

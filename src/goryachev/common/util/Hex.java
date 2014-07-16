@@ -52,6 +52,11 @@ public class Hex
 	
 	public static String toHexString(byte[] b)
 	{
+		if(b == null)
+		{
+			return null;
+		}
+		
 		return toHexString(b, 0, b.length);
 	}
 	

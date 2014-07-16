@@ -11,7 +11,6 @@ import goryachev.common.util.TXT;
 import javax.swing.JLabel;
 
 
-@Deprecated // use new ProcessPage
 public class ProcessPage_OLD
 	extends CPanel
 {

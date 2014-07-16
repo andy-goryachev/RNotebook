@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Document;
@@ -561,14 +562,14 @@ public class Dump
 		return sb.toString();
 	}
 	
-	
+
 	public static void describe(Object x, SB sb, int indent)
 	{
 		for(int i=0; i<indent; i++)
 		{
 			sb.a("  ");
 		}
-		
+
 		if(x == null)
 		{
 			sb.a("(null)");
@@ -578,24 +579,24 @@ public class Dump
 			// TODO format int/long with hex
 			if(x instanceof String)
 			{
-				sb.a("String ");
+				sb.a("String=");
 				toShortString((String)x, sb);
 			}
 			else if(x instanceof byte[])
 			{
-				describeByteArray((byte[])x, sb, indent);
+				describeByteArray((byte[])x, sb, indent + 1);
 			}
 			else if(x.getClass().isArray())
 			{
-				describeArray(x, sb, indent);
+				describeArray(x, sb, indent + 1);
 			}
 			else if(x instanceof Collection)
 			{
-				describeCollection((Collection)x, sb, indent);
+				describeCollection((Collection)x, sb, indent + 1);
 			}
 			else if(x instanceof Map)
 			{
-				describeMap((Map)x, sb, indent);
+				describeMap((Map)x, sb, indent + 1);
 			}
 			else if(x instanceof Rectangle2D)
 			{
@@ -609,9 +610,91 @@ public class Dump
 			}
 			else
 			{
-				sb.a(CKit.simpleName(x)).a(".").a(Hex.toHexString(x.hashCode()));
+				describeObject(x, sb, indent + 1);
 			}
-		}		
+		}
+	}
+	
+	
+	private static void describeObjectSimple(SB sb, Object x)
+	{
+		sb.a(CKit.simpleName(x)).a(".").a(Hex.toHexString(x.hashCode()));
+	}
+	
+	
+	// FIX stack overflows with circular dependencies
+	private static void describeObject(Object x, SB sb, int indent)
+	{
+		Class c = x.getClass();
+		sb.nl();
+		
+		sb.sp(indent);
+		sb.append(c.getSimpleName());
+		sb.nl();
+		
+		try
+		{
+			CMultiMap<String,Object> m = new CMultiMap();
+			
+			while(c != null)
+			{
+				Field[] fs = c.getDeclaredFields();
+				for(Field f: fs)
+				{
+					Object v;
+					try
+					{
+						f.setAccessible(true);
+						v = f.get(x);
+					}
+					catch(Exception e)
+					{
+						v = "<ERR> unable to describe";
+					}
+					
+					m.put(f.getName(), v);
+				}
+				
+				c = c.getSuperclass();
+				if(c == Object.class)
+				{
+					c = null;
+				}
+			}
+			
+			CList<String> names = new CList(m.keySet());
+			CSorter.sort(names);
+			
+			for(String fname: names)
+			{
+				sb.sp(indent);
+				sb.sp();
+				sb.append(fname);
+				sb.append(": ");
+				
+				List<Object> vals = m.get(fname);
+				if(vals.size() == 1)
+				{
+					describe(vals.get(0), sb, indent+1);
+				}
+				else
+				{
+					for(Object v: vals)
+					{
+						describe(v, sb, indent+1);
+						sb.nl();
+					}
+				}
+			}
+			
+			sb.nl();
+		}
+		catch(Exception e)
+		{
+			sb.sp(indent);
+			sb.sp();
+			sb.append("<ERR> unable to describe"); 
+		}
 	}
 	
 	
@@ -676,7 +759,7 @@ public class Dump
 		
 		for(Object k: x.keySet())
 		{
-			// FIX indents
+			sb.sp(indent);
 			sb.a(k).a(": ");
 			Object v = x.get(k);
 			describe(v, sb, indent+1);

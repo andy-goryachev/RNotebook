@@ -1,7 +1,6 @@
 // Copyright (c) 2010-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.options;
 import goryachev.common.util.CSettings;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
@@ -9,6 +8,12 @@ import java.util.Collection;
 public class TimeFormatOption
 	extends COption<SimpleDateFormat>
 {
+	public final static String FORMAT_12H = "h:mm a";
+	public final static String FORMAT_12H_SECONDS = "h:mm:ss a";
+	public final static String FORMAT_24H = "HH:mm";
+	public final static String FORMAT_24H_SECONDS = "HH:mm:ss";
+	
+
 	public TimeFormatOption(String id, CSettings settings, Collection<COption<?>> list)
 	{
 		super(id, settings, list);
@@ -23,15 +28,7 @@ public class TimeFormatOption
 
 	public SimpleDateFormat defaultValue()
 	{
-		DateFormat f = DateFormat.getTimeInstance(DateFormat.SHORT);
-		if(f instanceof SimpleDateFormat)
-		{
-			return (SimpleDateFormat)f;
-		}
-		else
-		{
-			return new SimpleDateFormat("HH:mm");
-		}
+		return new SimpleDateFormat(FORMAT_24H);
 	}
 
 

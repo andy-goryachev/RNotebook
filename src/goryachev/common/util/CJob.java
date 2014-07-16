@@ -20,6 +20,7 @@ public abstract class CJob
 	private String name;
 	private volatile Object result;
 	private CList<CJob> children;
+	private volatile boolean cancelled;
 	private static final Object NULL = new Object();
 	private static final ParallelExecutor exec = init();
 	private static final ThreadLocal<CJob> currentJob = new ThreadLocal();
@@ -28,6 +29,12 @@ public abstract class CJob
 	public CJob(String name)
 	{
 		this.name = name;
+	}
+	
+	
+	public CJob()
+	{
+		this("cjob." + CKit.id());
 	}
 	
 	
@@ -50,7 +57,7 @@ public abstract class CJob
 	
 	private static ParallelExecutor init()
 	{
-		return new ParallelExecutor("CJob");
+		return new ParallelExecutor("cjob", 60);
 	}
 	
 	
@@ -66,7 +73,7 @@ public abstract class CJob
 	 */
 	public static void shutdown()
 	{
-		exec.close();
+		exec.shutdown();
 	}
 	
 	
@@ -101,6 +108,11 @@ public abstract class CJob
 	
 	public void run()
 	{
+		if(isCancelled())
+		{
+			return;
+		}
+		
 		Thread t = Thread.currentThread();
 		String oldName = t.getName();
 		t.setName(getName());
@@ -161,6 +173,7 @@ public abstract class CJob
 	}
 	
 	
+	// FIX add the job to the child and release the thread
 	public void waitForCompletion() throws Exception
 	{
 		Object rv;
@@ -226,20 +239,26 @@ public abstract class CJob
 	}
 	
 	
+	public static void waitForCompletionQuiet(CJob j)
+	{
+		try
+		{
+			j.waitForCompletion();
+		}
+		catch(Exception e)
+		{ 
+			Log.err(e);
+		}
+	}
+	
+	
 	public static void waitForAll(Collection<CJob> jobs)
 	{
 		if(jobs != null)
 		{
 			for(CJob ch: jobs)
 			{
-				try
-				{
-					ch.waitForCompletion();
-				}
-				catch(Exception e)
-				{ 
-					Log.err(e);
-				}
+				waitForCompletionQuiet(ch);
 			}
 		}
 	}
@@ -251,15 +270,28 @@ public abstract class CJob
 		{
 			if(ch != null)
 			{
-				try
-				{
-					ch.waitForCompletion();
-				}
-				catch(Exception e)
-				{ 
-					Log.err(e);
-				}
+				waitForCompletionQuiet(ch);
 			}
 		}
+	}
+	
+	
+	public static void waitForAll(CJob j1, CJob j2)
+	{
+		waitForCompletionQuiet(j1);
+		waitForCompletionQuiet(j2);
+	}
+	
+	
+	public void cancel()
+	{
+		cancelled = true;
+		// TODO interrupt thread
+	}
+	
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
 	}
 }

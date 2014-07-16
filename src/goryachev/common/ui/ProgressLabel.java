@@ -3,7 +3,6 @@ package goryachev.common.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 
 public class ProgressLabel
@@ -17,23 +16,28 @@ public class ProgressLabel
 	public ProgressLabel()
 	{
 		super(" ");
-		setBorder(new LineBorder(Color.gray, 1));
+		setBorder(Theme.BORDER_FIELD);
 	}
 
 
+	// FIX change to float/double
 	public void setValue(int percent)
 	{
 		this.percent = percent;
+		repaint();
+	}
+	
+	
+	public void setDoneColor(Color c)
+	{
+		doneColor = c;
 		repaint();
 	}
 
 
 	public void paintComponent(Graphics g)
 	{
-		super.paintComponent(g);
-
 		// TODO handle border insets!
-
 		int x = 1 + (getWidth() - 2) * percent / 100;
 		g.setColor(doneColor);
 		g.fillRect(1, 0, x, getHeight());
@@ -43,5 +47,7 @@ public class ProgressLabel
 			g.setColor(leftColor);
 			g.fillRect(x, 0, getWidth() - x, getHeight());
 		}
+		
+		super.paintComponent(g);
 	}
 }
