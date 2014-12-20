@@ -232,6 +232,17 @@ public class PRecord
 	}
 	
 	
+	public CMap getMap(String key)
+	{
+		Object v = getAttribute(key);
+		if(v instanceof CMap)
+		{
+			return (CMap)v;
+		}
+		return null;
+	}
+	
+	
 	public boolean getBoolean(String key)
 	{
 		return Parsers.parseBooleanStrict(getAttribute(key));

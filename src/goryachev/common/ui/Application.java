@@ -484,12 +484,14 @@ public abstract class Application
 		{
 			public void action()
 			{
+				StandardLicense lic = new StandardLicense();
+				
 				BaseDialog d = new BaseDialog(getSourceWindow(), "ApplicationLicenseDialog", true);
-				d.setTitle(StandardLicense.getTitle() + " - " + getTitle() + " " + getVersion());
+				d.setTitle(lic.getTitle() + " - " + getTitle() + " " + getVersion());
 				
 				BasePanel p = new BasePanel();
 				CTextPane t = p.setCenterCTextPane();
-				t.setDocument(StandardLicense.getDocument());
+				t.setDocument(lic.getDocument());
 				t.setCaretPosition(0);
 				p.buttons().add(new CButton(Menus.OK, d.closeDialogAction, true));
 				d.setCenter(p);

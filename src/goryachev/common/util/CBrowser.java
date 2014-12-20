@@ -9,15 +9,8 @@ public class CBrowser
 {
 	public static void openLink(String uri) throws Exception
 	{
-		URI u = parseURI(uri);
+		URI u = NetTools.parseURI(uri);
 		openLink(u);
-	}
-	
-	
-	public static URI parseURI(String uri) throws Exception
-	{
-		uri = uri.trim().replace(" ", "%20");
-		return new URI(uri);
 	}
 	
 	

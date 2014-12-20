@@ -473,10 +473,7 @@ public class Persister
 			{
 				int sz = in.readRawInt();
 				byte[] a = new byte[sz];
-				for(int i=0; i<sz; i++)
-				{
-					a[i] = in.readRawByte();
-				}
+				in.readRawBytes(a);
 				return a;
 			}
 
@@ -485,10 +482,7 @@ public class Persister
 				byte[] a = (byte[])x;
 				int sz = a.length;
 				out.writeRawInt(sz);
-				for(int i=0; i<sz; i++)
-				{
-					out.writeRawByte(a[i]);
-				}
+				out.writeRawBytes(a);
 			}
 		});
 		

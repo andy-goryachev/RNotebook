@@ -113,6 +113,15 @@ public class CButtonPanel
 	}
 	
 	
+	public CButton addButton(Action a, Color highlight)
+	{
+		CButton b = new CButton(a);
+		b.setHighlight(highlight);
+		addButton(b);
+		return b;
+	}
+	
+	
 	public CButton addButton(String text, Action a, Color highlight)
 	{
 		CButton b = new CButton(text, a);

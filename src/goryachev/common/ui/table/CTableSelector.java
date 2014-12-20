@@ -1,5 +1,7 @@
 // Copyright (c) 2012-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.table;
+import goryachev.common.util.CKit;
+import goryachev.common.util.CList;
 import goryachev.common.util.Log;
 import java.util.List;
 import javax.swing.JTable;
@@ -14,13 +16,14 @@ public abstract class CTableSelector
 	public abstract void tableSelectionChangeDetected();
 	
 	//
-	
+
 	private static final int[] NONE = new int[0];
 	public final JTable table;
 	private int[] selected = NONE;
 	private boolean handleEvents = true;
-	
-	
+	private Selection selection;
+
+
 	// single selector
 	public CTableSelector(JTable t)
 	{
@@ -296,7 +299,10 @@ public abstract class CTableSelector
 	
 	public void selectFirstRow()
 	{
-		setSelectedRow(0);
+		if(table.getRowCount() > 0)
+		{
+			setSelectedRow(0);
+		}
 	}
 	
 	
@@ -406,5 +412,97 @@ public abstract class CTableSelector
 	public String toString()
 	{
 		return "CTableSelector(" + size() + ")";
+	}
+
+
+	/** save current selection by remembering values in the selected cell(s) of the specified column(s) */
+	public void saveSelection(int modelColumnIndex)
+	{
+		int col = table.convertColumnIndexToView(modelColumnIndex);
+		int[] indexes = getSelectedViewRows();
+		int sz = indexes.length;
+		Object[] sel = new Object[sz];
+		
+		for(int i=0; i<sz; i++)
+		{
+			Object v = table.getValueAt(indexes[i], col);
+			sel[i] = v;
+		}
+		
+		selection = new Selection(col, sel);
+	}
+	
+	
+	protected int indexOf(int viewColumn, Object val)
+	{
+		int sz = table.getRowCount();
+		for(int i=0; i<sz; i++)
+		{
+			Object v = table.getValueAt(i, viewColumn);
+			if(CKit.isNotBlank(v))
+			{
+				if(CKit.equals(v, val))
+				{
+					return i;
+				}
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	/** restore previous selection or select first row */
+	public void restoreSelection()
+	{
+		try
+		{
+			if(table.getRowCount() > 0)
+			{
+				if(selection != null)
+				{
+					CList<Integer> rows = new CList();
+					
+					for(int i=0; i<selection.sel.length; i++)
+					{
+						Object v = selection.sel[i];
+						int ix = indexOf(selection.viewColumn, v);
+						if(ix >= 0)
+						{
+							rows.add(ix);
+						}
+					}
+					
+					if(rows.size() > 0)
+					{
+						setSelectedModelRows(rows);
+						return;
+					}
+				}
+				
+				selectFirstRow();
+			}
+		}
+		finally
+		{
+			selection = null;
+		}
+	}
+	
+	
+	//
+	
+	
+	public static class Selection
+	{
+		public final int viewColumn;
+		public final Object[] sel;
+		
+		
+		public Selection(int viewColumn, Object[] sel)
+		{
+			this.viewColumn = viewColumn;
+			this.sel = sel;
+		}
 	}
 }

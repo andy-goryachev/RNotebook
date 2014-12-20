@@ -83,9 +83,11 @@ public class ProcessPage_OLD
 		progressLogic.setProgress(p);
 		
 		long elapsed = System.currentTimeMillis() - start;
+		
 		// FIX do not show 100% if not completed
-		int percent = (int)Math.round(100 * p.getProgress());
-		progressBar.setValue(percent);
+		double pr = p.getProgress();
+		int percent = (int)Math.round(100 * pr);
+		progressBar.setProgress(pr);
 		percentLabel.setText(percent + "%");
 		
 		prevRemaining = remaining;

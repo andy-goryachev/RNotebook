@@ -39,9 +39,9 @@ public class CHtmlPane
 	}
 	
 	
-	public void setAllowOutsideImages(boolean on)
+	public void setAllowExternalImages(boolean on)
 	{
-		getPreviewHtmlEditorKit().setAllowOutsideImages(on);
+		getPreviewHtmlEditorKit().setAllowExternalImages(on);
 	}
 	
 	

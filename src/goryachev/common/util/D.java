@@ -634,4 +634,31 @@ public class D
 		}
 		System.out.println(sb);
 	}
+	
+	
+	public static void pp(Object a)
+	{
+		System.out.print(a == null ? "<null>" : a.toString());
+	}
+	
+	
+	public static void p(Object a)
+	{
+		System.out.println(a == null ? "<null>" : a.toString());
+	}
+	
+	
+	public static void p(Object ... a)
+	{
+		SB sb = new SB();
+		for(Object x: a)
+		{
+			if(sb.length() > 0)
+			{
+				sb.append(" ");
+			}
+			sb.append(x);
+		}
+		System.out.println(sb.toString());
+	}
 }

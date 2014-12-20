@@ -16,7 +16,7 @@ import javax.swing.table.TableModel;
 public class ZTableRenderer
 	extends DefaultTableCellRenderer
 {
-	public static final CTableRendererBorder BORDER = new CTableRendererBorder();
+	protected CTableRendererBorder border = new CTableRendererBorder();
 	protected transient JTable table;
 	protected transient ElasticColumnHandler handler;
 	protected transient Object value;
@@ -45,8 +45,8 @@ public class ZTableRenderer
 			{
 				this.value = val;
 
-				BORDER.setFocused(focus);
-				setBorder(BORDER);
+				border.setFocused(focus);
+				setBorder(border);
 
 				setFont(table.getFont());
 				
@@ -159,7 +159,7 @@ public class ZTableRenderer
 	
 	public void setIndent(int x)
 	{
-		BORDER.setGapLeft(x);
+		border.setGapLeft(x);
 	}
 	
 	

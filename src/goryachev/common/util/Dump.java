@@ -31,7 +31,7 @@ public class Dump
 	{
 		if(x == null)
 		{
-			return "null";
+			return "<null>";
 		}
 		else
 		{
@@ -520,7 +520,7 @@ public class Dump
 	{
 		if(b == null)
 		{
-			return "null";
+			return "<null>";
 		}
 		else
 		{
@@ -572,7 +572,7 @@ public class Dump
 
 		if(x == null)
 		{
-			sb.a("(null)");
+			sb.a("<null>");
 		}
 		else
 		{
@@ -607,6 +607,10 @@ public class Dump
 			else if(isPrimitive(x.getClass()))
 			{
 				sb.a(CKit.simpleName(x)).a("=").a(x);
+			}
+			else if(x instanceof Enum)
+			{
+				sb.a(x);
 			}
 			else
 			{
@@ -803,11 +807,29 @@ public class Dump
 	{
 		if(x == null)
 		{
-			return "(null)";
+			return "<null>";
 		}
 		else
 		{
 			return x.getClass().getName();
+		}
+	}
+	
+	
+	public static String simpleName(Object x)
+	{
+		if(x == null)
+		{
+			return "<null>";
+		}
+		else if(x instanceof Class)
+		{
+			return ((Class)x).getSimpleName() + ".class";
+		}
+		else
+		{
+			Class c = x.getClass();
+			return c.getSimpleName();
 		}
 	}
 
@@ -816,7 +838,7 @@ public class Dump
 	{
 		if(x == null)
 		{
-			return "null";
+			return "<null>";
 		}
 		
 		String s = x.toString();

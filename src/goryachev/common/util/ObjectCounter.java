@@ -4,9 +4,9 @@ import java.util.Collection;
 
 
 /** counts the number of objects in a map, as determined by hashCode() and equals() */ 
-public class ObjectCounter
+public class ObjectCounter<T>
 {
-	private CMap<Object,Integer> counts;
+	private CMap<T,Integer> counts;
 	
 	
 	public ObjectCounter()
@@ -21,7 +21,7 @@ public class ObjectCounter
 	}
 	
 	
-	protected ObjectCounter(CMap<Object,Integer> m)
+	protected ObjectCounter(CMap<T,Integer> m)
 	{
 		this.counts = new CMap(m);
 	}
@@ -33,7 +33,7 @@ public class ObjectCounter
 	}
 	
 	
-	public void add(Object x)
+	public void add(T x)
 	{
 		Integer ct = counts.get(x);
 		if(ct == null)
@@ -51,7 +51,7 @@ public class ObjectCounter
 	}
 	
 	
-	public void remove(Object x)
+	public void remove(T x)
 	{
 		Integer ct = counts.get(x);
 		if(ct == null)
@@ -69,11 +69,11 @@ public class ObjectCounter
 	}
 	
 	
-	public void addAll(Object[] xs)
+	public void addAll(T[] xs)
 	{
 		if(xs != null)
 		{
-			for(Object x: xs)
+			for(T x: xs)
 			{
 				add(x);
 			}
@@ -81,11 +81,11 @@ public class ObjectCounter
 	}
 	
 	
-	public void addAll(Collection<?> xs)
+	public void addAll(Collection<T> xs)
 	{
 		if(xs != null)
 		{
-			for(Object x: xs)
+			for(T x: xs)
 			{
 				add(x);
 			}
@@ -93,13 +93,13 @@ public class ObjectCounter
 	}
 	
 	
-	public CList<Object> values()
+	public CList<T> getKeys()
 	{
-		return new CList(counts.values());
+		return new CList(counts.keySet());
 	}
 	
 	
-	public int getCount(Object x)
+	public int getCount(T x)
 	{
 		return Parsers.parseInt(counts.get(x), 0);
 	}
@@ -145,12 +145,12 @@ public class ObjectCounter
 	}
 
 
-	public Object getTop()
+	public T getTop()
 	{
-		Object top = null;
+		T top = null;
 		int count = 0;
 		
-		for(Object x: counts.keySet())
+		for(T x: counts.keySet())
 		{
 			int ct = counts.get(x);
 			if(ct > count)

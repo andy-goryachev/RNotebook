@@ -13,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
 
+// see also InputTracker - combine?
 public abstract class UniversalChangeListener
 	implements DocumentListener, ChangeListener, ItemListener
 {

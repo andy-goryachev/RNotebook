@@ -4,6 +4,7 @@ import java.io.EOFException;
 
 
 public class BitStream
+	implements IBitStream
 {
 	private byte[] bytes;
 	private int index;

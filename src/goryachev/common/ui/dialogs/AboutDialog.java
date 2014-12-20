@@ -23,7 +23,7 @@ public class AboutDialog
 	{
 		super(parent, "AboutDialog", true);
 		setTitle(TXT.get("AboutDialog.title.PRODUCT VERSION", "About {0} {1}", Application.getTitle(), Application.getVersion()));
-		setMinimumSize(500, 300);
+		setMinimumSize(550, 300);
 		setSize(550, 400);
 
 		panel = new StandardDialogPanel();
@@ -33,7 +33,6 @@ public class AboutDialog
 			public void mouseClicked(MouseEvent ev) { close(); }
 		};
 		panel.addMouseListener(ma);
-		panel.titleField.addMouseListener(ma);
 		panel.iconField.addMouseListener(ma);
 		
 		CButton okButton = new CButton(Menus.OK, closeAction);
@@ -45,18 +44,6 @@ public class AboutDialog
 		setContentPanel(p);
 	}
 	
-	
-	public void setHeading(String title)
-	{
-		panel.setTitle(title);
-	}
-	
-	
-	public void setFullHeading(String title)
-	{
-		panel.setFullTitle(title);
-	}
-
 
 	public void setLogo(Icon icon)
 	{

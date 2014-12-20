@@ -224,7 +224,6 @@ public abstract class OpenFileLogic
 			(
 				parent, 
 				"Modified",
-				null,
 				"Do you want to save current file?",
 				new String[] { "Save", "Discard", "Cancel" }
 			);
@@ -427,7 +426,6 @@ public abstract class OpenFileLogic
 					parent, 
 					"Overwrite?", // FIX
 					"File exists.  Do you want to overwrite it?",
-					null,
 					new String[] { "Overwrite", "Cancel" }
 				);
 				if(rv != 0)

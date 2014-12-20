@@ -8,6 +8,7 @@ import goryachev.common.util.CKit;
 // http://stackoverflow.com/questions/1881652/estimating-forecasting-download-completion-time
 public class ProgressLogic
 {
+	public static final double FUDGE_FACTOR = 2.0;
 	private long start;
 	private double durationAverage;
 	private double durationExp = -1;
@@ -51,12 +52,17 @@ public class ProgressLogic
 	}
 	
 	
-	public synchronized void setProgress(Progress p)
+	public void setProgress(Progress p)
 	{
-		double fudgeFactor = 2;
-		
+		setProgress(p.getProgress());
+	}
+	
+	
+	public synchronized void setProgress(double p)
+	{
+		// FIX
 		// average computed over all period
-		durationAverage = fudgeFactor * (time() - start) / p.getProgress();
+		durationAverage = /*FUDGE_FACTOR * */ (time() - start) / p;
 		
 		// exponential moving average
 		if(durationExp < 0)
@@ -74,6 +80,7 @@ public class ProgressLogic
 	public synchronized long getEstimatedTimeToCompletion()
 	{
 		return (long)(start + durationAverage - time());
+		//return (long)(start + Math.max(durationExp, durationAverage) - time());
 	}
 	
 	
@@ -97,12 +104,38 @@ public class ProgressLogic
 		{
 			return "...";
 		}
+		
 		long err = Math.abs(est - getEstimatedExponentialTimeToCompletion());
 		
-		long hrs = est/CKit.MS_IN_AN_HOUR;
-		long min = est/CKit.MS_IN_A_MINUTE;
-		long sec = est/CKit.MS_IN_A_SECOND;
+//		long hrs = est/CKit.MS_IN_AN_HOUR;
+//		long min = est/CKit.MS_IN_A_MINUTE;
+//		long sec = est/CKit.MS_IN_A_SECOND;
 		
-		return Theme.formatTimePeriod(est);
+//		est -= getElapsedTime();
+		if(est < 0)
+		{
+			est = 0;
+		}
+		
+		//return Theme.formatTimePeriodRough(est);
+		return Theme.formatTimePeriod2(est);
+	}
+	
+	
+	public long getElapsedTime()
+	{
+		return System.currentTimeMillis() - start;
+	}
+	
+	
+	public String getElapsedTimeString()
+	{
+		if(start <= 0)
+		{
+			return null;
+		}
+		
+		long t = System.currentTimeMillis() - start;
+		return Theme.formatTimePeriod2(t);
 	}
 }

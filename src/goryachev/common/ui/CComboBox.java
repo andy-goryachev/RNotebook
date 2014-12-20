@@ -19,14 +19,14 @@ public class CComboBox
 	
 	public CComboBox(Object[] items)
 	{
-		super(items);
+		super(items == null ? new Object[0] : items);
 		init();
 	}
 
 	
 	public CComboBox(Collection<?> items)
 	{
-		super(items.toArray());
+		super(items == null ? new Object[0] : items.toArray());
 		init();
 	}
 	

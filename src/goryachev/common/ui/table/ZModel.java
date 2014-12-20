@@ -52,7 +52,7 @@ public class ZModel<V>
 	}
 	
 	
-	public void insertItems(int start, Collection<V> items)
+	public void insertItems(int start, Collection<? extends V> items)
 	{
 		if(items != null)
 		{
@@ -162,14 +162,11 @@ public class ZModel<V>
 	
 	public V getItem(int row)
 	{
-		try
+		if((row >= 0) && (row < size()))
 		{
 			return rows.get(row);
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			return null;
-		}
+		}		
+		return null;
 	}
 	
 	
@@ -215,7 +212,7 @@ public class ZModel<V>
 	}
 
 
-	public void replaceAll(Collection<V> list)
+	public void replaceAll(Collection<? extends V> list)
 	{
 		clearNoEvents();
 		addAllNoEvent(list);
@@ -231,7 +228,7 @@ public class ZModel<V>
 	}
 	
 	
-	public void addAll(Collection<V> items)
+	public void addAll(Collection<? extends V> items)
 	{
 		insertItems(size(), items);
 	}
@@ -243,7 +240,7 @@ public class ZModel<V>
 	}
 
 
-	protected void addAllNoEvent(Collection<V> items)
+	protected void addAllNoEvent(Collection<? extends V> items)
 	{
 		if(items != null)
 		{

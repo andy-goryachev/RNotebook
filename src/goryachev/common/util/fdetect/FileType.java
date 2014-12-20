@@ -25,6 +25,11 @@ public enum FileType
 		public String getCode() { return "CLASS"; }
 		public String getName() { return TXT.get("FileType.class", "Java Class"); }
 	},
+	DOC
+	{
+		public String getCode() { return "DOC"; }
+		public String getName() { return TXT.get("FileType.doc", "MS Word Document"); }
+	},
 	DOCX
 	{
 		public String getCode() { return "DOCX"; }
@@ -55,10 +60,20 @@ public enum FileType
 		public String getCode() { return "HTML"; }
 		public String getName() { return TXT.get("FileType.html", "HTML File"); }
 	},
+	ICNS
+	{
+		public String getCode() { return "ICNS"; }
+		public String getName() { return TXT.get("FileType.icns", "Apple Icon"); }
+	},
 	ICO
 	{
 		public String getCode() { return "ICO"; }
 		public String getName() { return TXT.get("FileType.ico", "Windows Icon"); }
+	},
+	IFF
+	{
+		public String getCode() { return "IFF"; }
+		public String getName() { return TXT.get("FileType.iff", "IFF Image"); }
 	},
 	JAR
 	{
@@ -90,6 +105,11 @@ public enum FileType
 		public String getCode() { return "MP4"; }
 		public String getName() { return TXT.get("FileType.mp4", "MPEG-4 Video"); }
 	},
+	NETPBM
+	{
+		public String getCode() { return "PPM"; }
+		public String getName() { return TXT.get("FileType.ppm", "Netpbm Image"); }
+	},
 	ODP
 	{
 		public String getCode() { return "ODP"; }
@@ -120,10 +140,20 @@ public enum FileType
 		public String getCode() { return "PDF"; }
 		public String getName() { return TXT.get("FileType.pdf", "PDF Document"); }
 	},
+	PICT
+	{
+		public String getCode() { return "PICT"; }
+		public String getName() { return TXT.get("FileType.pict", "Macintosh PICT"); }
+	},
 	PNG
 	{
 		public String getCode() { return "PNG"; }
 		public String getName() { return TXT.get("FileType.png", "PNG Image"); }
+	},
+	PPT
+	{
+		public String getCode() { return "PPT"; }
+		public String getName() { return TXT.get("FileType.ppt", "MS Office Presentation"); }
 	},
 	PPTX
 	{
@@ -139,6 +169,11 @@ public enum FileType
 	{
 		public String getCode() { return "PSD"; }
 		public String getName() { return TXT.get("FileType.psd", "Photoshop Image"); }
+	},
+	RAW
+	{
+		public String getCode() { return "RAW"; }
+		public String getName() { return TXT.get("FileType.raw", "Raw Image"); }
 	},
 	RTF
 	{
@@ -195,6 +230,11 @@ public enum FileType
 		public String getCode() { return "UNKNOWN"; }
 		public String getName() { return TXT.get("FileType.binary", "Binary File"); }
 	},
+	VSD
+	{
+		public String getCode() { return "VSD"; }
+		public String getName() { return TXT.get("FileType.vsd", "MS Visio Diagram"); }
+	},
 	WAV
 	{
 		public String getCode() { return "WAV"; }
@@ -209,6 +249,11 @@ public enum FileType
 	{
 		public String getCode() { return "WMV"; }
 		public String getName() { return TXT.get("FileType.wmv", "Windows WMV Video"); }
+	},
+	XLS
+	{
+		public String getCode() { return "XLS"; }
+		public String getName() { return TXT.get("FileType.xls", "MS Excel Spreadsheet"); }
 	},
 	XLSX
 	{

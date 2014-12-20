@@ -1,11 +1,14 @@
 // Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.theme;
+import goryachev.common.ui.Theme;
 import goryachev.common.ui.options.BooleanOption;
 import goryachev.common.ui.options.ColorOption;
 import goryachev.common.ui.options.DateFormatOption;
+import goryachev.common.ui.options.FontOption;
 import goryachev.common.ui.options.NumberFormatOption;
 import goryachev.common.ui.options.TimeFormatOption;
 import java.awt.Color;
+import java.awt.Font;
 
 
 public class ThemeOptions
@@ -27,10 +30,17 @@ public class ThemeOptions
 	// effects
 	public static final BooleanOption hoverEffects = new BooleanOption("ui.theme.hover.effects", false);
 	
-	// fonts
-	
 	// formats
 	public static final DateFormatOption dateFormat = new DateFormatOption("app.DateFormat");
 	public static final TimeFormatOption timeFormat = new TimeFormatOption("app.TimeFormat");
 	public static final NumberFormatOption numberFormat = new NumberFormatOption("app.NumberFormat");
+
+	// fonts
+	public static final FontOption fontOption = new FontOption("ui.theme.font")
+	{
+		public Font defaultValue()
+		{
+			return Theme.getPanelFont();
+		}
+	};
 }

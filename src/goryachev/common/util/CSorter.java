@@ -70,6 +70,23 @@ public class CSorter
 	}
 	
 	
+	public static int compare(int a, int b)
+	{
+		if(a < b)
+		{
+			return -1;
+		}
+		else if(a > b)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	
 	public static int compare(long a, long b)
 	{
 		if(a < b)

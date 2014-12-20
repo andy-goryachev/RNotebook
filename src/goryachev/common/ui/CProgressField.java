@@ -13,6 +13,7 @@ public class CProgressField
 	{
 		this.size = size;
 		setAnimation(false);
+		setVerticalAlignment(CENTER);
 	}
 	
 	

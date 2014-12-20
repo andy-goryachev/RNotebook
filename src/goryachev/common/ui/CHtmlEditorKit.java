@@ -24,7 +24,7 @@ import javax.swing.text.html.StyleSheet;
 public class CHtmlEditorKit 
 	extends HTMLEditorKit 
 {	
-	private boolean allowOutsideImages;
+	private boolean allowExternalImages;
 	private StyleSheet styles;
 	
 	
@@ -33,9 +33,9 @@ public class CHtmlEditorKit
 	}
 	
 	
-	public void setAllowOutsideImages(boolean on)
+	public void setAllowExternalImages(boolean on)
 	{
-		allowOutsideImages = on;
+		allowExternalImages = on;
 	}
 	
 	
@@ -84,14 +84,17 @@ public class CHtmlEditorKit
 			String lower = src.toLowerCase();
 			if(lower.startsWith("http://"))
 			{
-				if(allowOutsideImages)
+				if(allowExternalImages)
 				{
 					return new ImageIcon(new URL(src));
 				}
 			}
 			else if(lower.startsWith("file:/"))
 			{
-				return new ImageIcon(new URL(src));
+				if(allowExternalImages)
+				{
+					return new ImageIcon(new URL(src));
+				}
 			}
 			else if(lower.startsWith("data:"))
 			{
@@ -103,7 +106,10 @@ public class CHtmlEditorKit
 			}
 			else
 			{
-				return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(src));
+				if(allowExternalImages)
+				{
+					return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(src));
+				}
 			}
 		}
 		catch(Exception e)

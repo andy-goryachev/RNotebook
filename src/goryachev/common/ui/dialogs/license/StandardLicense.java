@@ -8,9 +8,9 @@ import javax.swing.text.StyledDocument;
 
 public class StandardLicense
 {
-	private static String author;
-	private static String supportEmail;
-	private static boolean militaryClause = true;
+	private String author;
+	private String supportEmail;
+	private boolean militaryClause = true;
 	
 	
 	public StandardLicense()
@@ -20,49 +20,49 @@ public class StandardLicense
 	}
 	
 	
-	public static String getTitle()
+	public String getTitle()
 	{
 		return TXT.get("StandardLicense.title", "End-User License Agreement");
 	}
 	
 	
-	public static void setAuthor(String s)
+	public void setAuthor(String s)
 	{
 		author = s;
 	}
 	
 	
-	public static void setSupportEmail(String s)
+	public void setSupportEmail(String s)
 	{
 		supportEmail = s;
 	}
 	
 	
-	public static void setMilitaryClause(boolean on)
+	public void setMilitaryClause(boolean on)
 	{
 		militaryClause = on;
 	}
 	
 	
-	protected static void sp(CDocumentBuilder b)
+	protected void sp(CDocumentBuilder b)
 	{
 		b.append("  ");
 	}
 	
 	
-	protected static void nl(CDocumentBuilder b)
+	protected void nl(CDocumentBuilder b)
 	{
 		b.append("\n");
 	}
 	
 	
-	protected static void a(CDocumentBuilder b, String text)
+	protected void a(CDocumentBuilder b, String text)
 	{
 		b.append(text);
 	}
 	
 	
-	protected static int addSection(CDocumentBuilder b, int section, String name)
+	protected int addSection(CDocumentBuilder b, int section, String name)
 	{
 		name = (name == null ? null : section + ". " + name);
 		
@@ -80,7 +80,7 @@ public class StandardLicense
 	}
 	
 	
-	public static StyledDocument getDocument()
+	public StyledDocument getDocument()
 	{
 		int section = 1;
 		
@@ -120,7 +120,7 @@ public class StandardLicense
 		{
 			sp(b);
 			b.setBold(true);
-			a(b, "You may not use the SOFTWARE in a military or a \"national security\" domain; in the design, construction, operation or maintenance of weapons.  ");
+			a(b, "You may not use the SOFTWARE in a military or a \"national security\" domain; in the design, construction, operation, or maintenance of weapons.  ");
 			b.setBold(false);
 			sp(b);
 		}

@@ -274,6 +274,20 @@ public class StartupLog
 		{
 			sb.a(x.getClass().getName());
 		}
+		else if(x instanceof Object[])
+		{
+			Object[] a = (Object[])x;
+			sb.a("Object[");
+			sb.a(a.length);
+			sb.a("]");
+		}
+		else if(x instanceof int[])
+		{
+			int[] a = (int[])x;
+			sb.a("int[");
+			sb.a(a.length);
+			sb.a("]");
+		}
 		else
 		{
 			sb.a(x);

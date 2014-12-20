@@ -79,9 +79,29 @@ public class FileTools
 	public static boolean isProperties(File f) { return endsWith(f, PROPERTIES); }
 	
 	
-	public static boolean isHiddenOrSystem(File f) 
+	public static boolean isHidden(File f)
 	{
 		if(f.isHidden())
+		{
+			if(CPlatform.isWindows())
+			{
+				if(f.getParentFile() == null)
+				{
+					// for some reason C:// is hidden
+					// http://stackoverflow.com/questions/11862212/java-thinks-c-drive-is-hidden
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	public static boolean isHiddenOrSystem(File f) 
+	{
+		if(isHidden(f))
 		{
 			return true;
 		}
@@ -831,5 +851,47 @@ public class FileTools
 		
 		// backup
 		f.renameTo(backup);		
+	}
+	
+
+	/** returns true if 'parent' file is a parent of 'file' */
+	public static boolean isParent(File parent, File file)
+	{
+		while(file != null)
+		{
+			if(file.equals(parent))
+			{
+				return true;
+			}
+			
+			file = file.getParentFile();
+		}
+		return false;
+	}
+	
+
+	/** returns true if the specified file is either an empty directory or does not exist */
+	public static boolean isEmptyDirectory(File f)
+	{
+		if(!f.exists())
+		{
+			return true;
+		}
+		else if(f.isDirectory())
+		{
+			File[] fs = f.listFiles();
+			if(fs == null)
+			{
+				return true;
+			}
+			else
+			{
+				if(fs.length == 0)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

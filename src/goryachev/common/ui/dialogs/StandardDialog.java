@@ -47,13 +47,6 @@ public class StandardDialog
 	}
 	
 	
-	public void setHeading(String s)
-	{
-		setTitle(s);
-		panel.setTitle(s);
-	}
-	
-	
 	public void addButton(JButton b)
 	{
 		panel.addButton(b);

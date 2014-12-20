@@ -13,14 +13,24 @@ public class HorizontalLayoutPanel
 	
 	public HorizontalLayoutPanel(int gap, double height)
 	{
-		super(new TableLayout(new double[] { TableLayout.PREFERRED }, new double[] { height }));
+		super(new TableLayout
+		(
+			new double[] 
+			{
+				TableLayout.PREFERRED 
+			}, 
+			new double[] 
+			{
+				height 
+			}
+		));
 		setGap(gap);
 	}
 	
 	
 	public HorizontalLayoutPanel(int gap)
 	{
-		this(gap, TableLayout.MINIMUM);
+		this(gap, TableLayout.FILL);
 	}
 	
 	
@@ -40,24 +50,24 @@ public class HorizontalLayoutPanel
 	{
 		space(10);
 	}
-	
-	
+
+
 	public Component add(double width, Component c)
 	{
 		insertCol(width);
-		add(c,col + ",0");
+		add(c, col + ",0");
 		return c;
 	}
-	
-	
+
+
 	public Component add(Component c)
 	{
 		insertCol(TableLayout.PREFERRED);
-		add(c,col + ",0");
+		add(c, col + ",0");
 		return c;
 	}
-	
-	
+
+
 	public void fill(Component c)
 	{
 		insertCol(TableLayout.FILL);

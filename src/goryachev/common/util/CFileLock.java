@@ -56,7 +56,9 @@ public class CFileLock
 				lock.release();
 			}
 			catch(Exception e)
-			{ }
+			{
+				Log.err(e);
+			}
 			
 			lock = null;
 		}
@@ -65,7 +67,14 @@ public class CFileLock
 		{
 			CKit.close(channel);
 			channel = null;
-			file.delete();
+			try
+			{
+				file.delete();
+			}
+			catch(Exception e)
+			{
+				Log.err(e);
+			}
 		}
 	}
 	

@@ -1,6 +1,5 @@
 // Copyright (c) 2013-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.util.List;
 import java.util.Set;
 
 
@@ -78,7 +77,7 @@ public class CMultiMap<K,V>
 	
 	
 	/** Returns the list of values under specified key */
-	public List<V> get(K key)
+	public CList<V> get(K key)
 	{
 		return map.get(key);
 	}
@@ -108,5 +107,11 @@ public class CMultiMap<K,V>
 			list.addAll(c);
 		}
 		return list;
+	}
+	
+	
+	public CList<V> remove(K k)
+	{
+		return map.remove(k);
 	}
 }

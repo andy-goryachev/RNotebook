@@ -135,7 +135,7 @@ public class ZTable
 		}
 		else
 		{
-			return  new ZTableRenderer();
+			return new ZTableRenderer();
 		}
 	}
 	

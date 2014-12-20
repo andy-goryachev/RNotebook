@@ -13,9 +13,9 @@ public class Progress
 	private double progress;
 	
 	
-	public Progress(double percent)
+	public Progress(double progress)
 	{
-		this.progress = percent;
+		this.progress = progress;
 	}
 	
 	
@@ -31,7 +31,6 @@ public class Progress
 	}
 	
 	
-	// FIX int! plus add getDoubleProgress for estimated time computation.
 	public double getProgress()
 	{
 		return progress;

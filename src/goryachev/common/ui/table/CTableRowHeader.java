@@ -96,6 +96,7 @@ public class CTableRowHeader
 		
 		if(table != null)
 		{
+			// I don't think this is correct
 			renderer.setFont(table.getFont());
 			renderer.setForeground(table.getForeground());
 		}

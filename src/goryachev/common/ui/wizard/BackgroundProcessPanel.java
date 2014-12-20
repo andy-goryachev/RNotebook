@@ -267,7 +267,6 @@ public abstract class BackgroundProcessPanel
 		(
 			this, 
 			TXT.get("BackgroundProcessPage.interrupt.title", "Interrupt?"), 
-			null, 
 			TXT.get("BackgroundProcessPage.interrupt.d", "Do you want to interrupt the current operation?"),
 			new String[] 
 			{ 

@@ -197,19 +197,21 @@ public class CTreeTableModel<T extends CTreeNode>
 			// operation blocked
 			return;
 		}
-
+		
+		tree.clearSelection();
+		
 		nd.setExpanded(true);
 		if(ix >= 0)
 		{
 			fireTableRowsUpdated(ix, ix);
 		}
 
-		ix++;
-		int inserted = expandChildren(ix, nd);
+		int firstChild = ix + 1;
+		int inserted = expandChildren(firstChild, nd);
 
 		if(inserted > 0)
 		{
-			fireTableRowsInserted(ix, ix + inserted - 1); // inclusive
+			fireTableRowsInserted(firstChild, firstChild + inserted - 1); // inclusive
 
 			tree.changeSelection(ix, 0, false, false);
 		}

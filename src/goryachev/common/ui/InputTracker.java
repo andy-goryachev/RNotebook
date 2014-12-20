@@ -17,8 +17,7 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
 
-// see ModificationTracker
-// see CEditTracker
+// see also UniversalChangeListener - combine?
 public abstract class InputTracker 
 	implements DocumentListener, ItemListener, PropertyChangeListener, ActionListener
 {

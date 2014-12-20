@@ -95,6 +95,8 @@ public class CFileSettings
 	
 	public void save(File f) throws Exception
 	{
+		FileTools.ensureParentFolder(f);
+		
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "8859_1"));
 		try
 		{

@@ -166,7 +166,7 @@ public class TXT
 	}
 	
 	
-    /** add -Di18n.test.mode=1 to JVM parameters to prepend a test character to all i18'd prompts */
+    /** add -Di18n.test=[dot,pseudo] to JVM parameters to set the i18n test mode */
 	public static void checkTestMode()
 	{
 		String s = System.getProperty(PROPERTY_KEY);

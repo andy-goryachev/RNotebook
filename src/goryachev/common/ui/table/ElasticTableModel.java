@@ -86,7 +86,7 @@ public class ElasticTableModel
 	{
 		ensureRow(row);
 		
-		int sz = getColumnCount();
+		int sz = Math.max(col + 1, getColumnCount());
 		Object[] cells = rows().get(row);
 		if(cells == null)
 		{

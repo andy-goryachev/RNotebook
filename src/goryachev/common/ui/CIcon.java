@@ -24,6 +24,12 @@ public class CIcon
 		this.border = border;
 		this.borderColor = borderColor;
 	}
+	
+	
+	public CIcon(int sz, Color c, int border, Color borderColor)
+	{
+		this(sz, sz, c, border, borderColor);
+	}
 
 	
 	public CIcon(int w, int h, Color c)
@@ -83,7 +89,7 @@ public class CIcon
 			if(borderColor != null)
 			{
 				g.setColor(borderColor);
-				g.drawRect(0, 0, getIconWidth()-1, getIconHeight()-1);
+				g.drawRect(x, y, getIconWidth()-1, getIconHeight()-1);
 			}
 		}
 	}

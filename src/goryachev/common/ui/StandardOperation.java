@@ -207,7 +207,6 @@ public abstract class StandardOperation
 				(
 					this, 
 					"Operation is Running", 
-					null, 
 					"Do you want to interrupt this operation?",
 					new String[]
 					{

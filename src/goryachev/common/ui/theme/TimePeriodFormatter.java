@@ -8,6 +8,30 @@ import java.util.Date;
 /** formats time period using variable precision and over estimation */
 public class TimePeriodFormatter
 {
+	public static String formatRough(Object x)
+	{
+		if(x != null)
+		{
+			long time;
+			if(x instanceof Long)
+			{
+				time = (Long)x;
+			}
+			else if(x instanceof Date)
+			{
+				time = ((Date)x).getTime();
+			}
+			else
+			{
+				return null;
+			}
+			
+			return formatRough(time);
+		}
+		return null;
+	}
+	
+	
 	public static String format(Object x)
 	{
 		if(x != null)
@@ -30,15 +54,9 @@ public class TimePeriodFormatter
 		}
 		return null;
 	}
+
 	
-	
-	protected static int round(long x, int round)
-	{
-		return (int)((x / round) * round + round);
-	}
-	
-	
-	public static String format(long t)
+	public static String formatRough(long t)
 	{
 		long a;
 		long b;
@@ -149,5 +167,68 @@ public class TimePeriodFormatter
 		}
 			
 		return TXT.get("TimePeriodFormatter.seconds", "{0} sec.", a);
+	}
+	
+	
+	protected static int round(long x, int round)
+	{
+		return (int)((x / round) * round + round);
+	}
+	
+	
+	public static String format2(long x)
+	{
+		if(x < 10)
+		{
+			return "0" + x;
+		}
+		else
+		{
+			return String.valueOf(x);
+		}
+	}
+	
+	
+	public static String format3(int x)
+	{
+		if(x < 10)
+		{
+			return "00" + x;
+		}
+		else if(x < 100)
+		{
+			return "0" + x;
+		}
+		else
+		{
+			return String.valueOf(x);
+		}
+	}
+	
+	
+	public static String format(long time)
+	{
+		if(time < 0)
+		{
+			return null;
+		}
+		
+		long h = (int)(time / CKit.MS_IN_AN_HOUR);
+		int t = (int)(time % CKit.MS_IN_AN_HOUR);
+		
+		int m = t / CKit.MS_IN_A_MINUTE;
+		t %= CKit.MS_IN_A_MINUTE;
+		
+		int s = t / CKit.MS_IN_A_SECOND;
+		t %= CKit.MS_IN_A_SECOND;
+		
+		if(h > 0)
+		{
+			return TXT.get("TimePeriodFormatter.HOURS MIN SEC", "{0}:{1}:{2}", format2(h), format2(m), format2(s));
+		}
+		else
+		{
+			return TXT.get("TimePeriodFormatter.MIN SEC", "{0}:{1}", format2(m), format2(s));
+		}
 	}
 }

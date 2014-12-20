@@ -163,8 +163,6 @@ public class CTreeTable<T extends CTreeNode>
 				{
 					getTreeModel().expandRow(this, row);
 				}
-				
-				changeSelection(row, 0, false, false);
 			}
 		}
 	}
@@ -506,7 +504,8 @@ public class CTreeTable<T extends CTreeNode>
 	}
 	
 	
-	public void expandPath(String[] fullPath)
+	/** returns row index of the item identified by path or -1 */
+	public int expandPath(String[] fullPath)
 	{
 		if(fullPath != null)
 		{
@@ -532,17 +531,19 @@ public class CTreeTable<T extends CTreeNode>
 						}
 						else
 						{
-							return;
+							return ix;
 						}
 					}
 				}
 				
 				if(!found)
 				{
-					return;
+					return -1;
 				}
 			}
 		}
+		
+		return -1;
 	}
 
 

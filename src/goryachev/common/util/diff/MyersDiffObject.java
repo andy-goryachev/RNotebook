@@ -87,6 +87,7 @@ Changes:
 */
 
 package goryachev.common.util.diff;
+import goryachev.common.util.CKit;
 import java.util.ArrayList;
 
 
@@ -210,10 +211,7 @@ public class MyersDiffObject<T>
 		for(int d=0; d <= maxD; d++)
 		{
 			// is this a good point for interruption?
-			if(Thread.currentThread().isInterrupted())
-			{
-				throw new InterruptedException();
-			}
+			CKit.checkCancelled();
 			
 			// Extend the forward path.
 			for(int k = downK - d; k <= downK + d; k += 2)
@@ -255,6 +253,8 @@ public class MyersDiffObject<T>
 			// Extend the reverse path.
 			for(int k = upK - d; k <= upK + d; k += 2)
 			{
+				CKit.checkCancelled();
+				
 				// find the only or better starting point
 				int x, y;
 				if(k == upK + d)

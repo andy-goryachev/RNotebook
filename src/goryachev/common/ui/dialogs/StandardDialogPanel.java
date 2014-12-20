@@ -28,10 +28,9 @@ public class StandardDialogPanel
 	extends CPanel
 {
 	public static final CBorder LINE_BORDER = new CBorder(0, 0, 1, 0, Theme.panelBG().darker());
+
 	public final CPanel panel;
 	public final CPanel contentPanel;
-	public final JLabel titleField;
-	public final JLabel separatorField;
 	public final JLabel iconField;
 	protected CButtonPanel buttons;
 	private JButton defaultButton;
@@ -48,13 +47,6 @@ public class StandardDialogPanel
 		iconField.setBorder(new CBorder(20)); //20, 40, 20, 40));
 		iconField.setOpaque(true);
 		iconField.setBackground(UI.mix(10, Theme.textFG(), Theme.textBG()));
-		
-		titleField = new JLabel();
-		titleField.setFont(Theme.titleFont());
-		titleField.setBorder(new CBorder(20));
-		
-		separatorField = new JLabel();
-		separatorField.setBorder(LINE_BORDER);
 		
 		panel = new CPanel();
 		panel.setLayout
@@ -75,48 +67,6 @@ public class StandardDialogPanel
 		panel.add(1, 2, 1, 3, contentPanel);
 		
 		setCenter(panel);
-	}
-	
-	
-	public void setTitle(String s)
-	{
-		if(s == null)
-		{
-			panel.remove(titleField);
-			panel.remove(separatorField);
-		}
-		else
-		{
-			titleField.setText(s);
-
-			panel.add(1, 0, titleField);
-			panel.add(0, 1, 1, 1, separatorField);
-		}
-		
-		validate();
-		repaint();		
-	}
-	
-	
-	public void setFullTitle(String s)
-	{
-		if(titleField == null)
-		{
-			//titleField = new JLabel();
-			titleField.setFont(Theme.titleFont());
-			titleField.setBorder(new CBorder(20));
-			
-			//separatorField = new JLabel();
-			separatorField.setBorder(new CBorder(0, 0, 1, 0, Theme.panelBG().darker()));
-
-			panel.add(0, 0, 1, 0, titleField);
-			panel.add(0, 1, 1, 1, separatorField);
-			
-			validate();
-			repaint();
-		}
-		
-		titleField.setText(s);
 	}
 	
 	

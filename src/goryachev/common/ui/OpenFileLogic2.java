@@ -256,7 +256,6 @@ public abstract class OpenFileLogic2
 				(
 					frame, 
 					"File Exists", 
-					null,
 					TXT.get("OpenFileLogic2.q.file exists", "File {0} exists.  Overwrite?", f),
 					new String[] { "Cancel", "Overwrite" }
 				);
@@ -303,7 +302,6 @@ public abstract class OpenFileLogic2
 			int rv = Dialogs.choice
 			(
 				frame, 
-				null, 
 				null, 
 				msg, 
 				new String[] { "Save", "Discard", "Cancel" }

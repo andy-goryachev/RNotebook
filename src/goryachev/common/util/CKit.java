@@ -45,8 +45,8 @@ public class CKit
 	public static final Charset CHARSET_8859_1 = Charset.forName("8859_1");
 	public static final Charset CHARSET_ASCII = Charset.forName("US-ASCII");
 	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
-	public static final long MS_IN_A_SECOND = 1000L;
-	public static final long MS_IN_A_MINUTE = 60000L;
+	public static final int MS_IN_A_SECOND = 1000;
+	public static final int MS_IN_A_MINUTE = 60000;
 	public static final long MS_IN_10_MINUTES = 600000L;
 	public static final long MS_IN_AN_HOUR = 3600000L;
 	public static final long MS_IN_A_DAY = 86400000L;
@@ -300,21 +300,6 @@ public class CKit
 		return c.getClassLoader().getResource(resource);
 	}
 
-
-	public static boolean isParent(File parent, File file)
-	{
-		while(file != null)
-		{
-			if(file.equals(parent))
-			{
-				return true;
-			}
-			
-			file = file.getParentFile();
-		}
-		return false;
-	}
-	
 	
 	public static int indexOf(Collection<?> c, Object d)
 	{
@@ -624,6 +609,7 @@ public class CKit
 	}
 
 	
+	/** returns path to root or null if the root is not a parent of the specified file */
 	public static String pathToRoot(File root, File file)
 	{
 		try
@@ -640,30 +626,43 @@ public class CKit
 		catch(Exception e)
 		{ }
 		
-		SB sb = new SB();
-		pathToRoot(sb, root, file, file);
-		return sb.toString();
+		SB sb = pathToRoot(null, root, file, 0);
+		return sb == null ? null : sb.toString();
 	}
 	
 	
-	protected static void pathToRoot(SB sb, File root, File file, File original)
+	protected static SB pathToRoot(SB sb, File root, File file, int level)
 	{
 		if(file == null)
 		{
-			throw new RuntimeException(root + " is not a parent of " + original);
+			return null;
 		}
 		else if(root.equals(file))
 		{
-			return;
+			if(level == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return new SB();
+			}
 		}
 		else
 		{
-			pathToRoot(sb, root, file.getParentFile(), original);
-			if(sb.length() > 0)
+			File p = file.getParentFile();
+			
+			sb = pathToRoot(sb, root, p, level + 1);
+			if(sb == null)
 			{
+				return null;
+			}
+			else if(level > 0)
+			{
+				sb.append(file.getName());
 				sb.append("/");
 			}
-			sb.append(file.getName());
+			return sb;
 		}
 	}
 	
@@ -1095,7 +1094,7 @@ public class CKit
 	{
 		if(x == null)
 		{
-			return "(null)";
+			return "<null>";
 		}
 		else
 		{
@@ -1128,18 +1127,7 @@ public class CKit
 
 	public static String simpleName(Object x)
 	{
-		if(x == null)
-		{
-			return "null";
-		}
-		else if(x instanceof Class)
-		{
-			return ((Class)x).getSimpleName();
-		}
-		else
-		{
-			return x.getClass().getSimpleName();
-		}
+		return Dump.simpleName(x);
 	}
 
 
@@ -1168,6 +1156,8 @@ public class CKit
 	}
 
 	
+	/** returns the file "extension", 
+	 * the part of the file name, lowercased,  from the last dot, or complete filename if there is no dot */
 	public static String getExtension(String name)
 	{
 		if(name != null)
@@ -1176,6 +1166,22 @@ public class CKit
 			if(ix >= 0)
 			{
 				return name.substring(ix+1).toLowerCase();
+			}
+		}
+		return "";
+	}
+	
+	
+	/** returns the file base name (without the "extension"), 
+	 * the part of the file name until the last dot, or an empty string if there is no dot */
+	public static String getBaseName(String name)
+	{
+		if(name != null)
+		{
+			int ix = name.lastIndexOf('.');
+			if(ix >= 0)
+			{
+				return name.substring(0, ix);
 			}
 		}
 		return "";
@@ -1219,10 +1225,11 @@ public class CKit
 	}
 
 	
-	public static int copy(InputStream in, OutputStream out) throws Exception
+	/** copies input stream into the output stream using 64K buffer.  returns the number of bytes copied.  supports cancellation */
+	public static long copy(InputStream in, OutputStream out) throws Exception
 	{
 		byte[] buf = new byte[65536];
-		int count = 0;
+		long count = 0;
 		for(;;)
 		{
 			CKit.checkCancelled();
@@ -1359,7 +1366,7 @@ public class CKit
 	}
 
 
-	// returns (x % max) for all possible x, including negative
+	/** returns (x % max) for all possible x, including negative */
 	public static int mod(int x, int max)
 	{
 		if(x < 0)
@@ -1371,7 +1378,7 @@ public class CKit
 			return x % max;
 		}
 	}
-
+	
 
 	public static int id()
 	{
@@ -1403,7 +1410,7 @@ public class CKit
 	
 	public static int ms(int hours, int minutes, int seconds)
 	{
-		return (hours * (int)MS_IN_AN_HOUR) + (minutes * (int)MS_IN_A_MINUTE) + seconds * (int)MS_IN_A_SECOND;
+		return (hours * (int)MS_IN_AN_HOUR) + (minutes * MS_IN_A_MINUTE) + seconds * MS_IN_A_SECOND;
 	}
 
 
@@ -1413,6 +1420,8 @@ public class CKit
 		{
 			throw new CancelledException();
 		}
+		
+		// TODO also check for low memory
 	}
 	
 	
@@ -1436,7 +1445,7 @@ public class CKit
 		{
 			for(int i=0; i<pattern.length(); i++)
 			{
-				char c = text.charAt(i);
+				char c = pattern.charAt(i);
 				if(text.indexOf(c) >= 0)
 				{
 					return true;
@@ -1455,6 +1464,11 @@ public class CKit
 
 	public static byte[] readBytes(InputStream in, int max) throws Exception
 	{
+		if(in == null)
+		{
+			return null;
+		}
+		
 		int read = 0;
 		byte[] buf = new byte[Math.min(max, 65536)];
 		ByteArrayOutputStream ba = new ByteArrayOutputStream(65536);
@@ -1807,5 +1821,47 @@ public class CKit
 		catch(Exception ignore)
 		{ }
 		return p;
+	}
+	
+	
+	/** returns row count for itemCount and specified number of columns */
+	public static int rowCount(int itemCount, int cols)
+	{
+		if(itemCount == 0)
+		{
+			return 0;
+		}
+		else if(cols == 0)
+		{
+			return itemCount;
+		}
+		else
+		{
+			return 1 + (itemCount - 1) / cols;
+		}
+	}
+
+
+	/** comcatenates two arrays */
+	public static byte[] concat(byte[] a, byte[] b)
+	{
+		byte[] r = new byte[a.length + b.length];
+		System.arraycopy(a, 0, r, 0, a.length);
+		System.arraycopy(b, 0, r, a.length, b.length);
+		return r;
+	}
+	
+	
+	/** returns UTF-8 bytes */
+	public static byte[] getBytes(String s)
+	{
+		if(s == null)
+		{
+			return null;
+		}
+		else
+		{
+			return s.getBytes(CHARSET_UTF8);
+		}
 	}
 }

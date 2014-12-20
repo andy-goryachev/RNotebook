@@ -46,7 +46,7 @@ public class CMemoryBar
 		setForeground(Color.gray);
 		setHorizontalAlignment(CENTER);
 		setBorder(new CBorder(Color.gray));
-		setPreferredSize(new Dimension(100,-1));
+		setPreferredSize(new Dimension(75,-1));
 	}
 	
 	

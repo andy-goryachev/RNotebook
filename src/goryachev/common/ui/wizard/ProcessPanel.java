@@ -60,7 +60,7 @@ public abstract class ProcessPanel
 		textField.setEditable(false);
 		textField.setScrollableTracksViewportWidth(true);
 		
-		scroll = new CScrollPane(textField);
+		scroll = new CScrollPane(textField, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		setWest(statusField);
 		setCenter(scroll);
@@ -213,7 +213,6 @@ public abstract class ProcessPanel
 		(
 			this, 
 			TXT.get("ProcessPanel.interrupt.title", "Interrupt?"), 
-			null, 
 			TXT.get("ProcessPanel.interrupt.d", "Do you want to interrupt the current operation?"),
 			new String[] 
 			{ 

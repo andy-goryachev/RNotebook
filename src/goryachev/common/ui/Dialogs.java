@@ -1,7 +1,6 @@
 // Copyright (c) 2008-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.dialogs.StandardDialog;
-import goryachev.common.ui.dialogs.ZeroFrame;
 import goryachev.common.ui.dialogs.options.COptionDialog;
 import goryachev.common.ui.dialogs.options.OptionTreeNode;
 import goryachev.common.ui.icons.CIcons;
@@ -36,46 +35,40 @@ public class Dialogs
 	
 	//
 	
-	public static void startupError(ImageIcon icon, String title, String message)
+	public static void startupError(ImageIcon icon, String title, Object exceptionOrMessage)
 	{
 		JFrame parent = UI.constructInvisibleFrame(icon, title);
-		error(parent, title, title, message);
+		error(parent, title, exceptionOrMessage);
 		Application.exit();
 	}
 	
 	
-	public static void err(Component parent, Object x)
+	public static void err(Component parent, Object exceptionOrMessage)
 	{
-		error(parent, x);
+		error(parent, exceptionOrMessage);
 	}
 	
 	
-	public static void error(Component parent, Object x)
+	public static void error(Component parent, Object exceptionOrMessage)
 	{
-		if(x instanceof UserException)
+		if(exceptionOrMessage instanceof UserException)
 		{
 			String title = TXT.get("Dialogs.error.sorry","Sorry");
-			error(parent, title, null, x);
+			error(parent, title, exceptionOrMessage);
 		}
 		else
 		{
 			String title = TXT.get("Dialogs.error.unexpected","Unexpected Error");
-			error(parent, title, null, x);
+			error(parent, title, exceptionOrMessage);
 		}
 	}
 	
 	
-	public static void error(Component parent, String title, Object x)
+	public static void error(Component parent, String title, Object exceptionOrMessage)
 	{
-		error(parent, title, title, x);
-	}
-	
-	
-	public static void error(Component parent, String title, String heading, Object x)
-	{
-		StandardDialog d = constructDialog(parent, CIcons.Error96, title, heading, x);
-		
-		// TODO
+		StandardDialog d = constructDialog(parent, CIcons.Error96, title, exceptionOrMessage);
+
+		// can't get a pointer
 		//d.addButton(new CButton(TXT.get("Dialogs.error.button.copy","Copy to Clipboard"), d.copyToClipboardAction));
 		d.addButton(new CButton(Menus.OK, d.closeAction));
 		d.setButtonHighlight();
@@ -92,13 +85,7 @@ public class Dialogs
 	
 	public static void info(Component parent, String title, String message)
 	{
-		info(parent, title, title, message);
-	}
-	
-	
-	public static void info(Component parent, String title, String heading, String message)
-	{
-		StandardDialog d = constructDialog(parent, CIcons.Info96, title, heading, message);
+		StandardDialog d = constructDialog(parent, CIcons.Info96, title, message);
 		
 		d.addButton(new CButton(Menus.OK, d.closeAction));
 		d.setButtonHighlight();
@@ -107,9 +94,9 @@ public class Dialogs
 	}
 	
 
-	public static void warn(Component parent, String title, String heading, String message)
+	public static void warn(Component parent, String title, String message)
 	{
-		StandardDialog d = constructDialog(parent, CIcons.Warning96, title, heading, message);
+		StandardDialog d = constructDialog(parent, CIcons.Warning96, title, message);
 		
 		d.addButton(new CButton(Menus.OK, d.closeAction));
 		d.setButtonHighlight();
@@ -119,9 +106,9 @@ public class Dialogs
 	
 	
 	@Deprecated // use confirm2
-	public static boolean confirm(Component parent, String title, String heading, String message)
+	public static boolean confirm(Component parent, String title, String message)
 	{
-		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, heading, message);
+		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, message);
 		final AtomicBoolean confirmed = new AtomicBoolean();
 		
 		CAction okAction = new CAction()
@@ -145,7 +132,7 @@ public class Dialogs
 	
 	public static boolean confirm2(Component parent, String title, String message, String confirmButton)
 	{
-		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, null, message);
+		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, message);
 		final AtomicBoolean confirmed = new AtomicBoolean();
 		
 		CAction okAction = new CAction()
@@ -168,9 +155,9 @@ public class Dialogs
 
 	
 	@Deprecated // use ChoiceDialog
-	public static int choice(Component parent, String title, String heading, String message, String[] choices)
+	public static int choice(Component parent, String title, String message, String[] choices)
 	{
-		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, heading, message);
+		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, message);
 		final AtomicInteger result = new AtomicInteger(-1);
 		
 		int ix = 0;
@@ -199,14 +186,14 @@ public class Dialogs
 	}
 	
 	
-	public static StandardDialog constructDialog(Component parent, Icon icon, String title, String heading, Object x)
+	public static StandardDialog constructDialog(Component parent, Icon icon, String title, Object exceptionOrMessage)
 	{
 		StandardDialog d = new StandardDialog(parent);
 		
 		boolean error;
-		if(x instanceof Throwable)
+		if(exceptionOrMessage instanceof Throwable)
 		{
-			Throwable err = (Throwable)x;
+			Throwable err = (Throwable)exceptionOrMessage;
 			if(!(err instanceof UserException))
 			{
 				Log.err(err);
@@ -215,9 +202,9 @@ public class Dialogs
 			d.setTextError(err);
 			error = true;
 		}
-		else if(x != null)
+		else if(exceptionOrMessage != null)
 		{
-			String s = x.toString();
+			String s = exceptionOrMessage.toString();
 			if(CKit.startsWithIgnoreCase(s, "<html>"))
 			{
 				d.setTextHtml(s);
@@ -230,7 +217,6 @@ public class Dialogs
 		}
 		
 		d.setLogo(icon);
-		d.setHeading(heading);
 		
 		String ti = (title == null ? Application.getTitle() : title + " - " + Application.getTitle());
 		d.setTitle(ti);
@@ -314,7 +300,6 @@ public class Dialogs
 		(
 			parent, 
 			TXT.get("Dialogs.discard changes.title", "Discard changes?"), 
-			null,
 			TXT.get("Dialogs.discard changes.message", "The changes you've made will be lost.  Do you want to save the changes?"),
 			new String[] { Menus.Save, Menus.DiscardChanges, Menus.Cancel }
 		);
@@ -339,7 +324,6 @@ public class Dialogs
 			(
 				parent, 
 				TXT.get("Dialogs.file exists.title", "File Exists"),
-				null, 
 				TXT.get("Dialogs.file exists.message", "File {0} exists.  Do you want to overwrite it?", f),
 				new String[] { Menus.Cancel, Menus.Overwrite }
 			);

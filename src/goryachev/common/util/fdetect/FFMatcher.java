@@ -1,6 +1,7 @@
 // Copyright (c) 2012-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.fdetect;
 import goryachev.common.util.CException;
+import goryachev.common.util.CKit;
 import goryachev.common.util.Parsers;
 
 
@@ -51,5 +52,28 @@ public abstract class FFMatcher
 		}
 		
 		return true;
+	}
+	
+	
+	public static boolean ext(String filename, String ext)
+	{
+		return CKit.endsWithIgnoreCase(filename, ext);
+	}
+
+
+	public static boolean match(byte[] bytes, int index, int value)
+	{
+		int v = getByte(bytes, index);
+		return v == value;
+	}
+
+
+	public static int getByte(byte[] bytes, int index)
+	{
+		if(index < bytes.length)
+		{
+			return (bytes[index] & 0xff);
+		}
+		return -1;
 	}
 }

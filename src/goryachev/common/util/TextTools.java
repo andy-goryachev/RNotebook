@@ -114,7 +114,7 @@ public class TextTools
 		if(s != null)
 		{
 			int sz = pattern.length();
-			if(s.length() > sz)
+			if(s.length() >= sz)
 			{
 				for(int i=0; i<sz; i++)
 				{
@@ -728,57 +728,60 @@ public class TextTools
 	public static CList<String> splitWords(String text)
 	{
 		CList<String> list = new CList();
-		int start = 0;
-		int len = text.length();
-		boolean white = true;
-		boolean cjk = false;
-		
-		for(int i=0; i<len; i++)
+		if(text != null)
 		{
-			char c = text.charAt(i);
-			if(isBlankOrPunctuation(c))
+			int start = 0;
+			int len = text.length();
+			boolean white = true;
+			boolean cjk = false;
+			
+			for(int i=0; i<len; i++)
 			{
-				if(!white)
+				char c = text.charAt(i);
+				if(isBlankOrPunctuation(c))
 				{
-					if(i > start)
+					if(!white)
 					{
-						add(list, text.substring(start, i));
+						if(i > start)
+						{
+							add(list, text.substring(start, i));
+						}
+						white = true;
+						cjk = false;
 					}
-					white = true;
-					cjk = false;
 				}
-			}
-			else if(isCJK(c))
-			{
-				if(white)
+				else if(isCJK(c))
 				{
-					white = false;
+					if(white)
+					{
+						white = false;
+					}
+					else
+					{
+						if(i > start)
+						{
+							add(list, text.substring(start, i));
+						}
+					}
+					start = i;
+					cjk = true;
 				}
 				else
 				{
-					if(i > start)
+					if(white)
 					{
-						add(list, text.substring(start, i));
+						start = i;
+						white = false;
 					}
 				}
-				start = i;
-				cjk = true;
 			}
-			else
+			
+			if(!white)
 			{
-				if(white)
+				if(start < len)
 				{
-					start = i;
-					white = false;
+					add(list, text.substring(start, len));
 				}
-			}
-		}
-		
-		if(!white)
-		{
-			if(start < len)
-			{
-				add(list, text.substring(start, len));
 			}
 		}
 		

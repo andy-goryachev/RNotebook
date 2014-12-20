@@ -4,6 +4,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JToggleButton;
 
 
 public class CButtonGroup
@@ -41,5 +42,21 @@ public class CButtonGroup
 		{
 			onButtonStateChange();
 		}
+	}
+	
+	
+	public boolean hasChoice()
+	{
+		for(AbstractButton b: buttons)
+		{
+			if(b instanceof JToggleButton)
+			{
+				if(((JToggleButton)b).isSelected())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

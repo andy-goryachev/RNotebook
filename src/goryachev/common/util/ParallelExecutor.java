@@ -26,9 +26,6 @@ public class ParallelExecutor
 	{
 		this.name = name;
 		
-		// freezes if too many nested CJobs
-		//exec = new ThreadPoolExecutor(processCount, processCount, keepAliveTimeSeconds, TimeUnit.SECONDS, new LinkedBlockingQueue(), this);
-
 		exec = new ThreadPoolExecutor(0, Integer.MAX_VALUE, keepAliveTimeSeconds, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), this);
 
 		exec.allowCoreThreadTimeOut(true);

@@ -18,13 +18,16 @@ import goryachev.common.ui.theme.ThemeOptions;
 import goryachev.common.ui.theme.TimePeriodFormatter;
 import goryachev.common.util.CFactory;
 import goryachev.common.util.CPlatform;
+import goryachev.common.util.Log;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.text.DecimalFormat;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.ToolTipManager;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
@@ -40,11 +43,6 @@ public class Theme
 	private static float gradientFactor = 0.84f;
 	private static float BORDER_FACTOR = 0.75f;
 	
-	private static Font font;
-	private static Font boldFont;
-	private static Font titleFont;
-	private static Font monospacedFont;
-	
 	private static Border lineBorder;
 	private static Border normalBorder;
 	private static Border raisedBevelBorder;
@@ -56,8 +54,9 @@ public class Theme
 	public static final Border BORDER_FIELD = new CFieldBorder();
 	public static final Border BORDER_LINE = new CBorder(lineColor());
 
-	private static CFactory<? extends CToolBar> toolbarFactory;
-	private static CFactory<? extends JButton> toolbarButtonFactory;
+	protected static CFactory<? extends CToolBar> toolbarFactory;
+	protected static CFactory<? extends JButton> toolbarButtonFactory;
+	protected static Dimension preferredToolbarDimensions;
 
 
 	public static void init()
@@ -71,51 +70,16 @@ public class Theme
 
 		UIDefaults defs = UIManager.getLookAndFeelDefaults();
 		
-		if(CPlatform.isMac())
-		{
-			// fix fonts - all fonts will be of the same size
-			float forceSize = 11;
-			for(Object key: defs.keySet())
-			{
-				if(key instanceof String)
-				{
-					String k = key.toString();
-					if(k.endsWith(".font"))
-					{
-						Font f = defs.getFont(key);
-						if(f != null)
-						{
-							f = f.deriveFont(forceSize);
-							defs.put(key, f);
-						}
-					}
-				}
-			}
-		}
-		else if(CPlatform.isLinux())
-		{
-			// remove bold attribute from all fonts
-			for(Object k: defs.keySet())
-			{
-				if(k instanceof String)
-				{
-					String key = (String)k;
-					if(key.endsWith(".font"))
-					{
-						Font f = defs.getFont(key);
-						if(f.isBold())
-						{
-							f = f.deriveFont(Font.PLAIN);
-							defs.put(key, f);
-						}
-					}
-				}
-			}
-		}
+		fixFonts(defs);
 		
-		Toolkit.getDefaultToolkit().setDynamicLayout(true);
-		
-		font = getDefaultFont();
+		try
+		{
+			Toolkit.getDefaultToolkit().setDynamicLayout(true);
+		}
+		catch(Exception e)
+		{
+			Log.err(e);
+		}
 		
 		// panel background
 		Color c = uiColor(panelBG());
@@ -297,7 +261,19 @@ public class Theme
 		{
 			public CToolBar construct()
 			{
+				if(preferredToolbarDimensions == null)
+				{
+					CToolBar t = new CToolBar();
+					t.add(new CButton("W"));
+					t.add(new CComboBox());
+					t.add(new JLabel("W"));
+					preferredToolbarDimensions = t.getPreferredSize();
+					preferredToolbarDimensions.width = -1;
+				}
+				
 				CToolBar t = new CToolBar();
+				t.setMinimumSize(preferredToolbarDimensions);
+				t.setPreferredSize(preferredToolbarDimensions);
 				return t;
 			}
 		};
@@ -313,41 +289,32 @@ public class Theme
 		};
 	}
 		
-	
-	private static Font getDefaultFont()
-    {
-		Font f = UIManager.getLookAndFeelDefaults().getFont("Panel.font");
-		// strip UIResource and kill bold attribute
-		f = f.deriveFont(Font.PLAIN, f.getSize2D());
-	    return f;
-    }
 
-
-	public static Font plainFont()
+	private static void fixFonts(UIDefaults defs)
 	{
-		return font;
-	}
+		Font font = getPanelFont();
+		int size = font.getSize();
 
-	
-	public static Font monospacedFont()
-	{
-		if(monospacedFont == null)
+		// force all fonts to have the same size and no bold attribute
+		for(Object key: defs.keySet())
 		{
-			int size;
-			if(CPlatform.isWindows())
+			if(key instanceof String)
 			{
-				size = 12;
+				String k = key.toString();
+				if(k.endsWith(".font"))
+				{
+					Font f = defs.getFont(key);
+					if(f != null)
+					{
+						f = f.deriveFont(Font.PLAIN, size);
+						defs.put(key, f);
+					}
+				}
 			}
-			else
-			{
-				size = plainFont().getSize();
-			}
-			monospacedFont = new Font("Monospaced", Font.PLAIN, size);
 		}
-		return monospacedFont;
 	}
-	
-	
+
+
 	public static Color panelBG()
 	{
 		return ThemeOptions.panelBG.get();
@@ -452,29 +419,53 @@ public class Theme
 		}
 		return normalBorder;
 	}
-	
-	
+
+
+	public static Font getPanelFont()
+	{
+		Font f = UIManager.getLookAndFeelDefaults().getFont("Panel.font");
+		// strip UIResource and kill bold attribute
+		return f.deriveFont(Font.PLAIN, f.getSize2D());
+	}
+
+
+	public static Font plainFont()
+	{
+		return ThemeOptions.fontOption.get();
+	}
+
+
+	public static Font monospacedFont()
+	{
+		int size;
+		if(CPlatform.isWindows())
+		{
+			size = 12;
+		}
+		else
+		{
+			size = plainFont().getSize();
+		}
+		return new Font("Monospaced", Font.PLAIN, size);
+	}
+
+
 	public static Font boldFont()
 	{
-		if(boldFont == null)
-		{
-			boldFont = plainFont().deriveFont(Font.BOLD);
-		}
-		return boldFont;
+		return plainFont().deriveFont(Font.BOLD);
 	}
-	
-	
+
+
 	public static Font titleFont()
 	{
-		if(titleFont == null)
-		{
-			Font f = plainFont();
-			if(f != null)
-			{
-				titleFont = f.deriveFont(Font.BOLD, f.getSize() * 1.6f);
-			}
-		}
-		return titleFont;
+		Font f = plainFont();
+		return f.deriveFont(Font.BOLD, f.getSize() * 1.6f);
+	}
+
+	
+	public static Font getFont(double scale, boolean bold)
+	{
+		return UI.deriveFont(plainFont(), bold, (float)scale);
 	}
 	
 	
@@ -680,29 +671,38 @@ public class Theme
 	
 	
 	/** 
-	 * Formats time period in days/hours/minutes/seconds/milliseconds.  Accepts Long or Date argument.
+	 * Formats time period in days/hours/minutes/seconds/milliseconds.  
+	 * Accepts Long or Date argument.
 	 * Returns null if time is negative or null.  
 	 */
-	public static String formatTimePeriod(Object x)
+	public static String formatTimePeriod2(Object x)
 	{
+		// FIX
 		return TimePeriodFormatter.format(x);
 	}
 	
 	
-	public static String formatTimePeriod(long t)
+	public static String formatTimePeriod2(long t)
 	{
+		// FIX
 		return TimePeriodFormatter.format(t);
+	}
+	
+	
+	public static String formatTimePeriodRough(Object x)
+	{
+		return TimePeriodFormatter.formatRough(x);
+	}
+	
+	
+	public static String formatTimePeriodRough(long t)
+	{
+		return TimePeriodFormatter.formatRough(t);
 	}
 	
 	
 	public static Icon waitIcon(int size)
 	{
 		return new SpinningGearIcon(size);
-	}
-
-
-	public static Font getFont(double scale, boolean bold)
-	{
-		return UI.deriveFont(plainFont(), bold, (float)scale);
 	}
 }

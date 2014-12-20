@@ -1,5 +1,6 @@
 // Copyright (c) 2007-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.diff;
+import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
 import goryachev.common.util.SB;
@@ -34,6 +35,8 @@ public class Diff5
 				final SB lb = new SB(2048);
 				for(int i=0; i<sizeLeft; i++)
 				{
+					CKit.checkCancelled();
+					
 					lb.append(ls.get(startLeft + i));
 					lb.append(DELIMITER);
 				}
@@ -41,12 +44,16 @@ public class Diff5
 				final SB rb = new SB(2048);
 				for(int i=0; i<sizeRight; i++)
 				{
+					CKit.checkCancelled();
+					
 					rb.append(rs.get(startRight + i));
 					rb.append(DELIMITER);
 				}
 				
 				for(int i=0; i<sz; i++)
 				{
+					CKit.checkCancelled();
+					
 					String sl = (i < sizeLeft ? ls.get(startLeft + i) : null);
 					String sr = (i < sizeRight ? rs.get(startRight + i) : null);
 					a.add(Difference.create(sl,sr,null));
@@ -74,10 +81,7 @@ public class Diff5
 		String s;
 		while((s = rd.readLine()) != null)
 		{
-			if(Thread.currentThread().isInterrupted())
-			{
-				throw new InterruptedException();
-			}
+			CKit.checkCancelled();
 			
 			a.add(u.getUnique(s));
 		}

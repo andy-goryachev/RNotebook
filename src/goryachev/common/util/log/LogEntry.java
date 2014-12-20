@@ -82,16 +82,22 @@ public class LogEntry
 		try
 		{
 			StackTraceElement[] ss = ex.getStackTrace();
-			StackTraceElement t = ss[level];
-			String className = t.getClassName();
-	
-			int ix = className.lastIndexOf('.');
-			if(ix > 0)
+			if(ss != null)
 			{
-				className = className.substring(ix + 1);
+				if(ss.length > level)
+				{
+					StackTraceElement t = ss[level];
+					String className = t.getClassName();
+			
+					int ix = className.lastIndexOf('.');
+					if(ix > 0)
+					{
+						className = className.substring(ix + 1);
+					}
+			
+					caller =  className + "." + t.getMethodName();
+				}
 			}
-	
-			caller =  className + "." + t.getMethodName();
 		}
 		catch(Exception e)
 		{

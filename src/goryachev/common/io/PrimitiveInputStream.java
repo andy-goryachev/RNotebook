@@ -59,7 +59,7 @@ public class PrimitiveInputStream
 	}
 	
 
-	protected byte readRawByte() throws Exception
+	public byte readRawByte() throws Exception
 	{
 		int ch = in.read();
 		if(ch < 0)
@@ -84,7 +84,7 @@ public class PrimitiveInputStream
 	}
 
 
-	protected long readRawLong() throws Exception
+	public long readRawLong() throws Exception
 	{
 		long d = ((long)in.read() << 56);
 		d |= ((long)in.read() << 48);
@@ -103,13 +103,13 @@ public class PrimitiveInputStream
 	}
 
 
-	protected float readRawFloat() throws Exception
+	public float readRawFloat() throws Exception
 	{
 		return Float.intBitsToFloat(readRawInt());
 	}
 
 
-	protected double readRawDouble() throws Exception
+	public double readRawDouble() throws Exception
 	{
 		return Double.longBitsToDouble(readRawLong());
 	}
@@ -121,7 +121,7 @@ public class PrimitiveInputStream
 	}
 
 
-	protected void readRawBytes(byte b[], int off, int len) throws Exception
+	public void readRawBytes(byte b[], int off, int len) throws Exception
 	{
 		if(len < 0)
 		{
@@ -141,7 +141,7 @@ public class PrimitiveInputStream
 	}
 	
 
-	protected boolean readRawBoolean() throws Exception
+	public boolean readRawBoolean() throws Exception
 	{
 		switch(readRawByte())
 		{
@@ -152,7 +152,7 @@ public class PrimitiveInputStream
 	}
 	
 	
-	protected char readRawChar() throws IOException
+	public char readRawChar() throws IOException
 	{
 		int ch1 = in.read();
 		int ch2 = in.read();
@@ -164,7 +164,7 @@ public class PrimitiveInputStream
 	}
 
 
-	protected short readRawShort() throws IOException
+	public short readRawShort() throws IOException
 	{
 		int ch1 = in.read();
 		int ch2 = in.read();

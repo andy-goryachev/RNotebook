@@ -4,6 +4,7 @@ import goryachev.common.ui.CExtensionFileFilter;
 import goryachev.common.ui.GlobalSettings;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CKit;
+import goryachev.common.util.Parsers;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.Window;
@@ -138,7 +139,8 @@ public class CFileChooser
 
 			} while(f != null);
 		}
-		return new File(".");
+		
+		return Parsers.parseCanonicalFile(".");
 	}
 
 

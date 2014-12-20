@@ -2,6 +2,7 @@
 package goryachev.common.util;
 import java.awt.Color;
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Collection;
@@ -201,6 +202,16 @@ public class Parsers
 	}
 	
 	
+	public static String parseString(Object x, String defaultValue)
+	{
+		if(x == null)
+		{
+			return defaultValue;
+		}
+		return parseString(x);
+	}
+	
+	
 	public static String parseString(Object x)
 	{
 		if(x == null)
@@ -372,6 +383,43 @@ public class Parsers
 	}
 	
 	
+	public static File parseCanonicalFile(Object x)
+	{
+		if(x != null)
+		{
+			try
+			{
+				File f = null;
+				if(x instanceof File)
+				{
+					f = (File)x;
+				}
+				else if(x instanceof String)
+				{
+					f = new File((String)x);
+				}
+				
+				if(f != null)
+				{
+					try
+					{
+						return f.getCanonicalFile();
+					}
+					catch(Exception e)
+					{
+						Log.err(e);
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Log.err(e);
+			}
+		}
+		return null;
+	}
+	
+	
 	public static String[] parseStringArray(Object x)
 	{
 		if(x instanceof String[])
@@ -408,11 +456,48 @@ public class Parsers
 		{
 			return (BigInteger)x;
 		}
+		else if(x instanceof Number)
+		{
+			try
+			{
+				return BigInteger.valueOf(((Number)x).longValue());
+			}
+			catch(Exception e)
+			{ }
+		}
 		else if(x instanceof String)
 		{
 			try
 			{
 				return new BigInteger((String)x);
+			}
+			catch(Exception e)
+			{ }
+		}
+		return null;
+	}
+	
+	
+	public static BigDecimal parseBigDecimal(Object x)
+	{
+		if(x instanceof BigDecimal)
+		{
+			return (BigDecimal)x;
+		}
+		else if(x instanceof Number)
+		{
+			try
+			{
+				return new BigDecimal(((Number)x).doubleValue());
+			}
+			catch(Exception e)
+			{ }
+		}
+		else if(x instanceof String)
+		{
+			try
+			{
+				return new BigDecimal((String)x);
 			}
 			catch(Exception e)
 			{ }

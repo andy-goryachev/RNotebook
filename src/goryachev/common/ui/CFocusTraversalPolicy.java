@@ -1,11 +1,13 @@
 // Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
+import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.Log;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
+import javax.swing.Action;
 import javax.swing.text.JTextComponent;
 
 
@@ -23,6 +25,12 @@ public class CFocusTraversalPolicy
 	}
 	
 	
+	public CFocusTraversalPolicy(Container c)
+	{
+		apply(c);
+	}
+	
+	
 	/** applies the policy to a container */
 	public void apply(Container c)
 	{
@@ -35,6 +43,18 @@ public class CFocusTraversalPolicy
 	public void add(Component c)
 	{
 		components.add(c);
+	}
+	
+	
+	public void add(Container parent, Action a)
+	{
+		Component c = UI.findByAction(parent, a);
+		if(c == null)
+		{
+			throw new CException("unable to find component by action " + a);
+		}
+			
+		add(c);
 	}
 	
 	

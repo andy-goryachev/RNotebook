@@ -322,57 +322,64 @@ public class UI
 		return false;
 	}
 
-
-	// KeyEvent.VK_Z, InputEvent.CTRL_MASK
-	public static void whenFocused(JComponent c, int keyCode, int mask, Action action)
-	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(keyCode,mask),action);
-	}
 	
-	
-	public static void whenFocused(JComponent c, KeyStroke k, Action action)
+	private static void setAction(JComponent c, Action a, int condition, KeyStroke k)
 	{
 		if(k != null)
 		{
-			c.getActionMap().put(action,action);
-			c.getInputMap(JComponent.WHEN_FOCUSED).put(k,action);
+			if(a == null)
+			{
+				c.getInputMap(condition).remove(k);
+			}
+			else
+			{
+				c.getActionMap().put(a, a);
+				c.getInputMap(condition).put(k, a);
+			}
 		}
 	}
-	
-	
-	public static void whenFocused(JComponent c, int keyCode, Action action)
+
+
+	// KeyEvent.VK_Z, InputEvent.CTRL_MASK
+	public static void whenFocused(JComponent c, int keyCode, int mask, Action a)
 	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(keyCode,0),action);
+		setAction(c, a, JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(keyCode, mask));
 	}
 	
-	
-	public static void whenInFocusedWindow(JComponent c, int keyCode, int mask, Action action)
+
+	public static void whenFocused(JComponent c, KeyStroke k, Action a)
 	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,mask),action);
+		setAction(c, a, JComponent.WHEN_FOCUSED, k);
 	}
-	
-	
-	public static void whenInFocusedWindow(JComponent c, int keyCode, Action action)
+
+
+	public static void whenFocused(JComponent c, int keyCode, Action a)
 	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,0),action);
+		setAction(c, a, JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(keyCode, 0));
 	}
-	
-	
-	public static void whenAncestorOfFocusedComponent(JComponent c, int keyCode, int mask, Action action)
+
+
+	public static void whenInFocusedWindow(JComponent c, int keyCode, int mask, Action a)
 	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(keyCode,mask),action);
+		setAction(c, a, JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(keyCode, mask));
 	}
-	
-	
-	public static void whenAncestorOfFocusedComponent(JComponent c, int keyCode, Action action)
+
+
+	public static void whenInFocusedWindow(JComponent c, int keyCode, Action a)
 	{
-		c.getActionMap().put(action,action);
-		c.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(keyCode,0),action);
+		setAction(c, a, JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(keyCode, 0));
+	}
+
+
+	public static void whenAncestorOfFocusedComponent(JComponent c, int keyCode, int mask, Action a)
+	{
+		setAction(c, a, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, KeyStroke.getKeyStroke(keyCode, mask));
+	}
+
+
+	public static void whenAncestorOfFocusedComponent(JComponent c, int keyCode, Action a)
+	{
+		setAction(c, a, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, KeyStroke.getKeyStroke(keyCode, 0));
 	}
 
 
@@ -1598,7 +1605,7 @@ public class UI
 		{
 			validateAndRepaint(((JFrame)c).getContentPane());
 		}
-		else
+		else if(c != null)
 		{
 			c.validate();
 			c.repaint();
@@ -1625,4 +1632,62 @@ public class UI
 		
 		child.setBounds(r);
     }
+	
+	
+	public static void clear(JComponent ... cs)
+	{
+		if(cs != null)
+		{
+			for(JComponent c: cs)
+			{
+				if(c instanceof JLabel)
+				{
+					((JLabel)c).setText(null);
+				}
+				else if(c instanceof JTextComponent)
+				{
+					((JTextComponent)c).setText(null);
+				}
+			}
+		}
+	}
+	
+	
+	/** finds component (button) with associated action among the container's children */  
+	public static Component findByAction(Component c, Action a)
+	{
+		if(getAction(c) == a)
+		{
+			return c;
+		}
+		
+		if(c instanceof Container)
+		{
+			Container p = (Container)c;
+			for(int i=0; i<p.getComponentCount(); i++)
+			{
+				Component ch = p.getComponent(i);
+				Component rv = findByAction(ch, a);
+				if(rv != null)
+				{
+					return rv;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	public static Action getAction(Component c)
+	{
+		if(c instanceof AbstractButton)
+		{
+			return ((AbstractButton)c).getAction();
+		}
+		else
+		{
+			return null;
+		}
+	}
 }

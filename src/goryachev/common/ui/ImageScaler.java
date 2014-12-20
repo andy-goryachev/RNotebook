@@ -1,9 +1,9 @@
 // Copyright (c) 2013-2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.ui.image.Scalr;
-import goryachev.common.ui.jhlabs.GaussianFilter;
 import goryachev.common.util.CException;
 import goryachev.common.util.Log;
+import goryachev.common.util.img.jhlabs.GaussianFilter;
+import goryachev.common.util.img.mortennobel.ResampleOp;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 
 /** 
- * Image scaler utility suitable for generating screenshots and thumbnails.
+ * Image scaler utility suitable for generating scaled images and thumbnails.
  * Generates scaled image with inidividually settable:
  * <pre>
  * - outer margin
@@ -198,7 +198,7 @@ public class ImageScaler
 		}
 		else
 		{
-			source = ImageTools.toImageARGB(sourceImage);
+			source = ImageTools.toBufferedImage2(sourceImage);
 		}
 		
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -230,21 +230,22 @@ public class ImageScaler
 			// scale the image
 			double sx = tw / (double)source.getWidth();
 			double sy = th / (double)source.getHeight();
+			boolean hasAlpha = source.getColorModel().hasAlpha();
 			BufferedImage scaled;
-			Scalr.Mode mode;
+			boolean fitWidth;
 			if(trim)
 			{
 				double scale = Math.max(sx, sy);
 				if(sx > sy)
 				{
-					mode = Scalr.Mode.FIT_TO_WIDTH;
+					fitWidth = true;
 				}
 				else
 				{
-					mode = Scalr.Mode.FIT_TO_HEIGHT;
+					fitWidth = false;
 				}
 				
-				BufferedImage im = Scalr.resize(source, Scalr.Method.ULTRA_QUALITY, mode, tw, th, Scalr.OP_ANTIALIAS);
+				BufferedImage im = resize(source, hasAlpha, tw, th, fitWidth);
 				// crop
 				if(im.getWidth() > tw)
 				{
@@ -269,18 +270,18 @@ public class ImageScaler
 				
 				if(sx > sy)
 				{
-					mode = Scalr.Mode.FIT_TO_HEIGHT;
+					fitWidth = false;
 					tw2 = (int)Math.round(image.getWidth() * scale); 
 					th2 = th;					
 				}
 				else
 				{
-					mode = Scalr.Mode.FIT_TO_WIDTH;
+					fitWidth = true;
 					tw2 = tw;
 					th2 = (int)Math.round(image.getHeight() * scale); 
 				}
 				
-				scaled = Scalr.resize(source, Scalr.Method.ULTRA_QUALITY, mode, tw2, th2, Scalr.OP_ANTIALIAS);
+				scaled = resize(source, hasAlpha, tw2, th2, fitWidth);
 			}
 			
 			// scaled image offsets and size
@@ -394,5 +395,64 @@ public class ImageScaler
 			g.dispose();
 		}
 		return image;
+	}
+
+
+	// single-core resize
+	public static BufferedImage resize_OLD(Image image, boolean hasAlpha, int width, int height, boolean fitWidth)
+	{
+		int w = image.getWidth(null);
+		int h = image.getHeight(null);
+		
+		if(fitWidth)
+		{
+			height = h * width / w;
+		}
+		else
+		{
+			width = w * height / h;
+		}
+		
+		BufferedImage im = new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D g = im.createGraphics();
+		try
+		{
+			if(fitWidth)
+			{
+				g.drawImage(image.getScaledInstance(width, -1, Image.SCALE_SMOOTH), 0, 0, null);
+			}
+			else
+			{
+				g.drawImage(image.getScaledInstance(-1, height, Image.SCALE_SMOOTH), 0, 0, null);
+			}
+		}
+		finally
+		{
+			g.dispose();
+		}
+		
+		return im;
+	}
+	
+	
+	// multi-core resize
+	public static BufferedImage resize(Image image, boolean hasAlpha, int width, int height, boolean fitWidth)
+	{
+		int w = image.getWidth(null);
+		int h = image.getHeight(null);
+		
+		if(fitWidth)
+		{
+			height = h * width / w;
+		}
+		else
+		{
+			width = w * height / h;
+		}
+		
+		BufferedImage src = ImageTools.toBufferedImage2(image);
+		ResampleOp op = new ResampleOp(width, height);
+		//op.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.VerySharp);
+		return op.filter(src, null);
 	}
 }

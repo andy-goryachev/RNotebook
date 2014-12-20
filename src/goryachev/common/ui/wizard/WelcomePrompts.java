@@ -12,6 +12,7 @@ public class WelcomePrompts
 {
 	public static String acceptLicense() { return TXT.get("WelcomePrompts.button.accept license", "Accept"); }
 	public static String back() { return TXT.get("WelcomePrompts.button.go back", "Back"); }
+	public static String browse() { return TXT.get("WelcomePrompts.button.browse files", "Browse"); }
 	public static String close() { return TXT.get("WelcomePrompts.button.close", "Close"); }
 	public static String licenseAgreement() { return  TXT.get("WelcomePrompts.license agreement", "License Agreement"); }
 	public static String next() { return TXT.get("WelcomePrompts.next page", "Next"); }

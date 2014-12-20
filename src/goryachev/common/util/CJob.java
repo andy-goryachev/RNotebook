@@ -57,7 +57,7 @@ public abstract class CJob
 	
 	private static ParallelExecutor init()
 	{
-		return new ParallelExecutor("cjob", 60);
+		return new ParallelExecutor("cjob", 10);
 	}
 	
 	
@@ -126,8 +126,8 @@ public abstract class CJob
 		}
 		catch(Throwable e)
 		{
-			handleJobError(e);
 			setResult(e);
+			handleJobError(e);
 		}
 		
 		try
@@ -179,14 +179,22 @@ public abstract class CJob
 		Object rv;
 		while((rv = getResult()) == null)
 		{
+			if(isCancelled())
+			{
+				break;
+			}
+			
 			synchronized(this)
 			{
 				try
 				{
-					wait();
+					// FIX something is wrong here, should not need the timeout parameter
+					wait(1000);
 				}
 				catch(Exception e)
-				{ }
+				{
+					Log.err(e);
+				}
 			}
 		}
 		

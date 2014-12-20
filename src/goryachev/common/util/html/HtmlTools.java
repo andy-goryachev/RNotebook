@@ -72,7 +72,7 @@ public class HtmlTools
 	}
 
 
-	// convert &XX; sequences to their unicode equivalents
+	/** converts html escape sequences (&XX;) to their unicode equivalents */
 	public static String decodeHtmlCharacterEntities(String text)
 	{
 		if(text == null)
@@ -82,7 +82,14 @@ public class HtmlTools
 		
 		// process html character entities 
 		// &nbsp;
-		StringBuilder sb = new StringBuilder(text);
+		SB sb = new SB(text);
+		return decodeHtmlCharacterEntities(sb);
+	}
+	
+	
+	/** converts html escape sequences (&XX;) to their unicode equivalents */
+	public static String decodeHtmlCharacterEntities(SB sb)
+	{
 		int ix = 0;
 		while((ix = sb.indexOf("&", ix)) >= 0)
 		{

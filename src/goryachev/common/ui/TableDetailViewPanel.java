@@ -14,9 +14,9 @@ public abstract class TableDetailViewPanel<T>
 {
 	protected abstract void onTableSelectionChanged();
 	
-	protected JPopupMenu createTablePopup() { return null; }
+	protected final void createTablePopup() { }
 	
-	protected void onTableDoubleClick() { }
+	protected final void onTableDoubleClick() { }
 	
 	//
 	
@@ -25,6 +25,7 @@ public abstract class TableDetailViewPanel<T>
 	public final CScrollPane scroll;
 	public final CTableSelector selector;
 	public final CSplitPane split;
+	public final CPanel tablePanel;
 	public final CPanel detailPanel;
 
 
@@ -44,24 +45,24 @@ public abstract class TableDetailViewPanel<T>
 			}
 		};
 
-		scroll = new CScrollPane(table, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.getViewport().setBackground(Theme.textBG());
+		scroll = createScrollPane(table); 
 		
-		new CPopupMenuController(table, scroll)
-		{
-			public JPopupMenu constructPopupMenu()
-			{
-				return createTablePopup();
-			}
-			
-			public void onDoubleClick()
-			{
-				onTableDoubleClick();
-			}
-		};
+		// menus should be outside of this component
+//		new CPopupMenuController(table, scroll)
+//		{
+//			public JPopupMenu constructPopupMenu()
+//			{
+//				return createTablePopup();
+//			}
+//			
+//			public void onDoubleClick()
+//			{
+//				onTableDoubleClick();
+//			}
+//		};
 
-		CPanel p = new CPanel();
-		p.setCenter(scroll);
+		tablePanel = new CPanel();
+		tablePanel.setCenter(scroll);
 		
 		// detail
 		
@@ -71,11 +72,19 @@ public abstract class TableDetailViewPanel<T>
 		
 		// layout
 		
-		split = new CSplitPane(false, p, detailPanel);
+		split = new CSplitPane(false, tablePanel, detailPanel);
 		split.setName("split");
 		split.setBorder(CBorder.NONE);
 		
 		setCenter(split);
+	}
+	
+	
+	protected CScrollPane createScrollPane(ZTable t)
+	{
+		CScrollPane s = new CScrollPane(t, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		s.getViewport().setBackground(Theme.textBG());
+		return s;
 	}
 	
 	

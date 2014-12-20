@@ -357,6 +357,14 @@ public class CPanel
 		t.setVerticalAlignment(JLabel.TOP);
 		return t;
 	}
+	
+	
+	public JLabel labelBottomAligned(String s)
+	{
+		JLabel t = label(s);
+		t.setVerticalAlignment(JLabel.BOTTOM);
+		return t;
+	}
 
 
 	public JLabel heading(String s)
