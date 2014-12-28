@@ -136,6 +136,11 @@ public class ProgressLogic
 		}
 		
 		long t = System.currentTimeMillis() - start;
+		if(t < 0)
+		{
+			return null;
+		}
+		
 		return Theme.formatTimePeriod2(t);
 	}
 }

@@ -198,7 +198,7 @@ public class ImageScaler
 		}
 		else
 		{
-			source = ImageTools.toBufferedImage2(sourceImage);
+			source = ImageTools.toBufferedImage(sourceImage);
 		}
 		
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -450,7 +450,7 @@ public class ImageScaler
 			width = w * height / h;
 		}
 		
-		BufferedImage src = ImageTools.toBufferedImage2(image);
+		BufferedImage src = ImageTools.toBufferedImage(image);
 		ResampleOp op = new ResampleOp(width, height);
 		//op.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.VerySharp);
 		return op.filter(src, null);

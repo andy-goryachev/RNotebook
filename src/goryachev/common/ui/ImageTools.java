@@ -193,20 +193,6 @@ public class ImageTools
 	}
 	
 	
-//	@Deprecated // does not preserve transparency
-//	public static BufferedImage toBufferedImage(Image im)
-//	{
-//		if(im instanceof BufferedImage)
-//		{
-//			return (BufferedImage)im;
-//		}
-//		else
-//		{
-//			return toImageARGB(im);
-//		}
-//	}
-	
-	
 	public static boolean hasAlpha(Image im)
 	{
 		if(im == null)
@@ -242,7 +228,7 @@ public class ImageTools
 	}
 	
 	
-	public static BufferedImage toBufferedImage2(Image image)
+	public static BufferedImage toBufferedImage(Image image)
 	{
 		if(image instanceof BufferedImage)
 		{
@@ -268,26 +254,6 @@ public class ImageTools
 		}
 	}
 	
-	
-//	@Deprecated // should use method which preserves transparency
-//	public static BufferedImage toImageARGB(Image image)
-//	{
-//		int h = image.getHeight(null);
-//		int w = image.getWidth(null);
-//		
-//		BufferedImage im = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//		Graphics2D g = im.createGraphics();
-//		try
-//		{
-//			g.drawImage(image, 0, 0, null);
-//		}
-//		finally
-//		{
-//			g.dispose();
-//		}
-//		return im;
-//	}
-
 
 	public static BufferedImage read(byte[] b) throws Exception
 	{
