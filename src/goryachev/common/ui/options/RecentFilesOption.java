@@ -1,4 +1,4 @@
-// Copyright (c) 2007-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.options;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CMenu;

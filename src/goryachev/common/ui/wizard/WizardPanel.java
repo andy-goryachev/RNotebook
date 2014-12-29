@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.wizard;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CPanel;

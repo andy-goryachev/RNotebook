@@ -1,4 +1,4 @@
-// Copyright (c) 2010-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2010-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.File;
 import java.io.RandomAccessFile;

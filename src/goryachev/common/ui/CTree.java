@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;

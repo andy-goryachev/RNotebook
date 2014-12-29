@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.fdetect.format;
 import goryachev.common.util.fdetect.FFMatcher;
 import goryachev.common.util.fdetect.FileType;

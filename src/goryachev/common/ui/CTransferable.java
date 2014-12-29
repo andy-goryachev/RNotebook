@@ -1,4 +1,4 @@
-// Copyright (c) 2010-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2010-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.table.ZTable;
 import goryachev.common.util.CException;

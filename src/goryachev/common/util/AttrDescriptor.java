@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import goryachev.common.ui.Theme;
 import java.util.Date;

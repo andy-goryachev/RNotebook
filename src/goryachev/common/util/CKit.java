@@ -1,4 +1,4 @@
-// Copyright (c) 2007-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import goryachev.common.io.CWriter;
 import java.io.BufferedInputStream;
@@ -38,7 +38,7 @@ import java.util.zip.ZipFile;
 
 public class CKit
 {
-	public static final String COPYRIGHT = "Copyright (c) 1996-2014 Andy Goryachev <andy@goryachev.com>  All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright (c) 1996-2015 Andy Goryachev <andy@goryachev.com>  All Rights Reserved.";
 	public static final char APPLE = '\u2318';
 	public static final char BOM = '\ufeff';
 	public static final String[] emptyStringArray = new String[0];

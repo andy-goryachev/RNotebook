@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.text;
 import goryachev.common.util.TextTools;
 

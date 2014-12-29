@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancellableThread;

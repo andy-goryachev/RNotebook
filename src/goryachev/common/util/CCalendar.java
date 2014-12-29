@@ -1,4 +1,4 @@
-// Copyright (c) 2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Calendar;
 import java.util.Locale;
