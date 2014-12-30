@@ -1,4 +1,4 @@
-// Copyright (c)2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package research.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
