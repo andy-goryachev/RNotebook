@@ -12,14 +12,16 @@ import goryachev.common.ui.TButton;
 import goryachev.common.ui.Theme;
 import java.awt.Component;
 import javax.swing.JMenuBar;
-import research.notebook.icons.ToolboxIcons;
+import research.notebook.icons.NotebookIcons;
 
 
 public class NotebookWindow
 	extends AppFrame
 {
 	public final CAction dummyAction = new CAction() { public void action() { } };
-	
+	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
+	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
+	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
 	public final NotebookPanel notebookPanel;
 	
 	
@@ -39,6 +41,7 @@ public class NotebookWindow
 		setSouth(createStatusBar(true));
 		
 		setData(Demo.createDataBook());
+		updateActions();
 	}
 	
 	
@@ -49,7 +52,10 @@ public class NotebookWindow
 
 		// file
 		mb.add(m = new CMenu(Menus.File));
-		m.add(new CMenuItem(Menus.Open));
+		m.add(new CMenuItem(Menus.Open, openAction));
+		m.addSeparator();
+		m.add(new CMenuItem(Menus.Save,  saveAction));
+		m.add(new CMenuItem(Menus.SaveAs,  saveAsAction));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Close, closeAction));
 		
@@ -64,12 +70,13 @@ public class NotebookWindow
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));
+		m.add("Execute");
 		
 		// engine
 		mb.add(m = new CMenu("Engine"));
 		
 		// help
-		mb.add(m = new CMenu(Menus.Help));
+		mb.add(new HelpMenu());
 		
 		return mb;
 	}
@@ -78,28 +85,52 @@ public class NotebookWindow
 	private Component createToolbar()
 	{
 		CToolBar t = Theme.toolbar();
-		t.add(new TButton(ToolboxIcons.Save, "Save", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Save, "Save", true, saveAction));
 		t.space();
-		t.add(new TButton(ToolboxIcons.Cut, "Cut", true, dummyAction));
-		t.add(new TButton(ToolboxIcons.Copy, "Copy", true, dummyAction));
-		t.add(new TButton(ToolboxIcons.Paste, "Paste", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Cut, "Cut", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Copy, "Copy", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Paste, "Paste", true, dummyAction));
 		t.space();
-		t.add(new TButton(ToolboxIcons.MoveUp, "Move Section Up", true, dummyAction));
-		t.add(new TButton(ToolboxIcons.MoveDown, "Move Section Down", true, dummyAction));
+		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, dummyAction));
+		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, dummyAction));
 		t.space();
-		t.add(new TButton(ToolboxIcons.InsertAbove, "Insert Section Above", true, dummyAction));
-		t.add(new TButton(ToolboxIcons.InsertBelow, "Insert Section Below", true, dummyAction));
+		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, dummyAction));
+		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, dummyAction));
 		t.space();
-		t.add(new TButton(ToolboxIcons.Start, "Run", true, notebookPanel.runCurrentAction));
-		t.add(new TButton(ToolboxIcons.Stop, "Interrupt", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Start, "Run", true, notebookPanel.runCurrentAction));
+		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, dummyAction));
 		t.space();
 		t.add(notebookPanel.typeField);
 		return t;
 	}
 	
 	
+	protected void updateActions()
+	{
+		// TODO
+	}
+	
+	
 	public void setData(DataBook b)
 	{
 		notebookPanel.setData(b);
+	}
+	
+	
+	protected void actionOpen()
+	{
+		// TODO
+	}
+	
+	
+	protected void actionSave()
+	{
+		// TODO
+	}
+	
+	
+	protected void actionSaveAs()
+	{
+		// TODO
 	}
 }

@@ -1,8 +1,9 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package research.notebook;
 import goryachev.common.ui.Application;
+import goryachev.common.util.SB;
 import javax.swing.ImageIcon;
-import research.notebook.icons.ToolboxIcons;
+import research.notebook.icons.NotebookIcons;
 
 
 public class NotebookApp
@@ -10,11 +11,28 @@ public class NotebookApp
 {
 	public static final String VERSION = "0.04.01";
 	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
+	public static final String WEB_SITE = "http://goryachev.com/products/"; // TODO
 	
 	
 	public NotebookApp()
 	{
 		super("Notebook.4", VERSION, COPYRIGHT);
+	}
+	
+	
+	public static String getUpdateURL(boolean menu)
+	{
+		SB sb = new SB();
+		sb.a(WEB_SITE);
+		sb.a("/version?");
+		sb.a(getVersion());
+		
+		if(menu)
+		{
+			sb.a("&menu");
+		}
+		
+		return sb.toString();
 	}
 
 
@@ -26,13 +44,13 @@ public class NotebookApp
 
 	public ImageIcon getAppIcon()
 	{
-		return ToolboxIcons.Application;
+		return NotebookIcons.Application;
 	}
 
 
 	public String getAppTitle()
 	{
-		return "Notebook";
+		return "Research Notebook";
 	}
 
 
