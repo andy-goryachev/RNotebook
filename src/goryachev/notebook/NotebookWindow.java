@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import goryachev.common.ui.AppFrame;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
@@ -10,9 +10,9 @@ import goryachev.common.ui.CToolBar;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.TButton;
 import goryachev.common.ui.Theme;
+import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Component;
 import javax.swing.JMenuBar;
-import research.notebook.icons.NotebookIcons;
 
 
 public class NotebookWindow

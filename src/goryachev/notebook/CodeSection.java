@@ -1,12 +1,12 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.ScriptBody;
+import goryachev.notebook.js.ScriptLogger;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import research.notebook.js.ScriptBody;
-import research.notebook.js.ScriptLogger;
 
 
 public class CodeSection

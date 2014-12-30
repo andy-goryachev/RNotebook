@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
-package research.notebook.js;
+package goryachev.notebook.js;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
 import java.io.IOException;

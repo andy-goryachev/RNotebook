@@ -1,11 +1,11 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.dialogs.AboutDialog;
 import goryachev.common.ui.text.CDocumentBuilder;
+import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Window;
-import research.notebook.icons.NotebookIcons;
 
 
 public class About

@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CMenu;
@@ -7,7 +7,7 @@ import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.ContactSupport;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.dialogs.CheckForUpdatesDialog;
-import research.notebook.licenses.OpenSourceLicenses;
+import goryachev.notebook.licenses.OpenSourceLicenses;
 
 
 public class HelpMenu

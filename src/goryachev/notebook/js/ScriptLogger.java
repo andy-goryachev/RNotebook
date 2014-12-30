@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2014 Andy Goryachev <andy@goryachev.com>
-package research.notebook.js;
+package goryachev.notebook.js;
 
 
 public interface ScriptLogger

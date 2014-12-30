@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import java.awt.Dimension;
 import javax.swing.JComponent;
 

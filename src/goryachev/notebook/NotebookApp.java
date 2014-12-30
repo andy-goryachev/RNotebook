@@ -1,9 +1,9 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.notebook;
+package goryachev.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.util.SB;
+import goryachev.notebook.icons.NotebookIcons;
 import javax.swing.ImageIcon;
-import research.notebook.icons.NotebookIcons;
 
 
 public class NotebookApp
