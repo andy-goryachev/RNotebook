@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;

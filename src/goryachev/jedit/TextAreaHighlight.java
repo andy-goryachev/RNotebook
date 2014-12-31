@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.jedit;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
