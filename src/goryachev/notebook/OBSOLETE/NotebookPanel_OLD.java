@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook;
+package goryachev.notebook.OBSOLETE;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CComboBox;
@@ -10,6 +10,8 @@ import goryachev.common.ui.Colors;
 import goryachev.common.ui.Gray;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import goryachev.notebook.DataBook;
+import goryachev.notebook.SectionType;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.InputEvent;
@@ -21,7 +23,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
 
-public class NotebookPanel
+public class NotebookPanel_OLD
 	extends CPanel
 {
 	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
@@ -38,7 +40,7 @@ public class NotebookPanel
 	protected static Color errorColor = Color.red;
 	
 	
-	public NotebookPanel()
+	public NotebookPanel_OLD()
 	{
 		setBackground(Theme.textBG());
 		
@@ -57,7 +59,7 @@ public class NotebookPanel
 	}
 	
 	
-	public void setData(DataBook b)
+	public void setDataBook(DataBook b)
 	{
 		panel = null;
 		setCenter(null);

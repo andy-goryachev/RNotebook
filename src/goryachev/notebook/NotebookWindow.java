@@ -10,6 +10,8 @@ import goryachev.common.ui.CToolBar;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.TButton;
 import goryachev.common.ui.Theme;
+import goryachev.notebook.OBSOLETE.NotebookPanel_OLD;
+import goryachev.notebook.editor.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Component;
 import javax.swing.JMenuBar;
@@ -22,6 +24,7 @@ public class NotebookWindow
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
+	//public final NotebookPanel_OLD notebookPanel;
 	public final NotebookPanel notebookPanel;
 	
 	
@@ -33,6 +36,7 @@ public class NotebookWindow
 		setMinimumSize(500, 300);
 		setSize(700, 900);
 		
+		//notebookPanel = new NotebookPanel_OLD();
 		notebookPanel = new NotebookPanel();
 		
 		setJMenuBar(createMenu());
@@ -113,7 +117,7 @@ public class NotebookWindow
 	
 	public void setData(DataBook b)
 	{
-		notebookPanel.setData(b);
+		notebookPanel.setDataBook(b);
 	}
 	
 	

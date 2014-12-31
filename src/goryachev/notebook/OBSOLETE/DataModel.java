@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook;
+package goryachev.notebook.OBSOLETE;
 import goryachev.common.util.CList;
+import goryachev.notebook.SectionType;
 import javax.swing.JComponent;
 
 

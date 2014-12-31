@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook;
+package goryachev.notebook.OBSOLETE;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
@@ -93,7 +93,7 @@ public class CodeSection
 			result.a(rv);
 
 			resultField.setText(result.getAndClear());
-			resultField.setForeground(NotebookPanel.resultColor);
+			resultField.setForeground(NotebookPanel_OLD.resultColor);
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class CodeSection
 			right.setText("ERR");
 			
 			resultField.setText(CKit.stackTrace(e));
-			resultField.setForeground(NotebookPanel.errorColor);
+			resultField.setForeground(NotebookPanel_OLD.errorColor);
 		}
 	}
 	

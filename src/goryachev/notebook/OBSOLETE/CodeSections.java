@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook;
+package goryachev.notebook.OBSOLETE;
 import goryachev.common.util.CList;
 import goryachev.common.util.Obj;
 import javax.swing.JComponent;
@@ -9,12 +9,12 @@ import javax.swing.JTextArea;
 
 public class CodeSections
 {
-	protected final NotebookPanel parent;
+	protected final NotebookPanel_OLD parent;
 	private final CList<CodeSection> sections = new CList();
 	private final static Obj KEY_SECTION = new Obj("section");
 	
 	
-	public CodeSections(NotebookPanel p)
+	public CodeSections(NotebookPanel_OLD p)
 	{
 		this.parent = p;
 	}
