@@ -15,7 +15,9 @@ public class HeaderPanel
 	{
 		textField = new JTextArea(text);
 		textField.setFont(UI.deriveFont(Theme.plainFont(), true, 1.8f));
+		textField.setLineWrap(true);
+		textField.setWrapStyleWord(true);
 		
-		setNorth(textField);
+		setTop(textField);
 	}
 }

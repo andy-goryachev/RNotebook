@@ -14,7 +14,9 @@ public class TextPanel
 	{
 		textField = new JTextArea(text);
 		textField.setFont(Theme.plainFont());
+		textField.setLineWrap(true);
+		textField.setWrapStyleWord(true);
 		
-		setNorth(textField);
+		setTop(textField);
 	}
 }

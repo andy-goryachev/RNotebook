@@ -5,6 +5,7 @@ import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
+import goryachev.common.ui.VerticalLayoutPanel;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
 import java.awt.KeyboardFocusManager;
@@ -29,7 +30,10 @@ public class NotebookPanel
 	
 	public NotebookPanel()
 	{
-		panel = new JPanel(new VerLayout());
+		panel =
+			new SectionContainer();
+			//new JPanel(new VerLayout());
+			//new VerticalLayoutPanel();
 		panel.setBackground(Theme.textBG());
 		
 		scroll = new CScrollPane(panel);

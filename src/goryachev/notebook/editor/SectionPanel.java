@@ -1,16 +1,17 @@
 // Copyright (c) 2014 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.editor;
-import goryachev.common.ui.CPanel;
 import java.awt.Component;
 import java.awt.Container;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 
 public class SectionPanel
-	extends CPanel
+	extends JPanel
 {
 	public SectionPanel()
 	{
+		setLayout(new SectionLayout());
 		setOpaque(false);
 		setBorder(new SectionBorder());
 	}
@@ -24,6 +25,24 @@ public class SectionPanel
 			((SectionBorder)b).setActive(on);
 			repaint();
 		}
+	}
+	
+	
+	protected void setTop(Component c)
+	{
+		add(c);
+	}
+	
+	
+	protected void setLeft(Component c)
+	{
+		add(c, SectionLayout.LEFT);
+	}
+	
+	
+	protected void setRight(Component c)
+	{
+		add(c, SectionLayout.RIGHT);
 	}
 
 
