@@ -6,12 +6,11 @@ import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CFocusMonitor;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
-import goryachev.common.ui.Colors;
-import goryachev.common.ui.Gray;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
+import goryachev.notebook.Styles;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.InputEvent;
@@ -32,12 +31,9 @@ public class NotebookPanel_OLD
 	private CPanel panel;
 	private CodeSections codes;
 	private static Border BORDER_LABEL = new CBorder(4, 2, 5, 2);
-	private static Border BORDER_TEXT = new CompoundBorder(new CBorder(0, 0, 0, 1, new Color(244, 128, 128)), new CBorder(2, 2, 5, 2));
+	private static Border BORDER_TEXT = new CompoundBorder(new CBorder(0, 0, 0, 1, Styles.marginLineColor), new CBorder(2, 2, 5, 2));
 	private static Dimension LEFT_SIZE = new Dimension(100, -1);
 	private static Dimension RIGHT_SIZE = new Dimension(75, -1);
-	protected static Color codeColor = new Gray(248);
-	protected static Color resultColor = Colors.eclipseGreen;
-	protected static Color errorColor = Color.red;
 	
 	
 	public NotebookPanel_OLD()
@@ -175,7 +171,7 @@ public class NotebookPanel_OLD
 	{
 		JTextArea t = textArea(text);
 		t.setFont(Theme.monospacedFont());
-		t.setBackground(codeColor);
+		t.setBackground(Styles.codeColor);
 		UI.whenFocused(t, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
 		return t;
 	}
@@ -201,7 +197,7 @@ public class NotebookPanel_OLD
 	{
 		JTextArea t = textArea(text);
 		t.setFont(Theme.monospacedFont());
-		t.setForeground(resultColor);
+		t.setForeground(Styles.resultColor);
 		t.setEditable(false);
 		return t;
 	}

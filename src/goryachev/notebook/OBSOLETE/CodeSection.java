@@ -3,6 +3,7 @@ package goryachev.notebook.OBSOLETE;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
+import goryachev.notebook.Styles;
 import goryachev.notebook.js.ScriptBody;
 import goryachev.notebook.js.ScriptLogger;
 import javax.swing.JLabel;
@@ -93,7 +94,7 @@ public class CodeSection
 			result.a(rv);
 
 			resultField.setText(result.getAndClear());
-			resultField.setForeground(NotebookPanel_OLD.resultColor);
+			resultField.setForeground(Styles.resultColor);
 		}
 	}
 	
@@ -105,7 +106,7 @@ public class CodeSection
 			right.setText("ERR");
 			
 			resultField.setText(CKit.stackTrace(e));
-			resultField.setForeground(NotebookPanel_OLD.errorColor);
+			resultField.setForeground(Styles.errorColor);
 		}
 	}
 	

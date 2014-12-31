@@ -1,13 +1,12 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.editor;
-import goryachev.common.ui.CPanel;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import javax.swing.JTextArea;
 
 
 public class HeaderPanel
-	extends CPanel
+	extends SectionPanel
 {
 	public final JTextArea textField;
 	

@@ -7,6 +7,9 @@ import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
+import java.awt.KeyboardFocusManager;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 
 
@@ -20,13 +23,17 @@ public class NotebookPanel
 	protected final CScrollPane scroll;
 	private int indent = 100;
 	private int margin = 75;
+	private static PropertyChangeListener focusListener;
+	protected static SectionPanel currentSection;
 	
 	
 	public NotebookPanel()
 	{
 		panel = new JPanel(new VerLayout());
+		panel.setBackground(Theme.textBG());
 		
 		scroll = new CScrollPane(panel);
+		scroll.setBackground2(Theme.textBG());
 		
 		setCenter(scroll);
 		
@@ -44,6 +51,42 @@ public class NotebookPanel
 			"Heading 5",
 			"Heading 6",
 		});
+		
+		initStaticListener();
+	}
+	
+	
+	// or move this functionality to section panel mouse handler?
+	private void initStaticListener()
+	{
+		if(focusListener == null)
+		{
+			focusListener = new PropertyChangeListener()
+			{
+				public void propertyChange(PropertyChangeEvent ev)
+				{
+					Object x = ev.getNewValue();
+					SectionPanel p = SectionPanel.findParent(x);
+					if(p != null)
+					{
+						if(p != currentSection)
+						{
+							if(currentSection != null)
+							{
+								currentSection.setActive(false);
+							}
+							
+							currentSection = p;
+							currentSection.setActive(true);
+							
+							// TODO update section actions
+						}
+					}
+				}
+			};
+			
+			KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", focusListener);
+		}
 	}
 	
 	
