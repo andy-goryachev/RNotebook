@@ -3,6 +3,7 @@ package goryachev.notebook.editor;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
@@ -15,7 +16,8 @@ public class NotebookPanel
 	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
 	public final CComboBox typeField;
 
-	private final JPanel panel;
+	protected final JPanel panel;
+	protected final CScrollPane scroll;
 	private int indent = 100;
 	private int margin = 75;
 	
@@ -23,7 +25,10 @@ public class NotebookPanel
 	public NotebookPanel()
 	{
 		panel = new JPanel(new VerLayout());
-		setCenter(panel);
+		
+		scroll = new CScrollPane(panel);
+		
+		setCenter(scroll);
 		
 		setBackground(Theme.textBG());
 		

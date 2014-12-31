@@ -24,8 +24,8 @@ public class NotebookWindow
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
-	//public final NotebookPanel_OLD notebookPanel;
-	public final NotebookPanel notebookPanel;
+	public final NotebookPanel_OLD notebookPanel;
+	//public final NotebookPanel notebookPanel;
 	
 	
 	public NotebookWindow()
@@ -36,8 +36,8 @@ public class NotebookWindow
 		setMinimumSize(500, 300);
 		setSize(700, 900);
 		
-		//notebookPanel = new NotebookPanel_OLD();
-		notebookPanel = new NotebookPanel();
+		notebookPanel = new NotebookPanel_OLD();
+		//notebookPanel = new NotebookPanel();
 		
 		setJMenuBar(createMenu());
 		setNorth(createToolbar());
