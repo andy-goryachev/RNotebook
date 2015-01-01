@@ -6,9 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 
-public class SectionPanel
+public abstract class SectionPanel
 	extends JPanel
 {
+	public abstract String getText();
+	
+	//
+	
 	public SectionPanel()
 	{
 		setLayout(new SectionLayout());
@@ -43,6 +47,14 @@ public class SectionPanel
 	protected void setRight(Component c)
 	{
 		add(c, SectionLayout.RIGHT);
+	}
+	
+	
+	protected void setCenter(Component c)
+	{
+		// this is the case of a single full-width component
+		removeAll();
+		add(c, SectionLayout.CENTER);
 	}
 
 

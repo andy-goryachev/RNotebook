@@ -18,6 +18,12 @@ public class HeaderPanel
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		
-		setTop(textField);
+		setCenter(textField);
+	}
+	
+	
+	public String getText()
+	{
+		return textField.getText();
 	}
 }

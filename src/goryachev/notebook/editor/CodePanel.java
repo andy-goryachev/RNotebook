@@ -56,6 +56,12 @@ public class CodePanel
 	}
 	
 	
+	public String getText()
+	{
+		return textField.getText();
+	}
+	
+	
 	public boolean isRunning()
 	{
 		return script != null;

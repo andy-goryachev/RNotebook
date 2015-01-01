@@ -19,4 +19,10 @@ public class TextPanel
 		
 		setTop(textField);
 	}
+	
+
+	public String getText()
+	{
+		return textField.getText();
+	}
 }

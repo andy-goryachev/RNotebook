@@ -14,11 +14,13 @@ import java.awt.LayoutManager2;
 public class SectionLayout
     implements LayoutManager2
 {
+	public static final Object CENTER = new Object();
 	public static final Object LEFT = new Object();
 	public static final Object RIGHT = new Object();
 
 	private int leftMargin = 100;
 	private int rightMargin = 75;
+	private Component center;
 	private Component left;
 	private Component right;
 	
@@ -39,6 +41,10 @@ public class SectionLayout
 			else if(key == RIGHT)
 			{
 				right = c;
+			}
+			else if(key == CENTER)
+			{
+				center = c;
 			}
 		}
 	}
@@ -62,6 +68,10 @@ public class SectionLayout
 			else if(c == left)
 			{
 				left = null;
+			}
+			else if(c == center)
+			{
+				center = null;
 			}
 		}
 	}
@@ -112,38 +122,49 @@ public class SectionLayout
 	{
 		synchronized(parent.getTreeLock())
 		{
-			int h = 0;
-			int min = 0;
-			
-			int sz = parent.getComponentCount();
-			for(int i=0; i<sz; i++)
+			Insets m = parent.getInsets();
+
+			if(center != null)
 			{
-				Component c = parent.getComponent(i);
-				Dimension d = minimum ? c.getMinimumSize() : c.getPreferredSize();
+				// assuming only center component is present
+				Dimension d = minimum ? center.getMinimumSize() : center.getPreferredSize();
+				d.height += (m.top + m.bottom);
+				return d;
+			}
+			else
+			{
+				int h = 0;
+				int min = 0;
 				
-				if(isLeftOrRight(c))
+				int sz = parent.getComponentCount();
+				for(int i=0; i<sz; i++)
 				{
-					if(min < d.height)
+					Component c = parent.getComponent(i);
+					Dimension d = minimum ? c.getMinimumSize() : c.getPreferredSize();
+					
+					if(isLeftOrRight(c))
 					{
-						min = d.height;
+						if(min < d.height)
+						{
+							min = d.height;
+						}
+					}
+					else
+					{
+						h += d.height;
 					}
 				}
-				else
+				
+				if(h < min)
 				{
-					h += d.height;
+					h = min;
 				}
-			}
-			
-			if(h < min)
-			{
-				h = min;
-			}
+	
+				h += (m.top + m.bottom);
 
-			Insets m = parent.getInsets();
-			int w = parent.getWidth(); // - m.left - m.right;
-			h += (m.top + m.bottom);
-			
-			return new Dimension(w, h);
+				int w = parent.getWidth();
+				return new Dimension(w, h);
+			}
 		}
 	}
 
@@ -159,24 +180,32 @@ public class SectionLayout
 			int xm = parent.getWidth() - m.right;
 			int y = y0;
 			
-			int sz = parent.getComponentCount();
-			for(int i=0; i<sz; i++)
+			if(center != null)
 			{
-				Component c = parent.getComponent(i);
-				Dimension d = c.getPreferredSize();
-				
-				if(c == left)
+				Dimension d = center.getPreferredSize();
+				center.setBounds(x0, y0, xm - x0, d.height);
+			}
+			else
+			{
+				int sz = parent.getComponentCount();
+				for(int i=0; i<sz; i++)
 				{
-					c.setBounds(x0, y0, leftMargin, d.height);
-				}
-				else if(c == right)
-				{
-					c.setBounds(xm - rightMargin, y0, rightMargin, d.height);
-				}
-				else
-				{
-					c.setBounds(x0 + leftMargin, y, xm - x0 - leftMargin - rightMargin, d.height);
-					y += d.height;
+					Component c = parent.getComponent(i);
+					Dimension d = c.getPreferredSize();
+					
+					if(c == left)
+					{
+						c.setBounds(x0, y0, leftMargin, d.height);
+					}
+					else if(c == right)
+					{
+						c.setBounds(xm - rightMargin, y0, rightMargin, d.height);
+					}
+					else
+					{
+						c.setBounds(x0 + leftMargin, y, xm - x0 - leftMargin - rightMargin, d.height);
+						y += d.height;
+					}
 				}
 			}
 		}

@@ -58,7 +58,7 @@ public class NotebookPanel
 		
 		initStaticListener();
 		
-		UI.whenFocused(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
+		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
 	}
 	
 	
