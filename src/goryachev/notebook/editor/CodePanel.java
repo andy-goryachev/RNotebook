@@ -52,6 +52,8 @@ public class CodePanel
 		resultField = new JTextArea();
 		resultField.setFont(Theme.monospacedFont());
 		resultField.setForeground(Styles.resultColor);
+		resultField.setLineWrap(true);
+		resultField.setWrapStyleWord(true);
 		resultField.setEditable(false);
 	}
 	
@@ -77,16 +79,6 @@ public class CodePanel
 	
 	
 	public synchronized void print(String s)
-	{
-		if(result.isNotEmpty())
-		{
-			result.nl();
-		}
-		result.append(s);
-	}
-
-	
-	public synchronized void printSystem(String s)
 	{
 		if(result.isNotEmpty())
 		{
@@ -125,7 +117,6 @@ public class CodePanel
 	{
 		if(script == p)
 		{
-			script = null;
 			marginField.setText("=");
 			
 			// TODO return result may be anything (chart? table?)
@@ -149,6 +140,8 @@ public class CodePanel
 		{
 			remove(resultComponent);
 		}
+		
+		script = null;
 		
 		resultComponent = c;
 		add(resultComponent);

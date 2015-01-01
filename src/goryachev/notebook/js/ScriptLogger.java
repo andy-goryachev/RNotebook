@@ -7,8 +7,5 @@ public interface ScriptLogger
 	public void print(String s);
 
 
-	public void printSystem(String s);
-
-
 	public void printError(String s);
 }

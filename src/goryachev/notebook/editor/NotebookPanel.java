@@ -55,6 +55,7 @@ public class NotebookPanel
 			"Heading 5",
 			"Heading 6",
 		});
+		typeField.setEnabled(false);
 		
 		initStaticListener();
 		
@@ -156,16 +157,29 @@ public class NotebookPanel
 	
 	
 	protected void updateActions()
-	{
+	{		
+		CodePanel cp = getCodePanel();
 		boolean sec = (currentSection != null);
+		
+		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
+	}
+	
+	
+	public CodePanel getCodePanel()
+	{
+		if(currentSection instanceof CodePanel)
+		{
+			return (CodePanel)currentSection;
+		}
+		return null;
 	}
 	
 	
 	protected void actionRunCurrent()
 	{
-		if(currentSection instanceof CodePanel)
+		CodePanel p = getCodePanel();
+		if(p != null)
 		{
-			CodePanel p = (CodePanel)currentSection;
 			if(!p.isRunning())
 			{
 				p.runScript();

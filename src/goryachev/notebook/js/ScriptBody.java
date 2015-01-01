@@ -59,6 +59,7 @@ public class ScriptBody
 
 	public void err(Throwable e)
 	{
+		// TODO decode exception
 		logger.printError(CKit.stackTrace(e));
 	}
 
