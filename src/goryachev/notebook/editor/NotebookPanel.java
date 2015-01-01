@@ -5,9 +5,10 @@ import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
-import goryachev.common.ui.VerticalLayoutPanel;
+import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
+import java.awt.Component;
 import java.awt.KeyboardFocusManager;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,15 +26,12 @@ public class NotebookPanel
 	private int indent = 100;
 	private int margin = 75;
 	private static PropertyChangeListener focusListener;
-	protected static SectionPanel currentSection;
+	private SectionPanel currentSection;
 	
 	
 	public NotebookPanel()
 	{
-		panel =
-			new SectionContainer();
-			//new JPanel(new VerLayout());
-			//new VerticalLayoutPanel();
+		panel = new SectionContainer();
 		panel.setBackground(Theme.textBG());
 		
 		scroll = new CScrollPane(panel);
@@ -73,23 +71,39 @@ public class NotebookPanel
 					SectionPanel p = SectionPanel.findParent(x);
 					if(p != null)
 					{
-						if(p != currentSection)
+						NotebookPanel np = get(p); 
+						if(np != null)
 						{
-							if(currentSection != null)
-							{
-								currentSection.setActive(false);
-							}
-							
-							currentSection = p;
-							currentSection.setActive(true);
-							
-							// TODO update section actions
+							np.setActiveSection(p);
 						}
 					}
 				}
 			};
 			
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", focusListener);
+		}
+	}
+	
+	
+	public static NotebookPanel get(Component c)
+	{
+		return UI.getAncestorOfClass(NotebookPanel.class, c);
+	}
+	
+	
+	protected void setActiveSection(SectionPanel p)
+	{
+		if(p != currentSection)
+		{
+			if(currentSection != null)
+			{
+				currentSection.setActive(false);
+			}
+			
+			currentSection = p;
+			currentSection.setActive(true);
+			
+			updateActions();
 		}
 	}
 	
@@ -110,6 +124,8 @@ public class NotebookPanel
 		
 		validate();
 		repaint();
+		
+		updateActions();
 	}
 	
 	
@@ -135,8 +151,21 @@ public class NotebookPanel
 	}
 	
 	
+	protected void updateActions()
+	{
+		boolean sec = (currentSection != null);
+	}
+	
+	
 	protected void actionRunCurrent()
 	{
-		// TODO
+		if(currentSection instanceof CodePanel)
+		{
+			CodePanel p = (CodePanel)currentSection;
+			if(!p.isRunning())
+			{
+				p.runScript();
+			}
+		}
 	}
 }

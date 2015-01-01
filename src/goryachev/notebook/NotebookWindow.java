@@ -10,7 +10,6 @@ import goryachev.common.ui.CToolBar;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.TButton;
 import goryachev.common.ui.Theme;
-import goryachev.notebook.OBSOLETE.NotebookPanel_OLD;
 import goryachev.notebook.editor.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Component;
@@ -20,11 +19,9 @@ import javax.swing.JMenuBar;
 public class NotebookWindow
 	extends AppFrame
 {
-	public final CAction dummyAction = new CAction() { public void action() { } };
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
-//	public final NotebookPanel_OLD notebookPanel;
 	public final NotebookPanel notebookPanel;
 	
 	
@@ -36,7 +33,6 @@ public class NotebookWindow
 		setMinimumSize(500, 300);
 		setSize(700, 900);
 		
-//		notebookPanel = new NotebookPanel_OLD();
 		notebookPanel = new NotebookPanel();
 		
 		setJMenuBar(createMenu());
@@ -65,19 +61,52 @@ public class NotebookWindow
 		
 		// edit
 		mb.add(m = new CMenu(Menus.Edit));
+		m.add("Cut Cell");
+		m.add("Copy Cell");
+		m.add("Paste Cell Above");
+		m.add("Paste Cell Below");
+		m.add("Delete");
+		m.addSeparator();
+		m.add("Split Cell");
+		m.add("Merge Cell Above");
+		m.add("Merge Cell Below");
+		m.addSeparator();
+		m.add("Move Cell Up");
+		m.add("Move Cell Down");
+		m.addSeparator();
+		m.add("Select Previous Cell");
+		m.add("Select Next Cell");
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));
+		m.add("Toggle Header ?");
+		m.add("Toggle Toolbar ?");
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
+		m.add("Insert Cell Above");
+		m.add("Insert Cell Below");
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));
-		m.add("Execute");
+		m.add(new CMenuItem("Run", notebookPanel.runCurrentAction));
+		m.add("Run in Place");
+		m.add("Run All");
+		m.addSeparator();
+		m.add("Code");
+		m.add("Markdown");
+		m.add("Raw Text");
+		m.add("Heading 1");
+		m.add("Heading 2");
+		m.add("Heading 3");
+		m.add("Heading 4");
+		m.add("Heading 5");
+		m.add("Heading 6");
 		
 		// engine
 		mb.add(m = new CMenu("Engine"));
+		m.add("Interrupt");
+		m.add("Restart");
 		
 		// help
 		mb.add(new HelpMenu());
@@ -91,18 +120,18 @@ public class NotebookWindow
 		CToolBar t = Theme.toolbar();
 		t.add(new TButton(NotebookIcons.Save, "Save", true, saveAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Cut, "Cut", true, dummyAction));
-		t.add(new TButton(NotebookIcons.Copy, "Copy", true, dummyAction));
-		t.add(new TButton(NotebookIcons.Paste, "Paste", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.TBD));
 		t.space();
-		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, dummyAction));
-		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, dummyAction));
+		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.TBD));
 		t.space();
-		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, dummyAction));
-		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, dummyAction));
+		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, CAction.TBD));
 		t.space();
 		t.add(new TButton(NotebookIcons.Start, "Run", true, notebookPanel.runCurrentAction));
-		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, dummyAction));
+		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.TBD));
 		t.space();
 		t.add(notebookPanel.typeField);
 		return t;
