@@ -10,6 +10,8 @@ import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
@@ -55,6 +57,8 @@ public class NotebookPanel
 		});
 		
 		initStaticListener();
+		
+		UI.whenFocused(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
 	}
 	
 	
