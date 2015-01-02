@@ -39,6 +39,7 @@ public class DataBookJsonWriter
 		{
 			wr.write(Schema.KEY_SECTION_TYPE, toSectionCode(b.getType(ix)));
 			wr.write(Schema.KEY_TEXT, b.getText(ix));
+			// TODO result
 		}
 		wr.endObject();
 	}

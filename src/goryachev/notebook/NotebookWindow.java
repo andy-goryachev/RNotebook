@@ -9,6 +9,7 @@ import goryachev.common.ui.CMenu;
 import goryachev.common.ui.CMenuBar;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.CToolBar;
+import goryachev.common.ui.ChoiceDialog;
 import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.TButton;
@@ -18,10 +19,12 @@ import goryachev.common.ui.dialogs.CFileChooser;
 import goryachev.common.ui.options.RecentFilesOption;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
+import goryachev.common.util.TXT;
 import goryachev.notebook.editor.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.util.DataBookJsonReader;
 import goryachev.notebook.util.DataBookJsonWriter;
+import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JMenuBar;
@@ -35,7 +38,7 @@ public class NotebookWindow
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
 	public final NotebookPanel notebookPanel;
-	private final RecentFilesOption recentFilesOption;
+	protected final RecentFilesOption recentFilesOption;
 	private static final String KEY_LAST_FILE = "last.file";
 	public static final String EXTENSION = ".nbook";
 	public static final CExtensionFileFilter FILE_FILTER = new CExtensionFileFilter("Notebook Files" + " (*" + EXTENSION + ")", EXTENSION);
@@ -169,6 +172,35 @@ public class NotebookWindow
 	}
 	
 	
+	public boolean onWindowClosing()
+	{
+		// TODO check if running
+		
+		if(isModified())
+		{
+			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
+			d.addButton(Menus.DiscardChanges, 2);
+			d.addButton(Menus.Cancel, 1);
+			d.addButton(Menus.Save, 0, true);
+			int rv = d.openChoiceDialog();
+			switch(rv)
+			{
+			case 0:
+				actionSave();
+				break;
+			case 1:
+				return false;
+			case 2:
+				break;
+			default:
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	
 	protected void updateActions()
 	{
 		// TODO
@@ -191,6 +223,16 @@ public class NotebookWindow
 	public File getFile()
 	{
 		return file;
+	}
+	
+	
+	public String getFileName()
+	{
+		if(file != null)
+		{
+			return file.getName();
+		}
+		return "Untitled";
 	}
 	
 	
@@ -235,6 +277,51 @@ public class NotebookWindow
 		sb.a(Application.getVersion());
 		setTitle(sb.toString());
 	}
+	
+	
+	/** on exiting check if modified and ask to save/save all. return true if the app can be closed */
+	public static boolean askToSaveAllOnExit()
+    {
+		// TODO store open board file names
+		
+		boolean saveAll = false;
+		
+		for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
+		{
+			if(w.isModified())
+			{
+				if(saveAll)
+				{
+					w.actionSave();
+				}
+				else
+				{
+					ChoiceDialog d = new ChoiceDialog(w, "File Modified", TXT.get("MainWindow.save on exit.file exists", "{0} has been modified.  Save changes?", w.getFileName()));
+					d.addButton(Menus.Cancel, 3);
+					d.addButton(Menus.DiscardChanges, 2);
+					d.addButton(Menus.SaveAll, 1, Color.magenta);
+					d.addButton(Menus.Save, 0, true);
+					int rv = d.openChoiceDialog();
+					switch(rv)
+					{
+					case 0:
+						w.actionSave();
+						break;
+					case 1:
+						w.actionSave();
+						saveAll = true;
+						break;
+					case 2:
+						break;
+					default:
+						return false;
+					}
+				}
+			}
+		}
+		
+	    return true;
+    }
 	
 	
 	// opens in new window
@@ -335,6 +422,8 @@ public class NotebookWindow
 	// f may be null
 	protected void openFile(File file)
 	{
+		// FIX open in the same window
+		
 		// always in new window
 //		if(isModified())
 //		{

@@ -253,7 +253,13 @@ public class ImageTools
 			return im;
 		}
 	}
-	
+
+
+	public static BufferedImage read(File f) throws Exception
+	{
+		return ImageIO.read(f);
+	}
+
 
 	public static BufferedImage read(byte[] b) throws Exception
 	{

@@ -29,6 +29,22 @@ public class DataBookJsonReader
 			String s = nextName();
 			if(Schema.KEY_SECTIONS.equals(s))
 			{
+				// validate file type
+				if(!Schema.TYPE.equals(type))
+				{
+					throw new Exception("Wrong format: expecting " + Schema.TYPE);
+				}
+				
+				// check version
+				if(Schema.VERSION.equals(ver))
+				{
+					// ok
+				}
+				else
+				{
+					throw new Exception("Wrong version: " + ver);
+				}
+				
 				parseSections(b);
 			}
 			else if(Schema.KEY_TYPE.equals(s))
@@ -41,20 +57,6 @@ public class DataBookJsonReader
 			}
 		}
 		endObject();
-		
-		if(!Schema.TYPE.equals(type))
-		{
-			throw new Exception("Wrong format: expecting " + Schema.TYPE);
-		}
-		
-		if(Schema.VERSION.equals(ver))
-		{
-			// ok
-		}
-		else
-		{
-			throw new Exception("Wrong version: " + ver);
-		}
 		
 		return b;
 	}
@@ -88,6 +90,8 @@ public class DataBookJsonReader
 			{
 				text = nextString();
 			}
+			
+			// TODO result
 		}
 		endObject();
 		

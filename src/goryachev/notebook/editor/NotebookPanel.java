@@ -28,8 +28,6 @@ public class NotebookPanel
 
 	protected final JPanel panel;
 	protected final CScrollPane scroll;
-	private int indent = 100;
-	private int margin = 75;
 	private static PropertyChangeListener focusListener;
 	private SectionPanel currentSection;
 	

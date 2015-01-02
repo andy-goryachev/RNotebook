@@ -2,6 +2,7 @@
 package goryachev.notebook.js;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.io.IO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -14,7 +15,6 @@ public class ScriptBody
 	private static ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 	protected ScriptLogger logger;
 	private String script;
-	private Sys sys;
 	
 	
 	public ScriptBody(ScriptLogger m, String script)
@@ -28,7 +28,6 @@ public class ScriptBody
 	{
 		// TODO move outside somewhere
 		ScriptEngine engine = scriptEngineManager.getEngineByName("JavaScript");
-		sys = new Sys(engine, logger);
 		
 		engine.getContext().setWriter(new PrintWriter(new Writer()
 		{
@@ -41,9 +40,12 @@ public class ScriptBody
 			public void flush() throws IOException { }
 		}));
 	
+		// common packages
 		engine.eval("importPackage(Packages.java.lang);");
 
-		engine.put("sys", sys);
+		// global context objects
+		engine.put("sys", new Sys(engine, logger));
+		engine.put("io", new IO());
 
 		// run script
 		Object rv = engine.eval(script);
