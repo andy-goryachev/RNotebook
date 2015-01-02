@@ -53,9 +53,12 @@ public class NotebookWindow
 		// file
 		mb.add(m = new CMenu(Menus.File));
 		m.add(new CMenuItem(Menus.Open, openAction));
+		m.add(new CMenuItem("Open Recent", CAction.DISABLED));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Save,  saveAction));
 		m.add(new CMenuItem(Menus.SaveAs,  saveAsAction));
+		m.addSeparator();
+		m.add(new CMenuItem(Menus.Preferences,  CAction.DISABLED));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Close, closeAction));
 		
@@ -120,18 +123,18 @@ public class NotebookWindow
 		CToolBar t = Theme.toolbar();
 		t.add(new TButton(NotebookIcons.Save, "Save", true, saveAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.TBD));
-		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.TBD));
-		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.DISABLED));
 		t.space();
-		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.TBD));
-		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.DISABLED));
 		t.space();
-		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, CAction.TBD));
-		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, CAction.DISABLED));
 		t.space();
 		t.add(new TButton(NotebookIcons.Start, "Run", true, notebookPanel.runCurrentAction));
-		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.TBD));
+		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.DISABLED));
 		t.space();
 		t.add(notebookPanel.typeField);
 		return t;

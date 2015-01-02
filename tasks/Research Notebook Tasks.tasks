@@ -1,0 +1,28 @@
+{
+  "version": "TaskMaster 1.0",
+  "id": "8EC231C98E3E80EEBDF48DEA6870B6A70036B5AA",
+  "task.board": [
+    {
+      "id": "B1C2CEC7150644F8DBDB4D65B7D0D5D4EFC27E2A",
+      "x": 1,
+      "y": 0,
+      "title": "FEATURES",
+      "tasks": []
+    },
+    {
+      "id": "35D2062A821123DFD6429B15F17CEBD33EF73DF1",
+      "x": 2,
+      "y": 0,
+      "title": "BUGS",
+      "tasks": []
+    },
+    {
+      "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
+      "x": 0,
+      "y": 0,
+      "title": "ONGOING",
+      "tasks": []
+    }
+  ],
+  "task.history": []
+}

@@ -14,18 +14,17 @@ public abstract class CAction
 {
 	public abstract void action() throws Exception;
 	
-	
 	//
-	
 	
 	private String tooltip;
 	private ActionEvent event;
+	
+	@Deprecated // the user should implement the real functionality
 	public static final CAction DISABLED = new CAction() 
 	{
 		public void action() { }
 		public boolean isEnabled() { return false; }
 	};
-	public static final CAction TBD = DISABLED;
 
 
 	public CAction()
