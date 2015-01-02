@@ -1,4 +1,4 @@
-// Copyright (c) 2014 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.io;
 import goryachev.common.ui.ImageTools;
 import goryachev.notebook.js.JsUtil;

@@ -14,6 +14,7 @@ public class SectionContainer
 	public SectionContainer()
 	{
 		super(new VerLayout());
+		setOpaque(false);
 	}
 
 

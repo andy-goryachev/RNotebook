@@ -9,13 +9,17 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
+import goryachev.notebook.Styles;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 
 
 // FIX margin line
@@ -30,7 +34,7 @@ public class NotebookPanel
 	public final CComboBox typeField;
 	public final InputTracker typeFieldTracker;
 	public final JPanel panel;
-	public final CScrollPane scroll;
+	public final SectionScrollPane scroll;
 	private static PropertyChangeListener focusListener;
 	private SectionPanel activeSection;
 	
@@ -38,35 +42,8 @@ public class NotebookPanel
 	public NotebookPanel()
 	{
 		panel = new SectionContainer();
-		panel.setBackground(Theme.textBG());
 		
-		scroll = new CScrollPane(panel)
-		{
-//			public void paint(Graphics g)
-//			{
-//				super.paint(g);
-//				
-//				int x = getWidth() - SectionLayout.getRightMargin();
-//				g.setColor(Styles.marginLineColor);
-//				g.drawLine(x, 0, x, getHeight());
-//			}
-			
-//			protected JViewport createViewport()
-//			{
-//				return new JViewport()
-//				{
-//					public void paintComponent(Graphics g)
-//					{
-//						super.paintComponent(g);
-//						
-//						int x = getWidth() - SectionLayout.getRightMargin();
-//						g.setColor(Styles.marginLineColor);
-//						g.drawLine(x, 0, x, getHeight());
-//					}
-//				};
-//			}
-		};
-		scroll.setBackground2(Theme.textBG());
+		scroll = new SectionScrollPane(panel);
 		
 		setCenter(scroll);
 		

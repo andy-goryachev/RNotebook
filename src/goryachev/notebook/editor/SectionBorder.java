@@ -36,7 +36,7 @@ public class SectionBorder
 
 	public Insets getBorderInsets(Component c)
 	{
-		return new Insets(2, 2, 2, 2);
+		return new Insets(1, 1, 1, 1);
 	}
 
 

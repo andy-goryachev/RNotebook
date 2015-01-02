@@ -20,6 +20,7 @@ public class SectionLayout
 
 	private static int leftMargin = 100;
 	private static int rightMargin = 75;
+	private static int rightGap = 1;
 	private Component center;
 	private Component left;
 	private Component right;
@@ -62,7 +63,6 @@ public class SectionLayout
 	}
 
 
-	@Deprecated
 	public void addLayoutComponent(String name, Component comp)
 	{
 		throw new CException();
@@ -215,7 +215,7 @@ public class SectionLayout
 					}
 					else
 					{
-						c.setBounds(x0 + leftMargin, y, xm - x0 - leftMargin - rightMargin, d.height);
+						c.setBounds(x0 + leftMargin, y, xm - x0 - leftMargin - rightMargin - rightGap, d.height);
 						y += d.height;
 					}
 				}

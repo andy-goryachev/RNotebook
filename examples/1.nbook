@@ -4,7 +4,7 @@
   "sections": [
     {
       "type": "h1",
-      "text": "Example"
+      "text": "Notebook Example"
     },
     {
       "type": "text",
@@ -16,7 +16,7 @@
     },
     {
       "type": "js",
-      "text": "// there will be syntax highlighting long long long line ************************* *********************************************\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');"
+      "text": "// there will be syntax highlighting ************** ************ ************************* *********************************************\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');"
     },
     {
       "type": "js",
