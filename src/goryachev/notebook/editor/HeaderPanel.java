@@ -24,6 +24,12 @@ public class HeaderPanel
 	}
 	
 	
+	public SectionType getType()
+	{
+		return SectionType.H1;
+	}
+	
+	
 	public void initialize(NotebookPanel np)
 	{
 		// TODO setup popup menus

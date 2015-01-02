@@ -20,7 +20,7 @@
     },
     {
       "type": "js",
-      "text": "// error\nunknown.attribute"
+      "text": "io"
     },
     {
       "type": "text",

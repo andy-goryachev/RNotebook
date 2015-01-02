@@ -8,7 +8,7 @@
     },
     {
       "type": "text",
-      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.\n"
+      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute."
     },
     {
       "type": "js",
@@ -20,7 +20,7 @@
     },
     {
       "type": "js",
-      "text": "// error\nunknown.attribute"
+      "text": "io"
     },
     {
       "type": "text",

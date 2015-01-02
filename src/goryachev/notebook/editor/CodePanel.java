@@ -38,6 +38,7 @@ public class CodePanel
 		log = new SB();
 		
 		textField = new JTextArea(text);
+		textField.setFont(Theme.monospacedFont());
 		textField.setBackground(Styles.codeColor);
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
@@ -60,6 +61,12 @@ public class CodePanel
 		resultField.setLineWrap(true);
 		resultField.setWrapStyleWord(true);
 		resultField.setEditable(false);
+	}
+	
+	
+	public SectionType getType()
+	{
+		return SectionType.CODE;
 	}
 	
 	

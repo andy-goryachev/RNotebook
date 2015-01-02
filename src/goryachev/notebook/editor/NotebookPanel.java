@@ -4,20 +4,18 @@ import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
+import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
-import goryachev.notebook.Styles;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
-import javax.swing.JViewport;
 
 
 // FIX margin line
@@ -25,13 +23,14 @@ public class NotebookPanel
 	extends CPanel
 {
 	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
-	public final CAction toCodeAction = new CAction() { public void action() { actionToCode(); } };
-	public final CAction toTextAction = new CAction() { public void action() { actionToText(); } };
-	public final CAction toH1Action = new CAction() { public void action() { actionToH1(); } };
+	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(SectionType.CODE); } };
+	public final CAction toTextAction = new CAction() { public void action() { actionSwitchType(SectionType.TEXT); } };
+	public final CAction toH1Action = new CAction() { public void action() { actionSwitchType(SectionType.H1); } };
+	
 	public final CComboBox typeField;
-
-	protected final JPanel panel;
-	protected final CScrollPane scroll;
+	public final InputTracker typeFieldTracker;
+	public final JPanel panel;
+	public final CScrollPane scroll;
 	private static PropertyChangeListener focusListener;
 	private SectionPanel activeSection;
 	
@@ -75,24 +74,25 @@ public class NotebookPanel
 		
 		typeField = new CComboBox(new Object[]
 		{
-			"Code",
-			//"Markdown",
-			"Raw Text",
-			"Heading 1",
-			//"Heading 2",
-			//"Heading 3",
-			//"Heading 4",
-			//"Heading 5",
-			//"Heading 6",
+			SectionType.CODE,
+			SectionType.H1,
+			SectionType.TEXT,
 		});
-		typeField.setEnabled(false);
+		typeField.setSelectedItem(SectionType.TEXT);
+		typeFieldTracker = new InputTracker(typeField)
+		{
+			public void onInputEvent()
+			{
+				actionSwitchType((SectionType)typeField.getSelectedItem());
+			}
+		};
 		
 		initStaticListener();
 		
 		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
 	}
 	
-	
+
 	// or move this functionality to section panel mouse handler?
 	private void initStaticListener()
 	{
@@ -200,17 +200,28 @@ public class NotebookPanel
 			return new TextPanel(text);
 		}
 	}
-	
-	
+
+
 	protected void updateActions()
-	{		
+	{
 		CodePanel cp = getCodePanel();
 		boolean sec = (activeSection != null);
+		SectionType t = getSectionType();
+		
+		if(t != null)
+		{
+			if(t != typeField.getSelectedItem())
+			{
+				typeFieldTracker.setEnabled(false);
+				typeField.setSelectedItem(t);
+				typeFieldTracker.setEnabled(true);
+			}
+		}
 		
 		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
-		toCodeAction.setEnabled(sec && !(activeSection instanceof CodePanel));
-		toH1Action.setEnabled(sec && !(activeSection instanceof HeaderPanel));
-		toTextAction.setEnabled(sec && !(activeSection instanceof TextPanel));
+		toCodeAction.setEnabled(sec && (t != SectionType.CODE));
+		toH1Action.setEnabled(sec && (t != SectionType.H1));
+		toTextAction.setEnabled(sec && (t != SectionType.TEXT));
 	}
 	
 	
@@ -219,6 +230,16 @@ public class NotebookPanel
 		if(activeSection instanceof CodePanel)
 		{
 			return (CodePanel)activeSection;
+		}
+		return null;
+	}
+	
+	
+	public SectionType getSectionType()
+	{
+		if(activeSection != null)
+		{
+			return activeSection.getType();
 		}
 		return null;
 	}
@@ -272,23 +293,12 @@ public class NotebookPanel
 	}
 	
 	
-	protected void actionToCode()
+	protected void actionSwitchType(SectionType t)
 	{
-		String text = activeSection.getText();
-		replace(activeSection, createSection(SectionType.CODE, text));
-	}
-	
-	
-	protected void actionToH1()
-	{
-		String text = activeSection.getText();
-		replace(activeSection, createSection(SectionType.H1, text));
-	}
-	
-	
-	protected void actionToText()
-	{
-		String text = activeSection.getText();
-		replace(activeSection, createSection(SectionType.TEXT, text));
+		if(t != null)
+		{
+			String text = activeSection.getText();
+			replace(activeSection, createSection(t, text));
+		}
 	}
 }
