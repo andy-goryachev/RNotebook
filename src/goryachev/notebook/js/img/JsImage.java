@@ -12,20 +12,26 @@ public class JsImage
 	{
 		this.image = im;
 	}
-	
-	
+
+
+	public BufferedImage getBufferedImage()
+	{
+		return image;
+	}
+
+
 	public int getWidth()
 	{
 		return image.getWidth();
 	}
-	
-	
+
+
 	public int getHeight()
 	{
 		return image.getHeight();
 	}
-	
-	
+
+
 	public String toString()
 	{
 		return "Image(" + getWidth() + "x" + getHeight() + ")";

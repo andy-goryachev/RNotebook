@@ -11,6 +11,9 @@ import goryachev.notebook.SectionType;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.ScriptBody;
 import goryachev.notebook.js.ScriptLogger;
+import goryachev.notebook.js.img.JsImage;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -128,27 +131,6 @@ public class CodePanel
 	}
 	
 	
-	protected void finished(ScriptBody p, Object rv)
-	{
-		if(script == p)
-		{
-			marginField.setText("=");
-			
-			// TODO return result may be anything (chart? table?)
-			// decide how to process it
-			if(result.isNotEmpty())
-			{
-				result.nl();
-			}
-			result.a(rv);
-
-			resultField.setText(result.getAndClear());
-			resultField.setForeground(Styles.resultColor);
-			setResult(resultField);
-		}
-	}
-	
-	
 	protected void setResult(JComponent c)
 	{
 		if(resultComponent != null)
@@ -205,6 +187,43 @@ public class CodePanel
 					error(p, e);
 				}
 			}.start();
+		}
+	}
+	
+	
+	protected void finished(ScriptBody p, Object rv)
+	{
+		if(script == p)
+		{
+			marginField.setText("=");
+			
+			JComponent v = createViewer(rv);
+			setResult(v);
+		}
+	}
+	
+	
+	protected JComponent createViewer(Object r)
+	{
+		if(r instanceof JsImage)
+		{
+			BufferedImage im = ((JsImage)r).getBufferedImage();
+			
+			JLabel t = new JLabel();
+			t.setIcon(new ImageIcon(im));
+			return t;
+		}
+		else
+		{
+			if(result.isNotEmpty())
+			{
+				result.nl();
+			}
+			result.a(r);
+
+			resultField.setText(result.getAndClear());
+			resultField.setForeground(Styles.resultColor);
+			return resultField;
 		}
 	}
 }
