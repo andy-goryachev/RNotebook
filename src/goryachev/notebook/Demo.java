@@ -2,8 +2,10 @@
 package goryachev.notebook;
 
 
+@Deprecated // kill
 public class Demo
 {
+	@Deprecated
 	public static DataBook createDataBook()
 	{
 		DataBook b = new DataBook();

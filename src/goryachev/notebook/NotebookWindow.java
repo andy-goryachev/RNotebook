@@ -30,6 +30,7 @@ import javax.swing.JMenuBar;
 public class NotebookWindow
 	extends AppFrame
 {
+	public final CAction newAction = new CAction() { public void action() { actionNew(); } };
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
@@ -65,7 +66,8 @@ public class NotebookWindow
 		setMinimumSize(500, 300);
 		setSize(700, 900);
 
-		setDataBook(Demo.createDataBook());
+		//setDataBook(Demo.createDataBook());
+		
 		updateActions();
 	}
 	
@@ -77,6 +79,7 @@ public class NotebookWindow
 
 		// file
 		mb.add(m = new CMenu(Menus.File));
+		m.add(new CMenuItem(Menus.New, newAction));
 		m.add(new CMenuItem(Menus.Open, openAction));
 		m.add(recentFilesOption.recentFilesMenu());
 		m.addSeparator();
@@ -218,7 +221,7 @@ public class NotebookWindow
 		
 		if(isModified())
 		{
-			sb.a("* ");
+			sb.a("*");
 			dash = true;
 		}
 		
@@ -263,7 +266,8 @@ public class NotebookWindow
 		{
 			try
 			{
-				DataBookJsonWriter.saveJSON(notebookPanel.getDataBook(), file);
+				DataBook b = notebookPanel.getDataBook();
+				DataBookJsonWriter.saveJSON(b, file);
 				setModified(false);
 				updateTitle();
 			}
@@ -302,23 +306,29 @@ public class NotebookWindow
 	
 	protected void openNewWindow(File f)
 	{
-		// check if already open
-		if(f != null)
-		{
-			for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
-			{
-				if(f.equals(w.getFile()))
-				{
-					w.toFront();
-					return;
-				}
-			}
-		}
+		// TODO perhaps warn the user
+//		if(f != null)
+//		{
+//			for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
+//			{
+//				if(f.equals(w.getFile()))
+//				{
+//					w.toFront();
+//					return;
+//				}
+//			}
+//		}
 		
 		NotebookWindow w = new NotebookWindow();
 		UI.cascade(this, w);
 		w.open();
 		w.openFile(f);
+	}
+	
+	
+	protected void actionNew()
+	{
+		openNewWindow(null);
 	}
 	
 	

@@ -1,9 +1,9 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
-import goryachev.common.util.CList;
 import goryachev.json.JsonDecoder;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
+import goryachev.notebook.SectionType;
 import java.io.Reader;
 
 
@@ -19,154 +19,100 @@ public class DataBookJsonReader
 	
 	public DataBook parse() throws Exception
 	{
-//		CList<TCard> board = null;
-//		CList<Task> history = null;
-//		String id = null;
-//		String ver = null;
-//		
-//		beginObject();
-//		while(inObject())
-//		{
-//			String s = nextName();
-//			if(Schema.KEY_TASK_BOARD.equals(s))
-//			{
-//				board = parseCards();
-//			}
-//			else if(Schema.KEY_TASK_HISTORY.equals(s))
-//			{
-//				history = parseTasks();
-//			}
-//			else if(Schema.KEY_ID.equals(s))
-//			{
-//				id = nextString();
-//			}
-//			else if(Schema.KEY_VERSION.equals(s))
-//			{
-//				ver = nextString();
-//			}
-//		}
-//		endObject();
+		DataBook b = new DataBook();
+		String type = null;
+		String ver = null;
 		
-		return new DataBook();
+		beginObject();
+		while(inObject())
+		{
+			String s = nextName();
+			if(Schema.KEY_SECTIONS.equals(s))
+			{
+				parseSections(b);
+			}
+			else if(Schema.KEY_TYPE.equals(s))
+			{
+				type = nextString();
+			}
+			else if(Schema.KEY_VERSION.equals(s))
+			{
+				ver = nextString();
+			}
+		}
+		endObject();
+		
+		if(!Schema.TYPE.equals(type))
+		{
+			throw new Exception("Wrong format: expecting " + Schema.TYPE);
+		}
+		
+		if(Schema.VERSION.equals(ver))
+		{
+			// ok
+		}
+		else
+		{
+			throw new Exception("Wrong version: " + ver);
+		}
+		
+		return b;
 	}
 
 
-//	protected CList<TCard> parseCards() throws Exception
-//    {
-//		CList<TCard> cards = new CList();
-//		
-//		beginArray();
-//		while(inArray())
-//		{
-//			TCard c = parseTCard();
-//			cards.add(c);
-//		}
-//		endArray();
-//		
-//		return cards;
-//    }
-//	
-//	
-//	protected TCard parseTCard() throws Exception
-//    {
-//		String id = null;
-//		String title = null;
-//		int x = 0;
-//		int y = 0;
-//		CList<Task> tasks = null;
-//		
-//		beginObject();
-//		while(inObject())
-//		{
-//			String s = nextName();
-//			if(Schema.KEY_ID.equals(s))
-//			{
-//				id = nextString();
-//			}
-//			else if(Schema.KEY_CARD_X.equals(s))
-//			{
-//				x = nextInt();
-//			}
-//			else if(Schema.KEY_CARD_Y.equals(s))
-//			{
-//				y = nextInt();
-//			}
-//			else if(Schema.KEY_TITLE.equals(s))
-//			{
-//				title = nextString();
-//			}
-//			else if(Schema.KEY_CARD_TASKS.equals(s))
-//			{
-//				tasks = parseTasks();
-//			}
-//		}
-//		endObject();
-//		
-//		TCard c = new TCard(id, x, y, title);
-//		if(tasks != null)
-//		{
-//			for(Task t: tasks)
-//			{
-//				c.addTask(t);
-//			}
-//		}
-//		return c;
-//    }
-//	
-//	
-//	protected CList<Task> parseTasks() throws Exception
-//    {
-//		CList<Task> tasks = new CList();
-//		
-//		beginArray();
-//		while(inArray())
-//		{
-//			Task t = parseTask();
-//			tasks.add(t);
-//		}
-//		endArray();
-//		
-//		return tasks;
-//    }
-//	
-//	
-//	protected Task parseTask() throws Exception
-//	{
-//		String id = null;
-//		String title = null;
-//		String description = null;
-//		long created = 0;
-//		Long completed = null;
-//		
-//		beginObject();
-//		{
-//			while(inObject())
-//			{
-//				String s = nextName();
-//				if(Schema.KEY_ID.equals(s))
-//				{
-//					id = nextString();
-//				}
-//				else if(Schema.KEY_TITLE.equals(s))
-//				{
-//					title = nextString();
-//				}
-//				else if(Schema.KEY_TASK_CREATED.equals(s))
-//				{
-//					created = nextLong();
-//				}
-//				else if(Schema.KEY_TASK_COMPLETED.equals(s))
-//				{
-//					completed = nextLongObject();
-//				}
-//				else if(Schema.KEY_DESCRIPTION.equals(s))
-//				{
-//					description = nextString();
-//				}
-//			}
-//		}
-//		endObject();
-//		
-//		return new Task(id, title, created, completed, description);
-//	}
+	protected void parseSections(DataBook b) throws Exception
+	{
+		beginArray();
+		while(inArray())
+		{
+			parseSection(b);
+		}
+		endArray();
+	}
+
+
+	protected void parseSection(DataBook b) throws Exception
+	{
+		String type = null;
+		String text = null;
+
+		beginObject();
+		while(inObject())
+		{
+			String s = nextName();
+			if(Schema.KEY_SECTION_TYPE.equals(s))
+			{
+				type = nextString();
+			}
+			else if(Schema.KEY_TEXT.equals(s))
+			{
+				text = nextString();
+			}
+		}
+		endObject();
+		
+		SectionType t = parseSectionType(type);
+		b.addSection(t, text);
+	}
+
+
+	protected SectionType parseSectionType(String s) throws Exception
+	{
+		if(Schema.SECTION_TYPE_CODE.equals(s))
+		{
+			return SectionType.CODE;
+		}
+		else if(Schema.SECTION_TYPE_H1.equals(s))
+		{
+			return SectionType.H1;
+		}
+		else if(Schema.SECTION_TYPE_TEXT.equals(s))
+		{
+			return SectionType.TEXT;
+		}
+		else
+		{
+			throw new Exception("unknown section type: " + s);
+		}
+	}
 }

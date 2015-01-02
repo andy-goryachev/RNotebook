@@ -1,0 +1,30 @@
+{
+  "type": "ResearchNotebook",
+  "version": "1.0",
+  "sections": [
+    {
+      "type": "h1",
+      "text": "Example"
+    },
+    {
+      "type": "text",
+      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.\n"
+    },
+    {
+      "type": "js",
+      "text": "var a = 5;\nprint(a);"
+    },
+    {
+      "type": "js",
+      "text": "// there will be syntax highlighting long long long line ************************* *********************************************\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');"
+    },
+    {
+      "type": "js",
+      "text": "// error\nunknown.attribute"
+    },
+    {
+      "type": "text",
+      "text": "And this is how a notebook page looks like.\nThe end."
+    }
+  ]
+}

@@ -6,6 +6,8 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
+import goryachev.notebook.DataBook;
+import goryachev.notebook.SectionType;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.ScriptBody;
 import goryachev.notebook.js.ScriptLogger;
@@ -61,6 +63,13 @@ public class CodePanel
 	public void initialize(NotebookPanel np)
 	{
 		// TODO setup popup menus
+	}
+	
+	
+	public void saveSection(DataBook b)
+	{
+		b.addSection(SectionType.CODE, getText());
+		// TODO result
 	}
 	
 	

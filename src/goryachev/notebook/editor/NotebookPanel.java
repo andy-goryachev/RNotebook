@@ -118,6 +118,8 @@ public class NotebookPanel
 	
 	public void setDataBook(DataBook b)
 	{
+		panel.removeAll();
+		
 		if(b != null)
 		{
 			int sz = b.size();
@@ -142,7 +144,16 @@ public class NotebookPanel
 	public DataBook getDataBook()
 	{
 		DataBook b = new DataBook();
-		// TODO text + results
+		
+		int sz = panel.getComponentCount();
+		for(int i=0; i<sz; i++)
+		{
+			Component c = panel.getComponent(i);
+			if(c instanceof SectionPanel)
+			{
+				((SectionPanel)c).saveSection(b);
+			}
+		}
 		return b;
 	}
 	

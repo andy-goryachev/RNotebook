@@ -2,6 +2,8 @@
 package goryachev.notebook.editor;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import goryachev.notebook.DataBook;
+import goryachev.notebook.SectionType;
 import javax.swing.JTextArea;
 
 
@@ -25,6 +27,12 @@ public class HeaderPanel
 	public void initialize(NotebookPanel np)
 	{
 		// TODO setup popup menus
+	}
+	
+	
+	public void saveSection(DataBook b)
+	{
+		b.addSection(SectionType.H1, getText());
 	}
 	
 	

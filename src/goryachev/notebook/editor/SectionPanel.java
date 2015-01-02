@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.editor;
+import goryachev.notebook.DataBook;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
@@ -12,6 +13,8 @@ public abstract class SectionPanel
 	public abstract String getText();
 	
 	public abstract void initialize(NotebookPanel np);
+	
+	public abstract void saveSection(DataBook b);
 	
 	//
 	
