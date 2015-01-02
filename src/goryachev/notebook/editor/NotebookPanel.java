@@ -139,6 +139,14 @@ public class NotebookPanel
 	}
 	
 	
+	public DataBook getDataBook()
+	{
+		DataBook b = new DataBook();
+		// TODO text + results
+		return b;
+	}
+	
+	
 	protected SectionPanel createSection(SectionType type, String text)
 	{
 		switch(type)
