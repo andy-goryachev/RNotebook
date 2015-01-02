@@ -3,29 +3,26 @@ package goryachev.notebook.editor;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
-import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
-import goryachev.notebook.Styles;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
-import javax.swing.JViewport;
 
 
-// FIX margin line
 public class NotebookPanel
 	extends CPanel
 {
+	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
+	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
+	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
 	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
 	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(SectionType.CODE); } };
 	public final CAction toTextAction = new CAction() { public void action() { actionSwitchType(SectionType.TEXT); } };
@@ -132,7 +129,7 @@ public class NotebookPanel
 				SectionType type = b.getType(i);
 				String text = b.getText(i);
 				
-				SectionPanel p = createSection(type, text);
+				SectionPanel p = SectionPanel.create(type, text);
 				p.initialize(this);
 				panel.add(p);
 			}
@@ -149,35 +146,15 @@ public class NotebookPanel
 	{
 		DataBook b = new DataBook();
 		
-		int sz = panel.getComponentCount();
+		int sz = getSectionCount();
 		for(int i=0; i<sz; i++)
 		{
-			Component c = panel.getComponent(i);
-			if(c instanceof SectionPanel)
-			{
-				((SectionPanel)c).saveSection(b);
-			}
+			SectionPanel p = getSectionAt(i);
+			p.saveSection(b);
 		}
 		return b;
 	}
 	
-	
-	protected SectionPanel createSection(SectionType type, String text)
-	{
-		switch(type)
-		{
-		case CODE:
-			return new CodePanel(text);
-		case H1:
-		case H2:
-		case H3:
-			return new HeaderPanel(text);
-		case TEXT:
-		default:
-			return new TextPanel(text);
-		}
-	}
-
 
 	protected void updateActions()
 	{
@@ -185,6 +162,7 @@ public class NotebookPanel
 		boolean sec = (activeSection != null);
 		SectionType t = getSectionType();
 		
+		// update type pulldown
 		if(t != null)
 		{
 			if(t != typeField.getSelectedItem())
@@ -195,6 +173,8 @@ public class NotebookPanel
 			}
 		}
 		
+		deleteCellAction.setEnabled(sec);
+		insertCellAboveAction.setEnabled(sec);
 		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
 		toCodeAction.setEnabled(sec && (t != SectionType.CODE));
 		toH1Action.setEnabled(sec && (t != SectionType.H1));
@@ -237,26 +217,53 @@ public class NotebookPanel
 	}
 	
 	
+	protected int getSectionCount()
+	{
+		return panel.getComponentCount();
+	}
+	
+	
+	protected SectionPanel getSectionAt(int ix)
+	{
+		if(ix >= 0)
+		{
+			if(ix < panel.getComponentCount())
+			{
+				return (SectionPanel)panel.getComponent(ix);
+			}
+		}
+		return null;
+	}
+	
+	
 	protected void replace(SectionPanel old, SectionPanel p)
 	{
 		int ix = indexOf(old);
 		if(ix >= 0)
 		{
 			boolean focus = (old == activeSection);
-			
+
 			panel.remove(old);
 			panel.add(p, null, ix);
-			
+
 			if(focus)
 			{
 				setActiveSection(p);
 			}
-			
-			UI.validateAndRepaint(this);			
+
+			UI.validateAndRepaint(this);
 		}
 	}
-	
-	
+
+
+	protected void insert(int ix, SectionPanel p)
+	{
+		panel.add(p, ix);
+		setActiveSection(p);
+		UI.validateAndRepaint(this);
+	}
+
+
 	protected void actionRunCurrent()
 	{
 		CodePanel p = getCodePanel();
@@ -275,7 +282,52 @@ public class NotebookPanel
 		if(t != null)
 		{
 			String text = activeSection.getText();
-			replace(activeSection, createSection(t, text));
+			replace(activeSection, SectionPanel.create(t, text));
+		}
+	}
+	
+	
+	protected void actionInsertCell(boolean above)
+	{
+		SectionPanel p = SectionPanel.create(getSectionType(), null);
+			
+		int ix = indexOf(activeSection);
+		if(ix < 0)
+		{
+			ix = getSectionCount();
+		}
+		else
+		{
+			if(!above)
+			{
+				ix++;
+			}
+		}
+		
+		insert(ix, p);
+		p.focusLater();
+	}
+	
+	
+	protected void actionDeleteCell()
+	{
+		int ix = indexOf(activeSection);
+		if(ix >= 0)
+		{
+			panel.remove(activeSection);
+			
+			if(getSectionCount() > 0)
+			{
+				if(ix >= getSectionCount())
+				{
+					ix--;
+				}
+				
+				SectionPanel p = getSectionAt(ix);
+				setActiveSection(p);	
+			}
+			
+			UI.validateAndRepaint(this);
 		}
 	}
 }

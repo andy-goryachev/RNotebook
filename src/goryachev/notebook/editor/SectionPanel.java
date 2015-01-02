@@ -1,16 +1,20 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.editor;
+import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.text.JTextComponent;
 
 
 public abstract class SectionPanel
 	extends JPanel
 {
+	public abstract JTextComponent getEditor();
+	
 	public abstract String getText();
 	
 	public abstract void initialize(NotebookPanel np);
@@ -82,5 +86,38 @@ public abstract class SectionPanel
 			}
 		}
 		return null;
+	}
+	
+	
+	public void focusLater()
+	{
+		UI.later(new Runnable()
+		{
+			public void run()
+			{
+				JTextComponent c = getEditor();
+				if(c != null)
+				{
+					c.requestFocusInWindow();
+				}
+			}
+		});
+	}
+	
+	
+	public static SectionPanel create(SectionType type, String text)
+	{
+		switch(type)
+		{
+		case CODE:
+			return new CodePanel(text);
+		case H1:
+		case H2:
+		case H3:
+			return new HeaderPanel(text);
+		case TEXT:
+		default:
+			return new TextPanel(text);
+		}
 	}
 }

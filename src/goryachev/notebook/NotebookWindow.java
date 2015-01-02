@@ -37,7 +37,7 @@ public class NotebookWindow
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
 	public final CAction saveAsAction = new CAction() { public void action() { actionSaveAs(); } };
-	public final NotebookPanel notebookPanel;
+	public final NotebookPanel np;
 	protected final RecentFilesOption recentFilesOption;
 	private static final String KEY_LAST_FILE = "last.file";
 	public static final String EXTENSION = ".nbook";
@@ -58,11 +58,11 @@ public class NotebookWindow
 			}
 		};
 				
-		notebookPanel = new NotebookPanel();
+		np = new NotebookPanel();
 		
 		setJMenuBar(createMenu());
 		setNorth(createToolbar());
-		setCenter(notebookPanel);
+		setCenter(np);
 		setSouth(createStatusBar(true));
 		
 		setTitle(Application.getTitle() + " - " + Application.getVersion());
@@ -86,51 +86,53 @@ public class NotebookWindow
 		m.add(new CMenuItem(Menus.Open, openAction));
 		m.add(recentFilesOption.recentFilesMenu());
 		m.addSeparator();
-		m.add(new CMenuItem(Menus.Save,  saveAction));
-		m.add(new CMenuItem(Menus.SaveAs,  saveAsAction));
+		m.add(new CMenuItem(Menus.Save, Accelerators.SAVE, saveAction));
+		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
 		m.addSeparator();
-		m.add(new CMenuItem(Menus.Preferences,  CAction.DISABLED));
+		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
 		m.addSeparator();
-		m.add(new CMenuItem(Menus.Close, closeAction));
+		m.add(new CMenuItem(Menus.Close, Accelerators.CLOSE_WINDOW, closeAction));
+		m.addSeparator();
+		m.add(new CMenuItem(Menus.Exit, Application.exitAction));
 		
 		// edit
 		mb.add(m = new CMenu(Menus.Edit));
-		m.add("Cut Cell");
-		m.add("Copy Cell");
-		m.add("Paste Cell Above");
-		m.add("Paste Cell Below");
-		m.add("Delete");
+		m.add(new CMenuItem("Cut Cell", CAction.DISABLED));
+		m.add(new CMenuItem("Copy Cell", CAction.DISABLED));
+		m.add(new CMenuItem("Paste Cell Above", CAction.DISABLED));
+		m.add(new CMenuItem("Paste Cell Below", CAction.DISABLED));
+		m.add(new CMenuItem("Delete", np.deleteCellAction));
 		m.addSeparator();
-		m.add("Split Cell");
-		m.add("Merge Cell Above");
-		m.add("Merge Cell Below");
+		m.add(new CMenuItem("Split Cell", CAction.DISABLED));
+		m.add(new CMenuItem("Merge Cell Above", CAction.DISABLED));
+		m.add(new CMenuItem("Merge Cell Below", CAction.DISABLED));
 		m.addSeparator();
-		m.add("Move Cell Up");
-		m.add("Move Cell Down");
+		m.add(new CMenuItem("Move Cell Up", CAction.DISABLED));
+		m.add(new CMenuItem("Move Cell Down", CAction.DISABLED));
 		m.addSeparator();
-		m.add("Select Previous Cell");
-		m.add("Select Next Cell");
+		m.add(new CMenuItem("Select Previous Cell", CAction.DISABLED));
+		m.add(new CMenuItem("Select Next Cell", CAction.DISABLED));
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));
-		m.add("Toggle Header ?");
-		m.add("Toggle Toolbar ?");
+		m.add(new CMenuItem("Toggle Header ?", CAction.DISABLED));
+		m.add(new CMenuItem("Toggle Toolbar ?", CAction.DISABLED));
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
-		m.add("Insert Cell Above");
-		m.add("Insert Cell Below");
+		m.add(new CMenuItem("Insert Cell Above", np.insertCellAboveAction));
+		m.add(new CMenuItem("Insert Cell Below", np.insertCellBelowAction));
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));
-		m.add(new CMenuItem("Run", notebookPanel.runCurrentAction));
+		m.add(new CMenuItem("Run", np.runCurrentAction));
 		m.add("Run in Place");
 		m.add("Run All");
 		m.addSeparator();
-		m.add(new CMenuItem("Code", notebookPanel.toCodeAction));
+		m.add(new CMenuItem("Code", np.toCodeAction));
 		m.add("Markdown");
-		m.add(new CMenuItem("Raw Text", notebookPanel.toTextAction));
-		m.add(new CMenuItem("Heading 1", notebookPanel.toH1Action));
+		m.add(new CMenuItem("Raw Text", np.toTextAction));
+		m.add(new CMenuItem("Heading 1", np.toH1Action));
 		m.add("Heading 2");
 		m.add("Heading 3");
 		m.add("Heading 4");
@@ -161,13 +163,13 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.DISABLED));
 		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.DISABLED));
 		t.space();
-		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Section Above", true, CAction.DISABLED));
-		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Section Below", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
+		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Start, "Run", true, notebookPanel.runCurrentAction));
+		t.add(new TButton(NotebookIcons.Start, "Run", true, np.runCurrentAction));
 		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.DISABLED));
 		t.space();
-		t.add(notebookPanel.typeField);
+		t.add(np.typeField);
 		return t;
 	}
 	
@@ -209,7 +211,7 @@ public class NotebookWindow
 	
 	public void setDataBook(DataBook b)
 	{
-		notebookPanel.setDataBook(b);
+		np.setDataBook(b);
 	}
 	
 	
@@ -353,7 +355,7 @@ public class NotebookWindow
 		{
 			try
 			{
-				DataBook b = notebookPanel.getDataBook();
+				DataBook b = np.getDataBook();
 				DataBookJsonWriter.saveJSON(b, file);
 				setModified(false);
 				updateTitle();

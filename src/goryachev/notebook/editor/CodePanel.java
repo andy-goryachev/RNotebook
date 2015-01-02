@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.text.JTextComponent;
 
 
 public class CodePanel
@@ -67,6 +68,12 @@ public class CodePanel
 	public SectionType getType()
 	{
 		return SectionType.CODE;
+	}
+	
+	
+	public JTextComponent getEditor()
+	{
+		return textField;
 	}
 	
 	
