@@ -8,11 +8,11 @@
     },
     {
       "type": "text",
-      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.\n"
+      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute."
     },
     {
       "type": "js",
-      "text": "io.loadImage('screenshots/2014-1231-181826-296.png');"
+      "text": "io.loadImage('examples/picture.jpg');"
     },
     {
       "type": "js",

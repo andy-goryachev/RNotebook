@@ -18,8 +18,8 @@ public class SectionLayout
 	public static final Object LEFT = new Object();
 	public static final Object RIGHT = new Object();
 
-	private int leftMargin = 100;
-	private int rightMargin = 75;
+	private static int leftMargin = 100;
+	private static int rightMargin = 75;
 	private Component center;
 	private Component left;
 	private Component right;
@@ -27,6 +27,18 @@ public class SectionLayout
 
 	public SectionLayout()
 	{
+	}
+	
+	
+	public static int getLeftMargin()
+	{
+		return leftMargin;
+	}
+	
+	
+	public static int getRightMargin()
+	{
+		return rightMargin;
 	}
 
 

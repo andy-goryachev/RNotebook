@@ -8,15 +8,19 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
+import goryachev.notebook.Styles;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 
 
+// FIX margin line
 public class NotebookPanel
 	extends CPanel
 {
@@ -29,7 +33,7 @@ public class NotebookPanel
 	protected final JPanel panel;
 	protected final CScrollPane scroll;
 	private static PropertyChangeListener focusListener;
-	private SectionPanel currentSection;
+	private SectionPanel activeSection;
 	
 	
 	public NotebookPanel()
@@ -37,7 +41,32 @@ public class NotebookPanel
 		panel = new SectionContainer();
 		panel.setBackground(Theme.textBG());
 		
-		scroll = new CScrollPane(panel);
+		scroll = new CScrollPane(panel)
+		{
+//			public void paint(Graphics g)
+//			{
+//				super.paint(g);
+//				
+//				int x = getWidth() - SectionLayout.getRightMargin();
+//				g.setColor(Styles.marginLineColor);
+//				g.drawLine(x, 0, x, getHeight());
+//			}
+			
+//			protected JViewport createViewport()
+//			{
+//				return new JViewport()
+//				{
+//					public void paintComponent(Graphics g)
+//					{
+//						super.paintComponent(g);
+//						
+//						int x = getWidth() - SectionLayout.getRightMargin();
+//						g.setColor(Styles.marginLineColor);
+//						g.drawLine(x, 0, x, getHeight());
+//					}
+//				};
+//			}
+		};
 		scroll.setBackground2(Theme.textBG());
 		
 		setCenter(scroll);
@@ -47,14 +76,14 @@ public class NotebookPanel
 		typeField = new CComboBox(new Object[]
 		{
 			"Code",
-			"Markdown",
+			//"Markdown",
 			"Raw Text",
 			"Heading 1",
-			"Heading 2",
-			"Heading 3",
-			"Heading 4",
-			"Heading 5",
-			"Heading 6",
+			//"Heading 2",
+			//"Heading 3",
+			//"Heading 4",
+			//"Heading 5",
+			//"Heading 6",
 		});
 		typeField.setEnabled(false);
 		
@@ -99,15 +128,15 @@ public class NotebookPanel
 	
 	protected void setActiveSection(SectionPanel p)
 	{
-		if(p != currentSection)
+		if(p != activeSection)
 		{
-			if(currentSection != null)
+			if(activeSection != null)
 			{
-				currentSection.setActive(false);
+				activeSection.setActive(false);
 			}
 			
-			currentSection = p;
-			currentSection.setActive(true);
+			activeSection = p;
+			activeSection.setActive(true);
 			
 			updateActions();
 		}
@@ -176,20 +205,20 @@ public class NotebookPanel
 	protected void updateActions()
 	{		
 		CodePanel cp = getCodePanel();
-		boolean sec = (currentSection != null);
+		boolean sec = (activeSection != null);
 		
 		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
-		toCodeAction.setEnabled(sec && !(currentSection instanceof CodePanel));
-		toH1Action.setEnabled(sec && !(currentSection instanceof HeaderPanel));
-		toTextAction.setEnabled(sec && !(currentSection instanceof TextPanel));
+		toCodeAction.setEnabled(sec && !(activeSection instanceof CodePanel));
+		toH1Action.setEnabled(sec && !(activeSection instanceof HeaderPanel));
+		toTextAction.setEnabled(sec && !(activeSection instanceof TextPanel));
 	}
 	
 	
 	public CodePanel getCodePanel()
 	{
-		if(currentSection instanceof CodePanel)
+		if(activeSection instanceof CodePanel)
 		{
-			return (CodePanel)currentSection;
+			return (CodePanel)activeSection;
 		}
 		return null;
 	}
@@ -215,10 +244,17 @@ public class NotebookPanel
 		int ix = indexOf(old);
 		if(ix >= 0)
 		{
+			boolean focus = (old == activeSection);
+			
 			panel.remove(old);
 			panel.add(p, null, ix);
 			
-			UI.validateAndRepaint(this);
+			if(focus)
+			{
+				setActiveSection(p);
+			}
+			
+			UI.validateAndRepaint(this);			
 		}
 	}
 	
@@ -238,21 +274,21 @@ public class NotebookPanel
 	
 	protected void actionToCode()
 	{
-		String text = currentSection.getText();
-		replace(currentSection, createSection(SectionType.CODE, text));
+		String text = activeSection.getText();
+		replace(activeSection, createSection(SectionType.CODE, text));
 	}
 	
 	
 	protected void actionToH1()
 	{
-		String text = currentSection.getText();
-		replace(currentSection, createSection(SectionType.H1, text));
+		String text = activeSection.getText();
+		replace(activeSection, createSection(SectionType.H1, text));
 	}
 	
 	
 	protected void actionToText()
 	{
-		String text = currentSection.getText();
-		replace(currentSection, createSection(SectionType.TEXT, text));
+		String text = activeSection.getText();
+		replace(activeSection, createSection(SectionType.TEXT, text));
 	}
 }

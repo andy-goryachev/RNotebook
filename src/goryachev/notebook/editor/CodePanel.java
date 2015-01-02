@@ -27,7 +27,7 @@ public class CodePanel
 	public final JLabel inField;
 	public final JLabel marginField;
 	private final JTextArea resultField;
-	private final SB result;
+	private final SB log;
 	private static CBorder BORDER = new CBorder(2, 4);
 	private transient ScriptBody script;
 	private transient JComponent resultComponent;
@@ -35,7 +35,7 @@ public class CodePanel
 	
 	public CodePanel(String text)
 	{
-		result = new SB();
+		log = new SB();
 		
 		textField = new JTextArea(text);
 		textField.setBackground(Styles.codeColor);
@@ -98,21 +98,21 @@ public class CodePanel
 	
 	public synchronized void print(String s)
 	{
-		if(result.isNotEmpty())
+		if(log.isNotEmpty())
 		{
-			result.nl();
+			log.nl();
 		}
-		result.append(s);
+		log.append(s);
 	}
 
 	
 	public synchronized void printError(String s)
 	{
-		if(result.isNotEmpty())
+		if(log.isNotEmpty())
 		{
-			result.nl();
+			log.nl();
 		}
-		result.append(s);
+		log.append(s);
 	}
 	
 	
@@ -154,7 +154,7 @@ public class CodePanel
 	
 	protected synchronized void start()
 	{
-		result.clear();
+		log.clear();
 		marginField.setText("*");
 	}
 	
@@ -191,13 +191,13 @@ public class CodePanel
 	}
 	
 	
-	protected void finished(ScriptBody p, Object rv)
+	protected void finished(ScriptBody p, Object r)
 	{
 		if(script == p)
 		{
 			marginField.setText("=");
 			
-			JComponent v = createViewer(rv);
+			JComponent v = createViewer(r);
 			setResult(v);
 		}
 	}
@@ -215,13 +215,13 @@ public class CodePanel
 		}
 		else
 		{
-			if(result.isNotEmpty())
+			if(log.isNotEmpty())
 			{
-				result.nl();
+				log.nl();
 			}
-			result.a(r);
+			log.a(r);
 
-			resultField.setText(result.getAndClear());
+			resultField.setText(log.getAndClear());
 			resultField.setForeground(Styles.resultColor);
 			return resultField;
 		}

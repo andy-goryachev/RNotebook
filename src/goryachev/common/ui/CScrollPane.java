@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.ui.theme.AndyScrollBar;
+import goryachev.common.ui.theme.CScrollBar;
 import goryachev.common.ui.theme.CScrollPaneUI;
 import java.awt.Color;
 import java.awt.Component;
@@ -50,13 +50,13 @@ public class CScrollPane
 
 	public JScrollBar createHorizontalScrollBar()
 	{
-		return new AndyScrollBar(this, JScrollBar.HORIZONTAL);
+		return new CScrollBar(this, JScrollBar.HORIZONTAL);
 	}
 
 
 	public JScrollBar createVerticalScrollBar()
 	{
-		return new AndyScrollBar(this, JScrollBar.VERTICAL);
+		return new CScrollBar(this, JScrollBar.VERTICAL);
 	}
 
 

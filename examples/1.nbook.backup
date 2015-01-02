@@ -12,7 +12,7 @@
     },
     {
       "type": "js",
-      "text": "io.loadImage('screenshots/2014-1231-181826-296.png');"
+      "text": "io.loadImage('examples/picture.jpg');"
     },
     {
       "type": "js",

@@ -9,7 +9,7 @@ import javax.swing.Scrollable;
 import javax.swing.plaf.ScrollBarUI;
 
 
-public class AndyScrollBar
+public class CScrollBar
     extends JScrollBar
 {
 	private static int scrollLineCount = 3;
@@ -18,7 +18,7 @@ public class AndyScrollBar
 	private boolean blockIncrementSet;
 
 
-	public AndyScrollBar(CScrollPane scroll, int orientation)
+	public CScrollBar(CScrollPane scroll, int orientation)
 	{
 		super(orientation);
 		this.scroll = scroll;
