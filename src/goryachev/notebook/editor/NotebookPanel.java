@@ -21,6 +21,9 @@ public class NotebookPanel
 	extends CPanel
 {
 	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
+	public final CAction toCodeAction = new CAction() { public void action() { actionToCode(); } };
+	public final CAction toTextAction = new CAction() { public void action() { actionToText(); } };
+	public final CAction toH1Action = new CAction() { public void action() { actionToH1(); } };
 	public final CComboBox typeField;
 
 	protected final JPanel panel;
@@ -123,7 +126,9 @@ public class NotebookPanel
 				SectionType type = b.getType(i);
 				String text = b.getText(i);
 				
-				addSection(type, text);
+				SectionPanel p = createSection(type, text);
+				p.initialize(this);
+				panel.add(p);
 			}
 		}
 		
@@ -134,24 +139,19 @@ public class NotebookPanel
 	}
 	
 	
-	protected void addSection(SectionType type, String text)
+	protected SectionPanel createSection(SectionType type, String text)
 	{
 		switch(type)
 		{
 		case CODE:
-			panel.add(new CodePanel(text));
-			break;
-			
+			return new CodePanel(text);
 		case H1:
 		case H2:
 		case H3:
-			panel.add(new HeaderPanel(text));
-			break;
-			
+			return new HeaderPanel(text);
 		case TEXT:
 		default:
-			panel.add(new TextPanel(text));
-			break;
+			return new TextPanel(text);
 		}
 	}
 	
@@ -162,6 +162,9 @@ public class NotebookPanel
 		boolean sec = (currentSection != null);
 		
 		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
+		toCodeAction.setEnabled(sec && !(currentSection instanceof CodePanel));
+		toH1Action.setEnabled(sec && !(currentSection instanceof HeaderPanel));
+		toTextAction.setEnabled(sec && !(currentSection instanceof TextPanel));
 	}
 	
 	
@@ -175,6 +178,34 @@ public class NotebookPanel
 	}
 	
 	
+	protected int indexOf(SectionPanel p)
+	{
+		int sz = panel.getComponentCount();
+		for(int i=0; i<sz; i++)
+		{
+			Component c = panel.getComponent(i);
+			if(c == p)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	
+	protected void replace(SectionPanel old, SectionPanel p)
+	{
+		int ix = indexOf(old);
+		if(ix >= 0)
+		{
+			panel.remove(old);
+			panel.add(p, null, ix);
+			
+			UI.validateAndRepaint(this);
+		}
+	}
+	
+	
 	protected void actionRunCurrent()
 	{
 		CodePanel p = getCodePanel();
@@ -185,5 +216,26 @@ public class NotebookPanel
 				p.runScript();
 			}
 		}
+	}
+	
+	
+	protected void actionToCode()
+	{
+		String text = currentSection.getText();
+		replace(currentSection, createSection(SectionType.CODE, text));
+	}
+	
+	
+	protected void actionToH1()
+	{
+		String text = currentSection.getText();
+		replace(currentSection, createSection(SectionType.H1, text));
+	}
+	
+	
+	protected void actionToText()
+	{
+		String text = currentSection.getText();
+		replace(currentSection, createSection(SectionType.TEXT, text));
 	}
 }

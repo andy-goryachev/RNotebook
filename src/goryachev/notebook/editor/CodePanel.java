@@ -58,6 +58,12 @@ public class CodePanel
 	}
 	
 	
+	public void initialize(NotebookPanel np)
+	{
+		// TODO setup popup menus
+	}
+	
+	
 	public String getText()
 	{
 		return textField.getText();

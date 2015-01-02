@@ -93,10 +93,10 @@ public class NotebookWindow
 		m.add("Run in Place");
 		m.add("Run All");
 		m.addSeparator();
-		m.add("Code");
+		m.add(new CMenuItem("Code", notebookPanel.toCodeAction));
 		m.add("Markdown");
-		m.add("Raw Text");
-		m.add("Heading 1");
+		m.add(new CMenuItem("Raw Text", notebookPanel.toTextAction));
+		m.add(new CMenuItem("Heading 1", notebookPanel.toH1Action));
 		m.add("Heading 2");
 		m.add("Heading 3");
 		m.add("Heading 4");

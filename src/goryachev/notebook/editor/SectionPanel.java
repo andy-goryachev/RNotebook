@@ -11,6 +11,8 @@ public abstract class SectionPanel
 {
 	public abstract String getText();
 	
+	public abstract void initialize(NotebookPanel np);
+	
 	//
 	
 	public SectionPanel()

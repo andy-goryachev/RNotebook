@@ -20,6 +20,12 @@ public class TextPanel
 		setTop(textField);
 	}
 	
+	
+	public void initialize(NotebookPanel np)
+	{
+		// TODO setup popup menus
+	}
+	
 
 	public String getText()
 	{

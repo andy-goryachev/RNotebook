@@ -1,4 +1,34 @@
-﻿- execution
-- save/load
+﻿node.js doc
+	http://nodejs.org/api/all.html
+
+
+TODO
+- save/open
+- save as [html, pdf]
+- recent files
+- ask to save on exit
+- open in new window
+- preferences
+- edit cells
 - syntax highlight
 - markdown
+
+
+RESULTS
+- image
+- arrays/collections
+- table model
+- charts/plots
+
+
+SUBSYSTEMS
+- csv files
+- file system
+- patterns
+- date/time
+- exec
+- crypto
+- converters uu/base64
+- assert
+- compression
+- os (see node.js)

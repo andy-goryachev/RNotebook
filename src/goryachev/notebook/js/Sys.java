@@ -3,6 +3,7 @@ package goryachev.notebook.js;
 import goryachev.common.util.CKit;
 import goryachev.common.util.D;
 import goryachev.common.util.SB;
+import goryachev.notebook.util.InlineHelp;
 import java.io.File;
 import javax.script.ScriptEngine;
 
@@ -68,7 +69,7 @@ public class Sys
 	
 	
 	// run script in the same context
-	public Object run(String path) throws Exception
+	protected Object run(String path) throws Exception
 	{
 		File f = new File(path);
 		String script = CKit.readString(f);
@@ -80,5 +81,15 @@ public class Sys
 	public SB sb()
 	{
 		return new SB();
+	}
+	
+	
+	public String toString()
+	{
+		InlineHelp h = new InlineHelp();
+		h.a("sys provides access to system-level functionality:");
+		h.a("sys.print(x)", "print value");
+		h.a("sys.test(x)", "test method");
+		return h.toString();
 	}
 }
