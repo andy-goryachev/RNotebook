@@ -86,8 +86,8 @@ public class NotebookWindow
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Save, Accelerators.SAVE, saveAction));
 		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
-		m.add(new CMenuItem("Save as PDF", CAction.DISABLED));
-		m.add(new CMenuItem("Save as HTML", CAction.DISABLED));
+		m.add(new CMenuItem("Save as PDF", CAction.TODO));
+		m.add(new CMenuItem("Save as HTML", CAction.TODO));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
 		m.addSeparator();
@@ -97,26 +97,26 @@ public class NotebookWindow
 		
 		// edit
 		mb.add(m = new CMenu(Menus.Edit));
-		m.add(new CMenuItem("Cut Cell", CAction.DISABLED));
-		m.add(new CMenuItem("Copy Cell", CAction.DISABLED));
-		m.add(new CMenuItem("Paste Cell Above", CAction.DISABLED));
-		m.add(new CMenuItem("Paste Cell Below", CAction.DISABLED));
+		m.add(new CMenuItem("Cut Cell", CAction.TODO));
+		m.add(new CMenuItem("Copy Cell", CAction.TODO));
+		m.add(new CMenuItem("Paste Cell Above", CAction.TODO));
+		m.add(new CMenuItem("Paste Cell Below", CAction.TODO));
 		m.add(new CMenuItem("Delete", np.deleteCellAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Split Cell", CAction.DISABLED));
-		m.add(new CMenuItem("Merge Cell Above", CAction.DISABLED));
-		m.add(new CMenuItem("Merge Cell Below", CAction.DISABLED));
+		m.add(new CMenuItem("Split Cell", CAction.TODO));
+		m.add(new CMenuItem("Merge Cell Above", CAction.TODO));
+		m.add(new CMenuItem("Merge Cell Below", CAction.TODO));
 		m.addSeparator();
-		m.add(new CMenuItem("Move Cell Up", CAction.DISABLED));
-		m.add(new CMenuItem("Move Cell Down", CAction.DISABLED));
+		m.add(new CMenuItem("Move Cell Up", CAction.TODO));
+		m.add(new CMenuItem("Move Cell Down", CAction.TODO));
 		m.addSeparator();
 		m.add(new CMenuItem("Select Previous Cell", Accelerators.SELECT_PREV_CELL, np.selectPreviousCellAction));
 		m.add(new CMenuItem("Select Next Cell", Accelerators.SELECT_NEXT_CELL, np.selectNextCellAction));
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));
-		m.add(new CMenuItem("Toggle Header ?", CAction.DISABLED));
-		m.add(new CMenuItem("Toggle Toolbar ?", CAction.DISABLED));
+		m.add(new CMenuItem("Toggle Header ?", CAction.TODO));
+		m.add(new CMenuItem("Toggle Toolbar ?", CAction.TODO));
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
@@ -130,11 +130,11 @@ public class NotebookWindow
 		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Code", np.toCodeAction));
-		m.add(new CMenuItem("Markdown", CAction.DISABLED));
+		m.add(new CMenuItem("Markdown", CAction.TODO));
 		m.add(new CMenuItem("Raw Text", np.toTextAction));
 		m.add(new CMenuItem("Heading 1", np.toH1Action));
-		m.add(new CMenuItem("Heading 2", CAction.DISABLED));
-		m.add(new CMenuItem("Heading 3", CAction.DISABLED));
+		m.add(new CMenuItem("Heading 2", CAction.TODO));
+		m.add(new CMenuItem("Heading 3", CAction.TODO));
 //		m.add(new CMenuItem("Heading 4", CAction.DISABLED));
 //		m.add(new CMenuItem("Heading 5", CAction.DISABLED));
 //		m.add(new CMenuItem("Heading 6", CAction.DISABLED));
@@ -156,12 +156,12 @@ public class NotebookWindow
 		CToolBar t = Theme.toolbar();
 		t.add(new TButton(NotebookIcons.Save, "Save", true, saveAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.DISABLED));
-		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.DISABLED));
-		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.TODO));
+		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.TODO));
+		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.TODO));
 		t.space();
-		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.DISABLED));
-		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.TODO));
+		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.TODO));
 		t.space();
 		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));

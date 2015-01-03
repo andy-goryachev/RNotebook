@@ -205,17 +205,17 @@ public class CodePanel
 		if(text)
 		{
 			UI.separator(m);
-			m.add(new CMenuItem("Cut", CAction.DISABLED));
-			m.add(new CMenuItem("Copy", CAction.DISABLED));
-			m.add(new CMenuItem("Paste", CAction.DISABLED));
+			m.add(new CMenuItem("Cut", CAction.TODO));
+			m.add(new CMenuItem("Copy", CAction.TODO));
+			m.add(new CMenuItem("Paste", CAction.TODO));
 		}
 		
 		if(img)
 		{
 			UI.separator(m);
-			m.add(new CMenuItem("Copy", CAction.DISABLED));
+			m.add(new CMenuItem("Copy", CAction.TODO));
 			m.addSeparator();
-			m.add(new CMenuItem("Save Image", CAction.DISABLED));
+			m.add(new CMenuItem("Save Image", CAction.TODO));
 		}
 		
 		return m;

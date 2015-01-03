@@ -403,6 +403,7 @@ public class Context
 				{
 					throw new IllegalStateException("factory.makeContext() returned Context instance already associated with some thread");
 				}
+				
 				factory.onContextCreated(cx);
 				if(factory.isSealed() && !cx.isSealed())
 				{
@@ -416,6 +417,7 @@ public class Context
 					throw new IllegalStateException("can not use Context instance already associated with some thread");
 				}
 			}
+			
 			VMBridge.instance.setContext(helper, cx);
 		}
 		++cx.enterCount;

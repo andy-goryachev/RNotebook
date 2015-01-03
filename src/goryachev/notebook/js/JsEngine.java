@@ -8,23 +8,23 @@ import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
 import goryachev.notebook.js.nb.NB;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 
 public class JsEngine
 {
 	private final NotebookPanel np;
-	private ScriptEngine scriptEngine;
+	//private Context context;
+	protected Scriptable scope;
+	//private ScriptEngine scriptEngine;
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
 	private CList<Object> results = new CList();
-	protected static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+	//protected static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
@@ -34,32 +34,68 @@ public class JsEngine
 	}
 	
 	
-	protected synchronized ScriptEngine engine() throws Exception
+//	protected synchronized ScriptEngine engine() throws Exception
+//	{
+//		if(scriptEngine == null)
+//		{
+//			scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
+//			
+//			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
+//			{
+//				public void write(char[] cbuf, int off, int len) throws IOException
+//				{
+//					print(new String(cbuf,off,len));
+//				}
+//
+//				public void close() throws IOException { }
+//				public void flush() throws IOException { }
+//			}));
+//		
+//			// global context objects
+//			scriptEngine.put("FS", new FS());
+//			scriptEngine.put("IO", new IO());
+//			scriptEngine.put("NB", new NB());
+//			
+//			// common packages
+//			scriptEngine.eval("importPackage(Packages.java.lang);");
+//		}
+//		return scriptEngine;
+//	}
+	
+	
+	protected synchronized Scriptable scope(Context cx) throws Exception
 	{
-		if(scriptEngine == null)
+		if(scope == null)
 		{
-			scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
+//			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
+//			{
+//				public void write(char[] cbuf, int off, int len) throws IOException
+//				{
+//					print(new String(cbuf,off,len));
+//				}
+//
+//				public void close() throws IOException { }
+//				public void flush() throws IOException { }
+//			}));
+//		
+//			// global context objects
+//			scriptEngine.put("FS", new FS());
+//			scriptEngine.put("IO", new IO());
+//			scriptEngine.put("NB", new NB());
+//			
+//			// common packages
+//			scriptEngine.eval("importPackage(Packages.java.lang);");
 			
-			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
-			{
-				public void write(char[] cbuf, int off, int len) throws IOException
-				{
-					print(new String(cbuf,off,len));
-				}
-
-				public void close() throws IOException { }
-				public void flush() throws IOException { }
-			}));
-		
-			// global context objects
-			scriptEngine.put("FS", new FS());
-			scriptEngine.put("IO", new IO());
-			scriptEngine.put("NB", new NB());
+			scope = cx.initStandardObjects();
 			
-			// common packages
-			scriptEngine.eval("importPackage(Packages.java.lang);");
+			ScriptableObject.putProperty(scope, "FS", new FS());
+			ScriptableObject.putProperty(scope, "IO", new IO());
+			ScriptableObject.putProperty(scope, "NB", new NB());
+			
+			//cx.evaluateString(scope(cx), "importPackage(java.lang);", "<cmd>", 1, null);
 		}
-		return scriptEngine;
+		
+		return scope;
 	}
 	
 	
@@ -99,9 +135,17 @@ public class JsEngine
 		{
 			public void process() throws Throwable
 			{
-				engine.set(JsEngine.this);
-				Object rv = engine().eval(script);
-				display(rv);
+				Context cx = Context.enter();
+				try
+				{
+					engine.set(JsEngine.this);
+					Object rv = cx.evaluateString(scope(cx), script, "<cmd>", 1, null);
+					display(rv);
+				}
+				finally
+				{
+					Context.exit();
+				}
 			}
 			
 			public void success()

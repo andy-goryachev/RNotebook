@@ -81,7 +81,7 @@ public class CMenu
 	
 	public JMenuItem add(String s)
 	{
-		return super.add(new CMenuItem(Img.EMPTY, s, CAction.DISABLED));
+		return super.add(new CMenuItem(Img.EMPTY, s, CAction.TODO));
 	}
 	
 	

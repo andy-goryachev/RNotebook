@@ -5,7 +5,7 @@ To change the build for another application:
 
 <project>
 	<property name="TARGET" value="Notebook4"/>
-	<property name="MAIN" value="goryachev.notebook4.NotebookApp"/>
+	<property name="MAIN" value="goryachev.notebook.NotebookApp"/>
 
 	
 	<property name="DEBUG" value="false" />

@@ -58,9 +58,9 @@ public class TextPanel
 	{
 		if(c == textField)
 		{
-			m.add(new CMenuItem("Cut", CAction.DISABLED));
-			m.add(new CMenuItem("Copy", CAction.DISABLED));
-			m.add(new CMenuItem("Paste", CAction.DISABLED));
+			m.add(new CMenuItem("Cut", CAction.TODO));
+			m.add(new CMenuItem("Copy", CAction.TODO));
+			m.add(new CMenuItem("Paste", CAction.TODO));
 		}
 		else
 		{

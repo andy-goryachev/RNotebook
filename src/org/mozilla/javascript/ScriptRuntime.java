@@ -142,6 +142,7 @@ public class ScriptRuntime
 		{
 			scope = new NativeObject();
 		}
+		
 		scope.associateValue(LIBRARY_SCOPE_KEY, scope);
 		(new ClassCache()).associate(scope);
 
@@ -156,7 +157,9 @@ public class ScriptRuntime
 
 		// Set the prototype of the object passed in if need be
 		if(scope.getPrototype() == null)
+		{
 			scope.setPrototype(objectProto);
+		}
 
 		// must precede NativeGlobal since it's needed therein
 		NativeError.init(scope, sealed);
@@ -170,6 +173,7 @@ public class ScriptRuntime
 			// representation
 			NativeArray.setMaximumInitialCapacity(200000);
 		}
+		
 		NativeString.init(scope, sealed);
 		NativeBoolean.init(scope, sealed);
 		NativeNumber.init(scope, sealed);
