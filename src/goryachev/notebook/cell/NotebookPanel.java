@@ -66,7 +66,7 @@ public class NotebookPanel
 			}
 		};
 		
-		engine = new JsEngine();
+		engine = new JsEngine(this);
 		
 		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
 		
@@ -422,7 +422,7 @@ public class NotebookPanel
 		
 		if(ch == 1)
 		{
-			engine = new JsEngine();
+			engine = new JsEngine(this);
 		}
 	}
 }

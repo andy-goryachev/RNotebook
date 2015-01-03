@@ -4,8 +4,10 @@ import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
+import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
+import goryachev.notebook.js.nb.NB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -16,26 +18,29 @@ import javax.script.ScriptEngineManager;
 
 public class JsEngine
 {
-	private static ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-	private ScriptEngine engine;
+	private final NotebookPanel np;
+	private ScriptEngine scriptEngine;
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
 	private CList<Object> results = new CList();
+	protected static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
-	public JsEngine()
+	public JsEngine(NotebookPanel np)
 	{
+		this.np = np;
 	}
 	
 	
 	protected synchronized ScriptEngine engine() throws Exception
 	{
-		if(engine == null)
+		if(scriptEngine == null)
 		{
-			engine = scriptEngineManager.getEngineByName("JavaScript");
+			scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
 			
-			engine.getContext().setWriter(new PrintWriter(new Writer()
+			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
 			{
 				public void write(char[] cbuf, int off, int len) throws IOException
 				{
@@ -47,13 +52,14 @@ public class JsEngine
 			}));
 		
 			// global context objects
-			engine.put("IO", new IO());
-			engine.put("FS", new FS());
+			scriptEngine.put("FS", new FS());
+			scriptEngine.put("IO", new IO());
+			scriptEngine.put("NB", new NB());
 			
 			// common packages
-			engine.eval("importPackage(Packages.java.lang);");
+			scriptEngine.eval("importPackage(Packages.java.lang);");
 		}
-		return engine;
+		return scriptEngine;
 	}
 	
 	
@@ -70,14 +76,15 @@ public class JsEngine
 	}
 	
 	
-	protected synchronized void display(Object x)
+	public synchronized void display(Object x)
 	{
 		if(log.isNotEmpty())
 		{
 			results.add(log.getAndClear());
 		}
 		
-		results.add(x);
+		Object v = JsUtil.makeDatasnapshot(x);
+		results.add(v);
 	}
 	
 	
@@ -92,6 +99,7 @@ public class JsEngine
 		{
 			public void process() throws Throwable
 			{
+				engine.set(JsEngine.this);
 				Object rv = engine().eval(script);
 				display(rv);
 			}
@@ -139,5 +147,11 @@ public class JsEngine
 	public boolean isRunning()
 	{
 		return (thread != null);
+	}
+	
+	
+	public static JsEngine get()
+	{
+		return engine.get();
 	}
 }

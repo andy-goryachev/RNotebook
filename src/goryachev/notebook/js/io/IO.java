@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-/** "io" object in the global context */
+/** "IO" object in the global context */
 public class IO
 {
 	public IO()
@@ -28,6 +28,7 @@ public class IO
 	public JsTable loadTable(Object x) throws Exception
 	{
 		File f = JsUtil.parseFile(x);
+		JsUtil.todo(); // FIX
 		return new JsTable();
 	}
 	

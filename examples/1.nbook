@@ -12,7 +12,7 @@
     },
     {
       "type": "js",
-      "text": "print(\"does this print?\");\ni = IO.loadImage('examples/picture.jpg');\nprint(\"1\");\ni"
+      "text": "print(\"does this print?\");\ni = IO.loadImage('examples/picture.jpg');\nNB.display(i);\nprint(\"1\");\ni"
     },
     {
       "type": "js",

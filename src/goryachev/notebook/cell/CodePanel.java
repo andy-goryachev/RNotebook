@@ -11,7 +11,6 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.img.JsImage;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -136,12 +135,12 @@ public class CodePanel
 	}
 	
 	
+	// tightly linked with JsUtil.makeDatasnapshot()
 	protected JComponent createViewer(Object rv)
 	{
-		if(rv instanceof JsImage)
+		if(rv instanceof BufferedImage)
 		{
-			BufferedImage im = ((JsImage)rv).getBufferedImage();
-			JsImageViewer v = new JsImageViewer(im);
+			JsImageViewer v = new JsImageViewer((BufferedImage)rv);
 			v.addMouseListener(handler);
 			return v;
 		}
