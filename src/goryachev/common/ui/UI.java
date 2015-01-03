@@ -54,6 +54,7 @@ import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.MenuElement;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
@@ -1689,5 +1690,30 @@ public class UI
 		{
 			return null;
 		}
+	}
+
+
+	/** conditionally adds a separator to a menu that already contains one or more item */
+	public static void separator(JPopupMenu m)
+	{
+		if(m != null)
+		{
+			boolean populated = false;
+	        int sz = m.getComponentCount();
+	        for(int i=0; i<sz; i++) 
+	        {
+	            Component c = m.getComponent(i);
+	            if(c instanceof MenuElement)
+	            {
+	            	populated = true;
+	            	break;
+	            }
+	        }
+	        
+	        if(populated)
+	        {
+	        	m.addSeparator();
+	        }
+        }
 	}
 }

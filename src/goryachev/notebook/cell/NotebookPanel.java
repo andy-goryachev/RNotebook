@@ -112,7 +112,6 @@ public class NotebookPanel
 				String text = b.getText(i);
 				
 				CellPanel p = CellPanel.create(type, text);
-				p.initialize(this);
 				panel.add(p);
 				
 				if(i == 0)
@@ -344,7 +343,6 @@ public class NotebookPanel
 		{
 			String text = activeCell.getText();
 			CellPanel p = CellPanel.create(t, text);
-			p.initialize(this);
 			
 			replace(activeCell, p);
 		}
@@ -360,7 +358,6 @@ public class NotebookPanel
 		}
 		
 		CellPanel p = CellPanel.create(t, null);
-		p.initialize(this);
 			
 		int ix = indexOf(activeCell);
 		if(ix < 0)

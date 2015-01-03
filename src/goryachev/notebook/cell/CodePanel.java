@@ -15,7 +15,6 @@ import goryachev.notebook.js.img.JsImage;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -142,21 +141,19 @@ public class CodePanel
 		if(rv instanceof JsImage)
 		{
 			BufferedImage im = ((JsImage)rv).getBufferedImage();
-			
-			// FIX dedicated image viewer
-			JLabel t = new JLabel();
-			t.setIcon(new ImageIcon(im));
-			return t;
+			JsImageViewer v = new JsImageViewer(im);
+			v.addMouseListener(handler);
+			return v;
 		}
 		else if(rv instanceof Throwable)
 		{
 			String text = JsUtil.decodeException((Throwable)rv);
-			return text(text, Styles.errorColor);
+			return createTextViewer(text, Styles.errorColor);
 		}
 		else if(rv != null)
 		{
 			String text = rv.toString();
-			return text(text, Styles.resultColor);
+			return createTextViewer(text, Styles.resultColor);
 		}
 		else
 		{
@@ -165,7 +162,7 @@ public class CodePanel
 	}
 	
 	
-	protected JComponent text(String text, Color c)
+	protected JComponent createTextViewer(String text, Color c)
 	{
 		JTextArea t = new JTextArea();
 		t.setFont(Theme.monospacedFont());
@@ -181,22 +178,47 @@ public class CodePanel
 	
 	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
 	{
-		NotebookPanel np = NotebookPanel.get(c);
-		m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
-		m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
-		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
-		m.addSeparator();
+		boolean run = true;
+		boolean text = false;
+		boolean img = false;
+		boolean copy = false;
 		
 		if(c == textField)
 		{
+			text = true;
+		}
+		
+		if(c instanceof JsImageViewer)
+		{
+			img = true;
+			run = false;
+		}
+		
+		NotebookPanel np = NotebookPanel.get(c);
+		
+		if(run)
+		{
+			m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
+			m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
+			m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
+		}
+		
+		if(text)
+		{
+			UI.separator(m);
 			m.add(new CMenuItem("Cut", CAction.DISABLED));
 			m.add(new CMenuItem("Copy", CAction.DISABLED));
 			m.add(new CMenuItem("Paste", CAction.DISABLED));
 		}
-		else
+		
+		if(img)
 		{
-			m.add("code");
+			UI.separator(m);
+			m.add(new CMenuItem("Copy", CAction.DISABLED));
+			m.addSeparator();
+			m.add(new CMenuItem("Save Image", CAction.DISABLED));
 		}
+		
 		return m;
 	}
 }

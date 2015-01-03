@@ -23,8 +23,6 @@ public abstract class CellPanel
 	
 	public abstract CellType getType();
 	
-	protected final void initialize(NotebookPanel np) { }
-	
 	protected abstract JPopupMenu createPopupMenu(Component c, JPopupMenu m);
 	
 	//
