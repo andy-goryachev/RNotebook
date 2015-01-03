@@ -6,16 +6,18 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
-import goryachev.notebook.DataBook;
 import goryachev.notebook.CellType;
+import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.ScriptBody;
 import goryachev.notebook.js.ScriptLogger;
 import goryachev.notebook.js.img.JsImage;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
@@ -77,13 +79,16 @@ public class CodePanel
 	}
 	
 	
-	public void initialize(NotebookPanel np)
+	protected void initialize(NotebookPanel np)
 	{
-		// TODO setup popup menus
+		textField.addMouseListener(handler);
+		inField.addMouseListener(handler);
+		marginField.addMouseListener(handler);
+		resultField.addMouseListener(handler);
 	}
 	
 	
-	public void saveSection(DataBook b)
+	public void saveCell(DataBook b)
 	{
 		b.addCell(CellType.CODE, getText());
 		// TODO result
@@ -239,5 +244,19 @@ public class CodePanel
 			resultField.setForeground(Styles.resultColor);
 			return resultField;
 		}
+	}
+	
+	
+	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
+	{
+		if(c == textField)
+		{
+			m.add("editor");
+		}
+		else
+		{
+			m.add("code");
+		}
+		return m;
 	}
 }

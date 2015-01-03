@@ -1,8 +1,10 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import goryachev.common.ui.Theme;
-import goryachev.notebook.DataBook;
 import goryachev.notebook.CellType;
+import goryachev.notebook.DataBook;
+import java.awt.Component;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
@@ -37,13 +39,13 @@ public class TextPanel
 	}
 	
 
-	public void initialize(NotebookPanel np)
+	protected void initialize(NotebookPanel np)
 	{
-		// TODO setup popup menus
+		textField.addMouseListener(handler);
 	}
 	
 	
-	public void saveSection(DataBook b)
+	public void saveCell(DataBook b)
 	{
 		b.addCell(CellType.TEXT, getText());
 	}
@@ -52,5 +54,19 @@ public class TextPanel
 	public String getText()
 	{
 		return textField.getText();
+	}
+	
+	
+	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
+	{
+		if(c == textField)
+		{
+			m.add("TextField");
+		}
+		else
+		{
+			m.add("text");
+		}
+		return m;
 	}
 }

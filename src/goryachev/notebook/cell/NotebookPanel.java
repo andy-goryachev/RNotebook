@@ -6,15 +6,11 @@ import goryachev.common.ui.CPanel;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
-import goryachev.common.util.D;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import java.awt.Component;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 
 
@@ -37,8 +33,6 @@ public class NotebookPanel
 	public final InputTracker typeFieldTracker;
 	public final JPanel panel;
 	public final CellScrollPane scroll;
-	private static PropertyChangeListener focusListener;
-	protected static boolean suppressFocusListener;
 	private CellPanel activeCell;
 	
 	
@@ -67,47 +61,10 @@ public class NotebookPanel
 			}
 		};
 		
-		initStaticListener();
-		
 		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
 	}
 	
 
-	// FIX wrong, need mouse listener handler!
-	// or move this functionality to section panel mouse handler?
-	private void initStaticListener()
-	{
-		if(focusListener == null)
-		{
-			focusListener = new PropertyChangeListener()
-			{
-				public void propertyChange(PropertyChangeEvent ev)
-				{
-					if(!suppressFocusListener)
-					{
-						Object x = ev.getNewValue();
-						if(x != null)
-						{
-							CellPanel p = CellPanel.findParent(x);
-							if(p != null)
-							{
-								NotebookPanel np = get(p); 
-								if(np != null)
-								{
-									D.print(ev, p); // FIX
-									np.setActiveCell(p);
-								}
-							}
-						}
-					}
-				}
-			};
-			
-			KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", focusListener);
-		}
-	}
-	
-	
 	public static NotebookPanel get(Component c)
 	{
 		return UI.getAncestorOfClass(NotebookPanel.class, c);
@@ -118,9 +75,6 @@ public class NotebookPanel
 	{
 		if(p != activeCell)
 		{
-			D.print(p); // FIX
-			suppressFocusListener = true;
-			
 			if(activeCell != null)
 			{
 				activeCell.setActive(false);
@@ -129,9 +83,7 @@ public class NotebookPanel
 			activeCell = p;
 			activeCell.setActive(true);
 			
-			//activeSection.getEditor().requestFocusInWindow();
-			
-			suppressFocusListener = false;
+			activeCell.getEditor().requestFocusInWindow();
 			
 			updateActions();
 		}
@@ -176,7 +128,7 @@ public class NotebookPanel
 		for(int i=0; i<sz; i++)
 		{
 			CellPanel p = getCellAt(i);
-			p.saveSection(b);
+			p.saveCell(b);
 		}
 		return b;
 	}
@@ -350,8 +302,6 @@ public class NotebookPanel
 		int ix = indexOf(activeCell);
 		if(ix >= 0)
 		{
-			D.print(ix); // FIX
-
 			ix += delta;
 			if(ix < 0)
 			{
@@ -363,9 +313,7 @@ public class NotebookPanel
 			}
 			
 			CellPanel p = getCellAt(ix);
-			suppressFocusListener = true;
 			setActiveCell(p);
-			suppressFocusListener = false;
 			
 			p.getEditor().setCaretPosition(0);
 			p.getEditor().requestFocusInWindow();
@@ -378,7 +326,10 @@ public class NotebookPanel
 		if(t != null)
 		{
 			String text = activeCell.getText();
-			replace(activeCell, CellPanel.create(t, text));
+			CellPanel p = CellPanel.create(t, text);
+			p.initialize(this);
+			
+			replace(activeCell, p);
 		}
 	}
 	
@@ -386,6 +337,7 @@ public class NotebookPanel
 	protected void actionInsertCell(boolean above)
 	{
 		CellPanel p = CellPanel.create(getCellType(), null);
+		p.initialize(this);
 			
 		int ix = indexOf(activeCell);
 		if(ix < 0)

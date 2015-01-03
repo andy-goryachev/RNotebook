@@ -2,11 +2,12 @@
 package goryachev.notebook.cell;
 import goryachev.common.ui.UI;
 import goryachev.common.util.TextTools;
-import goryachev.notebook.DataBook;
 import goryachev.notebook.CellType;
+import goryachev.notebook.DataBook;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
@@ -17,20 +18,28 @@ public abstract class CellPanel
 	public abstract JTextComponent getEditor();
 	
 	public abstract String getText();
-	
-	public abstract void initialize(NotebookPanel np);
-	
-	public abstract void saveSection(DataBook b);
+		
+	public abstract void saveCell(DataBook b);
 	
 	public abstract CellType getType();
 	
+	protected abstract void initialize(NotebookPanel np);
+	
+	protected abstract JPopupMenu createPopupMenu(Component c, JPopupMenu m);
+	
 	//
+	
+	protected final CellHandler handler;
+	
 	
 	public CellPanel()
 	{
 		setLayout(new CellLayout());
 		setOpaque(false);
 		setBorder(new CellBorder());
+		
+		handler = new CellHandler();
+		addMouseListener(handler);
 	}
 	
 	
