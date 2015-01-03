@@ -143,7 +143,8 @@ public class NotebookPanel
 	{
 		CodePanel cp = getCodePanel();
 		boolean sec = (activeCell != null);
-		boolean running = (cp != null) && (!cp.isRunning());
+		boolean code = (cp != null);
+		boolean running = engine.isRunning();
 		CellType t = getCellType();
 		
 		// update type pulldown
@@ -159,10 +160,10 @@ public class NotebookPanel
 		
 		deleteCellAction.setEnabled(sec);
 		insertCellAboveAction.setEnabled(sec);
-		interruptAction.setEnabled(running);
+		interruptAction.setEnabled(code && running);
 		runAllAction.setEnabled(false); // FIX
-		runCellAction.setEnabled(running);
-		runInPlaceAction.setEnabled(running);
+		runCellAction.setEnabled(code && !running);
+		runInPlaceAction.setEnabled(code && !running);
 		selectNextCellAction.setEnabled(sec);
 		selectPreviousCellAction.setEnabled(sec);
 		toCodeAction.setEnabled(sec && (t != CellType.CODE));

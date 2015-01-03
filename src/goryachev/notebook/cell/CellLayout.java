@@ -18,7 +18,7 @@ public class CellLayout
 	public static final Object LEFT = new Object();
 	public static final Object RIGHT = new Object();
 
-	private static int leftMargin = 100;
+	private static int leftMargin = 75;
 	private static int rightMargin = 75;
 	private static int rightGap = 1;
 	private Component center;

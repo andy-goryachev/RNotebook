@@ -43,7 +43,15 @@
       "x": 2,
       "y": 0,
       "title": "BUGS",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "7FB7CD3B3FB14D755FD095338A57B7BEC51CC956",
+          "title": "interrupt script does not work",
+          "created": 1420268979357,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",

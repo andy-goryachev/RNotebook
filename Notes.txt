@@ -1,15 +1,11 @@
 ﻿node.js doc
 	http://nodejs.org/api/all.html
+	
+mozilla rhino Rhino 1.7R4
+	https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino
 
 
 TODO
-- save/open
-- save as [html, pdf]
-- recent files
-- ask to save on exit
-- open in new window
-- preferences
-- edit cells
 - syntax highlight
 - markdown
 
@@ -32,3 +28,4 @@ SUBSYSTEMS
 - assert
 - compression
 - os (see node.js)
+- display.display(image, text, ...)

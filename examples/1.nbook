@@ -12,7 +12,7 @@
     },
     {
       "type": "js",
-      "text": "IO.loadImage('examples/picture.jpg');"
+      "text": "print(\"does this print?\");\nIO.loadImage('examples/picture.jpg');"
     },
     {
       "type": "js",
@@ -20,7 +20,11 @@
     },
     {
       "type": "js",
-      "text": "io"
+      "text": "IO"
+    },
+    {
+      "type": "js",
+      "text": "i = new Integer(0);\nfor(i=0; i<100000; i++)\n{\n\tb = i + ' ';\n}\nprint(\"Done.\");"
     },
     {
       "type": "text",

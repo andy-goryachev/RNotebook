@@ -2,7 +2,7 @@
 package goryachev.notebook.js;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CList;
-import goryachev.common.util.D;
+import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
@@ -20,6 +20,7 @@ public class JsEngine
 	private ScriptEngine engine;
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
+	private SB log = new SB();
 	
 	
 	public JsEngine()
@@ -55,17 +56,24 @@ public class JsEngine
 	}
 	
 	
-	protected void print(String s)
+	protected synchronized void print(String s)
 	{
-		// FIX
-		D.print(s);
+		if(log.isNotEmpty())
+		{
+			log.nl();
+		}
+		
+		// TODO check for full buffer and append message "Too many lines" 
+		
+		log.append(s);
 	}
 	
 	
 	public void execute(final CodePanel p)
 	{
 		final String script = p.getText();
-		
+		p.setRunning();
+
 		thread = new BackgroundThread("js")
 		{
 			private Object rv;
@@ -93,7 +101,9 @@ public class JsEngine
 	{
 		thread = null;
 		
-		p.setResult(rv, err);
+		String logged = log.getAndClear();
+		int count = runCount.getAndIncrement();  
+		p.setResult(count, rv, err, logged);
 	}
 	
 	
