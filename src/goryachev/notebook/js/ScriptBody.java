@@ -10,6 +10,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 
+@Deprecated // kill
 public class ScriptBody
 {
 	private static ScriptEngineManager scriptEngineManager = new ScriptEngineManager();

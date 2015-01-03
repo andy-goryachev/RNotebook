@@ -141,7 +141,7 @@ public class NotebookWindow
 		
 		// engine
 		mb.add(m = new CMenu("Engine"));
-		m.add(new CMenuItem("Interrupt", CAction.DISABLED));
+		m.add(new CMenuItem("Interrupt", np.interruptAction));
 		m.add(new CMenuItem("Restart", CAction.DISABLED));
 		
 		// help
@@ -167,7 +167,7 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
 		t.space();
 		t.add(new TButton(NotebookIcons.Start, "Run Cell", true, np.runCellAction));
-		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, np.interruptAction));
 		t.space();
 		t.add(np.typeField);
 		return t;

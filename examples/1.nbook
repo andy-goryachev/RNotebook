@@ -12,7 +12,7 @@
     },
     {
       "type": "js",
-      "text": "io.loadImage('examples/picture.jpg');"
+      "text": "IO.loadImage('examples/picture.jpg');"
     },
     {
       "type": "js",

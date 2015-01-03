@@ -27,8 +27,8 @@ public class IO
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp();
-		h.a("io provides input/output functionality:");
-		h.a("io.loadImage(filename)", "loads image");
+		h.a("IO provides input/output functionality:");
+		h.a("IO.loadImage(filename)", "loads image");
 		return h.toString();
 	}
 }

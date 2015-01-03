@@ -8,6 +8,7 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
+import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,7 @@ public class NotebookPanel
 	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
+	public final CAction interruptAction = new CAction() { public void action() { actionInterrupt(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
 	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(); } };
@@ -33,6 +35,7 @@ public class NotebookPanel
 	public final InputTracker typeFieldTracker;
 	public final JPanel panel;
 	public final CellScrollPane scroll;
+	public final JsEngine engine;
 	private CellPanel activeCell;
 	
 	
@@ -60,6 +63,8 @@ public class NotebookPanel
 				actionSwitchType((CellType)typeField.getSelectedItem());
 			}
 		};
+		
+		engine = new JsEngine();
 		
 		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
 	}
@@ -138,7 +143,7 @@ public class NotebookPanel
 	{
 		CodePanel cp = getCodePanel();
 		boolean sec = (activeCell != null);
-		boolean run = (cp != null) && (!cp.isRunning());
+		boolean running = (cp != null) && (!cp.isRunning());
 		CellType t = getCellType();
 		
 		// update type pulldown
@@ -154,9 +159,10 @@ public class NotebookPanel
 		
 		deleteCellAction.setEnabled(sec);
 		insertCellAboveAction.setEnabled(sec);
+		interruptAction.setEnabled(running);
 		runAllAction.setEnabled(false); // FIX
-		runCellAction.setEnabled(run);
-		runInPlaceAction.setEnabled(run);
+		runCellAction.setEnabled(running);
+		runInPlaceAction.setEnabled(running);
 		selectNextCellAction.setEnabled(sec);
 		selectPreviousCellAction.setEnabled(sec);
 		toCodeAction.setEnabled(sec && (t != CellType.CODE));
@@ -267,17 +273,23 @@ public class NotebookPanel
 		CodePanel p = getCodePanel();
 		if(p != null)
 		{
-			if(!p.isRunning())
-			{
-				p.runScript();
-			}
+//			if(!p.isRunning())
+//			{
+//				p.runScript();
+//			}
+			
+			engine.execute(p);	
 		}
+		
+		updateActions();
 	}
 	
 	
 	protected void actionRunAll()
 	{
 		// TODO
+		
+		updateActions();
 	}
 	
 	
@@ -377,5 +389,11 @@ public class NotebookPanel
 			
 			UI.validateAndRepaint(this);
 		}
+	}
+	
+	
+	protected void actionInterrupt()
+	{
+		engine.interrupt();
 	}
 }

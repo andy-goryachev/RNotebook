@@ -138,6 +138,7 @@ public class CodePanel
 	}
 	
 	
+	@Deprecated
 	protected void error(ScriptBody p, Throwable e)
 	{
 		if(script == p)
@@ -148,12 +149,12 @@ public class CodePanel
 			resultField.setForeground(Styles.errorColor);
 			resultField.setCaretPosition(0);
 			
-			setResult(resultField);
+			setResultComponent(resultField);
 		}
 	}
 	
 	
-	protected void setResult(JComponent c)
+	protected void setResultComponent(JComponent c)
 	{
 		if(resultComponent != null)
 		{
@@ -213,6 +214,7 @@ public class CodePanel
 	}
 	
 	
+	@Deprecated
 	protected void finished(ScriptBody p, Object r)
 	{
 		if(script == p)
@@ -220,7 +222,30 @@ public class CodePanel
 			marginField.setText("=");
 			
 			JComponent v = createViewer(r);
-			setResult(v);
+			setResultComponent(v);
+		}
+	}
+	
+	
+	public void setResult(Object rv, Throwable err)
+	{
+		if(err == null)
+		{
+			marginField.setText("=");
+			
+			JComponent v = createViewer(rv);
+			setResultComponent(v);
+		}
+		else
+		{
+			// TODO decode error, cancelled
+			marginField.setText("ERR");
+			
+			resultField.setText(CKit.stackTrace(err));
+			resultField.setForeground(Styles.errorColor);
+			resultField.setCaretPosition(0);
+			
+			setResultComponent(resultField);
 		}
 	}
 	
