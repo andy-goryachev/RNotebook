@@ -110,8 +110,8 @@ public class NotebookWindow
 		m.add(new CMenuItem("Move Cell Up", CAction.DISABLED));
 		m.add(new CMenuItem("Move Cell Down", CAction.DISABLED));
 		m.addSeparator();
-		m.add(new CMenuItem("Select Previous Cell", np.selectPreviousCellAction));
-		m.add(new CMenuItem("Select Next Cell", np.selectNextCellAction));
+		m.add(new CMenuItem("Select Previous Cell", Accelerators.SELECT_PREV_CELL, np.selectPreviousCellAction));
+		m.add(new CMenuItem("Select Next Cell", Accelerators.SELECT_NEXT_CELL, np.selectNextCellAction));
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));

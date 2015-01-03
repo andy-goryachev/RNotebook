@@ -367,6 +367,7 @@ public class NotebookPanel
 			setActiveSection(p);
 			suppressFocusListener = false;
 			
+			p.getEditor().setCaretPosition(0);
 			p.getEditor().requestFocusInWindow();
 		}
 	}

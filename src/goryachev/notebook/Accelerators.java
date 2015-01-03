@@ -18,4 +18,6 @@ public class Accelerators
 	public static Accelerator RUN_IN_PLACE = new Accelerator("run.in.place", MAIN_MENU, "Run in Place", KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK);
 	public static Accelerator SAVE = new Accelerator("save", MAIN_MENU, Menus.Save, KeyEvent.VK_S, true);
 	public static Accelerator SAVE_AS = new Accelerator("save.as", MAIN_MENU, Menus.SaveAs);
+	public static Accelerator SELECT_NEXT_CELL = new Accelerator("select.next.cell", MAIN_MENU, "Select Next Cell", KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK);
+	public static Accelerator SELECT_PREV_CELL = new Accelerator("select.prev.cell", MAIN_MENU, "Select Previous Cell", KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK);
 }
