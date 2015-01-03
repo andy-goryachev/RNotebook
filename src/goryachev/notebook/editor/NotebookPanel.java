@@ -6,6 +6,7 @@ import goryachev.common.ui.CPanel;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import goryachev.common.util.D;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
 import java.awt.Component;
@@ -23,7 +24,11 @@ public class NotebookPanel
 	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
-	public final CAction runCurrentAction = new CAction() { public void action() { actionRunCurrent(); } };
+	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
+	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
+	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(); } };
+	public final CAction selectNextCellAction = new CAction() { public void action() { actionSelect(1); } };
+	public final CAction selectPreviousCellAction = new CAction() { public void action() { actionSelect(-1); } };
 	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(SectionType.CODE); } };
 	public final CAction toTextAction = new CAction() { public void action() { actionSwitchType(SectionType.TEXT); } };
 	public final CAction toH1Action = new CAction() { public void action() { actionSwitchType(SectionType.H1); } };
@@ -33,6 +38,7 @@ public class NotebookPanel
 	public final JPanel panel;
 	public final SectionScrollPane scroll;
 	private static PropertyChangeListener focusListener;
+	protected static boolean suppressFocusListener;
 	private SectionPanel activeSection;
 	
 	
@@ -63,10 +69,11 @@ public class NotebookPanel
 		
 		initStaticListener();
 		
-		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runCurrentAction);
+		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
 	}
 	
 
+	// FIX wrong, need mouse listener handler!
 	// or move this functionality to section panel mouse handler?
 	private void initStaticListener()
 	{
@@ -76,14 +83,21 @@ public class NotebookPanel
 			{
 				public void propertyChange(PropertyChangeEvent ev)
 				{
-					Object x = ev.getNewValue();
-					SectionPanel p = SectionPanel.findParent(x);
-					if(p != null)
+					if(!suppressFocusListener)
 					{
-						NotebookPanel np = get(p); 
-						if(np != null)
+						Object x = ev.getNewValue();
+						if(x != null)
 						{
-							np.setActiveSection(p);
+							SectionPanel p = SectionPanel.findParent(x);
+							if(p != null)
+							{
+								NotebookPanel np = get(p); 
+								if(np != null)
+								{
+									D.print(ev, p); // FIX
+									np.setActiveSection(p);
+								}
+							}
 						}
 					}
 				}
@@ -104,6 +118,9 @@ public class NotebookPanel
 	{
 		if(p != activeSection)
 		{
+			D.print(p); // FIX
+			suppressFocusListener = true;
+			
 			if(activeSection != null)
 			{
 				activeSection.setActive(false);
@@ -111,6 +128,10 @@ public class NotebookPanel
 			
 			activeSection = p;
 			activeSection.setActive(true);
+			
+			//activeSection.getEditor().requestFocusInWindow();
+			
+			suppressFocusListener = false;
 			
 			updateActions();
 		}
@@ -132,6 +153,11 @@ public class NotebookPanel
 				SectionPanel p = SectionPanel.create(type, text);
 				p.initialize(this);
 				panel.add(p);
+				
+				if(i == 0)
+				{
+					setActiveSection(p);
+				}
 			}
 		}
 		
@@ -160,6 +186,7 @@ public class NotebookPanel
 	{
 		CodePanel cp = getCodePanel();
 		boolean sec = (activeSection != null);
+		boolean run = (cp != null) && (!cp.isRunning());
 		SectionType t = getSectionType();
 		
 		// update type pulldown
@@ -175,7 +202,11 @@ public class NotebookPanel
 		
 		deleteCellAction.setEnabled(sec);
 		insertCellAboveAction.setEnabled(sec);
-		runCurrentAction.setEnabled((cp != null) && (!cp.isRunning()));
+		runAllAction.setEnabled(false); // FIX
+		runCellAction.setEnabled(run);
+		runInPlaceAction.setEnabled(run);
+		selectNextCellAction.setEnabled(sec);
+		selectPreviousCellAction.setEnabled(sec);
 		toCodeAction.setEnabled(sec && (t != SectionType.CODE));
 		toH1Action.setEnabled(sec && (t != SectionType.H1));
 		toTextAction.setEnabled(sec && (t != SectionType.TEXT));
@@ -214,6 +245,21 @@ public class NotebookPanel
 			}
 		}
 		return -1;
+	}
+	
+	
+	/** if current non-null cell is the last */
+	public boolean isLast()
+	{
+		int ix = indexOf(activeSection);
+		if(ix >= 0)
+		{
+			if(ix == (getSectionCount() - 1))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -264,7 +310,7 @@ public class NotebookPanel
 	}
 
 
-	protected void actionRunCurrent()
+	protected void actionRunInPlace()
 	{
 		CodePanel p = getCodePanel();
 		if(p != null)
@@ -273,6 +319,55 @@ public class NotebookPanel
 			{
 				p.runScript();
 			}
+		}
+	}
+	
+	
+	protected void actionRunAll()
+	{
+		// TODO
+	}
+	
+	
+	// moves to next cell (or creates empty code cell if last)
+	protected void actionRunCell()
+	{
+		actionRunInPlace();
+		
+		if(isLast())
+		{
+			actionInsertCell(false);
+		}
+		else
+		{
+			actionSelect(1);
+		}
+	}
+	
+	
+	protected void actionSelect(int delta)
+	{
+		int ix = indexOf(activeSection);
+		if(ix >= 0)
+		{
+			D.print(ix); // FIX
+
+			ix += delta;
+			if(ix < 0)
+			{
+				ix = 0;
+			}
+			else if(ix >= getSectionCount())
+			{
+				ix = getSectionCount() - 1;
+			}
+			
+			SectionPanel p = getSectionAt(ix);
+			suppressFocusListener = true;
+			setActiveSection(p);
+			suppressFocusListener = false;
+			
+			p.getEditor().requestFocusInWindow();
 		}
 	}
 	

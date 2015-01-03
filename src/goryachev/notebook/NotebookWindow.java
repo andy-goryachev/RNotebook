@@ -110,8 +110,8 @@ public class NotebookWindow
 		m.add(new CMenuItem("Move Cell Up", CAction.DISABLED));
 		m.add(new CMenuItem("Move Cell Down", CAction.DISABLED));
 		m.addSeparator();
-		m.add(new CMenuItem("Select Previous Cell", CAction.DISABLED));
-		m.add(new CMenuItem("Select Next Cell", CAction.DISABLED));
+		m.add(new CMenuItem("Select Previous Cell", np.selectPreviousCellAction));
+		m.add(new CMenuItem("Select Next Cell", np.selectNextCellAction));
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));
@@ -125,24 +125,24 @@ public class NotebookWindow
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));
-		m.add(new CMenuItem("Run", np.runCurrentAction));
-		m.add("Run in Place");
-		m.add("Run All");
+		m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
+		m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
+		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Code", np.toCodeAction));
-		m.add("Markdown");
+		m.add(new CMenuItem("Markdown", CAction.DISABLED));
 		m.add(new CMenuItem("Raw Text", np.toTextAction));
 		m.add(new CMenuItem("Heading 1", np.toH1Action));
-		m.add("Heading 2");
-		m.add("Heading 3");
-		m.add("Heading 4");
-		m.add("Heading 5");
-		m.add("Heading 6");
+		m.add(new CMenuItem("Heading 2", CAction.DISABLED));
+		m.add(new CMenuItem("Heading 3", CAction.DISABLED));
+//		m.add(new CMenuItem("Heading 4", CAction.DISABLED));
+//		m.add(new CMenuItem("Heading 5", CAction.DISABLED));
+//		m.add(new CMenuItem("Heading 6", CAction.DISABLED));
 		
 		// engine
 		mb.add(m = new CMenu("Engine"));
-		m.add("Interrupt");
-		m.add("Restart");
+		m.add(new CMenuItem("Interrupt", CAction.DISABLED));
+		m.add(new CMenuItem("Restart", CAction.DISABLED));
 		
 		// help
 		mb.add(new HelpMenu());
@@ -166,7 +166,7 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Start, "Run", true, np.runCurrentAction));
+		t.add(new TButton(NotebookIcons.Start, "Run", true, np.runInPlaceAction));
 		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.DISABLED));
 		t.space();
 		t.add(np.typeField);

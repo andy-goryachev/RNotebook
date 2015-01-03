@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.editor;
 import goryachev.common.ui.UI;
+import goryachev.common.util.TextTools;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.SectionType;
 import java.awt.Component;
@@ -102,6 +103,12 @@ public abstract class SectionPanel
 				}
 			}
 		});
+	}
+	
+	
+	public String toString()
+	{
+		return getClass().getSimpleName() + " " + TextTools.trimNicely(getText(), 20);
 	}
 	
 	
