@@ -3,7 +3,7 @@ package goryachev.notebook;
 import goryachev.common.util.TXT;
 
 
-public enum SectionType 
+public enum CellType 
 {
 	CODE(TXT.get("SectionType.code", "Code")),
 	H1(TXT.get("SectionType.heading 1", "Heading 1")), 
@@ -16,7 +16,7 @@ public enum SectionType
 	private String name;
 	
 	
-	SectionType(String name)
+	CellType(String name)
 	{
 		this.name = name;
 	}

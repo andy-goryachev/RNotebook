@@ -2,13 +2,13 @@
 package goryachev.notebook.editor;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.DataBook;
-import goryachev.notebook.SectionType;
+import goryachev.notebook.CellType;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 
 public class TextPanel
-	extends SectionPanel
+	extends CellPanel
 {
 	public final JTextArea textField;
 	
@@ -25,9 +25,9 @@ public class TextPanel
 	
 	
 	
-	public SectionType getType()
+	public CellType getType()
 	{
-		return SectionType.TEXT;
+		return CellType.TEXT;
 	}
 	
 	
@@ -45,7 +45,7 @@ public class TextPanel
 	
 	public void saveSection(DataBook b)
 	{
-		b.addSection(SectionType.TEXT, getText());
+		b.addCell(CellType.TEXT, getText());
 	}
 	
 

@@ -3,7 +3,7 @@ package goryachev.notebook.util;
 import goryachev.json.JsonDecoder;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
-import goryachev.notebook.SectionType;
+import goryachev.notebook.CellType;
 import java.io.Reader;
 
 
@@ -27,7 +27,7 @@ public class DataBookJsonReader
 		while(inObject())
 		{
 			String s = nextName();
-			if(Schema.KEY_SECTIONS.equals(s))
+			if(Schema.KEY_CELLS.equals(s))
 			{
 				// validate file type
 				if(!Schema.TYPE.equals(type))
@@ -82,7 +82,7 @@ public class DataBookJsonReader
 		while(inObject())
 		{
 			String s = nextName();
-			if(Schema.KEY_SECTION_TYPE.equals(s))
+			if(Schema.KEY_CELL_TYPE.equals(s))
 			{
 				type = nextString();
 			}
@@ -95,24 +95,24 @@ public class DataBookJsonReader
 		}
 		endObject();
 		
-		SectionType t = parseSectionType(type);
-		b.addSection(t, text);
+		CellType t = parseSectionType(type);
+		b.addCell(t, text);
 	}
 
 
-	protected SectionType parseSectionType(String s) throws Exception
+	protected CellType parseSectionType(String s) throws Exception
 	{
-		if(Schema.SECTION_TYPE_CODE.equals(s))
+		if(Schema.CELL_TYPE_CODE.equals(s))
 		{
-			return SectionType.CODE;
+			return CellType.CODE;
 		}
-		else if(Schema.SECTION_TYPE_H1.equals(s))
+		else if(Schema.CELL_TYPE_H1.equals(s))
 		{
-			return SectionType.H1;
+			return CellType.H1;
 		}
-		else if(Schema.SECTION_TYPE_TEXT.equals(s))
+		else if(Schema.CELL_TYPE_TEXT.equals(s))
 		{
-			return SectionType.TEXT;
+			return CellType.TEXT;
 		}
 		else
 		{

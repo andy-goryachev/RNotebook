@@ -11,7 +11,7 @@ import java.awt.LayoutManager2;
 /**
  * Section: left label, top text editor, bottom result, right margin label.
  */
-public class SectionLayout
+public class CellLayout
     implements LayoutManager2
 {
 	public static final Object CENTER = new Object();
@@ -26,7 +26,7 @@ public class SectionLayout
 	private Component right;
 	
 
-	public SectionLayout()
+	public CellLayout()
 	{
 	}
 	

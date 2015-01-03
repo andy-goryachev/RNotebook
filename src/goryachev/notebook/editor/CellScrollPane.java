@@ -8,10 +8,10 @@ import java.awt.Graphics;
 import javax.swing.JViewport;
 
 
-public class SectionScrollPane
+public class CellScrollPane
 	extends CScrollPane
 {
-	public SectionScrollPane(Component c)
+	public CellScrollPane(Component c)
 	{
 		super(c);
 		setBackground2(Theme.textBG());
@@ -26,10 +26,7 @@ public class SectionScrollPane
 			{
 				super.paintComponent(g);
 				
-				// comes from SectionBorder
-				int fudge = 2;
-				
-				int x = getWidth() - SectionLayout.getRightMargin() - fudge;
+				int x = getWidth() - CellLayout.getRightMargin() - CellBorder.INSETS.right - 1;
 				g.setColor(Styles.marginLineColor);
 				g.drawLine(x, 0, x, getHeight());
 			}

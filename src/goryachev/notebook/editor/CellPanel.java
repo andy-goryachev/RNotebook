@@ -3,7 +3,7 @@ package goryachev.notebook.editor;
 import goryachev.common.ui.UI;
 import goryachev.common.util.TextTools;
 import goryachev.notebook.DataBook;
-import goryachev.notebook.SectionType;
+import goryachev.notebook.CellType;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
 
-public abstract class SectionPanel
+public abstract class CellPanel
 	extends JPanel
 {
 	public abstract JTextComponent getEditor();
@@ -22,24 +22,24 @@ public abstract class SectionPanel
 	
 	public abstract void saveSection(DataBook b);
 	
-	public abstract SectionType getType();
+	public abstract CellType getType();
 	
 	//
 	
-	public SectionPanel()
+	public CellPanel()
 	{
-		setLayout(new SectionLayout());
+		setLayout(new CellLayout());
 		setOpaque(false);
-		setBorder(new SectionBorder());
+		setBorder(new CellBorder());
 	}
 	
 	
 	public void setActive(boolean on)
 	{
 		Border b = getBorder();
-		if(b instanceof SectionBorder)
+		if(b instanceof CellBorder)
 		{
-			((SectionBorder)b).setActive(on);
+			((CellBorder)b).setActive(on);
 			repaint();
 		}
 	}
@@ -53,13 +53,13 @@ public abstract class SectionPanel
 	
 	protected void setLeft(Component c)
 	{
-		add(c, SectionLayout.LEFT);
+		add(c, CellLayout.LEFT);
 	}
 	
 	
 	protected void setRight(Component c)
 	{
-		add(c, SectionLayout.RIGHT);
+		add(c, CellLayout.RIGHT);
 	}
 	
 	
@@ -67,20 +67,20 @@ public abstract class SectionPanel
 	{
 		// this is the case of a single full-width component
 		removeAll();
-		add(c, SectionLayout.CENTER);
+		add(c, CellLayout.CENTER);
 	}
 
 
-	public static SectionPanel findParent(Object x)
+	public static CellPanel findParent(Object x)
 	{
 		if(x instanceof Container)
 		{
 			Container c = (Container)x;
 			while(c != null)
 			{
-				if(c instanceof SectionPanel)
+				if(c instanceof CellPanel)
 				{
-					return (SectionPanel)c;
+					return (CellPanel)c;
 				}
 				
 				c = c.getParent();
@@ -112,7 +112,7 @@ public abstract class SectionPanel
 	}
 	
 	
-	public static SectionPanel create(SectionType type, String text)
+	public static CellPanel create(CellType type, String text)
 	{
 		switch(type)
 		{

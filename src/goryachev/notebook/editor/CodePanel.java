@@ -7,7 +7,7 @@ import goryachev.common.ui.UI;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
 import goryachev.notebook.DataBook;
-import goryachev.notebook.SectionType;
+import goryachev.notebook.CellType;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.ScriptBody;
 import goryachev.notebook.js.ScriptLogger;
@@ -21,7 +21,7 @@ import javax.swing.text.JTextComponent;
 
 
 public class CodePanel
-	extends SectionPanel
+	extends CellPanel
 	implements ScriptLogger
 {
 	public final JTextArea textField;
@@ -65,9 +65,9 @@ public class CodePanel
 	}
 	
 	
-	public SectionType getType()
+	public CellType getType()
 	{
-		return SectionType.CODE;
+		return CellType.CODE;
 	}
 	
 	
@@ -85,7 +85,7 @@ public class CodePanel
 	
 	public void saveSection(DataBook b)
 	{
-		b.addSection(SectionType.CODE, getText());
+		b.addCell(CellType.CODE, getText());
 		// TODO result
 	}
 	

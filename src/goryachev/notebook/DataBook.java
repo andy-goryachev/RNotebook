@@ -5,12 +5,12 @@ import goryachev.common.util.CList;
 
 public class DataBook
 {
-	public class Section
+	public class Cell
 	{
-		public SectionType type;
+		public CellType type;
 		public String text;
 		
-		public Section(SectionType type, String text)
+		public Cell(CellType type, String text)
 		{
 			this.type = type;
 			this.text = text;
@@ -19,7 +19,7 @@ public class DataBook
 	
 	//
 	
-	private CList<Section> sections = new CList();
+	private CList<Cell> sections = new CList();
 
 	
 	public DataBook()
@@ -27,9 +27,9 @@ public class DataBook
 	}
 	
 	
-	public void addSection(SectionType type, String text)
+	public void addCell(CellType type, String text)
 	{
-		sections.add(new Section(type, text));
+		sections.add(new Cell(type, text));
 	}
 	
 	
@@ -39,7 +39,7 @@ public class DataBook
 	}
 	
 	
-	public SectionType getType(int ix)
+	public CellType getType(int ix)
 	{
 		return sections.get(ix).type;
 	}

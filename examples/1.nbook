@@ -1,7 +1,7 @@
 {
   "type": "ResearchNotebook",
   "version": "1.0",
-  "sections": [
+  "cells": [
     {
       "type": "h1",
       "text": "Notebook Example"

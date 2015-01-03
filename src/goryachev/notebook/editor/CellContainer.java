@@ -7,11 +7,11 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 
-public class SectionContainer
+public class CellContainer
     extends JPanel
     implements Scrollable
 {
-	public SectionContainer()
+	public CellContainer()
 	{
 		super(new VerLayout());
 		setOpaque(false);

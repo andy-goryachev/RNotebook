@@ -7,13 +7,14 @@ import java.awt.Insets;
 import javax.swing.border.AbstractBorder;
 
 
-public class SectionBorder
+public class CellBorder
     extends AbstractBorder
 {
+	public static final Insets INSETS = new Insets(1, 1, 1, 1);
 	private boolean active;
 	
 	
-	public SectionBorder()
+	public CellBorder()
 	{
 	}
 	
@@ -36,7 +37,7 @@ public class SectionBorder
 
 	public Insets getBorderInsets(Component c)
 	{
-		return new Insets(1, 1, 1, 1);
+		return INSETS;
 	}
 
 
