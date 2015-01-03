@@ -51,15 +51,7 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": [
-        {
-          "id": "FCA55E547310D560E18DB2C0168957E55889E03F",
-          "title": "global engine context",
-          "created": 1420241253544,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -91,5 +83,13 @@
       ]
     }
   ],
-  "task.history": []
+  "task.history": [
+    {
+      "id": "FCA55E547310D560E18DB2C0168957E55889E03F",
+      "title": "global engine context",
+      "created": 1420241253544,
+      "completed": 1420318537786,
+      "description": null
+    }
+  ]
 }
