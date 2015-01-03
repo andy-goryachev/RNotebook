@@ -1,6 +1,8 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import java.awt.Component;
+import goryachev.common.ui.CAction;
+import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
@@ -62,7 +64,9 @@ public class HeaderPanel
 	{
 		if(c == textField)
 		{
-			m.add("TextField");
+			m.add(new CMenuItem("Cut", CAction.DISABLED));
+			m.add(new CMenuItem("Copy", CAction.DISABLED));
+			m.add(new CMenuItem("Paste", CAction.DISABLED));
 		}
 		else
 		{

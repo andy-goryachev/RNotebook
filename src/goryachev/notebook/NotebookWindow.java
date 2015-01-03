@@ -69,8 +69,6 @@ public class NotebookWindow
 		setMinimumSize(500, 300);
 		setSize(700, 900);
 
-		//setDataBook(Demo.createDataBook());
-		
 		updateActions();
 	}
 	
@@ -88,6 +86,8 @@ public class NotebookWindow
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Save, Accelerators.SAVE, saveAction));
 		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
+		m.add(new CMenuItem("Save as PDF", CAction.DISABLED));
+		m.add(new CMenuItem("Save as HTML", CAction.DISABLED));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
 		m.addSeparator();
@@ -166,7 +166,7 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Start, "Run", true, np.runInPlaceAction));
+		t.add(new TButton(NotebookIcons.Start, "Run Cell", true, np.runCellAction));
 		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, CAction.DISABLED));
 		t.space();
 		t.add(np.typeField);
