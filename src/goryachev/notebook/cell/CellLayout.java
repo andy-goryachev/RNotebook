@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.editor;
+package goryachev.notebook.cell;
 import goryachev.common.util.CException;
 import java.awt.Component;
 import java.awt.Container;

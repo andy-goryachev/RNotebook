@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.editor;
+package goryachev.notebook.cell;
 import goryachev.common.ui.UI;
 import goryachev.common.util.TextTools;
 import goryachev.notebook.DataBook;

@@ -1,34 +1,33 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.editor;
+package goryachev.notebook.cell;
 import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.CellType;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 
-public class HeaderPanel
+public class TextPanel
 	extends CellPanel
 {
 	public final JTextArea textField;
 	
 	
-	public HeaderPanel(String text)
+	public TextPanel(String text)
 	{
 		textField = new JTextArea(text);
-		textField.setFont(UI.deriveFont(Theme.plainFont(), true, 1.8f));
+		textField.setFont(Theme.plainFont());
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
-		textField.setOpaque(false);
 		
-		setCenter(textField);
+		setTop(textField);
 	}
+	
 	
 	
 	public CellType getType()
 	{
-		return CellType.H1;
+		return CellType.TEXT;
 	}
 	
 	
@@ -46,10 +45,10 @@ public class HeaderPanel
 	
 	public void saveSection(DataBook b)
 	{
-		b.addCell(CellType.H1, getText());
+		b.addCell(CellType.TEXT, getText());
 	}
 	
-	
+
 	public String getText()
 	{
 		return textField.getText();

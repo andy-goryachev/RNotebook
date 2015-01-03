@@ -20,7 +20,7 @@ import goryachev.common.ui.options.RecentFilesOption;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
 import goryachev.common.util.TXT;
-import goryachev.notebook.editor.NotebookPanel;
+import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.util.DataBookJsonReader;
 import goryachev.notebook.util.DataBookJsonWriter;

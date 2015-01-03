@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.editor;
+package goryachev.notebook.cell;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.JPanel;

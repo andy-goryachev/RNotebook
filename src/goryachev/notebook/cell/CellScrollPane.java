@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.editor;
+package goryachev.notebook.cell;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
