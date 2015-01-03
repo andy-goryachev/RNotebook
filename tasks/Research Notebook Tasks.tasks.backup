@@ -35,6 +35,13 @@
           "created": 1420249262648,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "F9A97C22E97E0BD9F387690791C3EF51ABE76A16",
+          "title": "sys.display()",
+          "created": 1420276455287,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -43,7 +50,15 @@
       "x": 2,
       "y": 0,
       "title": "BUGS",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "7FB7CD3B3FB14D755FD095338A57B7BEC51CC956",
+          "title": "interrupt script does not work",
+          "created": 1420268979357,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
@@ -53,7 +68,7 @@
       "tasks": [
         {
           "id": "FCA55E547310D560E18DB2C0168957E55889E03F",
-          "title": "engine context",
+          "title": "global engine context",
           "created": 1420241253544,
           "completed": null,
           "description": null

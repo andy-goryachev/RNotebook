@@ -142,7 +142,7 @@ public class NotebookWindow
 		// engine
 		mb.add(m = new CMenu("Engine"));
 		m.add(new CMenuItem("Interrupt", np.interruptAction));
-		m.add(new CMenuItem("Restart", CAction.DISABLED));
+		m.add(new CMenuItem("Restart", np.restartEngineAction));
 		
 		// help
 		mb.add(new HelpMenu());

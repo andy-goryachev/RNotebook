@@ -5,12 +5,14 @@ import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
-import goryachev.common.util.CKit;
+import goryachev.common.util.CList;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
+import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.img.JsImage;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
@@ -27,9 +29,8 @@ public class CodePanel
 	public final JTextArea textField;
 	public final JLabel inField;
 	public final JLabel marginField;
-	private final JTextArea resultField;
 	private static CBorder BORDER = new CBorder(2, 4);
-	private transient JComponent resultComponent;
+	private CList<JComponent> resultComponents;
 	
 	
 	public CodePanel(String text)
@@ -39,25 +40,21 @@ public class CodePanel
 		textField.setBackground(Styles.codeColor);
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
+		textField.addMouseListener(handler);
 		setTop(textField);
 		
 		inField = new JLabel("In (*):");
 		inField.setBorder(BORDER);
 		inField.setForeground(Styles.marginTextColor);
 		inField.setHorizontalAlignment(JLabel.RIGHT);
+		inField.addMouseListener(handler);
 		setLeft(inField);
 		
 		marginField = new JLabel(">");
 		marginField.setBorder(BORDER);
 		marginField.setForeground(Styles.marginTextColor);
+		marginField.addMouseListener(handler);
 		setRight(marginField);
-		
-		resultField = new JTextArea();
-		resultField.setFont(Theme.monospacedFont());
-		resultField.setForeground(Styles.resultColor);
-		resultField.setLineWrap(true);
-		resultField.setWrapStyleWord(true);
-		resultField.setEditable(false);
 	}
 	
 	
@@ -70,15 +67,6 @@ public class CodePanel
 	public JTextComponent getEditor()
 	{
 		return textField;
-	}
-	
-	
-	protected void initialize(NotebookPanel np)
-	{
-		textField.addMouseListener(handler);
-		inField.addMouseListener(handler);
-		marginField.addMouseListener(handler);
-		resultField.addMouseListener(handler);
 	}
 	
 	
@@ -97,97 +85,97 @@ public class CodePanel
 	
 	public void setRunning()
 	{
-		marginField.setText("*");
+		marginField.setText(">>>");
 	}
 	
 	
-	// TODO multiple results of different kind + interspersed with logged output
-	public void setResult(int count, Object rv, Throwable err, String logged)
+	public void setResult(int count, CList<Object> results)
 	{
+		NotebookPanel np = NotebookPanel.get(this);
+		
+		// run count
 		inField.setText("In (" + count + "):");
 		
-		if(err == null)
+		// results
+		boolean error = false;
+		CList<JComponent> cs = new CList();
+		for(Object rv: results)
 		{
-			marginField.setText("=");
-			
-			if(rv != null)
+			if(rv instanceof Throwable)
 			{
-				// FIX multiple results
-				if(CKit.isNotBlank(logged))
-				{
-					logged = logged + "\n" + rv;
-				}
-				else
-				{
-					logged = rv.toString();
-				}
+				error = true;
 			}
 			
-			JComponent v = createViewer(rv, logged);
-			setResultComponent(v);
-		}
-		else
-		{
-			// TODO decode error, cancelled
-			marginField.setText("ERR");
-			
-			// FIX logged in different color?
-			
-			resultField.setText(CKit.stackTrace(err));
-			resultField.setForeground(Styles.errorColor);
-			resultField.setCaretPosition(0);
-			
-			setResultComponent(resultField);
-		}
-	}
-	
-	
-	protected void setResultComponent(JComponent c)
-	{
-		if(resultComponent != null)
-		{
-			remove(resultComponent);
+			JComponent c = createViewer(rv);
+			if(c != null)
+			{
+				cs.add(c);
+			}
 		}
 		
-		resultComponent = c;
-		add(resultComponent);
+		// margin
+		marginField.setText(error ? "ERROR" : "=");
+		
+		// components
+		if(resultComponents != null)
+		{
+			for(JComponent c: resultComponents)
+			{
+				remove(c);
+			}
+		}
+		
+		resultComponents = cs;
+		
+		for(JComponent c: cs)
+		{
+			add(c);
+		}
+		
 		UI.validateAndRepaint(this);
-		
-		NotebookPanel np = NotebookPanel.get(this);
-		if(np != null)
-		{
-			np.updateActions();
-		}
+		np.updateActions();
 	}
 	
 	
-	@Deprecated
-	protected JComponent createViewer(Object r, String logged)
+	protected JComponent createViewer(Object rv)
 	{
-		// FIX logged
-		
-		if(r instanceof JsImage)
+		if(rv instanceof JsImage)
 		{
-			// FIX logged!
+			BufferedImage im = ((JsImage)rv).getBufferedImage();
 			
-			BufferedImage im = ((JsImage)r).getBufferedImage();
-			
+			// FIX dedicated image viewer
 			JLabel t = new JLabel();
 			t.setIcon(new ImageIcon(im));
 			return t;
 		}
+		else if(rv instanceof Throwable)
+		{
+			String text = JsUtil.decodeException((Throwable)rv);
+			return text(text, Styles.errorColor);
+		}
+		else if(rv != null)
+		{
+			String text = rv.toString();
+			return text(text, Styles.resultColor);
+		}
 		else
 		{
-//			if(log.isNotEmpty())
-//			{
-//				log.nl();
-//			}
-//			log.a(r);
-
-			resultField.setText(logged);
-			resultField.setForeground(Styles.resultColor);
-			return resultField;
+			return null;
 		}
+	}
+	
+	
+	protected JComponent text(String text, Color c)
+	{
+		JTextArea t = new JTextArea();
+		t.setFont(Theme.monospacedFont());
+		t.setForeground(c);
+		t.setLineWrap(true);
+		t.setWrapStyleWord(true);
+		t.setEditable(false);
+		t.addMouseListener(handler);
+		t.setText(text);
+		return t;
 	}
 	
 	

@@ -1,12 +1,12 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import java.awt.Component;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
-import goryachev.notebook.DataBook;
 import goryachev.notebook.CellType;
+import goryachev.notebook.DataBook;
+import java.awt.Component;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
@@ -25,6 +25,7 @@ public class HeaderPanel
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		textField.setOpaque(false);
+		textField.addMouseListener(handler);
 		
 		setCenter(textField);
 	}
@@ -41,12 +42,6 @@ public class HeaderPanel
 		return textField;
 	}
 
-
-	protected void initialize(NotebookPanel np)
-	{
-		textField.addMouseListener(handler);
-	}
-	
 	
 	public void saveCell(DataBook b)
 	{

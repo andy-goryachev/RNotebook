@@ -23,6 +23,7 @@ public class TextPanel
 		textField.setFont(Theme.plainFont());
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
+		textField.addMouseListener(handler);
 		
 		setTop(textField);
 	}
@@ -38,12 +39,6 @@ public class TextPanel
 	public JTextComponent getEditor()
 	{
 		return textField;
-	}
-	
-
-	protected void initialize(NotebookPanel np)
-	{
-		textField.addMouseListener(handler);
 	}
 	
 	

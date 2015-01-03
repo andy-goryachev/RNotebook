@@ -3,6 +3,7 @@ package goryachev.notebook.cell;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
+import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -22,6 +23,7 @@ public class NotebookPanel
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
 	public final CAction interruptAction = new CAction() { public void action() { actionInterrupt(); } };
+	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
 	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(); } };
@@ -35,7 +37,7 @@ public class NotebookPanel
 	public final InputTracker typeFieldTracker;
 	public final JPanel panel;
 	public final CellScrollPane scroll;
-	public final JsEngine engine;
+	private JsEngine engine;
 	private CellPanel activeCell;
 	
 	
@@ -67,6 +69,8 @@ public class NotebookPanel
 		engine = new JsEngine();
 		
 		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
+		
+		updateActions();
 	}
 	
 
@@ -349,7 +353,13 @@ public class NotebookPanel
 	
 	protected void actionInsertCell(boolean above)
 	{
-		CellPanel p = CellPanel.create(getCellType(), null);
+		CellType t = getCellType();
+		if(t == null)
+		{
+			t = CellType.CODE;
+		}
+		
+		CellPanel p = CellPanel.create(t, null);
 		p.initialize(this);
 			
 		int ix = indexOf(activeCell);
@@ -396,5 +406,26 @@ public class NotebookPanel
 	protected void actionInterrupt()
 	{
 		engine.interrupt();
+	}
+	
+	
+	protected void actionRestartEngine()
+	{
+		int ch = Dialogs.choice
+		(
+			this, 
+			"Restart Engine", 
+			"Do you want to restart the script engine?\nYou will lose all variables defined in it",
+			new String[]
+			{
+				"Continue Running",
+				"Restart",
+			}
+		);
+		
+		if(ch == 1)
+		{
+			engine = new JsEngine();
+		}
 	}
 }

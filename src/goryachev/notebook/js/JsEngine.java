@@ -21,6 +21,7 @@ public class JsEngine
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
+	private CList<Object> results = new CList();
 	
 	
 	public JsEngine()
@@ -69,41 +70,53 @@ public class JsEngine
 	}
 	
 	
+	protected synchronized void display(Object x)
+	{
+		if(log.isNotEmpty())
+		{
+			results.add(log.getAndClear());
+		}
+		
+		results.add(x);
+	}
+	
+	
 	public void execute(final CodePanel p)
 	{
-		final String script = p.getText();
 		p.setRunning();
+		results.clear();
+
+		final String script = p.getText();
 
 		thread = new BackgroundThread("js")
 		{
-			private Object rv;
-			
 			public void process() throws Throwable
 			{
-				rv = engine().eval(script);
+				Object rv = engine().eval(script);
+				display(rv);
 			}
 			
 			public void success()
 			{
-				finished(p, rv, null);
+				finished(p);
 			}
 
 			public void onError(Throwable e)
 			{
-				finished(p, null, e);
+				display(e);
+				finished(p);
 			}
 		};
 		thread.start();
 	}
 	
 	
-	protected void finished(CodePanel p, Object rv, Throwable err)
+	protected void finished(CodePanel p)
 	{
 		thread = null;
 		
-		String logged = log.getAndClear();
 		int count = runCount.getAndIncrement();  
-		p.setResult(count, rv, err, logged);
+		p.setResult(count, results);
 	}
 	
 	

@@ -3,6 +3,7 @@ package goryachev.notebook.js.io;
 import goryachev.common.ui.ImageTools;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.img.JsImage;
+import goryachev.notebook.js.table.JsTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,11 +25,19 @@ public class IO
 	}
 	
 	
+	public JsTable loadTable(Object x) throws Exception
+	{
+		File f = JsUtil.parseFile(x);
+		return new JsTable();
+	}
+	
+	
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp();
 		h.a("IO provides input/output functionality:");
-		h.a("IO.loadImage(filename)", "loads image");
+		h.a("IO.loadImage(filename)", "loads image file");
+		h.a("IO.loadTable(filename)", "loads table from CSV, XLS, or XLSX file");
 		return h.toString();
 	}
 }
