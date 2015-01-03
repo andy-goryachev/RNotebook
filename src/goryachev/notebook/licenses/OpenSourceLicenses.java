@@ -13,6 +13,7 @@ import goryachev.common.util.img.mortennobel.Lanczos3Filter;
 import goryachev.json.gson.JsonReader;
 import info.clearthought.layout.TableLayout;
 import java.awt.Component;
+import org.mozilla.javascript.RhinoException;
 
 
 public class OpenSourceLicenses
@@ -46,6 +47,9 @@ public class OpenSourceLicenses
 		// https://drewnoakes.com/code/exif/
 		// https://github.com/drewnoakes/metadata-extractor
 		//d.addPage("metadata-extractor", CKit.readStringQuiet(OpenSourceLicenses.class, "drewnoakes metadata-extractor license.txt"));
+		
+		// mozilla rhino
+		d.addPage("Mozilla Rhino", CKit.readStringQuiet(RhinoException.class, "LICENSE.txt"));
 		
 		//d.addPage("TwelveMonkeys ImageIO", CKit.readStringQuiet(OpenSourceLicenses.class, "twelve monkeys license.txt"));
 	}
