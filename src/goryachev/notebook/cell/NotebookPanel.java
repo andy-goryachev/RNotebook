@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 public class NotebookPanel
 	extends CPanel
 {
-	public final CAction ctrlEnterAction = new CAction() { public void action() { actionRunInPlace(true); } };
+	public final CAction ctrlEnterAction = new CAction() { public void action() { actionCtrlEnter(); } };
 	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
-	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
-	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
+	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true, null); } };
+	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false, null); } };
 	public final CAction interruptAction = new CAction() { public void action() { actionInterrupt(); } };
 	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
@@ -70,7 +70,7 @@ public class NotebookPanel
 		
 		engine = new JsEngine(this);
 		
-		UI.whenInFocusedWindow(this, Accelerators.RUN_IN_PLACE.getKeyStroke(), ctrlEnterAction);
+		UI.whenInFocusedWindow(this, Accelerators.COMMIT.getKeyStroke(), ctrlEnterAction);
 		
 		updateActions();
 	}
@@ -164,6 +164,7 @@ public class NotebookPanel
 			}
 		}
 		
+		ctrlEnterAction.setEnabled(sec);
 		deleteCellAction.setEnabled(sec);
 		insertCellAboveAction.setEnabled(sec);
 		interruptAction.setEnabled(running);
@@ -273,19 +274,51 @@ public class NotebookPanel
 		setActiveCell(p);
 		UI.validateAndRepaint(this);
 	}
+	
+	
+	protected void actionCtrlEnter()
+	{
+		if(activeCell instanceof CodePanel)
+		{
+			engine.execute((CodePanel)activeCell);
+		}
+		else
+		{
+			CellType t;
+			if(activeCell == null)
+			{
+				t = (CellType)typeField.getSelectedItem();
+			}
+			else
+			{
+				t = activeCell.getType();
+				
+				// change to text from heading
+				switch(t)
+				{
+				case H1:
+				case H2:
+				case H3:
+					t = CellType.TEXT;
+				}
+			}
+			
+			actionInsertCell(false, t);
+		}
+	}
 
 
 	protected void actionRunInPlace(boolean insert)
 	{
 		if(activeCell instanceof CodePanel)
 		{
-			engine.execute((CodePanel)activeCell);	
+			engine.execute((CodePanel)activeCell);
 		}
 		else
 		{
 			if(insert)
 			{
-				actionInsertCell(false);
+				actionInsertCell(false, null);
 			}
 		}
 		
@@ -308,7 +341,7 @@ public class NotebookPanel
 		
 		if(isLast())
 		{
-			actionInsertCell(false);
+			actionInsertCell(false, null);
 		}
 		else
 		{
@@ -356,12 +389,15 @@ public class NotebookPanel
 	}
 	
 	
-	protected void actionInsertCell(boolean above)
+	protected void actionInsertCell(boolean above, CellType t)
 	{
-		CellType t = getCellType();
 		if(t == null)
 		{
-			t = (CellType)typeField.getSelectedItem();
+			t = getCellType();
+			if(t == null)
+			{
+				t = (CellType)typeField.getSelectedItem();
+			}
 		}
 		
 		CellPanel p = CellPanel.create(t, null, -1, null);

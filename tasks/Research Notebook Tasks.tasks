@@ -94,13 +94,6 @@
           "created": 1420399115068,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "E6B47E902D00DDD74F49D17D9A4FB26F55CD3775",
-          "title": "insert text after H1..3",
-          "created": 1420400845480,
-          "completed": null,
-          "description": null
         }
       ]
     }
@@ -139,6 +132,13 @@
       "title": "save sequence number",
       "created": 1420399222338,
       "completed": 1420408619960,
+      "description": null
+    },
+    {
+      "id": "E6B47E902D00DDD74F49D17D9A4FB26F55CD3775",
+      "title": "insert text after H1..3",
+      "created": 1420400845480,
+      "completed": 1420409231448,
       "description": null
     }
   ]
