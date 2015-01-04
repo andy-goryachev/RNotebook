@@ -36,8 +36,13 @@
     },
     {
       "type": "js",
-      "text": "// there will be syntax highlighting ************** ************ ************************* *********************************************\n// that's for sure\nprint('a');\nprint('b' + 3);\nprint('Hello, world!');",
-      "output": []
+      "text": "var im = new Image(10, 10)\nim.width",
+      "output": [
+        {
+          "type": "text",
+          "text": "10"
+        }
+      ]
     },
     {
       "type": "js",

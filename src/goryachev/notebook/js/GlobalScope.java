@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.img.JsImage;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -11,7 +12,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class GlobalScope
 	extends ImporterTopLevel
 {
-	public GlobalScope(Context cx)
+	public GlobalScope(Context cx) throws Exception
 	{
 		initStandardObjects(cx, false);
 		
@@ -21,6 +22,8 @@ public class GlobalScope
 			"print",
 		};
 		defineFunctionProperties(names, GlobalScope.class, ScriptableObject.DONTENUM);
+		
+		defineClass(this, JsImage.class, true);
 	}
 	
 	

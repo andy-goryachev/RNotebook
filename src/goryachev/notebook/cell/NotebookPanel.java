@@ -93,9 +93,12 @@ public class NotebookPanel
 			}
 			
 			activeCell = p;
-			activeCell.setActive(true);
 			
-			activeCell.getEditor().requestFocusInWindow();
+			if(activeCell != null)
+			{
+				activeCell.setActive(true);	
+				activeCell.getEditor().requestFocusInWindow();
+			}
 			
 			updateActions();
 		}
@@ -362,7 +365,7 @@ public class NotebookPanel
 		CellType t = getCellType();
 		if(t == null)
 		{
-			t = CellType.CODE;
+			t = (CellType)typeField.getSelectedItem();
 		}
 		
 		CellPanel p = CellPanel.create(t, null, null);
@@ -401,6 +404,10 @@ public class NotebookPanel
 				
 				CellPanel p = getCellAt(ix);
 				setActiveCell(p);	
+			}
+			else
+			{
+				setActiveCell(null);
 			}
 			
 			UI.validateAndRepaint(this);

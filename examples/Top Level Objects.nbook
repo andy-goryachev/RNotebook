@@ -1,0 +1,61 @@
+{
+  "type": "ResearchNotebook",
+  "version": "1.0",
+  "cells": [
+    {
+      "type": "h1",
+      "text": "Top Level Objects in Research Notebook",
+      "output": []
+    },
+    {
+      "type": "text",
+      "text": "A number of objects defined in the global context form the bulk of Research Notebook functionality.\nThese objects are:\n\nFS\nIO\nNB",
+      "output": []
+    },
+    {
+      "type": "h3",
+      "text": "FS",
+      "output": []
+    },
+    {
+      "type": "js",
+      "text": "FS",
+      "output": [
+        {
+          "type": "text",
+          "text": "FS provides filesystem operations:"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "IO",
+      "output": []
+    },
+    {
+      "type": "js",
+      "text": "IO",
+      "output": [
+        {
+          "type": "text",
+          "text": "IO provides input/output functionality:\n   IO.loadImage(filename) - loads image file\n   IO.loadTable(filename) - loads table from CSV, XLS, or XLSX file"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "NB",
+      "output": []
+    },
+    {
+      "type": "js",
+      "text": "NB",
+      "output": [
+        {
+          "type": "text",
+          "text": "NB :\n   NB.display(x) - displays an object in the code output section"
+        }
+      ]
+    }
+  ]
+}
