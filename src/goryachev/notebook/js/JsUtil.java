@@ -8,6 +8,7 @@ import goryachev.notebook.js.img.JsImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Undefined;
 
 
@@ -24,6 +25,11 @@ public class JsUtil
 		if(err instanceof CancelledException)
 		{
 			return "Interrupted";
+		}
+		else if(err instanceof RhinoException)
+		{
+			String s = ((RhinoException)err).getMessage();
+			return s;
 		}
 		else
 		{

@@ -1,9 +1,11 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
+import goryachev.common.ui.ImageTools;
+import goryachev.common.util.CList;
 import goryachev.json.JsonDecoder;
+import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
-import goryachev.notebook.CellType;
 import java.io.Reader;
 
 
@@ -17,7 +19,7 @@ public class DataBookJsonReader
 	}
 	
 	
-	public DataBook parse() throws Exception
+	public DataBook read() throws Exception
 	{
 		DataBook b = new DataBook();
 		String type = null;
@@ -45,7 +47,7 @@ public class DataBookJsonReader
 					throw new Exception("Wrong version: " + ver);
 				}
 				
-				parseSections(b);
+				readCells(b);
 			}
 			else if(Schema.KEY_TYPE.equals(s))
 			{
@@ -62,21 +64,22 @@ public class DataBookJsonReader
 	}
 
 
-	protected void parseSections(DataBook b) throws Exception
+	protected void readCells(DataBook b) throws Exception
 	{
 		beginArray();
 		while(inArray())
 		{
-			parseSection(b);
+			readCell(b);
 		}
 		endArray();
 	}
 
 
-	protected void parseSection(DataBook b) throws Exception
+	protected void readCell(DataBook b) throws Exception
 	{
 		String type = null;
 		String text = null;
+		CList<Object> results = null;
 
 		beginObject();
 		while(inObject())
@@ -90,17 +93,85 @@ public class DataBookJsonReader
 			{
 				text = nextString();
 			}
-			
-			// TODO result
+			else if(Schema.KEY_CELL_OUTPUT.equals(s))
+			{
+				results = readResults();
+			}
 		}
 		endObject();
 		
-		CellType t = parseSectionType(type);
-		b.addCell(t, text);
+		CellType t = parseCellType(type);
+		b.addCell(t, text, results);
 	}
 
 
-	protected CellType parseSectionType(String s) throws Exception
+	protected CList<Object> readResults() throws Exception
+	{
+		CList<Object> results = null;
+		
+		beginArray();
+		while(inArray())
+		{
+			Object r = readResult();
+			if(results == null)
+			{
+				results = new CList();
+			}
+			results.add(r);
+		}
+		endArray();
+		
+		return results;
+	}
+	
+	
+	protected Object readResult() throws Exception
+	{
+		String type = null;
+		byte[] image = null;
+		String text = null;
+		
+		beginObject();
+		while(inObject())
+		{
+			String s = nextName();
+			if(Schema.KEY_OUTPUT_TYPE.equals(s))
+			{
+				type = nextString();
+			}
+			else if(Schema.KEY_OUTPUT_IMAGE.equals(s))
+			{
+				image = nextByteArray();
+			}
+			else if(Schema.KEY_OUTPUT_TEXT.equals(s))
+			{
+				text = nextString();
+			}
+		}
+		endObject();
+		
+		// result
+		if(Schema.RESULT_IMAGE.equals(type))
+		{
+			return ImageTools.read(image);
+		}
+		else if(Schema.RESULT_ERROR.equals(type))
+		{
+			// FIX will be different stack trace!
+			return new Throwable(text);
+		}
+		else if(Schema.RESULT_TEXT.equals(type))
+		{
+			return text;
+		}
+		else
+		{
+			throw new Exception("unknown result type: " + type);
+		}
+	}
+
+
+	protected CellType parseCellType(String s) throws Exception
 	{
 		if(Schema.CELL_TYPE_CODE.equals(s))
 		{

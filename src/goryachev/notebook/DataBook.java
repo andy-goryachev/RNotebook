@@ -9,17 +9,12 @@ public class DataBook
 	{
 		public CellType type;
 		public String text;
-		
-		public Cell(CellType type, String text)
-		{
-			this.type = type;
-			this.text = text;
-		}
+		public CList<Object> results;
 	}
 	
 	//
 	
-	private CList<Cell> sections = new CList();
+	private CList<Cell> cells = new CList();
 
 	
 	public DataBook()
@@ -29,24 +24,43 @@ public class DataBook
 	
 	public void addCell(CellType type, String text)
 	{
-		sections.add(new Cell(type, text));
+		Cell c = new Cell();
+		c.type = type;
+		c.text = text;
+		cells.add(c);
+	}
+	
+	
+	public void addCell(CellType type, String text, CList<Object> results)
+	{
+		Cell c = new Cell();
+		c.type = type;
+		c.text = text;
+		c.results = results;
+		cells.add(c);
 	}
 	
 	
 	public int size()
 	{
-		return sections.size();
+		return cells.size();
 	}
 	
 	
 	public CellType getType(int ix)
 	{
-		return sections.get(ix).type;
+		return cells.get(ix).type;
 	}
 	
 	
 	public String getText(int ix)
 	{
-		return sections.get(ix).text;
+		return cells.get(ix).text;
+	}
+	
+	
+	public CList<Object> getResults(int ix)
+	{
+		return cells.get(ix).results;
 	}
 }

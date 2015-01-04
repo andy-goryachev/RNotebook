@@ -28,10 +28,11 @@ public class CodePanel
 	public final JLabel inField;
 	public final JLabel marginField;
 	private static CBorder BORDER = new CBorder(2, 4);
+	private CList<Object> results;
 	private CList<JComponent> resultComponents;
 	
 	
-	public CodePanel(String text)
+	public CodePanel(String text, CList<Object> results)
 	{
 		textField = new JTextArea(text);
 		textField.setFont(Theme.monospacedFont());
@@ -53,6 +54,11 @@ public class CodePanel
 		marginField.setForeground(Styles.marginTextColor);
 		marginField.addMouseListener(handler);
 		setRight(marginField);
+		
+		if(results != null)
+		{
+			setResult("*", results);
+		}
 	}
 	
 	
@@ -70,8 +76,7 @@ public class CodePanel
 	
 	public void saveCell(DataBook b)
 	{
-		b.addCell(CellType.CODE, getText());
-		// TODO result
+		b.addCell(CellType.CODE, getText(), results);
 	}
 	
 	
@@ -84,10 +89,12 @@ public class CodePanel
 	public void setRunning()
 	{
 		marginField.setText(">>>");
+		
+		// TODO clear results or show animation
 	}
 	
 	
-	public void setResult(int count, CList<Object> results)
+	public void setResult(Object count, CList<Object> results)
 	{
 		NotebookPanel np = NotebookPanel.get(this);
 		
@@ -95,6 +102,7 @@ public class CodePanel
 		inField.setText("In (" + count + "):");
 		
 		// results
+		this.results = results;
 		boolean error = false;
 		CList<JComponent> cs = new CList();
 		for(Object rv: results)
@@ -134,7 +142,11 @@ public class CodePanel
 		}
 		
 		UI.validateAndRepaint(this);
-		np.updateActions();
+		
+		if(np != null)
+		{
+			np.updateActions();
+		}
 	}
 	
 	

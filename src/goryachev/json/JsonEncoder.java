@@ -88,7 +88,7 @@ public class JsonEncoder
 	}
 	
 	
-	public void writeBase64(String name, byte[] data) throws Exception
+	public void writeByteArray(String name, byte[] data) throws Exception
 	{
 		wr.name(name);
 		String value = Base64.encode(data);

@@ -16,7 +16,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class JsEngine
 {
-	public static final String SOURCE = "Line";
+	public static final String SOURCE = "line ";
 	private final NotebookPanel np;
 	protected ScriptableObject scope;
 	protected GlobalScope globalScope;

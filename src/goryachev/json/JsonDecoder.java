@@ -1,5 +1,6 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.json;
+import goryachev.common.util.Base64;
 import goryachev.json.gson.JsonReader;
 import goryachev.json.gson.JsonToken;
 import java.io.Closeable;
@@ -228,12 +229,24 @@ public class JsonDecoder
 	 * consuming it. If the next token is a number, this method will return its
 	 * string form.
 	 *
-	 * @throws IllegalStateException if the next token is not a string or if
-	 *     this reader is closed.
+	 * @throws Exception
 	 */
 	public String nextString() throws Exception
 	{
 		return rd.nextString();
+	}
+	
+	
+	/**
+	 * Returns the base64-encoded byte array value of the next token,
+	 * consuming it.
+	 *
+	 * @throws Exception
+	 */
+	public byte[] nextByteArray() throws Exception
+	{
+		String s = nextString();
+		return Base64.decode(s);
 	}
 	
 	

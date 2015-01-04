@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import goryachev.common.ui.UI;
+import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
@@ -119,12 +120,12 @@ public abstract class CellPanel
 	}
 	
 	
-	public static CellPanel create(CellType type, String text)
+	public static CellPanel create(CellType type, String text, CList<Object> results)
 	{
 		switch(type)
 		{
 		case CODE:
-			return new CodePanel(text);
+			return new CodePanel(text, results);
 		case H1:
 		case H2:
 		case H3:

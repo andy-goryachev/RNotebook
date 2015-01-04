@@ -454,7 +454,7 @@ public class NotebookWindow
 			
 			try
 			{
-				DataBook b = (rd == null ? new DataBook() : new DataBookJsonReader(rd).parse());
+				DataBook b = (rd == null ? new DataBook() : new DataBookJsonReader(rd).read());
 
 				setFile(file);
 				setDataBook(b);

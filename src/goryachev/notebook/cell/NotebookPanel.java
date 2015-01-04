@@ -7,6 +7,7 @@ import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import goryachev.common.util.CList;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.js.JsEngine;
@@ -110,8 +111,9 @@ public class NotebookPanel
 			{
 				CellType type = b.getType(i);
 				String text = b.getText(i);
+				CList<Object> results = b.getResults(i);
 				
-				CellPanel p = CellPanel.create(type, text);
+				CellPanel p = CellPanel.create(type, text, results);
 				panel.add(p);
 				
 				if(i == 0)
@@ -342,7 +344,7 @@ public class NotebookPanel
 		if(t != null)
 		{
 			String text = activeCell.getText();
-			CellPanel p = CellPanel.create(t, text);
+			CellPanel p = CellPanel.create(t, text, null);
 			
 			replace(activeCell, p);
 		}
@@ -357,7 +359,7 @@ public class NotebookPanel
 			t = CellType.CODE;
 		}
 		
-		CellPanel p = CellPanel.create(t, null);
+		CellPanel p = CellPanel.create(t, null, null);
 			
 		int ix = indexOf(activeCell);
 		if(ix < 0)
