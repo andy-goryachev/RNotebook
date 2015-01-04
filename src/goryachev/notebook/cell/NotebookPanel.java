@@ -14,6 +14,7 @@ import goryachev.notebook.NotebookWindow;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
 import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 
 
 public class NotebookPanel
@@ -30,6 +31,7 @@ public class NotebookPanel
 	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(false); } };
 	public final CAction selectNextCellAction = new CAction() { public void action() { actionSelect(1); } };
 	public final CAction selectPreviousCellAction = new CAction() { public void action() { actionSelect(-1); } };
+	public final CAction splitCellAction = new CAction() { public void action() { actionSplit(); } };
 	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(CellType.CODE); } };
 	public final CAction toTextAction = new CAction() { public void action() { actionSwitchType(CellType.TEXT); } };
 	public final CAction toH1Action = new CAction() { public void action() { actionSwitchType(CellType.H1); } };
@@ -171,7 +173,7 @@ public class NotebookPanel
 	public void updateActions()
 	{
 		CodePanel cp = getCodePanel();
-		boolean sec = (activeCell != null);
+		boolean cell = (activeCell != null);
 		boolean code = (cp != null);
 		boolean running = engine.isRunning();
 		CellType t = getCellType();
@@ -187,18 +189,19 @@ public class NotebookPanel
 			}
 		}
 		
-		ctrlEnterAction.setEnabled(sec);
-		deleteCellAction.setEnabled(sec);
-		insertCellAboveAction.setEnabled(sec);
+		ctrlEnterAction.setEnabled(cell);
+		deleteCellAction.setEnabled(cell);
+		insertCellAboveAction.setEnabled(cell);
 		interruptAction.setEnabled(running);
 		runAllAction.setEnabled(false); // FIX
 		runCellAction.setEnabled(code && !running);
 		runInPlaceAction.setEnabled(code && !running);
-		selectNextCellAction.setEnabled(sec);
-		selectPreviousCellAction.setEnabled(sec);
-		toCodeAction.setEnabled(sec && (t != CellType.CODE));
-		toH1Action.setEnabled(sec && (t != CellType.H1));
-		toTextAction.setEnabled(sec && (t != CellType.TEXT));
+		selectNextCellAction.setEnabled(cell);
+		selectPreviousCellAction.setEnabled(cell);
+		splitCellAction.setEnabled(cell);
+		toCodeAction.setEnabled(cell && (t != CellType.CODE));
+		toH1Action.setEnabled(cell && (t != CellType.H1));
+		toTextAction.setEnabled(cell && (t != CellType.TEXT));
 	}
 	
 	
@@ -494,5 +497,30 @@ public class NotebookPanel
 		{
 			engine = new JsEngine(this);
 		}
+	}
+	
+	
+	protected void actionSplit()
+	{
+		CellType t = activeCell.getType();
+		JTextComponent ed = activeCell.getEditor();
+		int pos = ed.getCaretPosition();
+		String text = activeCell.getText();
+		
+		String topText = text.substring(0, pos);
+		String botText = text.substring(pos);
+		
+		CellPanel top = CellPanel.create(t, topText, -1, null);
+		CellPanel bot = CellPanel.create(t, botText, -1, null);
+		
+		int ix = indexOf(activeCell);
+		panel.remove(activeCell);
+		
+		insert(ix, bot);
+		insert(ix, top);
+		
+		UI.validateAndRepaint(this);
+		
+		setActiveCell(bot);
 	}
 }

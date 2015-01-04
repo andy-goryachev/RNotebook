@@ -91,6 +91,16 @@
       "output": []
     },
     {
+      "type": "text",
+      "source": "1\n2\n3--[",
+      "output": []
+    },
+    {
+      "type": "text",
+      "source": "]---\n4\n5",
+      "output": []
+    },
+    {
       "type": "h2",
       "source": "Heading 2",
       "output": []
