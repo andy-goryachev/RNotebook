@@ -370,6 +370,12 @@ public class UI
 	{
 		setAction(c, a, JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(keyCode, 0));
 	}
+	
+	
+	public static void whenInFocusedWindow(JComponent c, KeyStroke k, Action a)
+	{
+		setAction(c, a, JComponent.WHEN_IN_FOCUSED_WINDOW, k);
+	}
 
 
 	public static void whenAncestorOfFocusedComponent(JComponent c, int keyCode, int mask, Action a)

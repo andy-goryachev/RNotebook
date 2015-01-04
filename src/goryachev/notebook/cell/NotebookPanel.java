@@ -8,18 +8,18 @@ import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
+import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 
 
 public class NotebookPanel
 	extends CPanel
 {
+	public final CAction ctrlEnterAction = new CAction() { public void action() { actionRunInPlace(true); } };
 	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false); } };
@@ -27,7 +27,7 @@ public class NotebookPanel
 	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
-	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(); } };
+	public final CAction runInPlaceAction = new CAction() { public void action() { actionRunInPlace(false); } };
 	public final CAction selectNextCellAction = new CAction() { public void action() { actionSelect(1); } };
 	public final CAction selectPreviousCellAction = new CAction() { public void action() { actionSelect(-1); } };
 	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(CellType.CODE); } };
@@ -71,7 +71,7 @@ public class NotebookPanel
 		
 		engine = new JsEngine(this);
 		
-		UI.whenInFocusedWindow(this, KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK, runInPlaceAction);
+		UI.whenInFocusedWindow(this, Accelerators.RUN_IN_PLACE.getKeyStroke(), ctrlEnterAction);
 		
 		updateActions();
 	}
@@ -276,17 +276,18 @@ public class NotebookPanel
 	}
 
 
-	protected void actionRunInPlace()
+	protected void actionRunInPlace(boolean insert)
 	{
-		CodePanel p = getCodePanel();
-		if(p != null)
+		if(activeCell instanceof CodePanel)
 		{
-//			if(!p.isRunning())
-//			{
-//				p.runScript();
-//			}
-			
-			engine.execute(p);	
+			engine.execute((CodePanel)activeCell);	
+		}
+		else
+		{
+			if(insert)
+			{
+				actionInsertCell(false);
+			}
 		}
 		
 		updateActions();
@@ -304,7 +305,7 @@ public class NotebookPanel
 	// moves to next cell (or creates empty code cell if last)
 	protected void actionRunCell()
 	{
-		actionRunInPlace();
+		actionRunInPlace(false);
 		
 		if(isLast())
 		{
