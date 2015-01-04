@@ -49,41 +49,4 @@ public class JsUtil
 	{
 		throw new CException("To be implemented...");
 	}
-
-
-	/** 
-	 * Creates snapshot of javascript object into an immutable data 
-	 * suitable for rendering after the execution is completed.
-	 * Tightly linked with CodePanel.createViewer()
-	 */
-	public static Object makeDatasnapshot(Object x)
-	{
-		if(x instanceof NativeJavaObject)
-		{
-			x = ((NativeJavaObject)x).unwrap();
-		}
-		
-		if(x instanceof JsImage)
-		{
-			BufferedImage im = ((JsImage)x).getBufferedImage();
-			return ImageTools.copyImageRGB(im);
-		}
-		else if(x instanceof Throwable)
-		{
-			String msg = JsUtil.decodeException((Throwable)x);
-			return new JsError(msg);
-		}
-		else if(x instanceof Undefined)
-		{
-			return "undefined";
-		}
-		else if(x != null)
-		{
-			return x.toString();
-		}
-		else
-		{
-			return null;
-		}
-	}
 }

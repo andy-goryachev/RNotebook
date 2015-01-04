@@ -34,8 +34,13 @@
     },
     {
       "type": "js",
-      "text": "i = new Long(0);\nfor(i=0; i<10; i++)\n{\n\tprint(i + 1000000000000000);\n}\nprint(\"Done.\");",
-      "output": []
+      "text": "IO.loadTable('examples/table.csv');",
+      "output": [
+        {
+          "type": "text",
+          "text": "Table"
+        }
+      ]
     },
     {
       "type": "js",

@@ -34,6 +34,7 @@ public class CTableRowHeader
 		this.table = t;
 		t.getSelectionModel().addListSelectionListener(this);
 		highlight = UI.getTableHeaderHighlight(t);
+		setBackground(Theme.brighter(Theme.panelBG()));
 	}
 	
 	

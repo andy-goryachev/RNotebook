@@ -25,10 +25,16 @@ public class IO
 	}
 	
 	
-	public JsTable loadTable(Object x) throws Exception
+	public JsTable loadTable(Object filename) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
-		JsUtil.todo(); // FIX
+		File f = JsUtil.parseFile(filename);
+		return new JsTable();
+	}
+	
+	
+	public JsTable loadTable(Object filename, Object type) throws Exception
+	{
+		File f = JsUtil.parseFile(filename);
 		return new JsTable();
 	}
 	

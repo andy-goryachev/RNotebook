@@ -11,9 +11,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsError;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -115,7 +113,7 @@ public class CodePanel
 					error = true;
 				}
 				
-				JComponent c = createViewer(rv);
+				JComponent c = Results.createViewer(this, rv);
 				if(c != null)
 				{
 					cs.add(c);
@@ -148,46 +146,6 @@ public class CodePanel
 		{
 			np.updateActions();
 		}
-	}
-	
-	
-	// tightly linked with JsUtil.makeDatasnapshot()
-	protected JComponent createViewer(Object x)
-	{
-		if(x instanceof BufferedImage)
-		{
-			JsImageViewer v = new JsImageViewer((BufferedImage)x);
-			v.addMouseListener(handler);
-			return v;
-		}
-		else if(x instanceof JsError)
-		{
-			String text = ((JsError)x).error;
-			return createTextViewer(text, Styles.errorColor);
-		}
-		else if(x != null)
-		{
-			String text = x.toString();
-			return createTextViewer(text, Styles.resultColor);
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	
-	protected JComponent createTextViewer(String text, Color c)
-	{
-		JTextArea t = new JTextArea();
-		t.setFont(Theme.monospacedFont());
-		t.setForeground(c);
-		t.setLineWrap(true);
-		t.setWrapStyleWord(true);
-		t.setEditable(false);
-		t.addMouseListener(handler);
-		t.setText(text);
-		return t;
 	}
 	
 	

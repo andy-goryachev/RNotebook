@@ -5,6 +5,7 @@ import goryachev.common.util.CList;
 import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
 import goryachev.notebook.cell.NotebookPanel;
+import goryachev.notebook.cell.Results;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
 import goryachev.notebook.js.nb.NB;
@@ -72,7 +73,7 @@ public class JsEngine
 			results.add(log.getAndClear());
 		}
 		
-		Object v = JsUtil.makeDatasnapshot(x);
+		Object v = Results.createValueCopy(x);
 		results.add(v);
 	}
 	

@@ -9,6 +9,12 @@ public class JsTable
 	}
 	
 	
+	public JsTable copy()
+	{
+		return new JsTable();
+	}
+	
+	
 	public String toString()
 	{
 		return "Table";
