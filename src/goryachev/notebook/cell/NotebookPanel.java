@@ -26,6 +26,8 @@ public class NotebookPanel
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true, null); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false, null); } };
 	public final CAction interruptAction = new CAction() { public void action() { actionInterrupt(); } };
+	public final CAction mergeCellAboveAction = new CAction() { public void action() { actionMergeCell(true); } };
+	public final CAction mergeCellBelowAction = new CAction() { public void action() { actionMergeCell(false); } };
 	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
@@ -196,6 +198,8 @@ public class NotebookPanel
 		deleteCellAction.setEnabled(cell);
 		insertCellAboveAction.setEnabled(cell);
 		interruptAction.setEnabled(running);
+		mergeCellAboveAction.setEnabled(cell);
+		mergeCellBelowAction.setEnabled(cell);
 		runAllAction.setEnabled(false); // FIX
 		runCellAction.setEnabled(code && !running);
 		runInPlaceAction.setEnabled(code && !running);
@@ -293,6 +297,7 @@ public class NotebookPanel
 			}
 
 			UI.validateAndRepaint(this);
+			setModified(true);
 		}
 	}
 
@@ -301,7 +306,9 @@ public class NotebookPanel
 	{
 		panel.add(p, ix);
 		setActiveCell(p);
+		
 		UI.validateAndRepaint(this);
+		setModified(true);
 	}
 	
 	
@@ -472,6 +479,7 @@ public class NotebookPanel
 			}
 			
 			UI.validateAndRepaint(this);
+			setModified(true);
 		}
 	}
 	
@@ -522,8 +530,63 @@ public class NotebookPanel
 		insert(ix, bot);
 		insert(ix, top);
 		
-		UI.validateAndRepaint(this);
-		
 		setActiveCell(bot);
+		
+		UI.validateAndRepaint(this);
+		setModified(true);
+	}
+	
+	
+	protected void actionMergeCell(boolean above)
+	{
+		int ix = indexOf(activeCell);
+		if(ix < 0)
+		{
+			return;
+		}
+		
+		int mergeIndex;
+		if(above)
+		{
+			if(ix == 0)
+			{
+				return;
+			}
+			
+			mergeIndex = ix - 1;
+		}
+		else
+		{
+			if(ix >= getCellCount())
+			{
+				return;
+			}
+			
+			mergeIndex = ix + 1;
+		}
+		
+		CellPanel p = getCellAt(mergeIndex);
+		String mergeText = p.getText();
+		
+		panel.remove(p);
+		
+		String text = activeCell.getText();
+		int caret = activeCell.getEditor().getCaretPosition();
+		
+		if(above)
+		{
+			text = mergeText + "\n" + text;
+			caret = mergeText.length() + 1;
+		}
+		else
+		{
+			text = text + "\n" + mergeText;
+		}
+		
+		activeCell.getEditor().setText(text);
+		activeCell.getEditor().setCaretPosition(caret);
+		
+		UI.validateAndRepaint(this);
+		setModified(true);
 	}
 }

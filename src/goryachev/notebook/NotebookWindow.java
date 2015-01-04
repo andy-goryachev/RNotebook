@@ -103,8 +103,8 @@ public class NotebookWindow
 		m.add(new CMenuItem("Delete", np.deleteCellAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Split Cell", np.splitCellAction));
-		m.add(new CMenuItem("Merge Cell Above", CAction.TODO));
-		m.add(new CMenuItem("Merge Cell Below", CAction.TODO));
+		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
+		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Move Cell Up", CAction.TODO));
 		m.add(new CMenuItem("Move Cell Down", CAction.TODO));
