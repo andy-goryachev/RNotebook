@@ -127,11 +127,9 @@ public abstract class CellPanel
 		case CODE:
 			return new CodePanel(text, results);
 		case H1:
-			return new HeaderPanel(text, 1);
 		case H2:
-			return new HeaderPanel(text, 2);
 		case H3:
-			return new HeaderPanel(text, 3);
+			return new HeaderPanel(text, type);
 		case TEXT:
 		default:
 			return new TextPanel(text);

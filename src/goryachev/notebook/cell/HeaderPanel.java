@@ -16,13 +16,26 @@ import javax.swing.text.JTextComponent;
 public class HeaderPanel
 	extends CellPanel
 {
-	public final int level;
+	public final CellType type;
 	public final JTextArea textField;
 	
 	
-	public HeaderPanel(String text, int level)
+	public HeaderPanel(String text, CellType t)
 	{
-		this.level = level;
+		this.type = t;
+		
+		int level;
+		switch(t)
+		{
+		case H3:
+			level = 3;
+			break;
+		case H2:
+			level = 2;
+			break;
+		default:
+			level = 1;
+		}
 		
 		int indent = 5 * level;
 		float scale = 1.8f - (level - 1) * 0.2f;
@@ -41,7 +54,7 @@ public class HeaderPanel
 	
 	public CellType getType()
 	{
-		return CellType.H1;
+		return type;
 	}
 	
 	
@@ -53,20 +66,7 @@ public class HeaderPanel
 	
 	public void saveCell(DataBook b)
 	{
-		CellType t;
-		switch(level)
-		{
-		case 3:
-			t = CellType.H3;
-			break;
-		case 2:
-			t = CellType.H2;
-			break;
-		default:
-			t = CellType.H1;
-		}
-		
-		b.addCell(t, getText());
+		b.addCell(type, getText());
 	}
 	
 	
