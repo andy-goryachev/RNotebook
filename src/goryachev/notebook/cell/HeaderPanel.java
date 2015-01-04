@@ -48,7 +48,7 @@ public class HeaderPanel
 		textField.addMouseListener(handler);
 		textField.setBorder(new CBorder(0, indent, 0, 0));
 		
-		setCenter(textField);
+		setEditor(textField, true);
 	}
 	
 	

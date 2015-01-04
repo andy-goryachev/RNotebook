@@ -25,7 +25,7 @@ public class TextPanel
 		textField.setWrapStyleWord(true);
 		textField.addMouseListener(handler);
 		
-		setTop(textField);
+		setEditor(textField, false);
 	}
 	
 	

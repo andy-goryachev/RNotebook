@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
+import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
@@ -29,6 +30,7 @@ public abstract class CellPanel
 	//
 	
 	protected final CellHandler handler;
+	protected final InputTracker editTracker;
 	
 	
 	public CellPanel()
@@ -39,9 +41,27 @@ public abstract class CellPanel
 		
 		handler = new CellHandler();
 		addMouseListener(handler);
+
+		editTracker = new InputTracker()
+		{
+			public void onInputEvent()
+			{
+				setModified();
+			}
+		};
 	}
 	
 	
+	public void setModified()
+	{
+		NotebookPanel p = NotebookPanel.get(this);
+		if(p != null)
+		{
+			p.setModified(true);
+		}
+	}
+
+
 	public void setActive(boolean on)
 	{
 		Border b = getBorder();
@@ -50,12 +70,6 @@ public abstract class CellPanel
 			((CellBorder)b).setActive(on);
 			repaint();
 		}
-	}
-	
-	
-	protected void setTop(Component c)
-	{
-		add(c);
 	}
 	
 	
@@ -71,11 +85,21 @@ public abstract class CellPanel
 	}
 	
 	
-	protected void setCenter(Component c)
+	protected void setEditor(JTextComponent ed, boolean fullWidth)
 	{
 		// this is the case of a single full-width component
 		removeAll();
-		add(c, CellLayout.CENTER);
+		
+		if(fullWidth)
+		{
+			add(ed, CellLayout.CENTER);
+		}
+		else
+		{
+			add(ed);
+		}
+		
+		editTracker.add(ed);
 	}
 
 

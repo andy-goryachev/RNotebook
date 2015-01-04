@@ -10,6 +10,7 @@ import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
+import goryachev.notebook.NotebookWindow;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
 import javax.swing.JPanel;
@@ -39,6 +40,7 @@ public class NotebookPanel
 	public final CellScrollPane scroll;
 	private JsEngine engine;
 	private CellPanel activeCell;
+	private boolean modified;
 	
 	
 	public NotebookPanel()
@@ -79,6 +81,27 @@ public class NotebookPanel
 	public static NotebookPanel get(Component c)
 	{
 		return UI.getAncestorOfClass(NotebookPanel.class, c);
+	}
+	
+	
+	public boolean isModified()
+	{
+		return modified;
+	}
+	
+	
+	public void setModified(boolean on)
+	{
+		if(modified != on)
+		{
+			modified = on;
+			
+			NotebookWindow w = NotebookWindow.get(this);
+			if(w != null)
+			{
+				w.updateTitle();
+			}
+		}
 	}
 	
 	
@@ -145,7 +168,7 @@ public class NotebookPanel
 	}
 	
 
-	protected void updateActions()
+	public void updateActions()
 	{
 		CodePanel cp = getCodePanel();
 		boolean sec = (activeCell != null);

@@ -8,10 +8,11 @@ import java.awt.event.KeyEvent;
 
 public class Accelerators
 {
+	public static final String EDITOR = "Editor";
 	public static final String MAIN_MENU = "Main Menu";
 	
 	public static Accelerator CLOSE_WINDOW = new Accelerator("close.window", MAIN_MENU, "Close");
-	public static Accelerator COMMIT = new Accelerator("commit", MAIN_MENU, "Commit Cell", KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK);
+	public static Accelerator COMMIT = new Accelerator("commit", EDITOR, "Commit Cell", KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK);
 	public static Accelerator FIND = new Accelerator("find", MAIN_MENU, "Find", KeyEvent.VK_F, true);
 	public static Accelerator PREFERENCES = new Accelerator("preferences", MAIN_MENU, "Preferences", KeyEvent.VK_PERIOD, true);
 	public static Accelerator RUN_ALL = new Accelerator("run.all", MAIN_MENU, "Run All");

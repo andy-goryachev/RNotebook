@@ -47,7 +47,7 @@ public class CodePanel
 		textField.setAnimateBracketMatching(false);
 		textField.setHighlightCurrentLine(false);
 		//
-		setTop(textField);
+		setEditor(textField, false);
 		
 		inField = new JLabel();
 		inField.setBorder(BORDER);

@@ -43,7 +43,6 @@ public class NotebookWindow
 	public static final String EXTENSION = ".nbook";
 	public static final CExtensionFileFilter FILE_FILTER = new CExtensionFileFilter("Notebook Files" + " (*" + EXTENSION + ")", EXTENSION);
 	private File file;
-	private boolean modified;
 	
 	
 	public NotebookWindow()
@@ -203,9 +202,11 @@ public class NotebookWindow
 	}
 	
 	
-	protected void updateActions()
+	public void updateActions()
 	{
-		// TODO
+		updateTitle();
+		
+		np.updateActions();
 	}
 	
 	
@@ -240,17 +241,17 @@ public class NotebookWindow
 	
 	public boolean isModified()
 	{
-		return modified;
+		return np.isModified();
 	}
 	
 	
 	public void setModified(boolean on)
 	{
-		modified = on;
+		np.setModified(false);
 	}
 	
 	
-	protected void updateTitle()
+	public void updateTitle()
 	{
 		SB sb = new SB();
 		
@@ -469,5 +470,11 @@ public class NotebookWindow
 		{
 			Dialogs.err(this, e);
 		}
+	}
+
+
+	public static NotebookWindow get(Component c)
+	{
+		return UI.getAncestorOfClass(NotebookWindow.class, c);
 	}
 }
