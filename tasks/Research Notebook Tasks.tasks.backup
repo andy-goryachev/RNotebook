@@ -44,15 +44,7 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": [
-        {
-          "id": "21644D350A40C33D3B09B75A5001E4571681D9AE",
-          "title": "save results",
-          "created": 1420241239236,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -97,6 +89,13 @@
       "title": "interrupt script does not work",
       "created": 1420268979357,
       "completed": 1420336663150,
+      "description": null
+    },
+    {
+      "id": "21644D350A40C33D3B09B75A5001E4571681D9AE",
+      "title": "save results",
+      "created": 1420241239236,
+      "completed": 1420343690708,
       "description": null
     }
   ]

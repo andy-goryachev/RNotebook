@@ -26,4 +26,53 @@ public enum CellType
 	{
 		return name;
 	}
+	
+	
+	public static String toSectionCode(CellType t) throws Exception
+	{
+		switch(t)
+		{
+		case CODE:
+			return Schema.CELL_TYPE_CODE;
+		case H1:
+			return Schema.CELL_TYPE_H1;
+		case H2:
+			return Schema.CELL_TYPE_H2;
+		case H3:
+			return Schema.CELL_TYPE_H3;
+		case TEXT:
+			return Schema.CELL_TYPE_TEXT;
+		default:
+			throw new Exception("implement: " + t);
+		}
+	}
+	
+	
+	public static CellType parse(String s) throws Exception
+	{
+		if(Schema.CELL_TYPE_CODE.equals(s))
+		{
+			return CellType.CODE;
+		}
+		else if(Schema.CELL_TYPE_H1.equals(s))
+		{
+			return CellType.H1;
+		}
+		else if(Schema.CELL_TYPE_H2.equals(s))
+		{
+			return CellType.H2;
+		}
+		else if(Schema.CELL_TYPE_H3.equals(s))
+		{
+			return CellType.H3;
+		}
+		else if(Schema.CELL_TYPE_TEXT.equals(s))
+		{
+			return CellType.TEXT;
+		}
+		else
+		{
+			throw new Exception("unknown section type: " + s);
+		}
+	}
 }

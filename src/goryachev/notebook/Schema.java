@@ -6,6 +6,8 @@ public class Schema
 {
 	public static final String CELL_TYPE_CODE = "js";
 	public static final String CELL_TYPE_H1 = "h1";
+	public static final String CELL_TYPE_H2 = "h2";
+	public static final String CELL_TYPE_H3 = "h3";
 	public static final String CELL_TYPE_TEXT = "text";
 	public static final String RESULT_ERROR = "error";
 	public static final String RESULT_IMAGE = "image";

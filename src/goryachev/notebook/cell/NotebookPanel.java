@@ -56,6 +56,8 @@ public class NotebookPanel
 		{
 			CellType.CODE,
 			CellType.H1,
+			CellType.H2,
+			CellType.H3,
 			CellType.TEXT,
 		});
 		typeField.setSelectedItem(CellType.TEXT);

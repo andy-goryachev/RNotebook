@@ -22,27 +22,11 @@ public class DataBookJsonWriter
 	}
 
 
-	private static String toSectionCode(CellType t) throws Exception
-	{
-		switch(t)
-		{
-		case CODE:
-			return Schema.CELL_TYPE_CODE;
-		case H1:
-			return Schema.CELL_TYPE_H1;
-		case TEXT:
-			return Schema.CELL_TYPE_TEXT;
-		default:
-			throw new Exception("implement: " + t);
-		}
-	}
-
-
 	private static void writeCell(DataBook b, int ix, JsonEncoder wr) throws Exception
 	{
 		wr.beginObject();
 		{
-			wr.write(Schema.KEY_CELL_TYPE, toSectionCode(b.getType(ix)));
+			wr.write(Schema.KEY_CELL_TYPE, CellType.toSectionCode(b.getType(ix)));
 			wr.write(Schema.KEY_TEXT, b.getText(ix));
 			
 			// output

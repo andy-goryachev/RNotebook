@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import goryachev.common.ui.CAction;
+import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -15,17 +16,24 @@ import javax.swing.text.JTextComponent;
 public class HeaderPanel
 	extends CellPanel
 {
+	public final int level;
 	public final JTextArea textField;
 	
 	
-	public HeaderPanel(String text)
+	public HeaderPanel(String text, int level)
 	{
+		this.level = level;
+		
+		int indent = 5 * level;
+		float scale = 1.8f - (level - 1) * 0.2f;
+		
 		textField = new JTextArea(text);
-		textField.setFont(UI.deriveFont(Theme.plainFont(), true, 1.8f));
+		textField.setFont(UI.deriveFont(Theme.plainFont(), true, scale));
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		textField.setOpaque(false);
 		textField.addMouseListener(handler);
+		textField.setBorder(new CBorder(0, indent, 0, 0));
 		
 		setCenter(textField);
 	}
@@ -45,7 +53,20 @@ public class HeaderPanel
 	
 	public void saveCell(DataBook b)
 	{
-		b.addCell(CellType.H1, getText());
+		CellType t;
+		switch(level)
+		{
+		case 3:
+			t = CellType.H3;
+			break;
+		case 2:
+			t = CellType.H2;
+			break;
+		default:
+			t = CellType.H1;
+		}
+		
+		b.addCell(t, getText());
 	}
 	
 	

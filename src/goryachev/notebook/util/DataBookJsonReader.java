@@ -101,7 +101,7 @@ public class DataBookJsonReader
 		}
 		endObject();
 		
-		CellType t = parseCellType(type);
+		CellType t = CellType.parse(type);
 		b.addCell(t, text, results);
 	}
 
@@ -167,27 +167,6 @@ public class DataBookJsonReader
 		else
 		{
 			throw new Exception("unknown result type: " + type);
-		}
-	}
-
-
-	protected CellType parseCellType(String s) throws Exception
-	{
-		if(Schema.CELL_TYPE_CODE.equals(s))
-		{
-			return CellType.CODE;
-		}
-		else if(Schema.CELL_TYPE_H1.equals(s))
-		{
-			return CellType.H1;
-		}
-		else if(Schema.CELL_TYPE_TEXT.equals(s))
-		{
-			return CellType.TEXT;
-		}
-		else
-		{
-			throw new Exception("unknown section type: " + s);
 		}
 	}
 }
