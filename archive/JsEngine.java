@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js;
+package goryachev.notebook.cell;
 import goryachev.common.ui.BackgroundThread;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;
@@ -8,22 +8,23 @@ import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
 import goryachev.notebook.js.nb.NB;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 
 public class JsEngine
 {
-	public static final String SOURCE = "Line";
 	private final NotebookPanel np;
-	protected ScriptableObject scope;
-	protected GlobalScope globalScope;
+	private ScriptEngine scriptEngine;
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
 	private CList<Object> results = new CList();
+	protected static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
@@ -33,22 +34,32 @@ public class JsEngine
 	}
 	
 	
-	protected synchronized Scriptable scope(Context cx) throws Exception
+	protected synchronized ScriptEngine engine() throws Exception
 	{
-		if(scope == null)
+		if(scriptEngine == null)
 		{
-			scope = new GlobalScope(cx);
+			scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
 			
-			// top level objects
-			ScriptableObject.putProperty(scope, "FS", new FS());
-			ScriptableObject.putProperty(scope, "IO", new IO());
-			ScriptableObject.putProperty(scope, "NB", new NB());
-			
-			// java integration
-			cx.evaluateString(scope, "importPackage(java.lang);", "INIT", 1, null);
-		}
+			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
+			{
+				public void write(char[] cbuf, int off, int len) throws IOException
+				{
+					print(new String(cbuf,off,len));
+				}
+
+				public void close() throws IOException { }
+				public void flush() throws IOException { }
+			}));
 		
-		return scope;
+			// global context objects
+			scriptEngine.put("FS", new FS());
+			scriptEngine.put("IO", new IO());
+			scriptEngine.put("NB", new NB());
+			
+			// common packages
+			scriptEngine.eval("importPackage(Packages.java.lang);");
+		}
+		return scriptEngine;
 	}
 	
 	
@@ -88,22 +99,9 @@ public class JsEngine
 		{
 			public void process() throws Throwable
 			{
-				Context cx = Context.enter();
-				try
-				{
-					engine.set(JsEngine.this);
-					Object rv = cx.evaluateString(scope(cx), script, SOURCE, 1, null);
-					if(rv == Context.getUndefinedValue())
-					{
-						rv = null;
-					}
-					
-					display(rv);
-				}
-				finally
-				{
-					Context.exit();
-				}
+				engine.set(JsEngine.this);
+				Object rv = engine().eval(script);
+				display(rv);
 			}
 			
 			public void success()

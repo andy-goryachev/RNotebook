@@ -8,18 +8,20 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 
-public class GlobalFunctions
+public class GlobalScope
 	extends ImporterTopLevel
 {
-	public static void init(ScriptableObject sc)
-    {
+	public GlobalScope(Context cx)
+	{
+		initStandardObjects(cx, false);
+		
 		String[] names = 
 		{
 			"help", 
 			"print",
 		};
-		sc.defineFunctionProperties(names, GlobalFunctions.class, ScriptableObject.DONTENUM);
-    }
+		defineFunctionProperties(names, GlobalScope.class, ScriptableObject.DONTENUM);
+	}
 	
 	
 	/**
