@@ -4,13 +4,11 @@
   "cells": [
     {
       "type": "h1",
-      "source": "Notebook Example",
-      "output": []
+      "source": "Notebook Example"
     },
     {
       "type": "text",
-      "source": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.",
-      "output": []
+      "source": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute."
     },
     {
       "type": "js",
@@ -77,38 +75,31 @@
     },
     {
       "type": "js",
-      "source": "// runs forever\nvar i = new Intereg(0);\nfor(i=0; i<100000000; i++)\n{\n\ti = i;\n}\nSystem.currentTimeMillis()",
-      "output": []
+      "source": "// runs forever\nvar i = new Intereg(0);\nfor(i=0; i<100000000; i++)\n{\n\ti = i;\n}\nSystem.currentTimeMillis()"
     },
     {
       "type": "text",
-      "source": "And this is how a notebook page looks like.\nThe end.",
-      "output": []
+      "source": "And this is how a notebook page looks like.\nThe end."
     },
     {
       "type": "h1",
-      "source": "Heading 1",
-      "output": []
+      "source": "Heading 1"
     },
     {
       "type": "text",
-      "source": "1\n2\n3--[",
-      "output": []
+      "source": "1\n2\n3--["
     },
     {
       "type": "text",
-      "source": "]---\n4\n5",
-      "output": []
+      "source": "]---\n4\n5"
     },
     {
       "type": "h2",
-      "source": "Heading 2",
-      "output": []
+      "source": "Heading 2"
     },
     {
       "type": "h3",
-      "source": "Heading 3",
-      "output": []
+      "source": "Heading 3"
     }
   ]
 }

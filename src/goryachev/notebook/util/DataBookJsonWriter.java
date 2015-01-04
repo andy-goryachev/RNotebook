@@ -35,19 +35,19 @@ public class DataBookJsonWriter
 			}
 			
 			// output
-			wr.name(Schema.KEY_CELL_OUTPUT);
-			wr.beginArray();
+			CList<Object> rs = c.results;
+			if((rs != null) && (rs.size() > 0))
 			{
-				CList<Object> rs = c.results;
-				if(rs != null)
+				wr.name(Schema.KEY_CELL_OUTPUT);
+				wr.beginArray();
 				{
 					for(Object r: rs)
 					{
 						writeResult(r, wr);
 					}
 				}
+				wr.endArray();
 			}
-			wr.endArray();
 		}
 		wr.endObject();
 	}
