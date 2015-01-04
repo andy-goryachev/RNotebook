@@ -5,8 +5,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
-
 import static org.mozilla.javascript.UniqueTag.*;
+import goryachev.common.util.CKit;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public final class Interpreter
 	//            exception local and scope local
 	static final int EXCEPTION_SLOT_SIZE = 6;
 
-	
+
 	/**
 	 * Class to hold data corresponding to one interpreted call stack frame.
 	 */
@@ -971,7 +971,7 @@ public final class Interpreter
 
 
 	@SuppressWarnings("null")
-    private static Object interpretLoop(Context cx, CallFrame frame, Object throwable)
+	private static Object interpretLoop(Context cx, CallFrame frame, Object throwable)
 	{
 		// throwable holds exception object to rethrow or catch
 		// It is also used for continuation restart in which case
@@ -1033,7 +1033,6 @@ public final class Interpreter
 		{
 			withoutExceptions: try
 			{
-
 				if(throwable != null)
 				{
 					// Need to return both 'frame' and 'throwable' from
@@ -1046,7 +1045,9 @@ public final class Interpreter
 				else
 				{
 					if(generatorState == null && frame.frozen)
+					{
 						Kit.codeBug();
+					}
 				}
 
 				// Use local variables for constant values in frame
@@ -1070,14 +1071,15 @@ public final class Interpreter
 
 				Loop: for(;;)
 				{
-
+					// interruptible 
+					CKit.checkCancelled();
+					
 					// Exception handler assumes that PC is already incremented
 					// pass the instruction start when it searches the
 					// exception handler
 					int op = iCode[frame.pc++];
 					jumplessRun:
 					{
-
 						// Back indent to ease implementation reading
 						switch(op)
 						{
@@ -2820,7 +2822,7 @@ public final class Interpreter
 
 
 	@SuppressWarnings("null")
-    private static CallFrame processThrowable(Context cx, Object throwable, CallFrame frame, int indexReg, boolean instructionCounting)
+	private static CallFrame processThrowable(Context cx, Object throwable, CallFrame frame, int indexReg, boolean instructionCounting)
 	{
 		// Recovering from exception, indexReg contains
 		// the index of handler

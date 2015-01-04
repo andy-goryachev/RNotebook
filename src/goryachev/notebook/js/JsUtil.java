@@ -3,10 +3,10 @@ package goryachev.notebook.js;
 import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
+import goryachev.common.util.CancelledException;
 import goryachev.notebook.js.img.JsImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.script.ScriptException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Undefined;
 
@@ -21,11 +21,9 @@ public class JsUtil
 
 	public static String decodeException(Throwable err)
 	{
-		if(err instanceof ScriptException)
+		if(err instanceof CancelledException)
 		{
-			err = ((ScriptException)err).getCause();
-			String s = err.getMessage();
-			return s;
+			return "Interrupted";
 		}
 		else
 		{

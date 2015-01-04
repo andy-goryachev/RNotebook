@@ -89,9 +89,14 @@ public class JsEngine
 			public void process() throws Throwable
 			{
 				Context cx = Context.enter();
+				
+				// set interpreted mode so we can stick interruption check in Interpreter.interpretLoop()
+				cx.setOptimizationLevel(-1);
+				
 				try
 				{
 					engine.set(JsEngine.this);
+					
 					Object rv = cx.evaluateString(scope(cx), script, SOURCE, 1, null);
 					if(rv == Context.getUndefinedValue())
 					{

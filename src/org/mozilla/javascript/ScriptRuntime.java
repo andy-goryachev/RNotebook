@@ -5,7 +5,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
@@ -25,7 +24,6 @@ import org.mozilla.javascript.xml.XMLObject;
 
 public class ScriptRuntime
 {
-
 	/**
 	 * No instances should be created.
 	 */
@@ -66,8 +64,10 @@ public class ScriptRuntime
 		return THROW_TYPE_ERROR;
 	}
 
-	private static BaseFunction THROW_TYPE_ERROR = null;
+	
+	private static BaseFunction THROW_TYPE_ERROR;
 
+	
 	static class NoSuchMethodShim
 	    implements Callable
 	{
@@ -99,9 +99,9 @@ public class ScriptRuntime
 			nestedArgs[1] = newArrayLiteral(args, null, cx, scope);
 			return noSuchMethodMethod.call(cx, scope, thisObj, nestedArgs);
 		}
-
 	}
 
+	
 	/*
 	 * There's such a huge space (and some time) waste for the Foo.class
 	 * syntax: the compiler sticks in a test of a static field in the
@@ -112,9 +112,27 @@ public class ScriptRuntime
 	 * that they won't cause problems by being loaded early.
 	 */
 
-	public final static Class<?> BooleanClass = Kit.classOrNull("java.lang.Boolean"), ByteClass = Kit.classOrNull("java.lang.Byte"), CharacterClass = Kit.classOrNull("java.lang.Character"), ClassClass = Kit.classOrNull("java.lang.Class"), DoubleClass = Kit.classOrNull("java.lang.Double"), FloatClass = Kit.classOrNull("java.lang.Float"), IntegerClass = Kit.classOrNull("java.lang.Integer"), LongClass = Kit.classOrNull("java.lang.Long"), NumberClass = Kit.classOrNull("java.lang.Number"), ObjectClass = Kit.classOrNull("java.lang.Object"), ShortClass = Kit.classOrNull("java.lang.Short"), StringClass = Kit.classOrNull("java.lang.String"), DateClass = Kit.classOrNull("java.util.Date");
-
-	public final static Class<?> ContextClass = Kit.classOrNull("org.mozilla.javascript.Context"), ContextFactoryClass = Kit.classOrNull("org.mozilla.javascript.ContextFactory"), FunctionClass = Kit.classOrNull("org.mozilla.javascript.Function"), ScriptableObjectClass = Kit.classOrNull("org.mozilla.javascript.ScriptableObject");
+	public final static Class<?> 
+		BooleanClass = Kit.classOrNull("java.lang.Boolean"), 
+		ByteClass = Kit.classOrNull("java.lang.Byte"), 
+		CharacterClass = Kit.classOrNull("java.lang.Character"), 
+		ClassClass = Kit.classOrNull("java.lang.Class"), 
+		DoubleClass = Kit.classOrNull("java.lang.Double"), 
+		FloatClass = Kit.classOrNull("java.lang.Float"), 
+		IntegerClass = Kit.classOrNull("java.lang.Integer"), 
+		LongClass = Kit.classOrNull("java.lang.Long"), 
+		NumberClass = Kit.classOrNull("java.lang.Number"), 
+		ObjectClass = Kit.classOrNull("java.lang.Object"), 
+		ShortClass = Kit.classOrNull("java.lang.Short"), 
+		StringClass = Kit.classOrNull("java.lang.String"), 
+		DateClass = Kit.classOrNull("java.util.Date");
+	
+	public final static Class<?> 
+		ContextClass = Kit.classOrNull("org.mozilla.javascript.Context"), 
+		ContextFactoryClass = Kit.classOrNull("org.mozilla.javascript.ContextFactory"), 
+		FunctionClass = Kit.classOrNull("org.mozilla.javascript.Function"), 
+		ScriptableObjectClass = Kit.classOrNull("org.mozilla.javascript.ScriptableObject");
+	
 	public static final Class<Scriptable> ScriptableClass = Scriptable.class;
 
 	// Locale object used to request locale-neutral operations.
@@ -322,11 +340,17 @@ public class ScriptRuntime
 		for(;;)
 		{
 			if(val instanceof Boolean)
+			{
 				return ((Boolean)val).booleanValue();
+			}
 			if(val == null || val == Undefined.instance)
+			{
 				return false;
+			}
 			if(val instanceof CharSequence)
+			{
 				return ((CharSequence)val).length() != 0;
+			}
 			if(val instanceof Number)
 			{
 				double d = ((Number)val).doubleValue();
@@ -346,7 +370,9 @@ public class ScriptRuntime
 				// ECMA extension
 				val = ((Scriptable)val).getDefaultValue(BooleanClass);
 				if(val instanceof Scriptable)
+				{
 					throw errorWithClassName("msg.primitive.expected", val);
+				}
 				continue;
 			}
 			warnAboutNonJSObject(val);
@@ -365,22 +391,36 @@ public class ScriptRuntime
 		for(;;)
 		{
 			if(val instanceof Number)
+			{
 				return ((Number)val).doubleValue();
+			}
 			if(val == null)
+			{
 				return +0.0;
+			}
 			if(val == Undefined.instance)
+			{
 				return NaN;
+			}
 			if(val instanceof String)
+			{
 				return toNumber((String)val);
+			}
 			if(val instanceof CharSequence)
+			{
 				return toNumber(val.toString());
+			}
 			if(val instanceof Boolean)
+			{
 				return ((Boolean)val).booleanValue() ? 1 : +0.0;
+			}
 			if(val instanceof Scriptable)
 			{
 				val = ((Scriptable)val).getDefaultValue(NumberClass);
 				if(val instanceof Scriptable)
+				{
 					throw errorWithClassName("msg.primitive.expected", val);
+				}
 				continue;
 			}
 			warnAboutNonJSObject(val);
@@ -424,6 +464,7 @@ public class ScriptRuntime
 			lowerCaseBound = (char)('a' + radix - 10);
 			upperCaseBound = (char)('A' + radix - 10);
 		}
+		
 		int end;
 		double sum = 0.0;
 		for(end = start; end < len; end++)
@@ -431,13 +472,21 @@ public class ScriptRuntime
 			char c = s.charAt(end);
 			int newDigit;
 			if('0' <= c && c <= digitMax)
+			{
 				newDigit = c - '0';
+			}
 			else if('a' <= c && c < lowerCaseBound)
+			{
 				newDigit = c - 'a' + 10;
+			}
 			else if('A' <= c && c < upperCaseBound)
+			{
 				newDigit = c - 'A' + 10;
+			}
 			else
+			{
 				break;
+			}
 			sum = sum * radix + newDigit;
 		}
 		if(start == end)
@@ -495,14 +544,22 @@ public class ScriptRuntime
 					if(bitShiftInChar == 1)
 					{
 						if(start == end)
+						{
 							break;
+						}
 						digit = s.charAt(start++);
 						if('0' <= digit && digit <= '9')
+						{
 							digit -= '0';
+						}
 						else if('a' <= digit && digit <= 'z')
+						{
 							digit -= 'a' - 10;
+						}
 						else
+						{
 							digit -= 'A' - 10;
+						}
 						bitShiftInChar = radix;
 					}
 					bitShiftInChar >>= 1;
@@ -521,7 +578,9 @@ public class ScriptRuntime
 					case FIRST_EXACT_53_BITS:
 						sum *= 2.0;
 						if(bit)
+						{
 							sum += 1.0;
+						}
 						--exactBitsLimit;
 						if(exactBitsLimit == 0)
 						{
@@ -3605,14 +3664,18 @@ public class ScriptRuntime
 	public static Object doTopCall(Callable callable, Context cx, Scriptable scope, Scriptable thisObj, Object[] args)
 	{
 		if(scope == null)
+		{
 			throw new IllegalArgumentException();
+		}
 		if(cx.topCallScope != null)
+		{
 			throw new IllegalStateException();
+		}
 
-		Object result;
 		cx.topCallScope = ScriptableObject.getTopLevelScope(scope);
 		cx.useDynamicScope = cx.hasFeature(Context.FEATURE_DYNAMIC_SCOPE);
 		ContextFactory f = cx.getFactory();
+		Object result;
 		try
 		{
 			result = f.doTopCall(callable, cx, scope, thisObj, args);

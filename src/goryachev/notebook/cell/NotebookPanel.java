@@ -163,7 +163,7 @@ public class NotebookPanel
 		
 		deleteCellAction.setEnabled(sec);
 		insertCellAboveAction.setEnabled(sec);
-		interruptAction.setEnabled(code && running);
+		interruptAction.setEnabled(running);
 		runAllAction.setEnabled(false); // FIX
 		runCellAction.setEnabled(code && !running);
 		runInPlaceAction.setEnabled(code && !running);

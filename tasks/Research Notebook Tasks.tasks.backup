@@ -9,13 +9,6 @@
       "title": "FEATURES",
       "tasks": [
         {
-          "id": "21644D350A40C33D3B09B75A5001E4571681D9AE",
-          "title": "save results",
-          "created": 1420241239236,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "31A2C4350BA74859070ADDF289509965FE6CFE8A",
           "title": "save as pdf",
           "created": 1420249259593,
@@ -43,6 +36,13 @@
           "created": 1420268979357,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
+          "title": "select next/prev should scroll rect to visible",
+          "created": 1420332240859,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -51,7 +51,15 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "21644D350A40C33D3B09B75A5001E4571681D9AE",
+          "title": "save results",
+          "created": 1420241239236,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -72,13 +80,6 @@
           "created": 1420241273275,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "F9A97C22E97E0BD9F387690791C3EF51ABE76A16",
-          "title": "sys.display()",
-          "created": 1420276455287,
-          "completed": null,
-          "description": null
         }
       ]
     }
@@ -89,6 +90,13 @@
       "title": "global engine context",
       "created": 1420241253544,
       "completed": 1420318537786,
+      "description": null
+    },
+    {
+      "id": "F9A97C22E97E0BD9F387690791C3EF51ABE76A16",
+      "title": "NB.display()",
+      "created": 1420276455287,
+      "completed": 1420332429023,
       "description": null
     }
   ]
