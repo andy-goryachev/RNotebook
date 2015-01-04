@@ -26,12 +26,13 @@ public class CodePanel
 	public final RSyntaxTextArea textField;
 	public final JLabel inField;
 	public final JLabel marginField;
-	private static CBorder BORDER = new CBorder(2, 4);
+	private int sequence;
 	private CList<Object> results;
 	private CList<JComponent> resultComponents;
+	private static CBorder BORDER = new CBorder(2, 4);
 	
 	
-	public CodePanel(String text, CList<Object> results)
+	public CodePanel(String text, int seq, CList<Object> results)
 	{
 		textField = new RSyntaxTextArea(text);
 		textField.setFont(Theme.monospacedFont());
@@ -48,7 +49,7 @@ public class CodePanel
 		//
 		setTop(textField);
 		
-		inField = new JLabel("In (*):");
+		inField = new JLabel();
 		inField.setBorder(BORDER);
 		inField.setForeground(Styles.marginTextColor);
 		inField.setHorizontalAlignment(JLabel.RIGHT);
@@ -61,10 +62,7 @@ public class CodePanel
 		marginField.addMouseListener(handler);
 		setRight(marginField);
 		
-		if(results != null)
-		{
-			setResult("*", results);
-		}
+		setResult(seq, results);
 	}
 	
 	
@@ -83,7 +81,7 @@ public class CodePanel
 	public void saveCell(DataBook b)
 	{
 		CList<Object> rs = (results == null ? null : new CList(results));
-		b.addCell(CellType.CODE, getText(), rs);
+		b.addCell(CellType.CODE, getText(), sequence, rs);
 	}
 	
 	
@@ -92,7 +90,7 @@ public class CodePanel
 		return textField.getText();
 	}
 
-	
+
 	public void setRunning()
 	{
 		marginField.setText(">>>");
@@ -101,30 +99,39 @@ public class CodePanel
 	}
 	
 	
-	public void setResult(Object count, CList<Object> results)
+	public void setResult(int seq, CList<Object> results)
 	{
 		NotebookPanel np = NotebookPanel.get(this);
 		
-		// run count
-		inField.setText("In (" + count + "):");
+		// sequence
+		this.sequence = seq;
+		inField.setText("In (" + (seq <= 0 ? "*" : seq) + "):");
 		
 		// results
 		this.results = results;
 		boolean error = false;
-		CList<JComponent> cs = new CList();
-		for(Object rv: results)
+		CList<JComponent> cs = null;
+		
+		if(results != null)
 		{
-			if(rv != null)
+			for(Object rv: results)
 			{
-				if(rv instanceof JsError)
+				if(rv != null)
 				{
-					error = true;
-				}
-				
-				JComponent c = Results.createViewer(this, rv);
-				if(c != null)
-				{
-					cs.add(c);
+					if(rv instanceof JsError)
+					{
+						error = true;
+					}
+					
+					JComponent c = Results.createViewer(this, rv);
+					if(c != null)
+					{
+						if(cs == null)
+						{
+							cs = new CList();
+						}
+						cs.add(c);
+					}
 				}
 			}
 		}
@@ -143,9 +150,12 @@ public class CodePanel
 		
 		resultComponents = cs;
 		
-		for(JComponent c: cs)
+		if(cs != null)
 		{
-			add(c);
+			for(JComponent c: cs)
+			{
+				add(c);
+			}
 		}
 		
 		UI.validateAndRepaint(this);

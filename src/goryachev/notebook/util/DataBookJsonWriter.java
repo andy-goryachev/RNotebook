@@ -22,18 +22,23 @@ public class DataBookJsonWriter
 	}
 
 
-	private static void writeCell(DataBook b, int ix, JsonEncoder wr) throws Exception
+	private static void writeCell(DataBook.Cell c, JsonEncoder wr) throws Exception
 	{
 		wr.beginObject();
 		{
-			wr.write(Schema.KEY_CELL_TYPE, CellType.toSectionCode(b.getType(ix)));
-			wr.write(Schema.KEY_TEXT, b.getText(ix));
+			wr.write(Schema.KEY_CELL_TYPE, CellType.toSectionCode(c.type));
+			wr.write(Schema.KEY_CELL_SOURCE, c.text);
+			
+			if(c.sequence > 0)
+			{
+				wr.write(Schema.KEY_CELL_SEQUENCE, c.sequence);
+			}
 			
 			// output
 			wr.name(Schema.KEY_CELL_OUTPUT);
 			wr.beginArray();
 			{
-				CList<Object> rs = b.getResults(ix);
+				CList<Object> rs = c.results;
 				if(rs != null)
 				{
 					for(Object r: rs)
@@ -97,7 +102,8 @@ public class DataBookJsonWriter
 						int sz = b.size();
 						for(int i=0; i<sz; i++)
 						{
-							writeCell(b, i, wr);
+							DataBook.Cell c = b.getCell(i);
+							writeCell(c, wr);
 						}
 					}
 					wr.endArray();

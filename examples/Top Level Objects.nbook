@@ -4,22 +4,22 @@
   "cells": [
     {
       "type": "h1",
-      "text": "Top Level Objects in Research Notebook",
+      "source": "Top Level Objects in Research Notebook",
       "output": []
     },
     {
       "type": "text",
-      "text": "A number of objects defined in the global context form the bulk of Research Notebook functionality.\nThese objects are:\n\nFS\nIO\nNB",
+      "source": "A number of objects defined in the global context form the bulk of Research Notebook functionality.\nThese objects are:\n\nFS\nIO\nNB",
       "output": []
     },
     {
       "type": "h3",
-      "text": "FS",
+      "source": "FS",
       "output": []
     },
     {
       "type": "js",
-      "text": "FS",
+      "source": "FS",
       "output": [
         {
           "type": "text",
@@ -29,12 +29,13 @@
     },
     {
       "type": "h3",
-      "text": "IO",
+      "source": "IO",
       "output": []
     },
     {
       "type": "js",
-      "text": "IO",
+      "source": "IO",
+      "sequence": 1,
       "output": [
         {
           "type": "text",
@@ -44,12 +45,12 @@
     },
     {
       "type": "h3",
-      "text": "NB",
+      "source": "NB",
       "output": []
     },
     {
       "type": "js",
-      "text": "NB",
+      "source": "NB",
       "output": [
         {
           "type": "text",

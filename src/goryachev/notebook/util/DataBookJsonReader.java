@@ -80,6 +80,7 @@ public class DataBookJsonReader
 	{
 		String type = null;
 		String text = null;
+		int seq = -1;
 		CList<Object> results = null;
 
 		beginObject();
@@ -90,9 +91,13 @@ public class DataBookJsonReader
 			{
 				type = nextString();
 			}
-			else if(Schema.KEY_TEXT.equals(s))
+			else if(Schema.KEY_CELL_SOURCE.equals(s))
 			{
 				text = nextString();
+			}
+			else if(Schema.KEY_CELL_SEQUENCE.equals(s))
+			{
+				seq = nextInt();
 			}
 			else if(Schema.KEY_CELL_OUTPUT.equals(s))
 			{
@@ -102,7 +107,7 @@ public class DataBookJsonReader
 		endObject();
 		
 		CellType t = CellType.parse(type);
-		b.addCell(t, text, results);
+		b.addCell(t, text, seq, results);
 	}
 
 

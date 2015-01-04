@@ -7,7 +7,6 @@ import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
-import goryachev.common.util.CList;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
@@ -114,11 +113,8 @@ public class NotebookPanel
 			int sz = b.size();
 			for(int i=0; i<sz; i++)
 			{
-				CellType type = b.getType(i);
-				String text = b.getText(i);
-				CList<Object> results = b.getResults(i);
-				
-				CellPanel p = CellPanel.create(type, text, results);
+				DataBook.Cell c = b.getCell(i);
+				CellPanel p = CellPanel.create(c.type, c.text, c.sequence, c.results);
 				panel.add(p);
 				
 				if(i == 0)
@@ -352,7 +348,7 @@ public class NotebookPanel
 			if(activeCell != null)
 			{
 				String text = activeCell.getText();
-				CellPanel p = CellPanel.create(t, text, null);
+				CellPanel p = CellPanel.create(t, text, -1, null);
 				
 				replace(activeCell, p);
 			}
@@ -368,7 +364,7 @@ public class NotebookPanel
 			t = (CellType)typeField.getSelectedItem();
 		}
 		
-		CellPanel p = CellPanel.create(t, null, null);
+		CellPanel p = CellPanel.create(t, null, -1, null);
 			
 		int ix = indexOf(activeCell);
 		if(ix < 0)

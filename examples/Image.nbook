@@ -4,42 +4,42 @@
   "cells": [
     {
       "type": "h1",
-      "text": "Image Type",
+      "source": "Image Type",
       "output": []
     },
     {
       "type": "text",
-      "text": "Research Notebook provides extensive image manipulation capabilities via its built-in Image type.\n\nAn Image can be created using 'new' operator, or loaded from a file via IO.loadImage() method.\n\nThe following operations are available:\nImage.copy()\nImage.scale(factor)\nImage.invert()\n",
+      "source": "Research Notebook provides extensive image manipulation capabilities via its built-in Image type.\n\nAn Image can be created using 'new' operator, or loaded from a file via IO.loadImage() method.\n\nThe following operations are available:\nImage.copy()\nImage.scale(factor)\nImage.invert()\n",
       "output": []
     },
     {
       "type": "h3",
-      "text": "Image.copy()",
+      "source": "Image.copy()",
       "output": []
     },
     {
       "type": "text",
-      "text": "Returns a copy of the current image.",
+      "source": "Returns a copy of the current image.",
       "output": []
     },
     {
       "type": "h3",
-      "text": "Image.invert()",
+      "source": "Image.invert()",
       "output": []
     },
     {
       "type": "text",
-      "text": "...",
+      "source": "...",
       "output": []
     },
     {
       "type": "h3",
-      "text": "Image.scale(factor)",
+      "source": "Image.scale(factor)",
       "output": []
     },
     {
       "type": "text",
-      "text": "...",
+      "source": "...",
       "output": []
     }
   ]

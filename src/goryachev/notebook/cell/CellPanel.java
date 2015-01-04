@@ -120,12 +120,12 @@ public abstract class CellPanel
 	}
 	
 	
-	public static CellPanel create(CellType type, String text, CList<Object> results)
+	public static CellPanel create(CellType type, String text, int seq, CList<Object> results)
 	{
 		switch(type)
 		{
 		case CODE:
-			return new CodePanel(text, results);
+			return new CodePanel(text, seq, results);
 		case H1:
 		case H2:
 		case H3:

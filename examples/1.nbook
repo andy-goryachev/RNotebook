@@ -4,17 +4,17 @@
   "cells": [
     {
       "type": "h1",
-      "text": "Notebook Example",
+      "source": "Notebook Example",
       "output": []
     },
     {
       "type": "text",
-      "text": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.",
+      "source": "Here we have some text, which should be helpful when you have a need to display some text.\nThis text is simply a text area with line wrapping enabled.\n\nPress Ctrl-ENTER in a script section to execute.",
       "output": []
     },
     {
       "type": "js",
-      "text": "print(\"this snippet displays multiple results (two images):\");\ni = IO.loadImage('examples/picture.jpg');\nNB.display(i);\nprint(\"with this text in between\");\ni",
+      "source": "print(\"this snippet displays multiple results (two images):\");\ni = IO.loadImage('examples/picture.jpg');\nNB.display(i);\nprint(\"with this text in between\");\ni",
       "output": [
         {
           "type": "text",
@@ -36,7 +36,7 @@
     },
     {
       "type": "js",
-      "text": "var im = new Image(10, 10)\nim.width",
+      "source": "var im = new Image(10, 10)\nim.width",
       "output": [
         {
           "type": "text",
@@ -46,7 +46,8 @@
     },
     {
       "type": "js",
-      "text": "IO",
+      "source": "IO",
+      "sequence": 1,
       "output": [
         {
           "type": "text",
@@ -56,7 +57,7 @@
     },
     {
       "type": "js",
-      "text": "IO.loadTable('examples/table.csv');",
+      "source": "IO.loadTable('examples/table.csv');",
       "output": [
         {
           "type": "text",
@@ -66,7 +67,7 @@
     },
     {
       "type": "js",
-      "text": "undefined.bad",
+      "source": "undefined.bad",
       "output": [
         {
           "type": "error",
@@ -76,27 +77,27 @@
     },
     {
       "type": "js",
-      "text": "// runs forever\nvar i = new Intereg(0);\nfor(i=0; i<100000000; i++)\n{\n\ti = i;\n}\nSystem.currentTimeMillis()",
+      "source": "// runs forever\nvar i = new Intereg(0);\nfor(i=0; i<100000000; i++)\n{\n\ti = i;\n}\nSystem.currentTimeMillis()",
       "output": []
     },
     {
       "type": "text",
-      "text": "And this is how a notebook page looks like.\nThe end.",
+      "source": "And this is how a notebook page looks like.\nThe end.",
       "output": []
     },
     {
       "type": "h1",
-      "text": "Heading 1",
+      "source": "Heading 1",
       "output": []
     },
     {
       "type": "h2",
-      "text": "Heading 2",
+      "source": "Heading 2",
       "output": []
     },
     {
       "type": "h3",
-      "text": "Heading 3",
+      "source": "Heading 3",
       "output": []
     }
   ]
