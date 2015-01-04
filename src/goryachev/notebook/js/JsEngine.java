@@ -23,7 +23,7 @@ public class JsEngine
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
-	private CList<Object> results = new CList();
+	private CList<Object> results;
 	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
@@ -80,7 +80,7 @@ public class JsEngine
 	public void execute(final CodePanel p)
 	{
 		p.setRunning();
-		results.clear();
+		results = new CList();
 
 		final String script = p.getText();
 

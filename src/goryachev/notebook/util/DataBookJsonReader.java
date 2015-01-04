@@ -6,6 +6,7 @@ import goryachev.json.JsonDecoder;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
+import goryachev.notebook.js.JsError;
 import java.io.Reader;
 
 
@@ -157,8 +158,7 @@ public class DataBookJsonReader
 		}
 		else if(Schema.RESULT_ERROR.equals(type))
 		{
-			// FIX will be different stack trace!
-			return new Throwable(text);
+			return new JsError(text);
 		}
 		else if(Schema.RESULT_TEXT.equals(type))
 		{

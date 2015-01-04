@@ -9,6 +9,7 @@ import goryachev.json.JsonEncoder;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
+import goryachev.notebook.js.JsError;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -63,25 +64,26 @@ public class DataBookJsonWriter
 	}
 	
 	
-	private static void writeResult(Object v, JsonEncoder wr) throws Exception
+	private static void writeResult(Object x, JsonEncoder wr) throws Exception
 	{
 		wr.beginObject();
 		{
-			if(v instanceof BufferedImage)
+			if(x instanceof BufferedImage)
 			{
-				byte[] b = ImageTools.toPNG((BufferedImage)v);
+				byte[] b = ImageTools.toPNG((BufferedImage)x);
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_IMAGE);
 				wr.writeByteArray(Schema.KEY_OUTPUT_IMAGE, b);
 			}
-			else if(v instanceof Throwable)
+			else if(x instanceof JsError)
 			{
+				String msg = ((JsError)x).error;
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_ERROR);
-				wr.write(Schema.KEY_OUTPUT_TEXT, Parsers.parseString(v));
+				wr.write(Schema.KEY_OUTPUT_TEXT, msg);
 			}
 			else 
 			{
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_TEXT);
-				wr.write(Schema.KEY_OUTPUT_TEXT, Parsers.parseString(v));
+				wr.write(Schema.KEY_OUTPUT_TEXT, Parsers.parseString(x));
 			}
 		}
 		wr.endObject();

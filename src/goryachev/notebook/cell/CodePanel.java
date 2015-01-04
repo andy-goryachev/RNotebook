@@ -10,7 +10,7 @@ import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
-import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.JsError;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -76,7 +76,8 @@ public class CodePanel
 	
 	public void saveCell(DataBook b)
 	{
-		b.addCell(CellType.CODE, getText(), results);
+		CList<Object> rs = (results == null ? null : new CList(results));
+		b.addCell(CellType.CODE, getText(), rs);
 	}
 	
 	
@@ -109,7 +110,7 @@ public class CodePanel
 		{
 			if(rv != null)
 			{
-				if(rv instanceof Throwable)
+				if(rv instanceof JsError)
 				{
 					error = true;
 				}
@@ -151,22 +152,22 @@ public class CodePanel
 	
 	
 	// tightly linked with JsUtil.makeDatasnapshot()
-	protected JComponent createViewer(Object rv)
+	protected JComponent createViewer(Object x)
 	{
-		if(rv instanceof BufferedImage)
+		if(x instanceof BufferedImage)
 		{
-			JsImageViewer v = new JsImageViewer((BufferedImage)rv);
+			JsImageViewer v = new JsImageViewer((BufferedImage)x);
 			v.addMouseListener(handler);
 			return v;
 		}
-		else if(rv instanceof Throwable)
+		else if(x instanceof JsError)
 		{
-			String text = JsUtil.decodeException((Throwable)rv);
+			String text = ((JsError)x).error;
 			return createTextViewer(text, Styles.errorColor);
 		}
-		else if(rv != null)
+		else if(x != null)
 		{
-			String text = rv.toString();
+			String text = x.toString();
 			return createTextViewer(text, Styles.resultColor);
 		}
 		else

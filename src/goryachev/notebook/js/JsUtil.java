@@ -63,7 +63,8 @@ public class JsUtil
 		}
 		else if(x instanceof Throwable)
 		{
-			return x;
+			String msg = JsUtil.decodeException((Throwable)x);
+			return new JsError(msg);
 		}
 		else if(x instanceof Undefined)
 		{
