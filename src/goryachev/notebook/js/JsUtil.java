@@ -7,6 +7,8 @@ import goryachev.notebook.js.img.JsImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.script.ScriptException;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Undefined;
 
 
 public class JsUtil
@@ -23,7 +25,7 @@ public class JsUtil
 		{
 			err = ((ScriptException)err).getCause();
 			String s = err.getMessage();
-			return s.replace("<Unknown source>#", "Line ");
+			return s;
 		}
 		else
 		{
@@ -45,6 +47,11 @@ public class JsUtil
 	 */
 	public static Object makeDatasnapshot(Object x)
 	{
+		if(x instanceof NativeJavaObject)
+		{
+			x = ((NativeJavaObject)x).unwrap();
+		}
+		
 		if(x instanceof JsImage)
 		{
 			BufferedImage im = ((JsImage)x).getBufferedImage();
@@ -53,6 +60,10 @@ public class JsUtil
 		else if(x instanceof Throwable)
 		{
 			return x;
+		}
+		else if(x instanceof Undefined)
+		{
+			return "undefined";
 		}
 		else if(x != null)
 		{

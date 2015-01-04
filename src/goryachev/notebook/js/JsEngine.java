@@ -16,15 +16,13 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class JsEngine
 {
+	public static final String SOURCE = "Line";
 	private final NotebookPanel np;
-	//private Context context;
-	protected Scriptable scope;
-	//private ScriptEngine scriptEngine;
+	protected ScriptableObject scope;
 	private AtomicInteger runCount = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
 	private CList<Object> results = new CList();
-	//protected static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
@@ -34,59 +32,13 @@ public class JsEngine
 	}
 	
 	
-//	protected synchronized ScriptEngine engine() throws Exception
-//	{
-//		if(scriptEngine == null)
-//		{
-//			scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
-//			
-//			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
-//			{
-//				public void write(char[] cbuf, int off, int len) throws IOException
-//				{
-//					print(new String(cbuf,off,len));
-//				}
-//
-//				public void close() throws IOException { }
-//				public void flush() throws IOException { }
-//			}));
-//		
-//			// global context objects
-//			scriptEngine.put("FS", new FS());
-//			scriptEngine.put("IO", new IO());
-//			scriptEngine.put("NB", new NB());
-//			
-//			// common packages
-//			scriptEngine.eval("importPackage(Packages.java.lang);");
-//		}
-//		return scriptEngine;
-//	}
-	
-	
 	protected synchronized Scriptable scope(Context cx) throws Exception
 	{
 		if(scope == null)
 		{
-//			scriptEngine.getContext().setWriter(new PrintWriter(new Writer()
-//			{
-//				public void write(char[] cbuf, int off, int len) throws IOException
-//				{
-//					print(new String(cbuf,off,len));
-//				}
-//
-//				public void close() throws IOException { }
-//				public void flush() throws IOException { }
-//			}));
-//		
-//			// global context objects
-//			scriptEngine.put("FS", new FS());
-//			scriptEngine.put("IO", new IO());
-//			scriptEngine.put("NB", new NB());
-//			
-//			// common packages
-//			scriptEngine.eval("importPackage(Packages.java.lang);");
-			
 			scope = cx.initStandardObjects();
+			
+			GlobalFunctions.init(scope);
 			
 			ScriptableObject.putProperty(scope, "FS", new FS());
 			ScriptableObject.putProperty(scope, "IO", new IO());
@@ -139,7 +91,12 @@ public class JsEngine
 				try
 				{
 					engine.set(JsEngine.this);
-					Object rv = cx.evaluateString(scope(cx), script, "<cmd>", 1, null);
+					Object rv = cx.evaluateString(scope(cx), script, SOURCE, 1, null);
+					if(rv == Context.getUndefinedValue())
+					{
+						rv = null;
+					}
+					
 					display(rv);
 				}
 				finally

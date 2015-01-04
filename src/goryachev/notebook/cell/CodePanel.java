@@ -99,15 +99,18 @@ public class CodePanel
 		CList<JComponent> cs = new CList();
 		for(Object rv: results)
 		{
-			if(rv instanceof Throwable)
+			if(rv != null)
 			{
-				error = true;
-			}
-			
-			JComponent c = createViewer(rv);
-			if(c != null)
-			{
-				cs.add(c);
+				if(rv instanceof Throwable)
+				{
+					error = true;
+				}
+				
+				JComponent c = createViewer(rv);
+				if(c != null)
+				{
+					cs.add(c);
+				}
 			}
 		}
 		

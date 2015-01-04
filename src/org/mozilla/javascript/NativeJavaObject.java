@@ -216,6 +216,7 @@ public class NativeJavaObject
 				hint = ScriptRuntime.BooleanClass;
 			}
 		}
+		
 		if(hint == null || hint == ScriptRuntime.StringClass)
 		{
 			value = javaObject.toString();
@@ -235,6 +236,7 @@ public class NativeJavaObject
 			{
 				throw Context.reportRuntimeError0("msg.default.value");
 			}
+			
 			Object converterObject = get(converterName, this);
 			if(converterObject instanceof Function)
 			{

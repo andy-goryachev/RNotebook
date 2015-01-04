@@ -12,7 +12,7 @@
     },
     {
       "type": "js",
-      "text": "print(\"does this print?\");\ni = IO.loadImage('examples/picture.jpg');\nNB.display(i);\nprint(\"1\");\ni"
+      "text": "print(\"this snippet displays multiple results (two images):\");\ni = IO.loadImage('examples/picture.jpg');\nNB.display(i);\nprint(\"with this text in between\");\ni"
     },
     {
       "type": "js",
@@ -28,7 +28,7 @@
     },
     {
       "type": "js",
-      "text": "undefined.code"
+      "text": "undefined.bad"
     },
     {
       "type": "text",

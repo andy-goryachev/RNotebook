@@ -170,14 +170,15 @@ public class Main
 		{
 			fileList.add(null);
 		}
+		
 		if(!global.initialized)
 		{
 			global.init(shellContextFactory);
 		}
+		
 		IProxy iproxy = new IProxy(IProxy.PROCESS_FILES);
 		iproxy.args = args;
 		shellContextFactory.call(iproxy);
-
 		return exitCode;
 	}
 
