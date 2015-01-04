@@ -28,8 +28,15 @@ public class JsUtil
 		}
 		else if(err instanceof RhinoException)
 		{
-			String s = ((RhinoException)err).getMessage();
-			return s;
+			Throwable e = err.getCause();
+			if(e != null)
+			{
+				return e.getMessage();
+			}
+			else
+			{
+				return ((RhinoException)err).getMessage();
+			}
 		}
 		else
 		{

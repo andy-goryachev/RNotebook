@@ -31,13 +31,6 @@
       "title": "BUGS",
       "tasks": [
         {
-          "id": "7FB7CD3B3FB14D755FD095338A57B7BEC51CC956",
-          "title": "interrupt script does not work",
-          "created": 1420268979357,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
           "title": "select next/prev should scroll rect to visible",
           "created": 1420332240859,
@@ -97,6 +90,13 @@
       "title": "NB.display()",
       "created": 1420276455287,
       "completed": 1420332429023,
+      "description": null
+    },
+    {
+      "id": "7FB7CD3B3FB14D755FD095338A57B7BEC51CC956",
+      "title": "interrupt script does not work",
+      "created": 1420268979357,
+      "completed": 1420336663150,
       "description": null
     }
   ]
