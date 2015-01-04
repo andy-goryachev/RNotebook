@@ -8,7 +8,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-
 import goryachev.common.ui.UI;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -127,6 +126,8 @@ import org.fife.ui.rtextarea.RecordableTextAction;
  * {@link org.fife.ui.rtextarea.RTextScrollPane} instead of a regular
  * <code>JScrollPane</code> as this class allows you to add line numbers and
  * bookmarks easily to your text area.
+ * 
+ * Input map: RTADefaultInputMap
  *
  * @author Robert Futrell
  * @version 2.5.6

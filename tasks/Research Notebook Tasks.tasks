@@ -29,15 +29,7 @@
       "x": 2,
       "y": 0,
       "title": "BUGS",
-      "tasks": [
-        {
-          "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
-          "title": "select next/prev should scroll rect to visible",
-          "created": 1420332240859,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
@@ -85,6 +77,13 @@
           "id": "004F8F1C7DDF97ACAA8F6CDE6DB83B0BA5FD5C1D",
           "title": "encode text as an array of strings (or other elements)",
           "created": 1420399115068,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "3A3DC25384300976D8A42AF8C4D29532CA48E0E9",
+          "title": "cleanup rsyntaxtextarea",
+          "created": 1420411712485,
           "completed": null,
           "description": null
         }
@@ -139,6 +138,13 @@
       "title": "modified",
       "created": 1420241273275,
       "completed": 1420410194114,
+      "description": null
+    },
+    {
+      "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
+      "title": "select next/prev should scroll rect to visible",
+      "created": 1420332240859,
+      "completed": 1420411695443,
       "description": null
     }
   ]

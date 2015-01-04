@@ -68,7 +68,7 @@ public class RTADefaultInputMap
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, moveByWordMod | shift), DefaultEditorKit.selectionPreviousWordAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), DefaultEditorKit.downAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, shift), DefaultEditorKit.selectionDownAction);
-		put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, defaultModifier), RTextAreaEditorKit.rtaScrollDownAction);
+		//put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, defaultModifier), RTextAreaEditorKit.rtaScrollDownAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, alt), RTextAreaEditorKit.rtaLineDownAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), DefaultEditorKit.forwardAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, shift), DefaultEditorKit.selectionForwardAction);
@@ -76,7 +76,7 @@ public class RTADefaultInputMap
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, moveByWordMod | shift), DefaultEditorKit.selectionNextWordAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), DefaultEditorKit.upAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, shift), DefaultEditorKit.selectionUpAction);
-		put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, defaultModifier), RTextAreaEditorKit.rtaScrollUpAction);
+		//put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, defaultModifier), RTextAreaEditorKit.rtaScrollUpAction);
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, alt), RTextAreaEditorKit.rtaLineUpAction);
 
 		put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0), DefaultEditorKit.pageUpAction);

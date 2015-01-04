@@ -13,6 +13,7 @@ import goryachev.notebook.DataBook;
 import goryachev.notebook.NotebookWindow;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
+import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
@@ -122,6 +123,8 @@ public class NotebookPanel
 			{
 				activeCell.setActive(true);	
 				activeCell.getEditor().requestFocusInWindow();
+				
+				activeCell.scrollRectToVisible(new Rectangle(0, 0, activeCell.getWidth(), activeCell.getHeight()));
 			}
 			
 			updateActions();

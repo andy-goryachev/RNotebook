@@ -29,15 +29,7 @@
       "x": 2,
       "y": 0,
       "title": "BUGS",
-      "tasks": [
-        {
-          "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
-          "title": "select next/prev should scroll rect to visible",
-          "created": 1420332240859,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
@@ -71,13 +63,6 @@
           "id": "ED0ED35E51E5FDB5C504A55B84DD9202392B6AF9",
           "title": "popup menus",
           "created": 1420249246766,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "33CCAB20056FE3DC553B4915DCE424E2ED0CC8E9",
-          "title": "modified",
-          "created": 1420241273275,
           "completed": null,
           "description": null
         },
@@ -139,6 +124,20 @@
       "title": "insert text after H1..3",
       "created": 1420400845480,
       "completed": 1420409231448,
+      "description": null
+    },
+    {
+      "id": "33CCAB20056FE3DC553B4915DCE424E2ED0CC8E9",
+      "title": "modified",
+      "created": 1420241273275,
+      "completed": 1420410194114,
+      "description": null
+    },
+    {
+      "id": "A19749B303E5A448C34DDF782C81B08EEE74E728",
+      "title": "select next/prev should scroll rect to visible",
+      "created": 1420332240859,
+      "completed": 1420411695443,
       "description": null
     }
   ]
