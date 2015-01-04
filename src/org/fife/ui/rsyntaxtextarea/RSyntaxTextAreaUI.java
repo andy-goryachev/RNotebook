@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -17,8 +16,12 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.InputMapUIResource;
-import javax.swing.text.*;
-
+import javax.swing.text.BadLocationException;
+import javax.swing.text.EditorKit;
+import javax.swing.text.Element;
+import javax.swing.text.Highlighter;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.View;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaUI;
 
@@ -30,14 +33,16 @@ import org.fife.ui.rtextarea.RTextAreaUI;
  * @author Robert Futrell
  * @version 0.1
  */
-public class RSyntaxTextAreaUI extends RTextAreaUI {
+public class RSyntaxTextAreaUI
+    extends RTextAreaUI
+{
+	private static final String SHARED_ACTION_MAP_NAME = "RSyntaxTextAreaUI.actionMap";
+	private static final String SHARED_INPUT_MAP_NAME = "RSyntaxTextAreaUI.inputMap";
+	private static final EditorKit defaultKit = new RSyntaxTextAreaEditorKit();
 
-	private static final String SHARED_ACTION_MAP_NAME	= "RSyntaxTextAreaUI.actionMap";
-	private static final String SHARED_INPUT_MAP_NAME		= "RSyntaxTextAreaUI.inputMap";
-	private static final EditorKit defaultKit			= new RSyntaxTextAreaEditorKit();
 
-
-	public static ComponentUI createUI(JComponent ta) {
+	public static ComponentUI createUI(JComponent ta)
+	{
 		return new RSyntaxTextAreaUI(ta);
 	}
 
@@ -45,27 +50,34 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	/**
 	 * Constructor.
 	 */
-	public RSyntaxTextAreaUI(JComponent rSyntaxTextArea) {
+	public RSyntaxTextAreaUI(JComponent rSyntaxTextArea)
+	{
 		super(rSyntaxTextArea);
 	}
 
 
-    /**
-     * Creates the view for an element.
-     *
-     * @param elem The element.
-     * @return The view.
-     */
+	/**
+	 * Creates the view for an element.
+	 *
+	 * @param elem The element.
+	 * @return The view.
+	 */
 	@Override
-	public View create(Element elem) {
+	public View create(Element elem)
+	{
 		RTextArea c = getRTextArea();
-		if (c instanceof RSyntaxTextArea) {
-			RSyntaxTextArea area = (RSyntaxTextArea) c;
+		if(c instanceof RSyntaxTextArea)
+		{
+			RSyntaxTextArea area = (RSyntaxTextArea)c;
 			View v;
-			if (area.getLineWrap())
+			if(area.getLineWrap())
+			{
 				v = new WrappedSyntaxView(elem);
+			}
 			else
+			{
 				v = new SyntaxView(elem);
+			}
 			return v;
 		}
 		return null;
@@ -78,7 +90,8 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * @return The highlighter.
 	 */
 	@Override
-	protected Highlighter createHighlighter() {
+	protected Highlighter createHighlighter()
+	{
 		return new RSyntaxTextAreaHighlighter();
 	}
 
@@ -91,7 +104,8 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * @return The name of the cached action map.
 	 */
 	@Override
-	protected String getActionMapName() {
+	protected String getActionMapName()
+	{
 		return SHARED_ACTION_MAP_NAME;
 	}
 
@@ -104,7 +118,8 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * @see javax.swing.plaf.TextUI#getEditorKit
 	 */
 	@Override
-	public EditorKit getEditorKit(JTextComponent tc) {
+	public EditorKit getEditorKit(JTextComponent tc)
+	{
 		return defaultKit;
 	}
 
@@ -119,10 +134,12 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * (since it is package-private).
 	 */
 	@Override
-	protected InputMap getRTextAreaInputMap() {
+	protected InputMap getRTextAreaInputMap()
+	{
 		InputMap map = new InputMapUIResource();
 		InputMap shared = (InputMap)UIManager.get(SHARED_INPUT_MAP_NAME);
-		if (shared==null) {
+		if(shared == null)
+		{
 			shared = new RSyntaxTextAreaDefaultInputMap();
 			UIManager.put(SHARED_INPUT_MAP_NAME, shared);
 		}
@@ -140,7 +157,8 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * @param g The graphics component on which to paint.
 	 */
 	@Override
-	protected void paintBackground(Graphics g) {
+	protected void paintBackground(Graphics g)
+	{
 		super.paintBackground(g);
 		paintMatchedBracket(g);
 	}
@@ -151,16 +169,21 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 *
 	 * @param g The graphics context.
 	 */
-	protected void paintMatchedBracket(Graphics g) {
+	protected void paintMatchedBracket(Graphics g)
+	{
 		RSyntaxTextArea rsta = (RSyntaxTextArea)textArea;
-		if (rsta.isBracketMatchingEnabled()) {
+		if(rsta.isBracketMatchingEnabled())
+		{
 			Rectangle match = rsta.getMatchRectangle();
-			if (match!=null) {
+			if(match != null)
+			{
 				paintMatchedBracketImpl(g, rsta, match);
 			}
-			if (rsta.getPaintMatchedBracketPair()) {
+			if(rsta.getPaintMatchedBracketPair())
+			{
 				Rectangle dotRect = rsta.getDotRectangle();
-				if (dotRect!=null) { // should always be true
+				if(dotRect != null)
+				{ // should always be true
 					paintMatchedBracketImpl(g, rsta, dotRect);
 				}
 			}
@@ -168,27 +191,31 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	}
 
 
-	private void paintMatchedBracketImpl(Graphics g, RSyntaxTextArea rsta,
-			Rectangle r) {
+	private void paintMatchedBracketImpl(Graphics g, RSyntaxTextArea rsta, Rectangle r)
+	{
 		// We must add "-1" to the height because otherwise we'll paint below
 		// the region that gets invalidated.
-		if (rsta.getAnimateBracketMatching()) {
+		if(rsta.getAnimateBracketMatching())
+		{
 			Color bg = rsta.getMatchedBracketBGColor();
-			if (bg!=null) {
+			if(bg != null)
+			{
 				g.setColor(bg);
-				g.fillRoundRect(r.x,r.y, r.width,r.height-1, 5,5);
+				g.fillRoundRect(r.x, r.y, r.width, r.height - 1, 5, 5);
 			}
 			g.setColor(rsta.getMatchedBracketBorderColor());
-			g.drawRoundRect(r.x,r.y, r.width,r.height-1, 5,5);
+			g.drawRoundRect(r.x, r.y, r.width, r.height - 1, 5, 5);
 		}
-		else {
+		else
+		{
 			Color bg = rsta.getMatchedBracketBGColor();
-			if (bg!=null) {
+			if(bg != null)
+			{
 				g.setColor(bg);
-				g.fillRect(r.x,r.y, r.width,r.height-1);
+				g.fillRect(r.x, r.y, r.width, r.height - 1);
 			}
 			g.setColor(rsta.getMatchedBracketBorderColor());
-			g.drawRect(r.x,r.y, r.width,r.height-1);
+			g.drawRect(r.x, r.y, r.width, r.height - 1);
 		}
 	}
 
@@ -200,21 +227,21 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * @param e The property change event.
 	 */
 	@Override
-	protected void propertyChange(PropertyChangeEvent e) {
-
+	protected void propertyChange(PropertyChangeEvent e)
+	{
 		String name = e.getPropertyName();
 
 		// If they change the syntax scheme, we must do this so that
 		// WrappedSyntaxView(_TEST) updates its child views properly.
-		if (name.equals(RSyntaxTextArea.SYNTAX_SCHEME_PROPERTY)) {
+		if(name.equals(RSyntaxTextArea.SYNTAX_SCHEME_PROPERTY))
+		{
 			modelChanged();
 		}
-
-		// Everything else is general to all RTextAreas.
-		else {
+		else
+		{
+			// Everything else is general to all RTextAreas.
 			super.propertyChange(e);
 		}
-
 	}
 
 
@@ -222,7 +249,8 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * Updates the view.  This should be called when the underlying
 	 * <code>RSyntaxTextArea</code> changes its syntax editing style.
 	 */
-	public void refreshSyntaxHighlighting() {
+	public void refreshSyntaxHighlighting()
+	{
 		modelChanged();
 	}
 
@@ -235,9 +263,11 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * computed.
 	 */
 	@Override
-	public int yForLine(int line) throws BadLocationException {
+	public int yForLine(int line) throws BadLocationException
+	{
 		Rectangle alloc = getVisibleEditorRect();
-		if (alloc!=null) {
+		if(alloc != null)
+		{
 			RSTAView view = (RSTAView)getRootView(textArea).getView(0);
 			return view.yForLine(alloc, line);
 		}
@@ -252,14 +282,14 @@ public class RSyntaxTextAreaUI extends RTextAreaUI {
 	 * preferred if you do not need the actual bounding box.
 	 */
 	@Override
-	public int yForLineContaining(int offs) throws BadLocationException {
+	public int yForLineContaining(int offs) throws BadLocationException
+	{
 		Rectangle alloc = getVisibleEditorRect();
-		if (alloc!=null) {
+		if(alloc != null)
+		{
 			RSTAView view = (RSTAView)getRootView(textArea).getView(0);
 			return view.yForLineContaining(alloc, offs);
 		}
 		return -1;
 	}
-
-
 }

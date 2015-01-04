@@ -9,6 +9,7 @@
  */
 package org.fife.ui.rsyntaxtextarea;
 
+import goryachev.common.ui.UI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -42,24 +43,20 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
-import javax.swing.event.EventListenerList;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.Highlighter;
-
 import org.fife.ui.rsyntaxtextarea.focusabletip.FocusableTip;
 import org.fife.ui.rsyntaxtextarea.folding.Fold;
 import org.fife.ui.rsyntaxtextarea.folding.FoldManager;
 import org.fife.ui.rsyntaxtextarea.parser.Parser;
 import org.fife.ui.rsyntaxtextarea.parser.ParserNotice;
 import org.fife.ui.rsyntaxtextarea.parser.ToolTipInfo;
-import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaUI;
-import org.fife.ui.rtextarea.RTextScrollPane;
 import org.fife.ui.rtextarea.RecordableTextAction;
 
 
@@ -135,38 +132,42 @@ import org.fife.ui.rtextarea.RecordableTextAction;
  * @version 2.5.6
  * @see TextEditorPane
  */
-public class RSyntaxTextArea extends RTextArea implements SyntaxConstants {
+public class RSyntaxTextArea
+    extends RTextArea
+    implements SyntaxConstants
+{
+	public static final String ANIMATE_BRACKET_MATCHING_PROPERTY = "RSTA.animateBracketMatching";
+	public static final String ANTIALIAS_PROPERTY = "RSTA.antiAlias";
+	public static final String AUTO_INDENT_PROPERTY = "RSTA.autoIndent";
+	public static final String BRACKET_MATCHING_PROPERTY = "RSTA.bracketMatching";
+	public static final String CLEAR_WHITESPACE_LINES_PROPERTY = "RSTA.clearWhitespaceLines";
+	public static final String CLOSE_CURLY_BRACES_PROPERTY = "RSTA.closeCurlyBraces";
+	public static final String CLOSE_MARKUP_TAGS_PROPERTY = "RSTA.closeMarkupTags";
+	public static final String CODE_FOLDING_PROPERTY = "RSTA.codeFolding";
+	public static final String EOL_VISIBLE_PROPERTY = "RSTA.eolMarkersVisible";
+	public static final String FOCUSABLE_TIPS_PROPERTY = "RSTA.focusableTips";
+	public static final String FRACTIONAL_FONTMETRICS_PROPERTY = "RSTA.fractionalFontMetrics";
+	public static final String HIGHLIGHT_SECONDARY_LANGUAGES_PROPERTY = "RSTA.highlightSecondaryLanguages";
+	public static final String HYPERLINKS_ENABLED_PROPERTY = "RSTA.hyperlinksEnabled";
+	public static final String MARK_OCCURRENCES_PROPERTY = "RSTA.markOccurrences";
+	public static final String MARKED_OCCURRENCES_CHANGED_PROPERTY = "RSTA.markedOccurrencesChanged";
+	public static final String PAINT_MATCHED_BRACKET_PAIR_PROPERTY = "RSTA.paintMatchedBracketPair";
+	public static final String PARSER_NOTICES_PROPERTY = "RSTA.parserNotices";
+	public static final String SYNTAX_SCHEME_PROPERTY = "RSTA.syntaxScheme";
+	public static final String SYNTAX_STYLE_PROPERTY = "RSTA.syntaxStyle";
+	public static final String TAB_LINE_COLOR_PROPERTY = "RSTA.tabLineColor";
+	public static final String TAB_LINES_PROPERTY = "RSTA.tabLines";
+	public static final String USE_SELECTED_TEXT_COLOR_PROPERTY = "RSTA.useSelectedTextColor";
+	public static final String VISIBLE_WHITESPACE_PROPERTY = "RSTA.visibleWhitespace";
 
-	public static final String ANIMATE_BRACKET_MATCHING_PROPERTY		= "RSTA.animateBracketMatching";
-	public static final String ANTIALIAS_PROPERTY						= "RSTA.antiAlias";
-	public static final String AUTO_INDENT_PROPERTY						= "RSTA.autoIndent";
-	public static final String BRACKET_MATCHING_PROPERTY				= "RSTA.bracketMatching";
-	public static final String CLEAR_WHITESPACE_LINES_PROPERTY			= "RSTA.clearWhitespaceLines";
-	public static final String CLOSE_CURLY_BRACES_PROPERTY				= "RSTA.closeCurlyBraces";
-	public static final String CLOSE_MARKUP_TAGS_PROPERTY				= "RSTA.closeMarkupTags";
-	public static final String CODE_FOLDING_PROPERTY					= "RSTA.codeFolding";
-	public static final String EOL_VISIBLE_PROPERTY						= "RSTA.eolMarkersVisible";
-	public static final String FOCUSABLE_TIPS_PROPERTY					= "RSTA.focusableTips";
-	public static final String FRACTIONAL_FONTMETRICS_PROPERTY			= "RSTA.fractionalFontMetrics";
-	public static final String HIGHLIGHT_SECONDARY_LANGUAGES_PROPERTY	= "RSTA.highlightSecondaryLanguages";
-	public static final String HYPERLINKS_ENABLED_PROPERTY				= "RSTA.hyperlinksEnabled";
-	public static final String MARK_OCCURRENCES_PROPERTY				= "RSTA.markOccurrences";
-	public static final String MARKED_OCCURRENCES_CHANGED_PROPERTY		= "RSTA.markedOccurrencesChanged";
-	public static final String PAINT_MATCHED_BRACKET_PAIR_PROPERTY		= "RSTA.paintMatchedBracketPair";
-	public static final String PARSER_NOTICES_PROPERTY					= "RSTA.parserNotices";
-	public static final String SYNTAX_SCHEME_PROPERTY					= "RSTA.syntaxScheme";
-	public static final String SYNTAX_STYLE_PROPERTY					= "RSTA.syntaxStyle";
-	public static final String TAB_LINE_COLOR_PROPERTY					= "RSTA.tabLineColor";
-	public static final String TAB_LINES_PROPERTY						= "RSTA.tabLines";
-	public static final String USE_SELECTED_TEXT_COLOR_PROPERTY			= "RSTA.useSelectedTextColor";
-	public static final String VISIBLE_WHITESPACE_PROPERTY				= "RSTA.visibleWhitespace";
+	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR = new Color(255, 192, 255);
+	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR = UI.mix(10, Color.black, DEFAULT_BRACKET_MATCH_BG_COLOR);
+	private static final Color DEFAULT_SELECTION_COLOR = Theme.getDefaultSelectionBG();
 
-	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR		= new Color(234,234,255);
-	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR	= new Color(0,0,128);
-	private static final Color DEFAULT_SELECTION_COLOR			= new Color(200,200,255);
+	// FIX kill
+	private static final String MSG = "org.fife.ui.rsyntaxtextarea.RSyntaxTextArea";
 
-	private static final String MSG	= "org.fife.ui.rsyntaxtextarea.RSyntaxTextArea";
-
+	// FIX kill
 	private JMenu foldingMenu;
 	private static RecordableTextAction toggleCurrentFoldAction;
 	private static RecordableTextAction collapseAllCommentFoldsAction;
@@ -220,9 +221,7 @@ public class RSyntaxTextArea extends RTextArea implements SyntaxConstants {
 
 	/** Whether <b>both</b> brackets are highlighted when bracket matching. */
 	private boolean paintMatchedBracketPair;
-
 	private BracketMatchingTimer bracketRepaintTimer;
-
 	private boolean metricsNeverRefreshed;
 
 	/**
@@ -326,18 +325,17 @@ public class RSyntaxTextArea extends RTextArea implements SyntaxConstants {
 
 	/** Renders tokens. */
 	private TokenPainter tokenPainter;
-
-private int lineHeight;		// Height of a line of text; same for default, bold & italic.
-private int maxAscent;
-private boolean fractionalFontMetricsEnabled;
-
+	private int lineHeight; // Height of a line of text; same for default, bold & italic.
+	private int maxAscent;
+	private boolean fractionalFontMetricsEnabled;
 	private Color[] secondaryLanguageBackgrounds;
 
 
 	/**
 	 * Constructor.
 	 */
-	public RSyntaxTextArea() {
+	public RSyntaxTextArea()
+	{
 	}
 
 
@@ -346,16 +344,19 @@ private boolean fractionalFontMetricsEnabled;
 	 * 
 	 * @param doc The document for the editor.
 	 */
-	public RSyntaxTextArea(RSyntaxDocument doc) {
+	public RSyntaxTextArea(RSyntaxDocument doc)
+	{
 		super(doc);
 	}
+
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param text The initial text to display.
 	 */
-	public RSyntaxTextArea(String text) {
+	public RSyntaxTextArea(String text)
+	{
 		super(text);
 	}
 
@@ -368,7 +369,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RSyntaxTextArea(int rows, int cols) {
+	public RSyntaxTextArea(int rows, int cols)
+	{
 		super(rows, cols);
 	}
 
@@ -382,7 +384,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RSyntaxTextArea(String text, int rows, int cols) {
+	public RSyntaxTextArea(String text, int rows, int cols)
+	{
 		super(text, rows, cols);
 	}
 
@@ -397,7 +400,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RSyntaxTextArea(RSyntaxDocument doc, String text,int rows,int cols) {
+	public RSyntaxTextArea(RSyntaxDocument doc, String text, int rows, int cols)
+	{
 		super(doc, text, rows, cols);
 	}
 
@@ -408,7 +412,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param textMode Either <code>INSERT_MODE</code> or
 	 *        <code>OVERWRITE_MODE</code>.
 	 */
-	public RSyntaxTextArea(int textMode) {
+	public RSyntaxTextArea(int textMode)
+	{
 		super(textMode);
 	}
 
@@ -419,7 +424,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param l The listener to add.
 	 * @see #removeActiveLineRangeListener(ActiveLineRangeListener)
 	 */
-	public void addActiveLineRangeListener(ActiveLineRangeListener l) {
+	public void addActiveLineRangeListener(ActiveLineRangeListener l)
+	{
 		listenerList.add(ActiveLineRangeListener.class, l);
 	}
 
@@ -430,7 +436,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param l The listener to add.
 	 * @see #removeHyperlinkListener(HyperlinkListener)
 	 */
-	public void addHyperlinkListener(HyperlinkListener l) {
+	public void addHyperlinkListener(HyperlinkListener l)
+	{
 		listenerList.add(HyperlinkListener.class, l);
 	}
 
@@ -439,17 +446,19 @@ private boolean fractionalFontMetricsEnabled;
 	 * Updates the font metrics the first time we're displayed.
 	 */
 	@Override
-	public void addNotify() {
-
+	public void addNotify()
+	{
 		super.addNotify();
 
 		// Some LookAndFeels (e.g. WebLaF) for some reason have a 0x0 parent
 		// window initially (perhaps something to do with them fading in?),
 		// which will cause an exception from getGraphics(), so we must be
 		// careful here.
-		if (metricsNeverRefreshed) {
+		if(metricsNeverRefreshed)
+		{
 			Window parent = SwingUtilities.getWindowAncestor(this);
-			if (parent!=null && parent.getWidth()>0 && parent.getHeight()>0) {
+			if(parent != null && parent.getWidth() > 0 && parent.getHeight() > 0)
+			{
 				refreshFontMetrics(getGraphics2D(getGraphics()));
 				metricsNeverRefreshed = false;
 			}
@@ -457,10 +466,10 @@ private boolean fractionalFontMetricsEnabled;
 
 		// Re-start parsing if we were removed from one container and added
 		// to another
-		if (parserManager!=null) {
+		if(parserManager != null)
+		{
 			parserManager.restartParsing();
 		}
-
 	}
 
 
@@ -475,8 +484,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getParserCount()
 	 * @see #removeParser(Parser)
 	 */
-	public void addParser(Parser parser) {
-		if (parserManager==null) {
+	public void addParser(Parser parser)
+	{
+		if(parserManager == null)
+		{
 			parserManager = new ParserManager(this);
 		}
 		parserManager.addParser(parser);
@@ -490,7 +501,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param popup The popup menu to append to.
 	 * @see #createPopupMenu()
 	 */
-	protected void appendFoldingMenu(JPopupMenu popup) {
+	protected void appendFoldingMenu(JPopupMenu popup)
+	{
 		popup.addSeparator();
 		ResourceBundle bundle = ResourceBundle.getBundle(MSG);
 		foldingMenu = new JMenu(bundle.getString("ContextMenu.Folding"));
@@ -499,7 +511,7 @@ private boolean fractionalFontMetricsEnabled;
 		foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));
 		foldingMenu.add(createPopupMenuItem(expandAllFoldsAction));
 		popup.add(foldingMenu);
-		
+
 	}
 
 
@@ -507,20 +519,22 @@ private boolean fractionalFontMetricsEnabled;
 	 * Recalculates the height of a line in this text area and the
 	 * maximum ascent of all fonts displayed.
 	 */
-	private void calculateLineHeight() {
-
+	private void calculateLineHeight()
+	{
 		lineHeight = maxAscent = 0;
 
 		// Each token style.
-		for (int i=0; i<syntaxScheme.getStyleCount(); i++) {
+		for(int i = 0; i < syntaxScheme.getStyleCount(); i++)
+		{
 			Style ss = syntaxScheme.getStyle(i);
-			if (ss!=null && ss.font!=null) {
+			if(ss != null && ss.font != null)
+			{
 				FontMetrics fm = getFontMetrics(ss.font);
 				int height = fm.getHeight();
-				if (height>lineHeight)
+				if(height > lineHeight)
 					lineHeight = height;
 				int ascent = fm.getMaxAscent();
-				if (ascent>maxAscent)
+				if(ascent > maxAscent)
 					maxAscent = ascent;
 			}
 		}
@@ -529,14 +543,15 @@ private boolean fractionalFontMetricsEnabled;
 		Font temp = getFont();
 		FontMetrics fm = getFontMetrics(temp);
 		int height = fm.getHeight();
-		if (height>lineHeight) {
+		if(height > lineHeight)
+		{
 			lineHeight = height;
 		}
 		int ascent = fm.getMaxAscent();
-		if (ascent>maxAscent) {
+		if(ascent > maxAscent)
+		{
 			maxAscent = ascent;
 		}
-
 	}
 
 
@@ -545,8 +560,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @see #removeParser(Parser)
 	 */
-	public void clearParsers() {
-		if (parserManager!=null) {
+	public void clearParsers()
+	{
+		if(parserManager != null)
+		{
 			parserManager.clearParsers();
 		}
 	}
@@ -560,23 +577,24 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param t The token list to clone.
 	 * @return The clone of the token list.
 	 */
-	private TokenImpl cloneTokenList(Token t) {
-
-		if (t==null) {
+	private TokenImpl cloneTokenList(Token t)
+	{
+		if(t == null)
+		{
 			return null;
 		}
 
 		TokenImpl clone = new TokenImpl(t);
 		TokenImpl cloneEnd = clone;
 
-		while ((t=t.getNextToken())!=null) {
+		while((t = t.getNextToken()) != null)
+		{
 			TokenImpl temp = new TokenImpl(t);
 			cloneEnd.setNextToken(temp);
 			cloneEnd = temp;
 		}
 
 		return clone;
-
 	}
 
 
@@ -593,15 +611,14 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setPopupMenu(JPopupMenu)
 	 */
 	@Override
-	protected void configurePopupMenu(JPopupMenu popupMenu) {
-
+	protected void configurePopupMenu(JPopupMenu popupMenu)
+	{
 		super.configurePopupMenu(popupMenu);
 
 		// They may have overridden createPopupMenu()...
-		if (popupMenu!=null && popupMenu.getComponentCount()>0 &&
-				foldingMenu!=null) {
-			foldingMenu.setEnabled(foldManager.
-						isCodeFoldingSupportedAndEnabled());
+		if(popupMenu != null && popupMenu.getComponentCount() > 0 && foldingMenu != null)
+		{
+			foldingMenu.setEnabled(foldManager.isCodeFoldingSupportedAndEnabled());
 		}
 	}
 
@@ -611,21 +628,26 @@ private boolean fractionalFontMetricsEnabled;
 	 * any necessary style information (font, foreground color and background
 	 * color).  Does nothing for <code>null</code> selections.
 	 */
-	public void copyAsRtf() {
-
+	public void copyAsRtf()
+	{
 		int selStart = getSelectionStart();
 		int selEnd = getSelectionEnd();
-		if (selStart==selEnd) {
+		if(selStart == selEnd)
+		{
 			return;
 		}
 
 		// Make sure there is a system clipboard, and that we can write
 		// to it.
 		SecurityManager sm = System.getSecurityManager();
-		if (sm!=null) {
-			try {
+		if(sm != null)
+		{
+			try
+			{
 				sm.checkSystemClipboardAccess();
-			} catch (SecurityException se) {
+			}
+			catch(SecurityException se)
+			{
 				UIManager.getLookAndFeel().provideErrorFeedback(null);
 				return;
 			}
@@ -635,21 +657,27 @@ private boolean fractionalFontMetricsEnabled;
 		// Create the RTF selection.
 		RtfGenerator gen = new RtfGenerator();
 		Token tokenList = getTokenListFor(selStart, selEnd);
-		for (Token t=tokenList; t!=null; t=t.getNextToken()) {
-			if (t.isPaintable()) {
-				if (t.length()==1 && t.charAt(0)=='\n') {
+		for(Token t = tokenList; t != null; t = t.getNextToken())
+		{
+			if(t.isPaintable())
+			{
+				if(t.length() == 1 && t.charAt(0) == '\n')
+				{
 					gen.appendNewline();
 				}
-				else {
+				else
+				{
 					Font font = getFontForTokenType(t.getType());
 					Color bg = getBackgroundForToken(t);
 					boolean underline = getUnderlineForToken(t);
 					// Small optimization - don't print fg color if this
 					// is a whitespace color.  Saves on RTF size.
-					if (t.isWhitespace()) {
+					if(t.isWhitespace())
+					{
 						gen.appendToDocNoFG(t.getLexeme(), font, bg, underline);
 					}
-					else {
+					else
+					{
 						Color fg = getForegroundForToken(t);
 						gen.appendToDoc(t.getLexeme(), font, fg, bg, underline);
 					}
@@ -660,13 +688,15 @@ private boolean fractionalFontMetricsEnabled;
 		// Set the system clipboard contents to the RTF selection.
 		RtfTransferable contents = new RtfTransferable(gen.getRtf().getBytes());
 		//System.out.println("*** " + new String(gen.getRtf().getBytes()));
-		try {
+		try
+		{
 			cb.setContents(contents, null);
-		} catch (IllegalStateException ise) {
+		}
+		catch(IllegalStateException ise)
+		{
 			UIManager.getLookAndFeel().provideErrorFeedback(null);
 			return;
 		}
-
 	}
 
 
@@ -676,7 +706,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The document.
 	 */
 	@Override
-	protected Document createDefaultModel() {
+	protected Document createDefaultModel()
+	{
 		return new RSyntaxDocument(SYNTAX_STYLE_NONE);
 	}
 
@@ -687,7 +718,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The caret event/mouse listener.
 	 */
 	@Override
-	protected RTAMouseListener createMouseListener() {
+	protected RTAMouseListener createMouseListener()
+	{
 		return new RSyntaxTextAreaMutableCaretEvent(this);
 	}
 
@@ -699,7 +731,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #appendFoldingMenu(JPopupMenu)
 	 */
 	@Override
-	protected JPopupMenu createPopupMenu() {
+	protected JPopupMenu createPopupMenu()
+	{
 		JPopupMenu popup = super.createPopupMenu();
 		appendFoldingMenu(popup);
 		return popup;
@@ -712,21 +745,18 @@ private boolean fractionalFontMetricsEnabled;
 	 * the editor kits, where it should be!  The context menu should contain
 	 * actions from the editor kits.
 	 */
-	private static void createRstaPopupMenuActions() {
-
+	private static void createRstaPopupMenuActions()
+	{
 		ResourceBundle msg = ResourceBundle.getBundle(MSG);
 
-		toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.
-				ToggleCurrentFoldAction();
+		toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.ToggleCurrentFoldAction();
 		toggleCurrentFoldAction.setProperties(msg, "Action.ToggleCurrentFold");
 
-		collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.
-				CollapseAllCommentFoldsAction();
+		collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllCommentFoldsAction();
 		collapseAllCommentFoldsAction.setProperties(msg, "Action.CollapseCommentFolds");
 
 		collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction(true);
 		expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction(true);
-
 	}
 
 
@@ -736,7 +766,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The UI.
 	 */
 	@Override
-	protected RTextAreaUI createRTextAreaUI() {
+	protected RTextAreaUI createRTextAreaUI()
+	{
 		return new RSyntaxTextAreaUI(this);
 	}
 
@@ -745,53 +776,62 @@ private boolean fractionalFontMetricsEnabled;
 	 * If the caret is on a bracket, this method finds the matching bracket,
 	 * and if it exists, highlights it.
 	 */
-	protected final void doBracketMatching() {
-
+	protected final void doBracketMatching()
+	{
 		// We always need to repaint the "matched bracket" highlight if it
 		// exists.
-		if (match!=null) {
+		if(match != null)
+		{
 			repaint(match);
-			if (dotRect!=null) {
+			if(dotRect != null)
+			{
 				repaint(dotRect);
 			}
 		}
 
 		// If a matching bracket is found, get its bounds and paint it!
-		int lastCaretBracketPos = bracketInfo==null ? -1 : bracketInfo.x;
-		bracketInfo = RSyntaxUtilities.getMatchingBracketPosition(this,
-				bracketInfo);
-		if (bracketInfo.y>-1 &&
-				(bracketInfo.y!=lastBracketMatchPos ||
-				 bracketInfo.x!=lastCaretBracketPos)) {
-			try {
+		int lastCaretBracketPos = bracketInfo == null ? -1 : bracketInfo.x;
+		bracketInfo = RSyntaxUtilities.getMatchingBracketPosition(this, bracketInfo);
+		if(bracketInfo.y > -1 && (bracketInfo.y != lastBracketMatchPos || bracketInfo.x != lastCaretBracketPos))
+		{
+			try
+			{
 				match = modelToView(bracketInfo.y);
-				if (match!=null) { // Happens if we're not yet visible
-					if (getPaintMatchedBracketPair()) {
+				if(match != null)
+				{ 
+					// Happens if we're not yet visible
+					if(getPaintMatchedBracketPair())
+					{
 						dotRect = modelToView(bracketInfo.x);
 					}
-					else {
+					else
+					{
 						dotRect = null;
 					}
-					if (getAnimateBracketMatching()) {
+					if(getAnimateBracketMatching())
+					{
 						bracketRepaintTimer.restart();
 					}
 					repaint(match);
-					if (dotRect!=null) {
+					if(dotRect != null)
+					{
 						repaint(dotRect);
 					}
 				}
-			} catch (BadLocationException ble) {
+			}
+			catch(BadLocationException ble)
+			{
 				ble.printStackTrace(); // Shouldn't happen.
 			}
 		}
-		else if (bracketInfo.y==-1) {
+		else if(bracketInfo.y == -1)
+		{
 			// Set match to null so the old value isn't still repainted.
 			match = null;
 			dotRect = null;
 			bracketRepaintTimer.stop();
 		}
 		lastBracketMatchPos = bracketInfo.y;
-
 	}
 
 
@@ -801,9 +841,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param e The caret event.
 	 */
 	@Override
-	protected void fireCaretUpdate(CaretEvent e) {
+	protected void fireCaretUpdate(CaretEvent e)
+	{
 		super.fireCaretUpdate(e);
-		if (isBracketMatchingEnabled()) {
+		if(isBracketMatchingEnabled())
+		{
 			doBracketMatching();
 		}
 	}
@@ -815,18 +857,23 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param min The minimum "active" line, or <code>-1</code>.
 	 * @param max The maximum "active" line, or <code>-1</code>.
 	 */
-	private void fireActiveLineRangeEvent(int min, int max) {
+	private void fireActiveLineRangeEvent(int min, int max)
+	{
 		ActiveLineRangeEvent e = null; // Lazily created
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
 		// Process the listeners last to first, notifying
 		// those that are interested in this event
-		for (int i = listeners.length-2; i>=0; i-=2) {
-			if (listeners[i]==ActiveLineRangeListener.class) {
-				if (e==null) {
+		for(int i = listeners.length - 2; i >= 0; i -= 2)
+		{
+			if(listeners[i] == ActiveLineRangeListener.class)
+			{
+				if(e == null)
+				{
 					e = new ActiveLineRangeEvent(this, min, max);
 				}
-				((ActiveLineRangeListener)listeners[i+1]).activeLineRangeChanged(e);
+				
+				((ActiveLineRangeListener)listeners[i + 1]).activeLineRangeChanged(e);
 			}
 		}
 	}
@@ -839,15 +886,18 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param e The event to fire.
 	 * @see EventListenerList
 	 */
-	protected void fireHyperlinkUpdate(HyperlinkEvent e) {
+	protected void fireHyperlinkUpdate(HyperlinkEvent e)
+	{
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
 		// Process the listeners last to first, notifying
 		// those that are interested in this event
-		for (int i = listeners.length-2; i>=0; i-=2) {
-			if (listeners[i]==HyperlinkListener.class) {
-				((HyperlinkListener)listeners[i+1]).hyperlinkUpdate(e);
-			}          
+		for(int i = listeners.length - 2; i >= 0; i -= 2)
+		{
+			if(listeners[i] == HyperlinkListener.class)
+			{
+				((HyperlinkListener)listeners[i + 1]).hyperlinkUpdate(e);
+			}
 		}
 	}
 
@@ -856,9 +906,9 @@ private boolean fractionalFontMetricsEnabled;
 	 * Notifies listeners that the marked occurrences for this text area
 	 * have changed.
 	 */
-	void fireMarkedOccurrencesChanged() {
-		firePropertyChange(RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY,
-							null, null);
+	void fireMarkedOccurrencesChanged()
+	{
+		firePropertyChange(RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY, null, null);
 	}
 
 
@@ -866,7 +916,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * Fires a notification that the parser notices for this text area have
 	 * changed.
 	 */
-	void fireParserNoticesChange() {
+	void fireParserNoticesChange()
+	{
 		firePropertyChange(PARSER_NOTICES_PROPERTY, null, null);
 	}
 
@@ -878,22 +929,27 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @param fold The fold that was collapsed or expanded.
 	 */
-	public void foldToggled(Fold fold) {
+	public void foldToggled(Fold fold)
+	{
 		match = null; // TODO: Update the bracket rect rather than hide it
 		dotRect = null;
-		if (getLineWrap()) {
+		if(getLineWrap())
+		{
 			// NOTE: Without doing this later, the caret position is out of
 			// sync with the Element structure when word wrap is enabled, and
 			// causes BadLocationExceptions when an entire folded region is
 			// deleted (see GitHub issue #22:
 			// https://github.com/bobbylight/RSyntaxTextArea/issues/22)
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run()
+				{
 					possiblyUpdateCurrentLineHighlightLocation();
 				}
 			});
 		}
-		else {
+		else
+		{
 			possiblyUpdateCurrentLineHighlightLocation();
 		}
 		revalidate();
@@ -914,7 +970,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param parser The index of the <code>Parser</code> to re-run.
 	 * @see #getParser(int)
 	 */
-	public void forceReparsing(int parser) {
+	public void forceReparsing(int parser)
+	{
 		parserManager.forceReparsing(parser);
 	}
 
@@ -928,9 +985,12 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether the parser was installed on this text area.
 	 * @see #forceReparsing(int)
 	 */
-	public boolean forceReparsing(Parser parser) {
-		for (int i=0; i<getParserCount(); i++) {
-			if (getParser(i)==parser) {
+	public boolean forceReparsing(Parser parser)
+	{
+		for(int i = 0; i < getParserCount(); i++)
+		{
+			if(getParser(i) == parser)
+			{
 				forceReparsing(i);
 				return true;
 			}
@@ -945,7 +1005,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether bracket matching should be animated.
 	 * @see #setAnimateBracketMatching(boolean)
 	 */
-	public boolean getAnimateBracketMatching() {
+	public boolean getAnimateBracketMatching()
+	{
 		return animateBracketMatching;
 	}
 
@@ -957,8 +1018,9 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setAntiAliasingEnabled(boolean)
 	 * @see #getFractionalFontMetricsEnabled()
 	 */
-	public boolean getAntiAliasingEnabled() {
-		return aaHints!=null;
+	public boolean getAntiAliasingEnabled()
+	{
+		return aaHints != null;
 	}
 
 
@@ -971,17 +1033,20 @@ private boolean fractionalFontMetricsEnabled;
 	 *         color.
 	 * @see #getForegroundForToken(Token)
 	 */
-	public Color getBackgroundForToken(Token token) {
+	public Color getBackgroundForToken(Token token)
+	{
 		Color c = null;
-		if (getHighlightSecondaryLanguages()) {
+		if(getHighlightSecondaryLanguages())
+		{
 			// 1-indexed, since 0 == main language.
 			int languageIndex = token.getLanguageIndex() - 1;
-			if (languageIndex>=0 &&
-					languageIndex<secondaryLanguageBackgrounds.length) {
+			if(languageIndex >= 0 && languageIndex < secondaryLanguageBackgrounds.length)
+			{
 				c = secondaryLanguageBackgrounds[languageIndex];
 			}
 		}
-		if (c==null) {
+		if(c == null)
+		{
 			c = syntaxScheme.getStyle(token.getType()).background;
 		}
 		// Don't default to this.getBackground(), as Tokens simply don't
@@ -999,7 +1064,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether curly braces should be automatically closed.
 	 * @see #setCloseCurlyBraces(boolean)
 	 */
-	public boolean getCloseCurlyBraces() {
+	public boolean getCloseCurlyBraces()
+	{
 		return closeCurlyBraces;
 	}
 
@@ -1012,7 +1078,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether closing markup tags should be automatically completed.
 	 * @see #setCloseMarkupTags(boolean)
 	 */
-	public boolean getCloseMarkupTags() {
+	public boolean getCloseMarkupTags()
+	{
 		return closeMarkupTags;
 	}
 
@@ -1024,8 +1091,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The code template manager.
 	 * @see #setTemplatesEnabled(boolean)
 	 */
-	public static synchronized CodeTemplateManager getCodeTemplateManager() {
-		if (codeTemplateManager==null) {
+	public static synchronized CodeTemplateManager getCodeTemplateManager()
+	{
+		if(codeTemplateManager == null)
+		{
 			codeTemplateManager = new CodeTemplateManager();
 		}
 		return codeTemplateManager;
@@ -1038,7 +1107,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The color.
 	 * @see #getDefaultBracketMatchBorderColor
 	 */
-	public static final Color getDefaultBracketMatchBGColor() {
+	public static final Color getDefaultBracketMatchBGColor()
+	{
 		return DEFAULT_BRACKET_MATCH_BG_COLOR;
 	}
 
@@ -1049,7 +1119,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The color.
 	 * @see #getDefaultBracketMatchBGColor
 	 */
-	public static final Color getDefaultBracketMatchBorderColor() {
+	public static final Color getDefaultBracketMatchBorderColor()
+	{
 		return DEFAULT_BRACKET_MATCH_BORDER_COLOR;
 	}
 
@@ -1062,7 +1133,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The default selection color.
 	 */
-	public static Color getDefaultSelectionColor() {
+	public static Color getDefaultSelectionColor()
+	{
 		return DEFAULT_SELECTION_COLOR;
 	}
 
@@ -1076,7 +1148,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getSyntaxScheme()
 	 * @see #setSyntaxScheme(SyntaxScheme)
 	 */
-	public SyntaxScheme getDefaultSyntaxScheme() {
+	public SyntaxScheme getDefaultSyntaxScheme()
+	{
 		return new SyntaxScheme(getFont());
 	}
 
@@ -1088,7 +1161,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setEOLMarkersVisible(boolean)
 	 * @see #isWhitespaceVisible()
 	 */
-	public boolean getEOLMarkersVisible() {
+	public boolean getEOLMarkersVisible()
+	{
 		return eolMarkersVisible;
 	}
 
@@ -1098,7 +1172,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The fold manager.
 	 */
-	public FoldManager getFoldManager() {
+	public FoldManager getFoldManager()
+	{
 		return foldManager;
 	}
 
@@ -1110,9 +1185,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The font to use for that token type.
 	 * @see #getFontMetricsForTokenType(int)
 	 */
-	public Font getFontForTokenType(int type) {
+	public Font getFontForTokenType(int type)
+	{
 		Font f = syntaxScheme.getStyle(type).font;
-		return f!=null ? f : getFont();
+		return f != null ? f : getFont();
 	}
 
 
@@ -1123,9 +1199,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The font metrics to use for that token type.
 	 * @see #getFontForTokenType(int)
 	 */
-	public FontMetrics getFontMetricsForTokenType(int type) {
+	public FontMetrics getFontMetricsForTokenType(int type)
+	{
 		FontMetrics fm = syntaxScheme.getStyle(type).fontMetrics;
-		return fm!=null ? fm : defaultFontMetrics;
+		return fm != null ? fm : defaultFontMetrics;
 	}
 
 
@@ -1137,9 +1214,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *         value is never <code>null</code>.
 	 * @see #getBackgroundForToken(Token)
 	 */
-	public Color getForegroundForToken(Token t) {
-		if (getHyperlinksEnabled() && hoveredOverLinkOffset==t.getOffset() &&
-				(t.isHyperlink() || linkGeneratorResult!=null)) {
+	public Color getForegroundForToken(Token t)
+	{
+		if(getHyperlinksEnabled() && hoveredOverLinkOffset == t.getOffset() && (t.isHyperlink() || linkGeneratorResult != null))
+		{
 			return hyperlinkFG;
 		}
 		return getForegroundForTokenType(t.getType());
@@ -1155,9 +1233,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *         value is never <code>null</code>.
 	 * @see #getForegroundForToken(Token)
 	 */
-	public Color getForegroundForTokenType(int type) {
+	public Color getForegroundForTokenType(int type)
+	{
 		Color fg = syntaxScheme.getStyle(type).foreground;
-		return fg!=null ? fg : getForeground();
+		return fg != null ? fg : getForeground();
 	}
 
 
@@ -1168,7 +1247,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setFractionalFontMetricsEnabled
 	 * @see #getAntiAliasingEnabled()
 	 */
-	public boolean getFractionalFontMetricsEnabled() {
+	public boolean getFractionalFontMetricsEnabled()
+	{
 		return fractionalFontMetricsEnabled;
 	}
 
@@ -1181,14 +1261,16 @@ private boolean fractionalFontMetricsEnabled;
 	 *        <code>Graphics2D</code>.
 	 * @return The <code>Graphics2D</code>.
 	 */
-	private final Graphics2D getGraphics2D(Graphics g) {
+	private final Graphics2D getGraphics2D(Graphics g)
+	{
 		Graphics2D g2d = (Graphics2D)g;
-		if (aaHints!=null) {
+		if(aaHints != null)
+		{
 			g2d.addRenderingHints(aaHints);
 		}
-		if (fractionalFontMetricsEnabled) {
-			g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-							RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		if(fractionalFontMetricsEnabled)
+		{
+			g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 		}
 		return g2d;
 	}
@@ -1206,7 +1288,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getSecondaryLanguageCount()
 	 * @see #setSecondaryLanguageBackground(int, Color)
 	 */
-	public boolean getHighlightSecondaryLanguages() {
+	public boolean getHighlightSecondaryLanguages()
+	{
 		return highlightSecondaryLanguages;
 	}
 
@@ -1218,7 +1301,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setHyperlinkForeground(Color)
 	 * @see #getHyperlinksEnabled()
 	 */
-	public Color getHyperlinkForeground() {
+	public Color getHyperlinkForeground()
+	{
 		return hyperlinkFG;
 	}
 
@@ -1229,7 +1313,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether hyperlinks are enabled for this text area.
 	 * @see #setHyperlinksEnabled(boolean)
 	 */
-	public boolean getHyperlinksEnabled() {
+	public boolean getHyperlinksEnabled()
+	{
 		return hyperlinksEnabled;
 	}
 
@@ -1240,13 +1325,21 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The last visible offset in this text area.
 	 */
-	public int getLastVisibleOffset() {
-		if (isCodeFoldingEnabled()) {
+	public int getLastVisibleOffset()
+	{
+		if(isCodeFoldingEnabled())
+		{
 			int lastVisibleLine = foldManager.getLastVisibleLine();
-			if (lastVisibleLine<getLineCount()-1) { // Not the last line
-				try {
+			if(lastVisibleLine < getLineCount() - 1)
+			{
+				// Not the last line
+				try
+				{
 					return getLineEndOffset(lastVisibleLine) - 1;
-				} catch (BadLocationException ble) { // Never happens
+				}
+				catch(BadLocationException ble)
+				{
+					// Never happens
 					ble.printStackTrace();
 				}
 			}
@@ -1261,13 +1354,15 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The height of a line of text in this text area.
 	 */
 	@Override
-	public int getLineHeight() {
+	public int getLineHeight()
+	{
 		//System.err.println("... getLineHeight() returning " + lineHeight);
 		return lineHeight;
 	}
 
 
-	public LinkGenerator getLinkGenerator() {
+	public LinkGenerator getLinkGenerator()
+	{
 		return linkGenerator;
 	}
 
@@ -1278,9 +1373,9 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The list of "mark all" highlight ranges.
 	 */
-	public List<DocumentRange> getMarkAllHighlightRanges() {
-		return ((RSyntaxTextAreaHighlighter)getHighlighter()).
-				getMarkAllHighlightRanges();
+	public List<DocumentRange> getMarkAllHighlightRanges()
+	{
+		return ((RSyntaxTextAreaHighlighter)getHighlighter()).getMarkAllHighlightRanges();
 	}
 
 
@@ -1290,9 +1385,9 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The list of marked occurrences.
 	 */
-	public List<DocumentRange> getMarkedOccurrences() {
-		return ((RSyntaxTextAreaHighlighter)getHighlighter()).
-											getMarkedOccurrences();
+	public List<DocumentRange> getMarkedOccurrences()
+	{
+		return ((RSyntaxTextAreaHighlighter)getHighlighter()).getMarkedOccurrences();
 	}
 
 
@@ -1302,8 +1397,9 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether "Mark Occurrences" is enabled.
 	 * @see #setMarkOccurrences(boolean)
 	 */
-	public boolean getMarkOccurrences() {
-		return markOccurrencesSupport!=null;
+	public boolean getMarkOccurrences()
+	{
+		return markOccurrencesSupport != null;
 	}
 
 
@@ -1313,7 +1409,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The mark occurrences color.
 	 * @see #setMarkOccurrencesColor(Color)
 	 */
-	public Color getMarkOccurrencesColor() {
+	public Color getMarkOccurrencesColor()
+	{
 		return markOccurrencesColor;
 	}
 
@@ -1326,7 +1423,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether tokens of this type should have "mark occurrences"
 	 *         enabled.
 	 */
-	boolean getMarkOccurrencesOfTokenType(int type) {
+	boolean getMarkOccurrencesOfTokenType(int type)
+	{
 		RSyntaxDocument doc = (RSyntaxDocument)getDocument();
 		return doc.getMarkOccurrencesOfTokenType(type);
 	}
@@ -1340,7 +1438,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setMatchedBracketBGColor
 	 * @see #getMatchedBracketBorderColor
 	 */
-	public Color getMatchedBracketBGColor() {
+	public Color getMatchedBracketBGColor()
+	{
 		return matchedBracketBGColor;
 	}
 
@@ -1352,7 +1451,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setMatchedBracketBorderColor
 	 * @see #getMatchedBracketBGColor
 	 */
-	public Color getMatchedBracketBorderColor() {
+	public Color getMatchedBracketBorderColor()
+	{
 		return matchedBracketBorderColor;
 	}
 
@@ -1366,7 +1466,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The rectangle surrounding the matched bracket.
 	 * @see #getMatchRectangle()
 	 */
-	Rectangle getDotRectangle() {
+	Rectangle getDotRectangle()
+	{
 		return dotRect;
 	}
 
@@ -1379,7 +1480,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The rectangle surrounding the matched bracket.
 	 * @see #getDotRectangle()
 	 */
-	Rectangle getMatchRectangle() {
+	Rectangle getMatchRectangle()
+	{
 		return match;
 	}
 
@@ -1390,7 +1492,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The max ascent value.
 	 */
 	@Override
-	public int getMaxAscent() {
+	public int getMaxAscent()
+	{
 		return maxAscent;
 	}
 
@@ -1407,7 +1510,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #isBracketMatchingEnabled()
 	 * @see #setBracketMatchingEnabled(boolean)
 	 */
-	public boolean getPaintMatchedBracketPair() {
+	public boolean getPaintMatchedBracketPair()
+	{
 		return paintMatchedBracketPair;
 	}
 
@@ -1419,7 +1523,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setPaintTabLines(boolean)
 	 * @see #getTabLineColor()
 	 */
-	public boolean getPaintTabLines() {
+	public boolean getPaintTabLines()
+	{
 		return paintTabLines;
 	}
 
@@ -1432,7 +1537,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getParserCount()
 	 * @see #addParser(Parser)
 	 */
-	public Parser getParser(int index) {
+	public Parser getParser(int index)
+	{
 		return parserManager.getParser(index);
 	}
 
@@ -1443,8 +1549,9 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The parser count.
 	 * @see #addParser(Parser)
 	 */
-	public int getParserCount() {
-		return parserManager==null ? 0 : parserManager.getParserCount();
+	public int getParserCount()
+	{
+		return parserManager == null ? 0 : parserManager.getParserCount();
 	}
 
 
@@ -1455,7 +1562,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The currently set parser delay, in milliseconds.
 	 * @see #setParserDelay(int)
 	 */
-	public int getParserDelay() {
+	public int getParserDelay()
+	{
 		return parserManager.getDelay();
 	}
 
@@ -1468,8 +1576,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The list of notices.  This will be an empty list if there are
 	 *         none.
 	 */
-	public List<ParserNotice> getParserNotices() {
-		if (parserManager==null) {
+	public List<ParserNotice> getParserNotices()
+	{
+		if(parserManager == null)
+		{
 			return Collections.emptyList();
 		}
 		return parserManager.getParserNotices();
@@ -1483,7 +1593,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The amount of space to add to the x-axis preferred span.
 	 * @see #setRightHandSideCorrection(int)
 	 */
-	public int getRightHandSideCorrection() {
+	public int getRightHandSideCorrection()
+	{
 		return rhsCorrection;
 	}
 
@@ -1506,8 +1617,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *         <code>false</code>.
 	 * @see #isAutoIndentEnabled()
 	 */
-	public boolean getShouldIndentNextLine(int line) {
-		if (isAutoIndentEnabled()) {
+	public boolean getShouldIndentNextLine(int line)
+	{
+		if(isAutoIndentEnabled())
+		{
 			RSyntaxDocument doc = (RSyntaxDocument)getDocument();
 			return doc.getShouldIndentNextLine(line);
 		}
@@ -1523,7 +1636,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setSyntaxEditingStyle(String)
 	 * @see SyntaxConstants
 	 */
-	public String getSyntaxEditingStyle() {
+	public String getSyntaxEditingStyle()
+	{
 		return syntaxStyleKey;
 	}
 
@@ -1536,7 +1650,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *         the colors currently being used for syntax highlighting.
 	 * @see #setSyntaxScheme(SyntaxScheme)
 	 */
-	public SyntaxScheme getSyntaxScheme() {
+	public SyntaxScheme getSyntaxScheme()
+	{
 		return syntaxScheme;
 	}
 
@@ -1549,7 +1664,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getPaintTabLines()
 	 * @see #setPaintTabLines(boolean)
 	 */
-	public Color getTabLineColor() {
+	public Color getTabLineColor()
+	{
 		return tabLineColor;
 	}
 
@@ -1562,7 +1678,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getMarkOccurrencesColor()
 	 * @see #getMarkOccurrences()
 	 */
-	public boolean getPaintMarkOccurrencesBorder() {
+	public boolean getPaintMarkOccurrencesBorder()
+	{
 		return paintMarkOccurrencesBorder;
 	}
 
@@ -1578,7 +1695,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setSecondaryLanguageBackground(int, Color)
 	 * @see #getHighlightSecondaryLanguages()
 	 */
-	public Color getSecondaryLanguageBackground(int index) {
+	public Color getSecondaryLanguageBackground(int index)
+	{
 		return secondaryLanguageBackgrounds[index];
 	}
 
@@ -1591,7 +1709,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setSecondaryLanguageBackground(int, Color)
 	 * @see #getHighlightSecondaryLanguages()
 	 */
-	public int getSecondaryLanguageCount() {
+	public int getSecondaryLanguageCount()
+	{
 		return secondaryLanguageBackgrounds.length;
 	}
 
@@ -1611,7 +1730,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setTemplateDirectory(String)
 	 * @see #setTemplatesEnabled(boolean)
 	 */
-	public static synchronized boolean getTemplatesEnabled() {
+	public static synchronized boolean getTemplatesEnabled()
+	{
 		return templatesEnabled;
 	}
 
@@ -1624,8 +1744,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return The first token in the token list.
 	 */
 	@SuppressWarnings("null")
-    private Token getTokenListFor(int startOffs, int endOffs) {
-
+	private Token getTokenListFor(int startOffs, int endOffs)
+	{
 		TokenImpl tokenList = null;
 		TokenImpl lastToken = null;
 
@@ -1633,26 +1753,29 @@ private boolean fractionalFontMetricsEnabled;
 		int startLine = map.getElementIndex(startOffs);
 		int endLine = map.getElementIndex(endOffs);
 
-		for (int line=startLine; line<=endLine; line++) {
+		for(int line = startLine; line <= endLine; line++)
+		{
 			TokenImpl t = (TokenImpl)getTokenListForLine(line);
 			t = cloneTokenList(t);
-			if (tokenList==null) {
+			if(tokenList == null)
+			{
 				tokenList = t;
 				lastToken = tokenList;
 			}
-			else {
+			else
+			{
 				lastToken.setNextToken(t);
 			}
-			while (lastToken.getNextToken()!=null &&
-					lastToken.getNextToken().isPaintable()) {
+			while(lastToken.getNextToken() != null && lastToken.getNextToken().isPaintable())
+			{
 				lastToken = (TokenImpl)lastToken.getNextToken();
 			}
-			if (line<endLine) {
+			if(line < endLine)
+			{
 				// Document offset MUST be correct to prevent exceptions
 				// in getTokenListFor()
-				int docOffs = map.getElement(line).getEndOffset()-1;
-				t = new TokenImpl(new char[] { '\n' }, 0,0, docOffs,
-								Token.WHITESPACE, 0);
+				int docOffs = map.getElement(line).getEndOffset() - 1;
+				t = new TokenImpl(new char[] { '\n' }, 0, 0, docOffs, Token.WHITESPACE, 0);
 				lastToken.setNextToken(t);
 				lastToken = t;
 			}
@@ -1667,8 +1790,10 @@ private boolean fractionalFontMetricsEnabled;
 		// list returned for that line will be null, so the first token in
 		// the final token list will be from the next line and have a
 		// starting offset > startOffs?).
-		if (startOffs>=tokenList.getOffset()) {
-			while (!tokenList.containsPosition(startOffs)) {
+		if(startOffs >= tokenList.getOffset())
+		{
+			while(!tokenList.containsPosition(startOffs))
+			{
 				tokenList = (TokenImpl)tokenList.getNextToken();
 			}
 			tokenList.makeStartAt(startOffs);
@@ -1677,16 +1802,18 @@ private boolean fractionalFontMetricsEnabled;
 		TokenImpl temp = tokenList;
 		// Be careful to check temp for null here.  It is possible that no
 		// token contains endOffs, if endOffs is at the end of a line.
-		while (temp!=null && !temp.containsPosition(endOffs)) {
+		while(temp != null && !temp.containsPosition(endOffs))
+		{
 			temp = (TokenImpl)temp.getNextToken();
 		}
-		if (temp!=null) {
+		
+		if(temp != null)
+		{
 			temp.textCount = endOffs - temp.getOffset();
 			temp.setNextToken(null);
 		}
 
 		return tokenList;
-
 	}
 
 
@@ -1696,7 +1823,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param line The line number to get tokens for.
 	 * @return A linked list of tokens representing the line's text.
 	 */
-	public Token getTokenListForLine(int line) {
+	public Token getTokenListForLine(int line)
+	{
 		return ((RSyntaxDocument)getDocument()).getTokenListForLine(line);
 	}
 
@@ -1706,7 +1834,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @return The painter to use for rendering tokens.
 	 */
-	TokenPainter getTokenPainter() {
+	TokenPainter getTokenPainter()
+	{
 		return tokenPainter;
 	}
 
@@ -1720,22 +1849,23 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param e The mouse event.
 	 */
 	@Override
-	public String getToolTipText(MouseEvent e) {
-
+	public String getToolTipText(MouseEvent e)
+	{
 		// Apple JVMS (Java 6 and prior) have their ToolTipManager events
 		// repeat for some reason, so this method gets called every 1 second
 		// or so.  We short-circuit that since some ToolTipManagers may do
 		// expensive calculations (e.g. language supports).
-		if (RSyntaxUtilities.getOS()==RSyntaxUtilities.OS_MAC_OSX) {
+		if(RSyntaxUtilities.getOS() == RSyntaxUtilities.OS_MAC_OSX)
+		{
 			Point newLoc = e.getPoint();
-			if (newLoc!=null && newLoc.equals(cachedTipLoc)) {
+			if(newLoc != null && newLoc.equals(cachedTipLoc))
+			{
 				return cachedTip;
 			}
 			cachedTipLoc = newLoc;
 		}
 
 		return cachedTip = getToolTipTextImpl(e);
-
 	}
 
 
@@ -1745,26 +1875,33 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param e The mouse event.
 	 * @return The tool tip text.
 	 */
-	protected String getToolTipTextImpl(MouseEvent e) {
-
+	protected String getToolTipTextImpl(MouseEvent e)
+	{
 		// Check parsers for tool tips first.
 		String text = null;
 		URL imageBase = null;
-		if (parserManager!=null) {
+		if(parserManager != null)
+		{
 			ToolTipInfo info = parserManager.getToolTipText(e);
-			if (info!=null) { // Should always be true
+			if(info != null)
+			{
+				// Should always be true
 				text = info.getToolTipText(); // May be null
 				imageBase = info.getImageBase(); // May be null
 			}
 		}
-		if (text==null) {
+		if(text == null)
+		{
 			text = super.getToolTipText(e);
 		}
 
 		// Do we want to use "focusable" tips?
-		if (getUseFocusableTips()) {
-			if (text!=null) {
-				if (focusableTip==null) {
+		if(getUseFocusableTips())
+		{
+			if(text != null)
+			{
+				if(focusableTip == null)
+				{
 					focusableTip = new FocusableTip(this, parserManager);
 				}
 				focusableTip.setImageBase(imageBase);
@@ -1772,14 +1909,14 @@ private boolean fractionalFontMetricsEnabled;
 			}
 			// No tool tip text at new location - hide tip window if one is
 			// currently visible
-			else if (focusableTip!=null) {
+			else if(focusableTip != null)
+			{
 				focusableTip.possiblyDisposeOfTipWindow();
 			}
 			return null;
 		}
 
 		return text; // Standard tool tips
-
 	}
 
 
@@ -1791,11 +1928,9 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param t The token.
 	 * @return Whether the specified token should be underlined.
 	 */
-	public boolean getUnderlineForToken(Token t) {
-		return (getHyperlinksEnabled() &&
-				(t.isHyperlink() ||
-					(linkGeneratorResult!=null && linkGeneratorResult.getSourceOffset()==t.getOffset()))) ||
-				syntaxScheme.getStyle(t.getType()).underline;
+	public boolean getUnderlineForToken(Token t)
+	{
+		return (getHyperlinksEnabled() && (t.isHyperlink() || (linkGeneratorResult != null && linkGeneratorResult.getSourceOffset() == t.getOffset()))) || syntaxScheme.getStyle(t.getType()).underline;
 	}
 
 
@@ -1808,7 +1943,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setUseFocusableTips(boolean)
 	 * @see FocusableTip
 	 */
-	public boolean getUseFocusableTips() {
+	public boolean getUseFocusableTips()
+	{
 		return useFocusableTips;
 	}
 
@@ -1824,7 +1960,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *         in selected regions.
 	 * @see #setUseSelectedTextColor(boolean)
 	 */
-	public boolean getUseSelectedTextColor() {
+	public boolean getUseSelectedTextColor()
+	{
 		return useSelectedTextColor;
 	}
 
@@ -1834,8 +1971,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * editor.
 	 */
 	@Override
-	protected void init() {
-
+	protected void init()
+	{
 		super.init();
 		metricsNeverRefreshed = true;
 
@@ -1847,7 +1984,8 @@ private boolean fractionalFontMetricsEnabled;
 		// (e.g. RSyntaxTextArea.getDefaultBracketMatchBGColor()) which would
 		// cause these actions to be created and (possibly) incorrectly
 		// localized, if they were in a static block.
-		if (toggleCurrentFoldAction==null) {
+		if(toggleCurrentFoldAction == null)
+		{
 			createRstaPopupMenuActions();
 		}
 
@@ -1887,7 +2025,6 @@ private boolean fractionalFontMetricsEnabled;
 		secondaryLanguageBackgrounds[2] = new Color(0xffe0f0);
 
 		setRightHandSideCorrection(0);
-
 	}
 
 
@@ -1897,7 +2034,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether or not auto-indent is enabled.
 	 * @see #setAutoIndentEnabled(boolean)
 	 */
-	public boolean isAutoIndentEnabled() {
+	public boolean isAutoIndentEnabled()
+	{
 		return autoIndentEnabled;
 	}
 
@@ -1908,7 +2046,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return <code>true</code> iff bracket matching is enabled.
 	 * @see #setBracketMatchingEnabled
 	 */
-	public final boolean isBracketMatchingEnabled() {
+	public final boolean isBracketMatchingEnabled()
+	{
 		return bracketMatchingEnabled;
 	}
 
@@ -1921,7 +2060,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *         the user presses Enter on them.
 	 * @see #setClearWhitespaceLinesEnabled(boolean)
 	 */
-	public boolean isClearWhitespaceLinesEnabled() {
+	public boolean isClearWhitespaceLinesEnabled()
+	{
 		return clearWhitespaceLines;
 	}
 
@@ -1934,7 +2074,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @return Whether code folding is enabled.
 	 * @see #setCodeFoldingEnabled(boolean)
 	 */
-	public boolean isCodeFoldingEnabled() {
+	public boolean isCodeFoldingEnabled()
+	{
 		return foldManager.isCodeFoldingEnabled();
 	}
 
@@ -1946,7 +2087,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setWhitespaceVisible(boolean)
 	 * @see #getEOLMarkersVisible()
 	 */
-	public boolean isWhitespaceVisible() {
+	public boolean isWhitespaceVisible()
+	{
 		return whitespaceVisible;
 	}
 
@@ -1959,13 +2101,18 @@ private boolean fractionalFontMetricsEnabled;
 	 *         position.
 	 * @see #viewToToken(Point)
 	 */
-	public Token modelToToken(int offs) {
-		if (offs>=0) {
-			try {
+	public Token modelToToken(int offs)
+	{
+		if(offs >= 0)
+		{
+			try
+			{
 				int line = getLineOfOffset(offs);
 				Token t = getTokenListForLine(line);
 				return RSyntaxUtilities.getTokenAtOffset(t, offs);
-			} catch (BadLocationException ble) {
+			}
+			catch(BadLocationException ble)
+			{
 				ble.printStackTrace(); // Never happens
 			}
 		}
@@ -1978,15 +2125,16 @@ private boolean fractionalFontMetricsEnabled;
 	 * apply any necessary rendering hints to the Graphics object.
 	 */
 	@Override
-	protected void paintComponent(Graphics g) {
-
+	protected void paintComponent(Graphics g)
+	{
 		// A call to refreshFontMetrics() used to be in addNotify(), but
 		// unfortunately we cannot always get the graphics context there.  If
 		// the parent frame/dialog is LAF-decorated, there is a chance that the
 		// window's width and/or height is still == 0 at addNotify() (e.g.
 		// WebLaF).  So unfortunately it's safest to do this here, with a flag
 		// to only allow it to happen once.
-		if (metricsNeverRefreshed) {
+		if(metricsNeverRefreshed)
+		{
 			refreshFontMetrics(getGraphics2D(getGraphics()));
 			metricsNeverRefreshed = false;
 		}
@@ -1995,11 +2143,13 @@ private boolean fractionalFontMetricsEnabled;
 	}
 
 
-	private void refreshFontMetrics(Graphics2D g2d) {
+	private void refreshFontMetrics(Graphics2D g2d)
+	{
 		// It is assumed that any rendering hints are already applied to g2d.
 		defaultFontMetrics = g2d.getFontMetrics(getFont());
 		syntaxScheme.refreshFontMetrics(g2d);
-		if (getLineWrap()==false) {
+		if(getLineWrap() == false)
+		{
 			// HORRIBLE HACK!  The un-wrapped view needs to refresh its cached
 			// longest line information.
 			SyntaxView sv = (SyntaxView)getUI().getRootView(this).getView(0);
@@ -2014,7 +2164,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param l The listener to remove.
 	 * @see #removeActiveLineRangeListener(ActiveLineRangeListener)
 	 */
-	public void removeActiveLineRangeListener(ActiveLineRangeListener l) {
+	public void removeActiveLineRangeListener(ActiveLineRangeListener l)
+	{
 		listenerList.remove(ActiveLineRangeListener.class, l);
 	}
 
@@ -2025,7 +2176,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param l The listener to remove.
 	 * @see #addHyperlinkListener(HyperlinkListener)
 	 */
-	public void removeHyperlinkListener(HyperlinkListener l) {
+	public void removeHyperlinkListener(HyperlinkListener l)
+	{
 		listenerList.remove(HyperlinkListener.class, l);
 	}
 
@@ -2034,8 +2186,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * Overridden so we stop this text area's parsers, if any.
 	 */
 	@Override
-	public void removeNotify() {
-		if (parserManager!=null) {
+	public void removeNotify()
+	{
+		if(parserManager != null)
+		{
 			parserManager.stopParsing();
 		}
 		super.removeNotify();
@@ -2051,9 +2205,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #addParser(Parser)
 	 * @see #getParser(int)
 	 */
-	public boolean removeParser(Parser parser) {
+	public boolean removeParser(Parser parser)
+	{
 		boolean removed = false;
-		if (parserManager!=null) {
+		if(parserManager != null)
+		{
 			removed = parserManager.removeParser(parser);
 		}
 		return removed;
@@ -2067,7 +2223,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getSyntaxScheme()
 	 * @see #getDefaultSyntaxScheme()
 	 */
-	public void restoreDefaultSyntaxScheme() {
+	public void restoreDefaultSyntaxScheme()
+	{
 		setSyntaxScheme(getDefaultSyntaxScheme());
 	}
 
@@ -2087,8 +2244,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setTemplateDirectory
 	 * @see #setTemplatesEnabled
 	 */
-	public static synchronized boolean saveTemplates() {
-		if (!getTemplatesEnabled()) {
+	public static synchronized boolean saveTemplates()
+	{
+		if(!getTemplatesEnabled())
+		{
 			return false;
 		}
 		return getCodeTemplateManager().saveTemplates();
@@ -2113,8 +2272,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *        <code>-1</code> if the range is being cleared.
 	 * @see #addActiveLineRangeListener(ActiveLineRangeListener)
 	 */
-	public void setActiveLineRange(int min, int max) {
-		if (min==-1) {
+	public void setActiveLineRange(int min, int max)
+	{
+		if(min == -1)
+		{
 			max = -1; // Force max to be -1 if min is.
 		}
 		fireActiveLineRangeEvent(min, max);
@@ -2128,14 +2289,16 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param animate Whether to animate bracket matching.
 	 * @see #getAnimateBracketMatching()
 	 */
-	public void setAnimateBracketMatching(boolean animate) {
-		if (animate!=animateBracketMatching) {
+	public void setAnimateBracketMatching(boolean animate)
+	{
+		if(animate != animateBracketMatching)
+		{
 			animateBracketMatching = animate;
-			if (animate && bracketRepaintTimer==null) {
+			if(animate && bracketRepaintTimer == null)
+			{
 				bracketRepaintTimer = new BracketMatchingTimer();
 			}
-			firePropertyChange(ANIMATE_BRACKET_MATCHING_PROPERTY,
-								!animate, animate);
+			firePropertyChange(ANIMATE_BRACKET_MATCHING_PROPERTY, !animate, animate);
 		}
 	}
 
@@ -2147,40 +2310,41 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether anti-aliasing is enabled.
 	 * @see #getAntiAliasingEnabled()
 	 */
-	public void setAntiAliasingEnabled(boolean enabled) {
+	public void setAntiAliasingEnabled(boolean enabled)
+	{
+		boolean currentlyEnabled = aaHints != null;
 
-		boolean currentlyEnabled = aaHints!=null;
+		if(enabled != currentlyEnabled)
+		{
 
-		if (enabled!=currentlyEnabled) {
-
-			if (enabled) {
+			if(enabled)
+			{
 				aaHints = RSyntaxUtilities.getDesktopAntiAliasHints();
 				// If the desktop query method comes up empty, use the standard
 				// Java2D greyscale method.  Note this will likely NOT be as
 				// nice as what would be used if the getDesktopAntiAliasHints()
 				// call worked.
-				if (aaHints==null) {
-					Map<RenderingHints.Key, Object> temp =
-							new HashMap<RenderingHints.Key, Object>();
-					temp.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-							RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+				if(aaHints == null)
+				{
+					Map<RenderingHints.Key,Object> temp = new HashMap<RenderingHints.Key,Object>();
+					temp.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 					aaHints = temp;
 				}
 			}
-			else {
+			else
+			{
 				aaHints = null;
 			}
 
 			// We must be connected to a screen resource for our graphics
 			// to be non-null.
-			if (isDisplayable()) {
+			if(isDisplayable())
+			{
 				refreshFontMetrics(getGraphics2D(getGraphics()));
 			}
 			firePropertyChange(ANTIALIAS_PROPERTY, !enabled, enabled);
 			repaint();
-
 		}
-
 	}
 
 
@@ -2191,8 +2355,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether or not auto-indent is enabled.
 	 * @see #isAutoIndentEnabled()
 	 */
-	public void setAutoIndentEnabled(boolean enabled) {
-		if (autoIndentEnabled!=enabled) {
+	public void setAutoIndentEnabled(boolean enabled)
+	{
+		if(autoIndentEnabled != enabled)
+		{
 			autoIndentEnabled = enabled;
 			firePropertyChange(AUTO_INDENT_PROPERTY, !enabled, enabled);
 		}
@@ -2206,8 +2372,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether or not bracket matching should be enabled.
 	 * @see #isBracketMatchingEnabled()
 	 */
-	public void setBracketMatchingEnabled(boolean enabled) {
-		if (enabled!=bracketMatchingEnabled) {
+	public void setBracketMatchingEnabled(boolean enabled)
+	{
+		if(enabled != bracketMatchingEnabled)
+		{
 			bracketMatchingEnabled = enabled;
 			repaint();
 			firePropertyChange(BRACKET_MATCHING_PROPERTY, !enabled, enabled);
@@ -2224,11 +2392,12 @@ private boolean fractionalFontMetricsEnabled;
 	 *        the user presses Enter on them.
 	 * @see #isClearWhitespaceLinesEnabled()
 	 */
-	public void setClearWhitespaceLinesEnabled(boolean enabled) {
-		if (enabled!=clearWhitespaceLines) {
+	public void setClearWhitespaceLinesEnabled(boolean enabled)
+	{
+		if(enabled != clearWhitespaceLines)
+		{
 			clearWhitespaceLines = enabled;
-			firePropertyChange(CLEAR_WHITESPACE_LINES_PROPERTY,
-							!enabled, enabled);
+			firePropertyChange(CLEAR_WHITESPACE_LINES_PROPERTY, !enabled, enabled);
 		}
 	}
 
@@ -2245,8 +2414,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param close Whether curly braces should be automatically closed.
 	 * @see #getCloseCurlyBraces()
 	 */
-	public void setCloseCurlyBraces(boolean close) {
-		if (close!=closeCurlyBraces) {
+	public void setCloseCurlyBraces(boolean close)
+	{
+		if(close != closeCurlyBraces)
+		{
 			closeCurlyBraces = close;
 			firePropertyChange(CLOSE_CURLY_BRACES_PROPERTY, !close, close);
 		}
@@ -2265,8 +2436,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *        completed.
 	 * @see #getCloseMarkupTags()
 	 */
-	public void setCloseMarkupTags(boolean close) {
-		if (close!=closeMarkupTags) {
+	public void setCloseMarkupTags(boolean close)
+	{
+		if(close != closeMarkupTags)
+		{
 			closeMarkupTags = close;
 			firePropertyChange(CLOSE_MARKUP_TAGS_PROPERTY, !close, close);
 		}
@@ -2283,8 +2456,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether code folding should be enabled.
 	 * @see #isCodeFoldingEnabled()
 	 */
-	public void setCodeFoldingEnabled(boolean enabled) {
-		if (enabled!=foldManager.isCodeFoldingEnabled()) {
+	public void setCodeFoldingEnabled(boolean enabled)
+	{
+		if(enabled != foldManager.isCodeFoldingEnabled())
+		{
 			foldManager.setCodeFoldingEnabled(enabled);
 			firePropertyChange(CODE_FOLDING_PROPERTY, !enabled, enabled);
 		}
@@ -2296,14 +2471,14 @@ private boolean fractionalFontMetricsEnabled;
 	 *
 	 * @see #getAntiAliasingEnabled()
 	 */
-	private final void setDefaultAntiAliasingState() {
-
+	private final void setDefaultAntiAliasingState()
+	{
 		// Most accurate technique, but not available on all OSes.
 		aaHints = RSyntaxUtilities.getDesktopAntiAliasHints();
-		if (aaHints==null) {
+		if(aaHints == null)
+		{
 
-			Map<RenderingHints.Key, Object> temp =
-					new HashMap<RenderingHints.Key, Object>();
+			Map<RenderingHints.Key,Object> temp = new HashMap<RenderingHints.Key,Object>();
 
 			// In Java 6+, you can figure out what text AA hint Swing uses for
 			// JComponents...
@@ -2312,14 +2487,19 @@ private boolean fractionalFontMetricsEnabled;
 			Object hint = null;
 			//FontRenderContext frc = fm.getFontRenderContext();
 			//hint = fm.getAntiAliasingHint();
-			try {
+			try
+			{
 				Method m = FontMetrics.class.getMethod("getFontRenderContext");
 				FontRenderContext frc = (FontRenderContext)m.invoke(fm);
 				m = FontRenderContext.class.getMethod("getAntiAliasingHint");
 				hint = m.invoke(frc);
-			} catch (RuntimeException re) {
+			}
+			catch(RuntimeException re)
+			{
 				throw re; // FindBugs
-			} catch (Exception e) {
+			}
+			catch(Exception e)
+			{
 				// Swallow, either Java 1.5, or running in an applet
 			}
 
@@ -2328,28 +2508,30 @@ private boolean fractionalFontMetricsEnabled;
 			// non-Windows.  Note that OS X always uses AA no matter what
 			// rendering hints you give it, so this is a moot point there.
 			//System.out.println("Rendering hint: " + hint);
-			if (hint==null) {
+			if(hint == null)
+			{
 				String os = System.getProperty("os.name").toLowerCase();
-				if (os.contains("windows")) {
+				if(os.contains("windows"))
+				{
 					hint = RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
 				}
-				else {
+				else
+				{
 					hint = RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
 				}
 			}
 			temp.put(RenderingHints.KEY_TEXT_ANTIALIASING, hint);
 
 			aaHints = temp;
-			
 		}
 
 		// We must be connected to a screen resource for our graphics
 		// to be non-null.
-		if (isDisplayable()) {
+		if(isDisplayable())
+		{
 			refreshFontMetrics(getGraphics2D(getGraphics()));
 		}
 		repaint();
-
 	}
 
 
@@ -2363,16 +2545,20 @@ private boolean fractionalFontMetricsEnabled;
 	 *         <code>RSyntaxDocument</code>.
 	 */
 	@Override
-	public void setDocument(Document document) {
-		if (!(document instanceof RSyntaxDocument))
-			throw new IllegalArgumentException("Documents for " +
-					"RSyntaxTextArea must be instances of " +
-					"RSyntaxDocument!");
-		if (markOccurrencesSupport != null) {
+	public void setDocument(Document document)
+	{
+		if(!(document instanceof RSyntaxDocument))
+		{
+			throw new IllegalArgumentException("Documents for " + "RSyntaxTextArea must be instances of " + "RSyntaxDocument!");
+		}
+		
+		if(markOccurrencesSupport != null)
+		{
 			markOccurrencesSupport.clear();
 		}
 		super.setDocument(document);
-		if (markOccurrencesSupport != null) {
+		if(markOccurrencesSupport != null)
+		{
 			markOccurrencesSupport.doMarkOccurrences();
 		}
 	}
@@ -2386,8 +2572,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getEOLMarkersVisible()
 	 * @see #setWhitespaceVisible(boolean)
 	 */
-	public void setEOLMarkersVisible(boolean visible) {
-		if (visible!=eolMarkersVisible) {
+	public void setEOLMarkersVisible(boolean visible)
+	{
+		if(visible != eolMarkersVisible)
+		{
 			eolMarkersVisible = visible;
 			repaint();
 			firePropertyChange(EOL_VISIBLE_PROPERTY, !visible, visible);
@@ -2405,22 +2593,24 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see SyntaxScheme#getStyle(int)
 	 */
 	@Override
-	public void setFont(Font font) {
-
+	public void setFont(Font font)
+	{
 		Font old = super.getFont();
 		super.setFont(font); // Do this first.
 
 		// Usually programmers keep a single font for all token types, but
 		// may use bold or italic for styling some.
 		SyntaxScheme scheme = getSyntaxScheme();
-		if (scheme!=null && old!=null) {
+		if(scheme != null && old != null)
+		{
 			scheme.changeBaseFont(old, font);
 			calculateLineHeight();
 		}
 
 		// We must be connected to a screen resource for our
 		// graphics to be non-null.
-		if (isDisplayable()) {
+		if(isDisplayable())
+		{
 			refreshFontMetrics(getGraphics2D(getGraphics()));
 			// Updates the margin line.
 			updateMarginLineX();
@@ -2433,7 +2623,6 @@ private boolean fractionalFontMetricsEnabled;
 			// So parent JScrollPane will have its scrollbars updated.
 			revalidate();
 		}
-
 	}
 
 
@@ -2444,16 +2633,18 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether fractional font metrics are enabled.
 	 * @see #getFractionalFontMetricsEnabled()
 	 */
-	public void setFractionalFontMetricsEnabled(boolean enabled) {
-		if (fractionalFontMetricsEnabled!=enabled) {
+	public void setFractionalFontMetricsEnabled(boolean enabled)
+	{
+		if(fractionalFontMetricsEnabled != enabled)
+		{
 			fractionalFontMetricsEnabled = enabled;
 			// We must be connected to a screen resource for our graphics to be
 			// non-null.
-			if (isDisplayable()) {
+			if(isDisplayable())
+			{
 				refreshFontMetrics(getGraphics2D(getGraphics()));
 			}
-			firePropertyChange(FRACTIONAL_FONTMETRICS_PROPERTY,
-											!enabled, enabled);
+			firePropertyChange(FRACTIONAL_FONTMETRICS_PROPERTY, !enabled, enabled);
 		}
 	}
 
@@ -2466,10 +2657,11 @@ private boolean fractionalFontMetricsEnabled;
 	 *         of {@link RSyntaxTextAreaHighlighter}.
 	 */
 	@Override
-	public void setHighlighter(Highlighter h) {
-		if (!(h instanceof RSyntaxTextAreaHighlighter)) {
-			throw new IllegalArgumentException("RSyntaxTextArea requires " +
-				"an RSyntaxTextAreaHighlighter for its Highlighter");
+	public void setHighlighter(Highlighter h)
+	{
+		if(!(h instanceof RSyntaxTextAreaHighlighter))
+		{
+			throw new IllegalArgumentException("RSyntaxTextArea requires " + "an RSyntaxTextAreaHighlighter for its Highlighter");
 		}
 		super.setHighlighter(h);
 	}
@@ -2485,12 +2677,13 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setSecondaryLanguageBackground(int, Color)
 	 * @see #getSecondaryLanguageCount()
 	 */
-	public void setHighlightSecondaryLanguages(boolean highlight) {
-		if (this.highlightSecondaryLanguages!=highlight) {
+	public void setHighlightSecondaryLanguages(boolean highlight)
+	{
+		if(this.highlightSecondaryLanguages != highlight)
+		{
 			highlightSecondaryLanguages = highlight;
 			repaint();
-			firePropertyChange(HIGHLIGHT_SECONDARY_LANGUAGES_PROPERTY,
-					!highlight, highlight);
+			firePropertyChange(HIGHLIGHT_SECONDARY_LANGUAGES_PROPERTY, !highlight, highlight);
 		}
 	}
 
@@ -2503,8 +2696,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getHyperlinkForeground()
 	 * @see #setHyperlinksEnabled(boolean)
 	 */
-	public void setHyperlinkForeground(Color fg) {
-		if (fg==null) {
+	public void setHyperlinkForeground(Color fg)
+	{
+		if(fg == null)
+		{
 			throw new NullPointerException("fg cannot be null");
 		}
 		hyperlinkFG = fg;
@@ -2519,8 +2714,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether hyperlinks are enabled.
 	 * @see #getHyperlinksEnabled()
 	 */
-	public void setHyperlinksEnabled(boolean enabled) {
-		if (this.hyperlinksEnabled!=enabled) {
+	public void setHyperlinksEnabled(boolean enabled)
+	{
+		if(this.hyperlinksEnabled != enabled)
+		{
 			this.hyperlinksEnabled = enabled;
 			repaint();
 			firePropertyChange(HYPERLINKS_ENABLED_PROPERTY, !enabled, enabled);
@@ -2528,7 +2725,8 @@ private boolean fractionalFontMetricsEnabled;
 	}
 
 
-	public void setLinkGenerator(LinkGenerator generator) {
+	public void setLinkGenerator(LinkGenerator generator)
+	{
 		this.linkGenerator = generator;
 	}
 
@@ -2546,12 +2744,12 @@ private boolean fractionalFontMetricsEnabled;
 	 *        For invalid values, behavior is undefined.
 	 * @see InputEvent
 	 */
-	public void setLinkScanningMask(int mask) {
-		mask &= (InputEvent.CTRL_DOWN_MASK|InputEvent.META_DOWN_MASK|
-				InputEvent.ALT_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK);
-		if (mask==0) {
-			throw new IllegalArgumentException("mask argument should be " +
-					"some combination of InputEvent.*_DOWN_MASK fields");
+	public void setLinkScanningMask(int mask)
+	{
+		mask &= (InputEvent.CTRL_DOWN_MASK | InputEvent.META_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK);
+		if(mask == 0)
+		{
+			throw new IllegalArgumentException("mask argument should be " + "some combination of InputEvent.*_DOWN_MASK fields");
 		}
 		linkScanningMask = mask;
 	}
@@ -2565,16 +2763,21 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getMarkOccurrences()
 	 * @see #setMarkOccurrencesColor(Color)
 	 */
-	public void setMarkOccurrences(boolean markOccurrences) {
-		if (markOccurrences) {
-			if (markOccurrencesSupport==null) {
+	public void setMarkOccurrences(boolean markOccurrences)
+	{
+		if(markOccurrences)
+		{
+			if(markOccurrencesSupport == null)
+			{
 				markOccurrencesSupport = new MarkOccurrencesSupport();
 				markOccurrencesSupport.install(this);
 				firePropertyChange(MARK_OCCURRENCES_PROPERTY, false, true);
 			}
 		}
-		else {
-			if (markOccurrencesSupport!=null) {
+		else
+		{
+			if(markOccurrencesSupport != null)
+			{
 				markOccurrencesSupport.uninstall();
 				markOccurrencesSupport = null;
 				firePropertyChange(MARK_OCCURRENCES_PROPERTY, true, false);
@@ -2590,9 +2793,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getMarkOccurrencesColor()
 	 * @see #setMarkOccurrences(boolean)
 	 */
-	public void setMarkOccurrencesColor(Color color) {
+	public void setMarkOccurrencesColor(Color color)
+	{
 		markOccurrencesColor = color;
-		if (markOccurrencesSupport!=null) {
+		if(markOccurrencesSupport != null)
+		{
 			markOccurrencesSupport.setColor(color);
 		}
 	}
@@ -2607,9 +2812,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setMatchedBracketBorderColor
 	 * @see #setPaintMarkOccurrencesBorder(boolean)
 	 */
-	public void setMatchedBracketBGColor(Color color) {
+	public void setMatchedBracketBGColor(Color color)
+	{
 		matchedBracketBGColor = color;
-		if (match!=null) {
+		if(match != null)
+		{
 			repaint();
 		}
 	}
@@ -2622,9 +2829,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getMatchedBracketBorderColor
 	 * @see #setMatchedBracketBGColor
 	 */
-	public void setMatchedBracketBorderColor(Color color) {
+	public void setMatchedBracketBorderColor(Color color)
+	{
 		matchedBracketBorderColor = color;
-		if (match!=null) {
+		if(match != null)
+		{
 			repaint();
 		}
 	}
@@ -2638,9 +2847,11 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setMarkOccurrencesColor(Color)
 	 * @see #setMarkOccurrences(boolean)
 	 */
-	public void setPaintMarkOccurrencesBorder(boolean paintBorder) {
+	public void setPaintMarkOccurrencesBorder(boolean paintBorder)
+	{
 		paintMarkOccurrencesBorder = paintBorder;
-		if (markOccurrencesSupport!=null) {
+		if(markOccurrencesSupport != null)
+		{
 			markOccurrencesSupport.setPaintBorder(paintBorder);
 		}
 	}
@@ -2660,13 +2871,14 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #isBracketMatchingEnabled()
 	 * @see #setBracketMatchingEnabled(boolean)
 	 */
-	public void setPaintMatchedBracketPair(boolean paintPair) {
-		if (paintPair!=paintMatchedBracketPair) {
+	public void setPaintMatchedBracketPair(boolean paintPair)
+	{
+		if(paintPair != paintMatchedBracketPair)
+		{
 			paintMatchedBracketPair = paintPair;
 			doBracketMatching();
 			repaint();
-			firePropertyChange(PAINT_MATCHED_BRACKET_PAIR_PROPERTY,
-					!paintMatchedBracketPair, paintMatchedBracketPair);
+			firePropertyChange(PAINT_MATCHED_BRACKET_PAIR_PROPERTY, !paintMatchedBracketPair, paintMatchedBracketPair);
 		}
 	}
 
@@ -2679,8 +2891,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getPaintTabLines()
 	 * @see #setTabLineColor(Color)
 	 */
-	public void setPaintTabLines(boolean paint) {
-		if (paint!=paintTabLines) {
+	public void setPaintTabLines(boolean paint)
+	{
+		if(paint != paintTabLines)
+		{
 			paintTabLines = paint;
 			repaint();
 			firePropertyChange(TAB_LINES_PROPERTY, !paint, paint);
@@ -2696,7 +2910,8 @@ private boolean fractionalFontMetricsEnabled;
 	 *        greater than zero.
 	 * @see #getParserDelay()
 	 */
-	public void setParserDelay(int millis) {
+	public void setParserDelay(int millis)
+	{
 		parserManager.setDelay(millis);
 	}
 
@@ -2711,11 +2926,14 @@ private boolean fractionalFontMetricsEnabled;
 	 *        span.  This should be non-negative.
 	 * @see #getRightHandSideCorrection()
 	 */
-	public void setRightHandSideCorrection(int rhsCorrection) {
-		if (rhsCorrection<0) {
+	public void setRightHandSideCorrection(int rhsCorrection)
+	{
+		if(rhsCorrection < 0)
+		{
 			throw new IllegalArgumentException("correction should be > 0");
 		}
-		if (rhsCorrection!=this.rhsCorrection) {
+		if(rhsCorrection != this.rhsCorrection)
+		{
 			this.rhsCorrection = rhsCorrection;
 			revalidate();
 			repaint();
@@ -2733,12 +2951,15 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getSecondaryLanguageBackground(int)
 	 * @see #getSecondaryLanguageCount()
 	 */
-	public void setSecondaryLanguageBackground(int index, Color color) {
+	public void setSecondaryLanguageBackground(int index, Color color)
+	{
 		index--;
 		Color old = secondaryLanguageBackgrounds[index];
-		if ((color==null && old!=null) || (color!=null && !color.equals(old))) {
+		if((color == null && old != null) || (color != null && !color.equals(old)))
+		{
 			secondaryLanguageBackgrounds[index] = color;
-			if (getHighlightSecondaryLanguages()) {
+			if(getHighlightSecondaryLanguages())
+			{
 				repaint();
 			}
 		}
@@ -2755,11 +2976,14 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getSyntaxEditingStyle()
 	 * @see SyntaxConstants
 	 */
-	public void setSyntaxEditingStyle(String styleKey) {
-		if (styleKey==null) {
+	public void setSyntaxEditingStyle(String styleKey)
+	{
+		if(styleKey == null)
+		{
 			styleKey = SYNTAX_STYLE_NONE;
 		}
-		if (!styleKey.equals(syntaxStyleKey)) {
+		if(!styleKey.equals(syntaxStyleKey))
+		{
 			String oldStyle = syntaxStyleKey;
 			syntaxStyleKey = styleKey;
 			((RSyntaxDocument)getDocument()).setSyntaxStyle(styleKey);
@@ -2782,8 +3006,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param scheme The instance of <code>SyntaxScheme</code> to use.
 	 * @see #getSyntaxScheme()
 	 */
-	public void setSyntaxScheme(SyntaxScheme scheme) {
-
+	public void setSyntaxScheme(SyntaxScheme scheme)
+	{
 		// NOTE:  We don't check whether colorScheme is the same as the
 		// current scheme because DecreaseFontSizeAction and
 		// IncreaseFontSizeAction need it this way.
@@ -2797,7 +3021,8 @@ private boolean fractionalFontMetricsEnabled;
 		// don't need the rendering hints to get the font's height.
 		calculateLineHeight();
 
-		if (isDisplayable()) {
+		if(isDisplayable())
+		{
 			refreshFontMetrics(getGraphics2D(getGraphics()));
 		}
 
@@ -2814,7 +3039,6 @@ private boolean fractionalFontMetricsEnabled;
 		revalidate();
 
 		firePropertyChange(SYNTAX_SCHEME_PROPERTY, old, this.syntaxScheme);
-
 	}
 
 
@@ -2833,17 +3057,19 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setTemplatesEnabled
 	 * @see #saveTemplates
 	 */
-	public static synchronized boolean setTemplateDirectory(String dir) {
-		if (getTemplatesEnabled() && dir!=null) {
+	public static synchronized boolean setTemplateDirectory(String dir)
+	{
+		if(getTemplatesEnabled() && dir != null)
+		{
 			File directory = new File(dir);
-			if (directory.isDirectory()) {
-				return getCodeTemplateManager().
-						setTemplateDirectory(directory)>-1;
+			if(directory.isDirectory())
+			{
+				return getCodeTemplateManager().setTemplateDirectory(directory) > -1;
 			}
 			boolean created = directory.mkdir();
-			if (created) {
-				return getCodeTemplateManager().
-					setTemplateDirectory(directory)>-1;
+			if(created)
+			{
+				return getCodeTemplateManager().setTemplateDirectory(directory) > -1;
 			}
 		}
 		return false;
@@ -2879,7 +3105,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param enabled Whether or not templates should be enabled.
 	 * @see #getTemplatesEnabled()
 	 */
-	public static synchronized void setTemplatesEnabled(boolean enabled) {
+	public static synchronized void setTemplatesEnabled(boolean enabled)
+	{
 		templatesEnabled = enabled;
 	}
 
@@ -2894,21 +3121,23 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #setPaintTabLines(boolean)
 	 * @see #getPaintTabLines()
 	 */
-	public void setTabLineColor(Color c) {
-
-		if (c==null) {
+	public void setTabLineColor(Color c)
+	{
+		if(c == null)
+		{
 			c = Color.gray;
 		}
 
-		if (!c.equals(tabLineColor)) {
+		if(!c.equals(tabLineColor))
+		{
 			Color old = tabLineColor;
 			tabLineColor = c;
-			if (getPaintTabLines()) {
+			if(getPaintTabLines())
+			{
 				repaint();
 			}
 			firePropertyChange(TAB_LINE_COLOR_PROPERTY, old, tabLineColor);
 		}
-
 	}
 
 
@@ -2922,8 +3151,10 @@ private boolean fractionalFontMetricsEnabled;
 	 * @see #getUseFocusableTips()
 	 * @see FocusableTip
 	 */
-	public void setUseFocusableTips(boolean use) {
-		if (use!=useFocusableTips) {
+	public void setUseFocusableTips(boolean use)
+	{
+		if(use != useFocusableTips)
+		{
 			useFocusableTips = use;
 			firePropertyChange(FOCUSABLE_TIPS_PROPERTY, !use, use);
 		}
@@ -2942,8 +3173,10 @@ private boolean fractionalFontMetricsEnabled;
 	 *        in selected regions.
 	 * @see #getUseSelectedTextColor()
 	 */
-	public void setUseSelectedTextColor(boolean use) {
-		if (use!=useSelectedTextColor) {
+	public void setUseSelectedTextColor(boolean use)
+	{
+		if(use != useSelectedTextColor)
+		{
 			useSelectedTextColor = use;
 			firePropertyChange(USE_SELECTED_TEXT_COLOR_PROPERTY, !use, use);
 		}
@@ -2957,11 +3190,12 @@ private boolean fractionalFontMetricsEnabled;
 	 * @param visible Whether whitespace should be visible.
 	 * @see #isWhitespaceVisible()
 	 */
-	public void setWhitespaceVisible(boolean visible) {
-		if (whitespaceVisible!=visible) {
+	public void setWhitespaceVisible(boolean visible)
+	{
+		if(whitespaceVisible != visible)
+		{
 			this.whitespaceVisible = visible;
-			tokenPainter = visible ? new VisibleWhitespaceTokenPainter() :
-					(TokenPainter)new DefaultTokenPainter();
+			tokenPainter = visible ? new VisibleWhitespaceTokenPainter() : (TokenPainter)new DefaultTokenPainter();
 			repaint();
 			firePropertyChange(VISIBLE_WHITESPACE_PROPERTY, !visible, visible);
 		}
@@ -2972,13 +3206,16 @@ private boolean fractionalFontMetricsEnabled;
 	 * Resets the editor state after the user clicks on a hyperlink or releases
 	 * the hyperlink modifier.
 	 */
-	protected void stopScanningForLinks() {
-		if (isScanningForLinks) {
+	protected void stopScanningForLinks()
+	{
+		if(isScanningForLinks)
+		{
 			Cursor c = getCursor();
 			isScanningForLinks = false;
 			linkGeneratorResult = null;
 			hoveredOverLinkOffset = -1;
-			if (c!=null && c.getType()==Cursor.HAND_CURSOR) {
+			if(c != null && c.getType() == Cursor.HAND_CURSOR)
+			{
 				setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 				repaint(); // TODO: Repaint just the affected line.
 			}
@@ -3000,7 +3237,8 @@ private boolean fractionalFontMetricsEnabled;
 	 * are, we're calling getTokenListForLine() twice (once in viewToModel()
 	 * and once here).
 	 */
-	public Token viewToToken(Point p) {
+	public Token viewToToken(Point p)
+	{
 		return modelToToken(viewToModel(p));
 	}
 
@@ -3008,65 +3246,83 @@ private boolean fractionalFontMetricsEnabled;
 	/**
 	 * A timer that animates the "bracket matching" animation.
 	 */
-	private class BracketMatchingTimer extends Timer implements ActionListener {
-
+	private class BracketMatchingTimer
+	    extends Timer
+	    implements ActionListener
+	{
 		private int pulseCount;
 
-		public BracketMatchingTimer() {
+
+		public BracketMatchingTimer()
+		{
 			super(20, null);
 			addActionListener(this);
 			setCoalesce(false);
 		}
 
-		public void actionPerformed(ActionEvent e) {
-			if (isBracketMatchingEnabled()) {
-				if (match!=null) {
+
+		public void actionPerformed(ActionEvent e)
+		{
+			if(isBracketMatchingEnabled())
+			{
+				if(match != null)
+				{
 					updateAndInvalidate(match);
 				}
-				if (dotRect!=null && getPaintMatchedBracketPair()) {
+				if(dotRect != null && getPaintMatchedBracketPair())
+				{
 					updateAndInvalidate(dotRect);
 				}
-				if (++pulseCount==8) {
+				if(++pulseCount == 8)
+				{
 					pulseCount = 0;
 					stop();
 				}
 			}
 		}
 
-		private void init(Rectangle r) {
+
+		private void init(Rectangle r)
+		{
 			r.x += 3;
 			r.y += 3;
 			r.width -= 6;
 			r.height -= 6; // So animation can "grow" match
 		}
 
+
 		@Override
-		public void start() {
+		public void start()
+		{
 			init(match);
-			if (dotRect!=null && getPaintMatchedBracketPair()) {
+			if(dotRect != null && getPaintMatchedBracketPair())
+			{
 				init(dotRect);
 			}
 			pulseCount = 0;
 			super.start();
 		}
 
-		private void updateAndInvalidate(Rectangle r) {
-			if (pulseCount<5) {
+
+		private void updateAndInvalidate(Rectangle r)
+		{
+			if(pulseCount < 5)
+			{
 				r.x--;
 				r.y--;
 				r.width += 2;
 				r.height += 2;
-				repaint(r.x,r.y, r.width,r.height);
+				repaint(r.x, r.y, r.width, r.height);
 			}
-			else if (pulseCount<7) {
+			else if(pulseCount < 7)
+			{
 				r.x++;
 				r.y++;
 				r.width -= 2;
 				r.height -= 2;
-				repaint(r.x-2,r.y-2, r.width+5,r.height+5);
+				repaint(r.x - 2, r.y - 2, r.width + 5, r.height + 5);
 			}
 		}
-
 	}
 
 
@@ -3074,79 +3330,97 @@ private boolean fractionalFontMetricsEnabled;
 	 * Handles hyperlinks.
 	 */
 	private class RSyntaxTextAreaMutableCaretEvent
-					extends RTextAreaMutableCaretEvent {
-
+	    extends RTextAreaMutableCaretEvent
+	{
 		private Insets insets;
 
-		protected RSyntaxTextAreaMutableCaretEvent(RTextArea textArea) {
+
+		protected RSyntaxTextAreaMutableCaretEvent(RTextArea textArea)
+		{
 			super(textArea);
 			insets = new Insets(0, 0, 0, 0);
 		}
 
-		private HyperlinkEvent createHyperlinkEvent() {
+
+		private HyperlinkEvent createHyperlinkEvent()
+		{
 			HyperlinkEvent he = null;
-			if (linkGeneratorResult!=null) {
+			if(linkGeneratorResult != null)
+			{
 				he = linkGeneratorResult.execute();
 				linkGeneratorResult = null;
 			}
-			else {
+			else
+			{
 				Token t = modelToToken(hoveredOverLinkOffset);
 				URL url = null;
 				String desc = null;
-				try {
+				try
+				{
 					String temp = t.getLexeme();
 					// URI's need "http://" prefix for web URL's to work.
-					if (temp.startsWith("www.")) {
+					if(temp.startsWith("www."))
+					{
 						temp = "http://" + temp;
 					}
 					url = new URL(temp);
-				} catch (MalformedURLException mue) {
+				}
+				catch(MalformedURLException mue)
+				{
 					desc = mue.getMessage();
 				}
-				he = new HyperlinkEvent(RSyntaxTextArea.this,
-						HyperlinkEvent.EventType.ACTIVATED,
-						url, desc);
+				he = new HyperlinkEvent(RSyntaxTextArea.this, HyperlinkEvent.EventType.ACTIVATED, url, desc);
 			}
 			return he;
 		}
 
-		private final boolean equal(LinkGeneratorResult e1,
-				LinkGeneratorResult e2) {
-			return e1.getSourceOffset()==e2.getSourceOffset();
+
+		private final boolean equal(LinkGeneratorResult e1, LinkGeneratorResult e2)
+		{
+			return e1.getSourceOffset() == e2.getSourceOffset();
 		}
 
+
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (getHyperlinksEnabled() && isScanningForLinks &&
-					hoveredOverLinkOffset>-1) {
+		public void mouseClicked(MouseEvent e)
+		{
+			if(getHyperlinksEnabled() && isScanningForLinks && hoveredOverLinkOffset > -1)
+			{
 				HyperlinkEvent he = createHyperlinkEvent();
-				if (he!=null) {
+				if(he != null)
+				{
 					fireHyperlinkUpdate(he);
 				}
 				stopScanningForLinks();
 			}
 		}
 
-		@Override
-		public void mouseMoved(MouseEvent e) {
 
+		@Override
+		public void mouseMoved(MouseEvent e)
+		{
 			super.mouseMoved(e);
 
-			if (!getHyperlinksEnabled()) {
+			if(!getHyperlinksEnabled())
+			{
 				return;
 			}
 
 			// If our link scanning mask is pressed...
-			if ((e.getModifiersEx()&linkScanningMask)==linkScanningMask) {
+			if((e.getModifiersEx() & linkScanningMask) == linkScanningMask)
+			{
 
 				// GitHub issue #25 - links identified at "edges" of editor
 				// should not be activated if mouse is in margin insets.
 				insets = getInsets(insets);
-				if (insets!=null) {
+				if(insets != null)
+				{
 					int x = e.getX();
 					int y = e.getY();
-					if (x<=insets.left || y<insets.top) {
-						if (isScanningForLinks) {
+					if(x <= insets.left || y < insets.top)
+					{
+						if(isScanningForLinks)
+						{
 							stopScanningForLinks();
 						}
 						return;
@@ -3155,36 +3429,41 @@ private boolean fractionalFontMetricsEnabled;
 
 				isScanningForLinks = true;
 				Token t = viewToToken(e.getPoint());
-				if (t!=null) {
+				if(t != null)
+				{
 					// Copy token, viewToModel() unfortunately modifies Token
 					t = new TokenImpl(t);
 				}
 				Cursor c2 = null;
-				if (t!=null && t.isHyperlink()) {
-					if (hoveredOverLinkOffset==-1 ||
-							hoveredOverLinkOffset!=t.getOffset()) {
+				if(t != null && t.isHyperlink())
+				{
+					if(hoveredOverLinkOffset == -1 || hoveredOverLinkOffset != t.getOffset())
+					{
 						hoveredOverLinkOffset = t.getOffset();
 						repaint();
 					}
 					c2 = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 				}
-				else if (t!=null && linkGenerator!=null) {
+				else if(t != null && linkGenerator != null)
+				{
 					int offs = viewToModel(e.getPoint());
-					LinkGeneratorResult newResult = linkGenerator.
-							isLinkAtOffset(RSyntaxTextArea.this, offs);
-					if (newResult!=null) {
+					LinkGeneratorResult newResult = linkGenerator.isLinkAtOffset(RSyntaxTextArea.this, offs);
+					if(newResult != null)
+					{
 						// Repaint if we're at a new link now.
-						if (linkGeneratorResult==null ||
-								!equal(newResult, linkGeneratorResult)) {
+						if(linkGeneratorResult == null || !equal(newResult, linkGeneratorResult))
+						{
 							repaint();
 						}
 						linkGeneratorResult = newResult;
 						hoveredOverLinkOffset = t.getOffset();
 						c2 = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 					}
-					else {
+					else
+					{
 						// Repaint if we've moved off of a link.
-						if (linkGeneratorResult!=null) {
+						if(linkGeneratorResult != null)
+						{
 							repaint();
 						}
 						c2 = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
@@ -3192,26 +3471,26 @@ private boolean fractionalFontMetricsEnabled;
 						linkGeneratorResult = null;
 					}
 				}
-				else {
+				else
+				{
 					c2 = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
 					hoveredOverLinkOffset = -1;
 					linkGeneratorResult = null;
 				}
-				if (getCursor()!=c2) {
+				if(getCursor() != c2)
+				{
 					setCursor(c2);
 					// TODO: Repaint just the affected line(s).
 					repaint(); // Link either left or went into.
 				}
 			}
-			else {
-				if (isScanningForLinks) {
+			else
+			{
+				if(isScanningForLinks)
+				{
 					stopScanningForLinks();
 				}
 			}
-
 		}
-
 	}
-
-
 }

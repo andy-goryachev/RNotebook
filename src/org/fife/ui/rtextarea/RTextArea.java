@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Graphics;
@@ -44,7 +43,6 @@ import javax.swing.text.Element;
 import javax.swing.text.Segment;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-
 import org.fife.print.RPrintUtilities;
 import org.fife.ui.rsyntaxtextarea.DocumentRange;
 import org.fife.ui.rtextarea.Macro.MacroRecord;
@@ -75,45 +73,46 @@ import org.fife.ui.rtextarea.Macro.MacroRecord;
  * @author Robert Futrell
  * @version 1.0
  */
-public class RTextArea extends RTextAreaBase implements Printable {
-
+public class RTextArea
+    extends RTextAreaBase
+    implements Printable
+{
 	/**
 	 * Constant representing insert mode.
 	 *
 	 * @see #setCaretStyle(int, CaretStyle)
 	 */
-	public static final int INSERT_MODE				= 0;
+	public static final int INSERT_MODE = 0;
 
 	/**
 	 * Constant representing overwrite mode.
 	 *
 	 * @see #setCaretStyle(int, CaretStyle)
 	 */
-	public static final int OVERWRITE_MODE				= 1;
+	public static final int OVERWRITE_MODE = 1;
 
 	/**
 	 * The property fired when the "mark all" color changes.
 	 */
-	public static final String MARK_ALL_COLOR_PROPERTY	= "RTA.markAllColor";
+	public static final String MARK_ALL_COLOR_PROPERTY = "RTA.markAllColor";
 
 	/**
 	 * The property fired when what ranges are labeled "mark all" changes.
 	 */
-	public static final String MARK_ALL_OCCURRENCES_CHANGED_PROPERTY =
-			"RTA.markAllOccurrencesChanged";
+	public static final String MARK_ALL_OCCURRENCES_CHANGED_PROPERTY = "RTA.markAllOccurrencesChanged";
 
 	/*
 	 * Constants for all actions.
 	 */
-	private static final int MIN_ACTION_CONSTANT	= 0;
-	public static final int COPY_ACTION				= 0;
-	public static final int CUT_ACTION				= 1;
-	public static final int DELETE_ACTION			= 2;
-	public static final int PASTE_ACTION			= 3;
-	public static final int REDO_ACTION				= 4;
-	public static final int SELECT_ALL_ACTION		= 5;
-	public static final int UNDO_ACTION				= 6;
-	private static final int MAX_ACTION_CONSTANT	= 6;
+	private static final int MIN_ACTION_CONSTANT = 0;
+	public static final int COPY_ACTION = 0;
+	public static final int CUT_ACTION = 1;
+	public static final int DELETE_ACTION = 2;
+	public static final int PASTE_ACTION = 3;
+	public static final int REDO_ACTION = 4;
+	public static final int SELECT_ALL_ACTION = 5;
+	public static final int UNDO_ACTION = 6;
+	private static final int MAX_ACTION_CONSTANT = 6;
 
 	private static final Color DEFAULT_MARK_ALL_COLOR = new Color(0xffc800);
 
@@ -123,8 +122,12 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	private int textMode;
 
 	// All macros are shared across all RTextAreas.
-	private static boolean recordingMacro;		// Whether we're recording a macro.
+	private static boolean recordingMacro; // Whether we're recording a macro.
 	private static Macro currentMacro;
+
+	private static StringBuilder repTabsSB;
+	private static Segment repTabsSeg = new Segment();
+
 
 	/**
 	 * This text area's popup menu.
@@ -163,23 +166,19 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	protected static RecordableTextAction redoAction;
 	protected static RecordableTextAction selectAllAction;
 
-	private static IconGroup iconGroup;		// Info on icons for actions.
-
+	private static IconGroup iconGroup; // Info on icons for actions.
 	protected transient RUndoManager undoManager;
-
 	private transient LineHighlightManager lineHighlightManager;
-
 	private SmartHighlightPainter markAllHighlightPainter;
-
-	private CaretStyle[] carets;	// Index 0=>insert caret, 1=>overwrite.
-
-	private static final String MSG	= "org.fife.ui.rtextarea.RTextArea";
+	private CaretStyle[] carets; // Index 0=>insert caret, 1=>overwrite.
+	private static final String MSG = "org.fife.ui.rtextarea.RTextArea";
 
 
 	/**
 	 * Constructor.
 	 */
-	public RTextArea() {
+	public RTextArea()
+	{
 	}
 
 
@@ -188,7 +187,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @param doc The document for the editor.
 	 */
-	public RTextArea(AbstractDocument doc) {
+	public RTextArea(AbstractDocument doc)
+	{
 		super(doc);
 	}
 
@@ -198,7 +198,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @param text The initial text to display.
 	 */
-	public RTextArea(String text) {
+	public RTextArea(String text)
+	{
 		super(text);
 	}
 
@@ -211,7 +212,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextArea(int rows, int cols) {
+	public RTextArea(int rows, int cols)
+	{
 		super(rows, cols);
 	}
 
@@ -225,7 +227,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextArea(String text, int rows, int cols) {
+	public RTextArea(String text, int rows, int cols)
+	{
 		super(text, rows, cols);
 	}
 
@@ -240,7 +243,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextArea(AbstractDocument doc, String text, int rows, int cols) {
+	public RTextArea(AbstractDocument doc, String text, int rows, int cols)
+	{
 		super(doc, text, rows, cols);
 	}
 
@@ -251,7 +255,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param textMode Either <code>INSERT_MODE</code> or
 	 *        <code>OVERWRITE_MODE</code>.
 	 */
-	public RTextArea(int textMode) {
+	public RTextArea(int textMode)
+	{
 		setTextMode(textMode);
 	}
 
@@ -263,8 +268,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param id The ID of the recordable text action.
 	 * @param actionCommand The "command" of the action event passed to it.
 	 */
-	static synchronized void addToCurrentMacro(String id,
-											String actionCommand) {
+	static synchronized void addToCurrentMacro(String id, String actionCommand)
+	{
 		currentMacro.addMacroRecord(new Macro.MacroRecord(id, actionCommand));
 	}
 
@@ -279,9 +284,10 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #removeLineHighlight(Object)
 	 * @see #removeAllLineHighlights()
 	 */
-	public Object addLineHighlight(int line, Color color)
-										throws BadLocationException {
-		if (lineHighlightManager==null) {
+	public Object addLineHighlight(int line, Color color) throws BadLocationException
+	{
+		if(lineHighlightManager == null)
+		{
 			lineHighlightManager = new LineHighlightManager(this);
 		}
 		return lineHighlightManager.addLineHighlight(line, color);
@@ -307,7 +313,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @see #endAtomicEdit()
 	 */
-	public void beginAtomicEdit() {
+	public void beginAtomicEdit()
+	{
 		undoManager.beginInternalAtomicEdit();
 	}
 
@@ -321,13 +328,15 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #isRecordingMacro()
 	 * @see #endRecordingMacro()
 	 */
-	public static synchronized void beginRecordingMacro() {
-		if (isRecordingMacro()) {
+	public static synchronized void beginRecordingMacro()
+	{
+		if(isRecordingMacro())
+		{
 			//System.err.println("Macro already being recorded!");
 			return;
 		}
 		//JOptionPane.showMessageDialog(this, "Now recording a macro");
-		if (currentMacro!=null)
+		if(currentMacro != null)
 			currentMacro = null; // May help gc?
 		currentMacro = new Macro();
 		recordingMacro = true;
@@ -340,7 +349,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #canRedo()
 	 * @see #undoLastAction()
 	 */
-	public boolean canUndo() {
+	public boolean canUndo()
+	{
 		return undoManager.canUndo();
 	}
 
@@ -351,7 +361,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #canUndo()
 	 * @see #redoLastAction()
 	 */
-	public boolean canRedo() {
+	public boolean canRedo()
+	{
 		return undoManager.canRedo();
 	}
 
@@ -363,7 +374,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #getMarkAllHighlightColor()
 	 * @see #setMarkAllHighlightColor(Color)
 	 */
-	void clearMarkAllHighlights() {
+	void clearMarkAllHighlights()
+	{
 		((RTextAreaHighlighter)getHighlighter()).clearMarkAllHighlights();
 		//markedWord = null;
 		repaint();
@@ -386,20 +398,20 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #createPopupMenu()
 	 * @see #setPopupMenu(JPopupMenu)
 	 */
-	protected void configurePopupMenu(JPopupMenu popupMenu) {
-
+	protected void configurePopupMenu(JPopupMenu popupMenu)
+	{
 		boolean canType = isEditable() && isEnabled();
 
 		// Since the user can customize the popup menu, these actions may not
 		// have been created.
-		if (undoMenuItem!=null) {
+		if(undoMenuItem != null)
+		{
 			undoMenuItem.setEnabled(undoAction.isEnabled() && canType);
 			redoMenuItem.setEnabled(redoAction.isEnabled() && canType);
 			cutMenuItem.setEnabled(cutAction.isEnabled() && canType);
 			pasteMenuItem.setEnabled(pasteAction.isEnabled() && canType);
 			deleteMenuItem.setEnabled(deleteAction.isEnabled() && canType);
 		}
-
 	}
 
 
@@ -411,9 +423,11 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The default document.
 	 */
 	@Override
-	protected Document createDefaultModel() {
+	protected Document createDefaultModel()
+	{
 		return new RDocument();
 	}
+
 
 	/**
 	 * Returns the caret event/mouse listener for <code>RTextArea</code>s.
@@ -421,7 +435,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The caret event/mouse listener.
 	 */
 	@Override
-	protected RTAMouseListener createMouseListener() {
+	protected RTAMouseListener createMouseListener()
+	{
 		return new RTextAreaMutableCaretEvent(this);
 	}
 
@@ -435,7 +450,9 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #configurePopupMenu(JPopupMenu)
 	 * @see #createPopupMenuItem(Action)
 	 */
-	protected JPopupMenu createPopupMenu() {
+	@Deprecated // kill
+	protected JPopupMenu createPopupMenu()
+	{
 		JPopupMenu menu = new JPopupMenu();
 		menu.add(undoMenuItem = createPopupMenuItem(undoAction));
 		menu.add(redoMenuItem = createPopupMenuItem(redoAction));
@@ -457,8 +474,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * the editor kits, where it should be!  The context menu should contain
 	 * actions from the editor kits.
 	 */
-	private static void createPopupMenuActions() {
-
+	private static void createPopupMenuActions()
+	{
 		// Create actions for right-click popup menu.
 		// 1.5.2004/pwy: Replaced the CTRL_MASK with the cross-platform version...
 		int mod = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -485,7 +502,6 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		selectAllAction = new RTextAreaEditorKit.SelectAllAction();
 		selectAllAction.setProperties(msg, "Action.SelectAll");
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, mod));
-
 	}
 
 
@@ -496,10 +512,14 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The menu item.
 	 * @see #createPopupMenu()
 	 */
-	protected JMenuItem createPopupMenuItem(Action a) {
-		JMenuItem item = new JMenuItem(a) {
+	@Deprecated
+	protected JMenuItem createPopupMenuItem(Action a)
+	{
+		JMenuItem item = new JMenuItem(a)
+		{
 			@Override
-			public void setToolTipText(String text) {
+			public void setToolTipText(String text)
+			{
 				// Ignore!  Actions (e.g. undo/redo) set this when changing
 				// their text due to changing enabled state.
 			}
@@ -515,7 +535,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The UI.
 	 */
 	@Override
-	protected RTextAreaUI createRTextAreaUI() {
+	protected RTextAreaUI createRTextAreaUI()
+	{
 		return new RTextAreaUI(this);
 	}
 
@@ -526,9 +547,11 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param size The number of spaces.
 	 * @return The string of spaces.
 	 */
-	private final String createSpacer(int size) {
+	private final String createSpacer(int size)
+	{
 		StringBuilder sb = new StringBuilder();
-		for (int i=0; i<size; i++) {
+		for(int i = 0; i < size; i++)
+		{
 			sb.append(' ');
 		}
 		return sb.toString();
@@ -540,7 +563,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @return The undo manager.
 	 */
-	protected RUndoManager createUndoManager() {
+	protected RUndoManager createUndoManager()
+	{
 		return new RUndoManager(this);
 	}
 
@@ -555,7 +579,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *        properly; if I don't, it only ever lets you do one undo.  Not
 	 *        too sure why this is...
 	 */
-	public void discardAllEdits() {
+	public void discardAllEdits()
+	{
 		undoManager.discardAllEdits();
 		getDocument().removeUndoableEditListener(undoManager);
 		undoManager = createUndoManager();
@@ -569,7 +594,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @see #beginAtomicEdit()
 	 */
-	public void endAtomicEdit() {
+	public void endAtomicEdit()
+	{
 		undoManager.endInternalAtomicEdit();
 	}
 
@@ -584,8 +610,10 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	/*
 	 * FIXME:  This should throw an exception if we're not recording a macro.
 	 */
-	public static synchronized void endRecordingMacro() {
-		if (!isRecordingMacro()) {
+	public static synchronized void endRecordingMacro()
+	{
+		if(!isRecordingMacro())
+		{
 			//System.err.println("Not recording a macro!");
 			return;
 		}
@@ -599,14 +627,15 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param e The caret event.
 	 */
 	@Override
-	protected void fireCaretUpdate(CaretEvent e) {
-
+	protected void fireCaretUpdate(CaretEvent e)
+	{
 		// Decide whether we need to repaint the current line background.
 		possiblyUpdateCurrentLineHighlightLocation();
 
 		// Now, if there is a highlighted region of text, allow them to cut
 		// and copy.
-		if (e!=null && e.getDot()!=e.getMark()) {// && !cutAction.isEnabled()) {
+		if(e != null && e.getDot() != e.getMark())
+		{
 			cutAction.setEnabled(true);
 			copyAction.setEnabled(true);
 		}
@@ -615,13 +644,13 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		// or copy.  The condition here should speed things up, because this
 		// way, we will only enable the actions the first time the selection
 		// becomes nothing.
-		else if (cutAction.isEnabled()) {
+		else if(cutAction.isEnabled())
+		{
 			cutAction.setEnabled(false);
 			copyAction.setEnabled(false);
 		}
 
 		super.fireCaretUpdate(e);
-
 	}
 
 
@@ -629,11 +658,13 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * Removes the "Ctrl+H <=> Backspace" behavior that Java shows, for some
 	 * odd reason...
 	 */
-	private void fixCtrlH() {
+	private void fixCtrlH()
+	{
 		InputMap inputMap = getInputMap();
 		KeyStroke char010 = KeyStroke.getKeyStroke("typed \010");
 		InputMap parent = inputMap;
-		while (parent != null) {
+		while(parent != null)
+		{
 			parent.remove(char010);
 			parent = parent.getParent();
 		}
@@ -658,24 +689,29 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The action, or <code>null</code> if an invalid action is
 	 *         requested.
 	 */
-	public static RecordableTextAction getAction(int action) {
-		if (action<MIN_ACTION_CONSTANT || action>MAX_ACTION_CONSTANT)
+	public static RecordableTextAction getAction(int action)
+	{
+		if(action < MIN_ACTION_CONSTANT || action > MAX_ACTION_CONSTANT)
+		{
 			return null;
-		switch (action) {
-			case COPY_ACTION:
-				return copyAction;
-			case CUT_ACTION:
-				return cutAction;
-			case DELETE_ACTION:
-				return deleteAction;
-			case PASTE_ACTION:
-				return pasteAction;
-			case REDO_ACTION:
-				return redoAction;
-			case SELECT_ALL_ACTION:
-				return selectAllAction;
-			case UNDO_ACTION:
-				return undoAction;
+		}
+		
+		switch(action)
+		{
+		case COPY_ACTION:
+			return copyAction;
+		case CUT_ACTION:
+			return cutAction;
+		case DELETE_ACTION:
+			return deleteAction;
+		case PASTE_ACTION:
+			return pasteAction;
+		case REDO_ACTION:
+			return redoAction;
+		case SELECT_ALL_ACTION:
+			return selectAllAction;
+		case UNDO_ACTION:
+			return undoAction;
 		}
 		return null;
 	}
@@ -690,7 +726,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *         recorded/loaded.
 	 * @see #loadMacro(Macro)
 	 */
-	public static synchronized Macro getCurrentMacro() {
+	public static synchronized Macro getCurrentMacro()
+	{
 		return currentMacro;
 	}
 
@@ -702,7 +739,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #getMarkAllHighlightColor()
 	 * @see #setMarkAllHighlightColor(Color)
 	 */
-	public static final Color getDefaultMarkAllHighlightColor() {
+	public static final Color getDefaultMarkAllHighlightColor()
+	{
 		return DEFAULT_MARK_ALL_COLOR;
 	}
 
@@ -713,7 +751,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The icon group.
 	 * @see #setIconGroup(IconGroup)
 	 */
-	public static IconGroup getIconGroup() {
+	public static IconGroup getIconGroup()
+	{
 		return iconGroup;
 	}
 
@@ -723,7 +762,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @return The line highlight manager.  This may be <code>null</code>.
 	 */
-	LineHighlightManager getLineHighlightManager() {
+	LineHighlightManager getLineHighlightManager()
+	{
 		return lineHighlightManager;
 	}
 
@@ -734,7 +774,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The color.
 	 * @see #setMarkAllHighlightColor(Color)
 	 */
-	public Color getMarkAllHighlightColor() {
+	public Color getMarkAllHighlightColor()
+	{
 		return (Color)markAllHighlightPainter.getPaint();
 	}
 
@@ -749,7 +790,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @return The ascent of the current font.
 	 */
-	public int getMaxAscent() {
+	public int getMaxAscent()
+	{
 		return getFontMetrics(getFont()).getAscent();
 	}
 
@@ -762,12 +804,14 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #createPopupMenu()
 	 * @see #setPopupMenu(JPopupMenu)
 	 */
-	public JPopupMenu getPopupMenu() {
-		if (!popupMenuCreated) {
+	public JPopupMenu getPopupMenu()
+	{
+		if(!popupMenuCreated)
+		{
 			popupMenu = createPopupMenu();
-			if (popupMenu!=null) {
-				ComponentOrientation orientation = ComponentOrientation.
-										getOrientation(Locale.getDefault());
+			if(popupMenu != null)
+			{
+				ComponentOrientation orientation = ComponentOrientation.getOrientation(Locale.getDefault());
 				popupMenu.applyComponentOrientation(orientation);
 			}
 			popupMenuCreated = true;
@@ -782,7 +826,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return The text, or <code>null</code> if none.
 	 * @see #setSelectedOccurrenceText(String)
 	 */
-	public static String getSelectedOccurrenceText() {
+	public static String getSelectedOccurrenceText()
+	{
 		return selectedOccurrenceText;
 	}
 
@@ -793,7 +838,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return Either {@link #INSERT_MODE} or {@link #OVERWRITE_MODE}.
 	 * @see #setTextMode(int)
 	 */
-	public final int getTextMode() {
+	public final int getTextMode()
+	{
 		return textMode;
 	}
 
@@ -805,7 +851,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *         installed.
 	 * @see #setToolTipSupplier(ToolTipSupplier)
 	 */
-	public ToolTipSupplier getToolTipSupplier() {
+	public ToolTipSupplier getToolTipSupplier()
+	{
 		return toolTipSupplier;
 	}
 
@@ -823,12 +870,14 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #setToolTipSupplier(ToolTipSupplier)
 	 */
 	@Override
-	public String getToolTipText(MouseEvent e) {
+	public String getToolTipText(MouseEvent e)
+	{
 		String tip = null;
-		if (getToolTipSupplier()!=null) {
+		if(getToolTipSupplier() != null)
+		{
 			tip = getToolTipSupplier().getToolTipText(this, e);
 		}
-		return tip!=null ? tip : super.getToolTipText();
+		return tip != null ? tip : super.getToolTipText();
 	}
 
 
@@ -839,7 +888,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @param content The content to add.
 	 */
-	protected void handleReplaceSelection(String content) {
+	protected void handleReplaceSelection(String content)
+	{
 		// Call into super to handle composed text.
 		super.replaceSelection(content);
 	}
@@ -849,8 +899,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void init() {
-
+	protected void init()
+	{
 		super.init();
 
 		// NOTE: Our actions are created here instead of in a static block
@@ -859,7 +909,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		// (e.g. RSyntaxTextArea.getDefaultBracketMatchBGColor()) which would
 		// cause these actions to be created and (possibly) incorrectly
 		// localized, if they were in a static block.
-		if (cutAction==null) {
+		if(cutAction == null)
+		{
 			createPopupMenuActions();
 		}
 
@@ -869,19 +920,17 @@ public class RTextArea extends RTextAreaBase implements Printable {
 
 		// Set the defaults for various stuff.
 		Color markAllHighlightColor = getDefaultMarkAllHighlightColor();
-		markAllHighlightPainter = new SmartHighlightPainter(
-										markAllHighlightColor);
+		markAllHighlightPainter = new SmartHighlightPainter(markAllHighlightColor);
 		setMarkAllHighlightColor(markAllHighlightColor);
 		carets = new CaretStyle[2];
 		setCaretStyle(INSERT_MODE, CaretStyle.THICK_VERTICAL_LINE_STYLE);
 		setCaretStyle(OVERWRITE_MODE, CaretStyle.BLOCK_STYLE);
-		setDragEnabled(true);			// Enable drag-and-drop.
+		setDragEnabled(true); // Enable drag-and-drop.
 
 		setTextMode(INSERT_MODE); // Carets array must be created first!
 
 		// Fix the odd "Ctrl+H <=> Backspace" Java behavior.
 		fixCtrlH();
-
 	}
 
 
@@ -892,7 +941,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #beginRecordingMacro()
 	 * @see #endRecordingMacro()
 	 */
-	public static synchronized boolean isRecordingMacro() {
+	public static synchronized boolean isRecordingMacro()
+	{
 		return recordingMacro;
 	}
 
@@ -904,7 +954,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param macro The macro to load.
 	 * @see #getCurrentMacro()
 	 */
-	public static synchronized void loadMacro(Macro macro) {
+	public static synchronized void loadMacro(Macro macro)
+	{
 		currentMacro = macro;
 	}
 
@@ -924,30 +975,30 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #getMarkAllHighlightColor()
 	 * @see #setMarkAllHighlightColor(Color)
 	 */
-	void markAll(List<DocumentRange> ranges) {
-
+	void markAll(List<DocumentRange> ranges)
+	{
 		RTextAreaHighlighter h = (RTextAreaHighlighter)getHighlighter();
-		if (/*toMark!=null && !toMark.equals(markedWord) && */h!=null) {
-
+		if(/*toMark!=null && !toMark.equals(markedWord) && */h != null)
+		{
 			//markedWord = toMark;
-			if (ranges!=null) {
-				for (DocumentRange range : ranges) {
-					try {
-						h.addMarkAllHighlight(
-								range.getStartOffset(), range.getEndOffset(),
-								markAllHighlightPainter);
-					} catch (BadLocationException ble) {
+			if(ranges != null)
+			{
+				for(DocumentRange range: ranges)
+				{
+					try
+					{
+						h.addMarkAllHighlight(range.getStartOffset(), range.getEndOffset(), markAllHighlightPainter);
+					}
+					catch(BadLocationException ble)
+					{
 						ble.printStackTrace();
 					}
 				}
 			}
 
 			repaint();
-			firePropertyChange(MARK_ALL_OCCURRENCES_CHANGED_PROPERTY,
-					null, ranges);
-
+			firePropertyChange(MARK_ALL_OCCURRENCES_CHANGED_PROPERTY, null, ranges);
 		}
-
 	}
 
 
@@ -955,13 +1006,17 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void paste() {
+	public void paste()
+	{
 		// Treat paste operations as atomic, otherwise the removal and
 		// insertion are treated as two separate undo-able operations.
 		beginAtomicEdit();
-		try {
+		try
+		{
 			super.paste();
-		} finally {
+		}
+		finally
+		{
 			endAtomicEdit();
 		}
 	}
@@ -970,27 +1025,31 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	/**
 	 * "Plays back" the last recorded macro in this text area.
 	 */
-	public synchronized void playbackLastMacro() {
-		if (currentMacro!=null) {
+	public synchronized void playbackLastMacro()
+	{
+		if(currentMacro != null)
+		{
 			List<MacroRecord> macroRecords = currentMacro.getMacroRecords();
-			if (!macroRecords.isEmpty()) {
+			if(!macroRecords.isEmpty())
+			{
 				Action[] actions = getActions();
 				undoManager.beginInternalAtomicEdit();
-				try {
-					for (MacroRecord record : macroRecords) {
-						for (int i=0; i<actions.length; i++) {
-							if ((actions[i] instanceof RecordableTextAction) &&
-								record.id.equals(
-								((RecordableTextAction)actions[i]).getMacroID())) {
-								actions[i].actionPerformed(
-									new ActionEvent(this,
-												ActionEvent.ACTION_PERFORMED,
-												record.actionCommand));
+				try
+				{
+					for(MacroRecord record: macroRecords)
+					{
+						for(int i = 0; i < actions.length; i++)
+						{
+							if((actions[i] instanceof RecordableTextAction) && record.id.equals(((RecordableTextAction)actions[i]).getMacroID()))
+							{
+								actions[i].actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, record.actionCommand));
 								break;
 							}
 						}
 					}
-				} finally {
+				}
+				finally
+				{
 					undoManager.endInternalAtomicEdit();
 				}
 			}
@@ -1006,7 +1065,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param pageFormat The size and orientation of the page being drawn.
 	 * @param pageIndex The zero based index of the page to be drawn.
 	 */
-	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex)
+	{
 		return RPrintUtilities.printDocumentWordWrap(g, this, getFont(), pageIndex, pageFormat, getTabSize());
 	}
 
@@ -1017,20 +1077,24 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * manager.  With this version we just replace the text.
 	 */
 	@Override
-	public void read(Reader in, Object desc) throws IOException {
-
+	public void read(Reader in, Object desc) throws IOException
+	{
 		RTextAreaEditorKit kit = (RTextAreaEditorKit)getUI().getEditorKit(this);
 		setText(null);
 		Document doc = getDocument();
-		if (desc != null)
+		if(desc != null)
+		{
 			doc.putProperty(Document.StreamDescriptionProperty, desc);
-		try {
+		}
+		try
+		{
 			// NOTE:  Resets the "line separator" property.
 			kit.read(in, doc, 0);
-		} catch (BadLocationException e) {
+		}
+		catch(BadLocationException e)
+		{
 			throw new IOException(e.getMessage());
 		}
-
 	}
 
 
@@ -1041,9 +1105,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	private void readObject(ObjectInputStream s)
-						throws ClassNotFoundException, IOException {
-
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException
+	{
 		s.defaultReadObject();
 
 		// UndoManagers cannot be serialized without Exceptions.  See
@@ -1052,7 +1115,6 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		getDocument().addUndoableEditListener(undoManager);
 
 		lineHighlightManager = null; // Keep FindBugs happy.
-
 	}
 
 
@@ -1061,12 +1123,16 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @see #undoLastAction()
 	 */
-	public void redoLastAction() {
+	public void redoLastAction()
+	{
 		// NOTE:  The try/catch block shouldn't be necessary...
-		try {
-			if (undoManager.canRedo())
+		try
+		{
+			if(undoManager.canRedo())
 				undoManager.redo();
-		} catch (CannotRedoException cre) {
+		}
+		catch(CannotRedoException cre)
+		{
 			cre.printStackTrace();
 		}
 	}
@@ -1077,8 +1143,10 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @see #removeLineHighlight(Object)
 	 */
-	public void removeAllLineHighlights() {
-		if (lineHighlightManager!=null) {
+	public void removeAllLineHighlights()
+	{
+		if(lineHighlightManager != null)
+		{
 			lineHighlightManager.removeAllLineHighlights();
 		}
 	}
@@ -1091,8 +1159,10 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #removeAllLineHighlights()
 	 * @see #addLineHighlight(int, Color)
 	 */
-	public void removeLineHighlight(Object tag) {
-		if (lineHighlightManager!=null) {
+	public void removeLineHighlight(Object tag)
+	{
+		if(lineHighlightManager != null)
+		{
 			lineHighlightManager.removeLineHighlight(tag);
 		}
 	}
@@ -1118,12 +1188,18 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #replaceRange(String, int, int)
 	 */
 	@Override
-	public void replaceRange(String str, int start, int end) {
-		if (end < start)
+	public void replaceRange(String str, int start, int end)
+	{
+		if(end < start)
+		{
 			throw new IllegalArgumentException("end before start");
+		}
+		
 		Document doc = getDocument();
-		if (doc != null) {
-			try {
+		if(doc != null)
+		{
+			try
+			{
 				// Without this, in some cases we'll have to do two undos
 				// for one logical operation (for example, try editing a
 				// Java source file in an RSyntaxTextArea, and moving a line
@@ -1132,15 +1208,18 @@ public class RTextArea extends RTextAreaBase implements Printable {
 				// but the first line moved down isn't there!  Doing a
 				// second undo puts it back.
 				undoManager.beginInternalAtomicEdit();
-				((AbstractDocument)doc).replace(start, end - start,
-                               		                     str, null);
-			} catch (BadLocationException e) {
+				((AbstractDocument)doc).replace(start, end - start, str, null);
+			}
+			catch(BadLocationException e)
+			{
 				throw new IllegalArgumentException(e.getMessage());
-			} finally {
+			}
+			finally
+			{
 				undoManager.endInternalAtomicEdit();
 			}
 		}
-    }
+	}
 
 
 	/**
@@ -1151,29 +1230,36 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param text The content to replace the selection with.
 	 */
 	@Override
-	public void replaceSelection(String text) {
-
+	public void replaceSelection(String text)
+	{
 		// It's legal for null to be used here...
-		if (text==null) {
+		if(text == null)
+		{
 			handleReplaceSelection(text);
 			return;
 		}
 
-		if (getTabsEmulated()) {
+		if(getTabsEmulated())
+		{
 			int firstTab = text.indexOf('\t');
-			if (firstTab>-1) {
+			if(firstTab > -1)
+			{
 				int docOffs = getSelectionStart();
-				try {
+				try
+				{
 					text = replaceTabsWithSpaces(text, docOffs, firstTab);
-				} catch (BadLocationException ble) { // Never happens
+				}
+				catch(BadLocationException ble)
+				{ 
+					// Never happens
 					ble.printStackTrace();
 				}
 			}
 		}
 
 		// If the user wants to overwrite text...
-		if (textMode==OVERWRITE_MODE && !"\n".equals(text)) {
-
+		if(textMode == OVERWRITE_MODE && !"\n".equals(text))
+		{
 			Caret caret = getCaret();
 			int caretPos = caret.getDot();
 			Document doc = getDocument();
@@ -1181,21 +1267,29 @@ public class RTextArea extends RTextAreaBase implements Printable {
 			int curLine = map.getElementIndex(caretPos);
 			int lastLine = map.getElementCount() - 1;
 
-			try {
-
+			try
+			{
 				// If we're not at the end of a line, select the characters
 				// that will be overwritten (otherwise JTextArea will simply
 				// insert in front of them).
 				int curLineEnd = getLineEndOffset(curLine);
-				if (caretPos==caret.getMark() && caretPos!=curLineEnd) {
-					if (curLine==lastLine)
-						caretPos = Math.min(caretPos+text.length(), curLineEnd);
+				if(caretPos == caret.getMark() && caretPos != curLineEnd)
+				{
+					if(curLine == lastLine)
+					{
+						caretPos = Math.min(caretPos + text.length(), curLineEnd);
+					}
 					else
-						caretPos = Math.min(caretPos+text.length(), curLineEnd-1);
+					{
+						caretPos = Math.min(caretPos + text.length(), curLineEnd - 1);
+					}
 					caret.moveDot(caretPos);//moveCaretPosition(caretPos);
 				}
 
-			} catch (BadLocationException ble) { // Never happens
+			}
+			catch(BadLocationException ble)
+			{ 
+				// Never happens
 				UIManager.getLookAndFeel().provideErrorFeedback(this);
 				ble.printStackTrace();
 			}
@@ -1206,12 +1300,9 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		// take care of remembering the remove/insert as atomic if we are in
 		// overwrite mode.
 		handleReplaceSelection(text);
-
 	}
 
 
-	private static StringBuilder repTabsSB;
-	private static Segment repTabsSeg = new Segment();
 	/**
 	 * Replaces all instances of the tab character in <code>text</code> with
 	 * the number of spaces equivalent to a tab in this text area.<p>
@@ -1229,9 +1320,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @return A <code>String</code> just like <code>text</code>, but with
 	 *         spaces instead of tabs.
 	 */
-	private final String replaceTabsWithSpaces(String text, int docOffs, int firstTab)
-			throws BadLocationException {
-
+	private final String replaceTabsWithSpaces(String text, int docOffs, int firstTab) throws BadLocationException
+	{
 		int tabSize = getTabSize();
 
 		// Get how many chars into the current line we are
@@ -1243,62 +1333,72 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		int charCount = docOffs - lineStart;
 
 		// Figure out how many chars into the "current tab" we are
-		if (charCount>0) {
+		if(charCount > 0)
+		{
 			doc.getText(lineStart, charCount, repTabsSeg);
 			charCount = 0;
-			for (int i=0; i<repTabsSeg.count; i++) {
+			for(int i = 0; i < repTabsSeg.count; i++)
+			{
 				char ch = repTabsSeg.array[repTabsSeg.offset + i];
-				if (ch=='\t') {
+				if(ch == '\t')
+				{
 					charCount = 0;
 				}
-				else {
+				else
+				{
 					charCount = (charCount + 1) % tabSize;
 				}
 			}
 		}
 
 		// Common case: The user's entering a single tab (pressed the tab key).
-		if (text.length()==1) {
+		if(text.length() == 1)
+		{
 			return createSpacer(tabSize - charCount);
 		}
 
 		// Otherwise, there may be more than one tab.
 
-		if (repTabsSB==null) {
+		if(repTabsSB == null)
+		{
 			repTabsSB = new StringBuilder();
 		}
+		
 		repTabsSB.setLength(0);
 		char[] array = text.toCharArray();
 		int lastPos = 0;
 		int offsInLine = charCount; // Accurate enough for our start
-		for (int pos=firstTab; pos<array.length; pos++) {
+		for(int pos = firstTab; pos < array.length; pos++)
+		{
 			char ch = array[pos];
-			switch (ch) {
-				case '\t':
-					if (pos>lastPos) {
-						repTabsSB.append(array, lastPos, pos-lastPos);
-					}
-					int thisTabSize = tabSize - (offsInLine%tabSize);
-					repTabsSB.append(createSpacer(thisTabSize));
-					lastPos = pos + 1;
-					offsInLine = 0;
-					break;
-				case '\n':
-					offsInLine = 0;
-					break;
-				default:
-					offsInLine++;
-					break;
+			switch(ch)
+			{
+			case '\t':
+				if(pos > lastPos)
+				{
+					repTabsSB.append(array, lastPos, pos - lastPos);
+				}
+				int thisTabSize = tabSize - (offsInLine % tabSize);
+				repTabsSB.append(createSpacer(thisTabSize));
+				lastPos = pos + 1;
+				offsInLine = 0;
+				break;
+			case '\n':
+				offsInLine = 0;
+				break;
+			default:
+				offsInLine++;
+				break;
 			}
 		}
-		if (lastPos<array.length) {
-			repTabsSB.append(array, lastPos, array.length-lastPos);
+		
+		if(lastPos < array.length)
+		{
+			repTabsSB.append(array, lastPos, array.length - lastPos);
 		}
 
 		return repTabsSB.toString();
-
 	}
-
 
 
 	/**
@@ -1309,8 +1409,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param mnemonic The new mnemonic for the action.
 	 * @param accelerator The new accelerator key for the action.
 	 */
-	public static void setActionProperties(int action, String name,
-							char mnemonic, KeyStroke accelerator) {
+	public static void setActionProperties(int action, String name, char mnemonic, KeyStroke accelerator)
+	{
 		setActionProperties(action, name, Integer.valueOf(mnemonic), accelerator);
 	}
 
@@ -1323,38 +1423,37 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param mnemonic The new mnemonic for the action.
 	 * @param accelerator The new accelerator key for the action.
 	 */
-	public static void setActionProperties(int action, String name,
-							Integer mnemonic, KeyStroke accelerator) {
-
+	public static void setActionProperties(int action, String name, Integer mnemonic, KeyStroke accelerator)
+	{
 		Action tempAction = null;
 
-		switch (action) {
-			case CUT_ACTION:
-				tempAction = cutAction;
-				break;
-			case COPY_ACTION:
-				tempAction = copyAction;
-				break;
-			case PASTE_ACTION:
-				tempAction = pasteAction;
-				break;
-			case DELETE_ACTION:
-				tempAction = deleteAction;
-				break;
-			case SELECT_ALL_ACTION:
-				tempAction = selectAllAction;
-				break;
-			case UNDO_ACTION:
-			case REDO_ACTION:
-			default:
-				return;
+		switch(action)
+		{
+		case CUT_ACTION:
+			tempAction = cutAction;
+			break;
+		case COPY_ACTION:
+			tempAction = copyAction;
+			break;
+		case PASTE_ACTION:
+			tempAction = pasteAction;
+			break;
+		case DELETE_ACTION:
+			tempAction = deleteAction;
+			break;
+		case SELECT_ALL_ACTION:
+			tempAction = selectAllAction;
+			break;
+		case UNDO_ACTION:
+		case REDO_ACTION:
+		default:
+			return;
 		}
 
 		tempAction.putValue(Action.NAME, name);
 		tempAction.putValue(Action.SHORT_DESCRIPTION, name);
 		tempAction.putValue(Action.ACCELERATOR_KEY, accelerator);
 		tempAction.putValue(Action.MNEMONIC_KEY, mnemonic);
-
 	}
 
 
@@ -1371,10 +1470,12 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #setCaretStyle(int, CaretStyle)
 	 */
 	@Override
-	public void setCaret(Caret caret) {
+	public void setCaret(Caret caret)
+	{
 		super.setCaret(caret);
-		if (carets!=null && // Called by setUI() before carets is initialized
-				caret instanceof ConfigurableCaret) {
+		if(carets != null && // Called by setUI() before carets is initialized
+		    caret instanceof ConfigurableCaret)
+		{
 			((ConfigurableCaret)caret).setStyle(carets[getTextMode()]);
 		}
 	}
@@ -1387,12 +1488,15 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param style The style for the caret.
 	 * @see ConfigurableCaret
 	 */
-	public void setCaretStyle(int mode, CaretStyle style) {
-		if (style==null) {
+	public void setCaretStyle(int mode, CaretStyle style)
+	{
+		if(style == null)
+		{
 			style = CaretStyle.THICK_VERTICAL_LINE_STYLE;
 		}
 		carets[mode] = style;
-		if (mode==getTextMode() && getCaret() instanceof ConfigurableCaret) {
+		if(mode == getTextMode() && getCaret() instanceof ConfigurableCaret)
+		{
 			// Will repaint the caret if necessary.
 			((ConfigurableCaret)getCaret()).setStyle(style);
 		}
@@ -1407,19 +1511,25 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *         {@link RDocument}.
 	 */
 	@Override
-	public void setDocument(Document document) {
-		if (!(document instanceof RDocument)) {
-			throw new IllegalArgumentException("RTextArea requires " +
-				"instances of RDocument for its document");
+	public void setDocument(Document document)
+	{
+		if(!(document instanceof RDocument))
+		{
+			throw new IllegalArgumentException("RTextArea requires " + "instances of RDocument for its document");
 		}
-		if (undoManager!=null) { // First time through, undoManager==null
+		
+		if(undoManager != null)
+		{ // First time through, undoManager==null
 			Document old = getDocument();
-			if (old!=null) {
+			if(old != null)
+			{
 				old.removeUndoableEditListener(undoManager);
 			}
 		}
+		
 		super.setDocument(document);
-		if (undoManager!=null) {
+		if(undoManager != null)
+		{
 			document.addUndoableEditListener(undoManager);
 			discardAllEdits();
 		}
@@ -1445,7 +1555,9 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param group The icon group to load.
 	 * @see #getIconGroup()
 	 */
-	public static synchronized void setIconGroup(IconGroup group) {
+	@Deprecated // kill
+	public static synchronized void setIconGroup(IconGroup group)
+	{
 		Icon icon = group.getIcon("cut");
 		cutAction.putValue(Action.SMALL_ICON, icon);
 		icon = group.getIcon("copy");
@@ -1471,13 +1583,16 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param color The color to use for "mark all."
 	 * @see #getMarkAllHighlightColor()
 	 */
-	public void setMarkAllHighlightColor(Color color) {
+	public void setMarkAllHighlightColor(Color color)
+	{
 		Color old = (Color)markAllHighlightPainter.getPaint();
-		if (old!=null && !old.equals(color)) {
+		if(old != null && !old.equals(color))
+		{
 			markAllHighlightPainter.setPaint(color);
 			RTextAreaHighlighter h = (RTextAreaHighlighter)getHighlighter();
-			if (h.getMarkAllHighlightCount()>0) {
-				repaint();	// Repaint if words are highlighted.
+			if(h.getMarkAllHighlightCount() > 0)
+			{
+				repaint(); // Repaint if words are highlighted.
 			}
 			firePropertyChange(MARK_ALL_COLOR_PROPERTY, old, color);
 		}
@@ -1496,7 +1611,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @see #getPopupMenu()
 	 * @see #configurePopupMenu(JPopupMenu)
 	 */
-	public void setPopupMenu(JPopupMenu popupMenu) {
+	public void setPopupMenu(JPopupMenu popupMenu)
+	{
 		this.popupMenu = popupMenu;
 		popupMenuCreated = true;
 	}
@@ -1506,8 +1622,10 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setRoundedSelectionEdges(boolean rounded) {
-		if (getRoundedSelectionEdges()!=rounded) {
+	public void setRoundedSelectionEdges(boolean rounded)
+	{
+		if(getRoundedSelectionEdges() != rounded)
+		{
 			markAllHighlightPainter.setRoundedEdges(rounded);
 			super.setRoundedSelectionEdges(rounded); // Fires event.
 		}
@@ -1527,7 +1645,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param text The selected text.
 	 * @see #getSelectedOccurrenceText()
 	 */
-	public static void setSelectedOccurrenceText(String text) {
+	public static void setSelectedOccurrenceText(String text)
+	{
 		selectedOccurrenceText = text;
 	}
 
@@ -1541,14 +1660,18 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param mode Either {@link #INSERT_MODE} or {@link #OVERWRITE_MODE}.
 	 * @see #getTextMode()
 	 */
-	public void setTextMode(int mode) {
-
-		if (mode!=INSERT_MODE && mode!=OVERWRITE_MODE)
+	public void setTextMode(int mode)
+	{
+		if(mode != INSERT_MODE && mode != OVERWRITE_MODE)
+		{
 			mode = INSERT_MODE;
+		}
 
-		if (textMode != mode) {
+		if(textMode != mode)
+		{
 			Caret caret = getCaret();
-			if (caret instanceof ConfigurableCaret) {
+			if(caret instanceof ConfigurableCaret)
+			{
 				((ConfigurableCaret)caret).setStyle(carets[mode]);
 			}
 			textMode = mode;
@@ -1557,7 +1680,6 @@ public class RTextArea extends RTextAreaBase implements Printable {
 			caret.setVisible(false);
 			caret.setVisible(true);
 		}
-
 	}
 
 
@@ -1568,7 +1690,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *        there is to be no supplier.
 	 * @see #getToolTipSupplier()
 	 */
-	public void setToolTipSupplier(ToolTipSupplier supplier) {
+	public void setToolTipSupplier(ToolTipSupplier supplier)
+	{
 		this.toolTipSupplier = supplier;
 	}
 
@@ -1584,20 +1707,21 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param ui This parameter is ignored.
 	 */
 	@Override
-	public final void setUI(TextUI ui) {
-
+	public final void setUI(TextUI ui)
+	{
 		// Update the popup menu's ui.
-		if (popupMenu!=null) {
+		if(popupMenu != null)
+		{
 			SwingUtilities.updateComponentTreeUI(popupMenu);
 		}
 
 		// Set things like selection color, selected text color, etc. to
 		// laf defaults (if values are null or UIResource instances).
 		RTextAreaUI rtaui = (RTextAreaUI)getUI();
-		if (rtaui!=null) {
+		if(rtaui != null)
+		{
 			rtaui.installDefaults();
 		}
-
 	}
 
 
@@ -1606,16 +1730,20 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 *
 	 * @see #redoLastAction()
 	 */
-	public void undoLastAction() {
+	public void undoLastAction()
+	{
 		// NOTE: that the try/catch block shouldn't be necessary...
-		try {
-			if (undoManager.canUndo())
+		try
+		{
+			if(undoManager.canUndo())
 				undoManager.undo();
 		}
-		catch (CannotUndoException cre) {
+		catch(CannotUndoException cre)
+		{
 			cre.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Serializes this text area.
@@ -1623,8 +1751,8 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * @param s The stream to write to.
 	 * @throws IOException If an IO error occurs.
 	 */
-	private void writeObject(ObjectOutputStream s) throws IOException {
-
+	private void writeObject(ObjectOutputStream s) throws IOException
+	{
 		// UndoManagers cannot be serialized without Exceptions.  See
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4275892
 		getDocument().removeUndoableEditListener(undoManager);
@@ -1632,6 +1760,9 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		getDocument().addUndoableEditListener(undoManager);
 
 	}
+	
+	
+	//
 
 
 	/**
@@ -1640,31 +1771,41 @@ public class RTextArea extends RTextAreaBase implements Printable {
 	 * is selecting text with the mouse as well.  This class also displays the
 	 * popup menu when the user right-clicks in the text area.
 	 */
-	protected class RTextAreaMutableCaretEvent extends RTAMouseListener {
+	protected class RTextAreaMutableCaretEvent
+	    extends RTAMouseListener
+	{
 
-		protected RTextAreaMutableCaretEvent(RTextArea textArea) {
+		protected RTextAreaMutableCaretEvent(RTextArea textArea)
+		{
 			super(textArea);
 		}
 
+
 		@Override
-		public void focusGained(FocusEvent e) {
+		public void focusGained(FocusEvent e)
+		{
 			Caret c = getCaret();
-			boolean enabled = c.getDot()!=c.getMark();
+			boolean enabled = c.getDot() != c.getMark();
 			cutAction.setEnabled(enabled);
 			copyAction.setEnabled(enabled);
 			undoManager.updateActions(); // To reflect this text area.
 		}
 
-		@Override
-		public void focusLost(FocusEvent e) {
-		}
 
 		@Override
-		public void mouseDragged(MouseEvent e) {
+		public void focusLost(FocusEvent e)
+		{
+		}
+
+
+		@Override
+		public void mouseDragged(MouseEvent e)
+		{
 			// WORKAROUND:  Since JTextComponent only updates the caret
 			// location on mouse clicked and released, we'll do it on dragged
 			// events when the left mouse button is clicked.
-			if ((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0) {
+			if((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0)
+			{
 				Caret caret = getCaret();
 				dot = caret.getDot();
 				mark = caret.getMark();
@@ -1672,12 +1813,16 @@ public class RTextArea extends RTextAreaBase implements Printable {
 			}
 		}
 
+
 		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) { // OS X popup triggers are on pressed
+		public void mousePressed(MouseEvent e)
+		{
+			if(e.isPopupTrigger())
+			{ // OS X popup triggers are on pressed
 				showPopup(e);
 			}
-			else if ((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0) {
+			else if((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0)
+			{
 				Caret caret = getCaret();
 				dot = caret.getDot();
 				mark = caret.getMark();
@@ -1685,12 +1830,16 @@ public class RTextArea extends RTextAreaBase implements Printable {
 			}
 		}
 
+
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
+		public void mouseReleased(MouseEvent e)
+		{
+			if(e.isPopupTrigger())
+			{
 				showPopup(e);
 			}
 		}
+
 
 		/**
 		 * Shows a popup menu with cut, copy, paste, etc. options if the
@@ -1698,16 +1847,15 @@ public class RTextArea extends RTextAreaBase implements Printable {
 		 *
 		 * @param e The mouse event that caused this method to be called.
 		 */
-		private void showPopup(MouseEvent e) {
+		private void showPopup(MouseEvent e)
+		{
 			JPopupMenu popupMenu = getPopupMenu();
-			if (popupMenu!=null) {
+			if(popupMenu != null)
+			{
 				configurePopupMenu(popupMenu);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				e.consume();
 			}
 		}
-
 	}
-
-
 }

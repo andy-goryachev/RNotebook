@@ -34,7 +34,7 @@ public class JsTableViewer
 		model.setValueAt(3, 2, 0);
 		model.setValueAt("Some Text", 3, 0);
 		model.setValueAt(5, 4, 0);
-		model.setValueAt(5, 400, 0);
+		//model.setValueAt(5, 400, 0);
 
 		// TODO alignment, data coloring
 		table = new ZTable(model);

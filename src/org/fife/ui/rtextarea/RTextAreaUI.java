@@ -7,14 +7,38 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import javax.swing.plaf.ActionMapUIResource;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.InputMapUIResource;
+import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.basic.BasicTextAreaUI;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
+import javax.swing.text.EditorKit;
+import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.Keymap;
+import javax.swing.text.PlainView;
+import javax.swing.text.View;
+import javax.swing.text.WrappedPlainView;
 
 
 /**
@@ -26,18 +50,18 @@ import javax.swing.plaf.basic.*;
  * @author Robert Futrell
  * @version 0.5
  */
-public class RTextAreaUI extends BasicTextAreaUI {
+public class RTextAreaUI
+    extends BasicTextAreaUI
+{
+	private static final String SHARED_ACTION_MAP_NAME = "RTextAreaUI.actionMap";
+	private static final String SHARED_INPUT_MAP_NAME = "RTextAreaUI.inputMap";
 
-	private static final String SHARED_ACTION_MAP_NAME	= "RTextAreaUI.actionMap";
-	private static final String SHARED_INPUT_MAP_NAME	= "RTextAreaUI.inputMap";
-
-	protected RTextArea textArea;				// The text area for which we are the UI.
+	protected RTextArea textArea; // The text area for which we are the UI.
 
 	private static final EditorKit defaultKit = new RTextAreaEditorKit();
-	private static final TransferHandler defaultTransferHandler =
-										new RTATextTransferHandler();
+	private static final TransferHandler defaultTransferHandler = new RTATextTransferHandler();
 
-	private static final String RTEXTAREA_KEYMAP_NAME	= "RTextAreaKeymap";
+	private static final String RTEXTAREA_KEYMAP_NAME = "RTextAreaKeymap";
 
 
 	/**
@@ -46,7 +70,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @param textArea A text area.
 	 * @return The UI.
 	 */
-	public static ComponentUI createUI(JComponent textArea) {
+	public static ComponentUI createUI(JComponent textArea)
+	{
 		return new RTextAreaUI(textArea);
 	}
 
@@ -58,10 +83,11 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @throws IllegalArgumentException If <code>textArea</code> is not an
 	 *         instance of <code>RTextArea</code>.
 	 */
-	public RTextAreaUI(JComponent textArea) {
-		if (!(textArea instanceof RTextArea)) {
-			throw new IllegalArgumentException("RTextAreaUI is for " +
-							 		"instances of RTextArea only!");
+	public RTextAreaUI(JComponent textArea)
+	{
+		if(!(textArea instanceof RTextArea))
+		{
+			throw new IllegalArgumentException("RTextAreaUI is for " + "instances of RTextArea only!");
 		}
 		this.textArea = (RTextArea)textArea;
 	}
@@ -76,8 +102,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 *
 	 * @param editor The text area.
 	 */
-	private void correctNimbusDefaultProblems(JTextComponent editor) {
-
+	private void correctNimbusDefaultProblems(JTextComponent editor)
+	{
 		// Don't check UIManager.getLookAndFeel().getName() for "Nimbus",
 		// as other Synth-based LaFs might have not set these properties,
 		// in which case we'll need to use our fallback values.
@@ -88,16 +114,20 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		// UIResource values, which we don't want to override.
 
 		Color c = editor.getCaretColor();
-		if (c==null) {
+		if(c == null)
+		{
 			editor.setCaretColor(RTextArea.getDefaultCaretColor());
 		}
 
 		c = editor.getSelectionColor();
-		if (c==null) {
+		if(c == null)
+		{
 			c = UIManager.getColor("nimbusSelectionBackground");
-			if (c==null) { // Not Nimbus, but still need a value - fallback
+			if(c == null)
+			{ // Not Nimbus, but still need a value - fallback
 				c = UIManager.getColor("textHighlight");
-				if (c==null) {
+				if(c == null)
+				{
 					c = new ColorUIResource(Color.BLUE);
 				}
 			}
@@ -105,11 +135,14 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		}
 
 		c = editor.getSelectedTextColor();
-		if (c==null) {
+		if(c == null)
+		{
 			c = UIManager.getColor("nimbusSelectedText");
-			if (c==null) { // Not Nimbus, but still need a value - fallback
+			if(c == null)
+			{ // Not Nimbus, but still need a value - fallback
 				c = UIManager.getColor("textHighlightText");
-				if (c==null) {
+				if(c == null)
+				{
 					c = new ColorUIResource(Color.WHITE);
 				}
 			}
@@ -117,11 +150,14 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		}
 
 		c = editor.getDisabledTextColor();
-		if (c==null) {
+		if(c == null)
+		{
 			c = UIManager.getColor("nimbusDisabledText");
-			if (c==null) { // Not Nimbus, but still need a value - fallback
+			if(c == null)
+			{ // Not Nimbus, but still need a value - fallback
 				c = UIManager.getColor("textInactiveText");
-				if (c==null) {
+				if(c == null)
+				{
 					c = new ColorUIResource(Color.DARK_GRAY);
 				}
 			}
@@ -129,15 +165,16 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		}
 
 		Border border = editor.getBorder();
-		if (border==null) {
+		if(border == null)
+		{
 			editor.setBorder(new BasicBorders.MarginBorder());
 		}
 
 		Insets margin = editor.getMargin();
-		if (margin==null) {
+		if(margin == null)
+		{
 			editor.setMargin(new InsetsUIResource(2, 2, 2, 2));
 		}
-
 	}
 
 
@@ -149,11 +186,16 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @return The view.
 	 */
 	@Override
-	public View create(Element elem) {
-		if (textArea.getLineWrap())
+	public View create(Element elem)
+	{
+		if(textArea.getLineWrap())
+		{
 			return new WrappedPlainView(elem, textArea.getWrapStyleWord());
+		}
 		else
+		{
 			return new PlainView(elem);
+		}
 	}
 
 
@@ -164,7 +206,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @return The caret.
 	 */
 	@Override
-	protected Caret createCaret() {
+	protected Caret createCaret()
+	{
 		Caret caret = new ConfigurableCaret();
 		caret.setBlinkRate(500);
 		return caret;
@@ -180,19 +223,19 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @return The keymap.
 	 */
 	@Override
-	protected Keymap createKeymap() {
-
+	protected Keymap createKeymap()
+	{
 		// Load the keymap we'll be using (it's saved by
 		// JTextComponent.addKeymap).
 		Keymap map = JTextComponent.getKeymap(RTEXTAREA_KEYMAP_NAME);
-		if (map==null) {
+		if(map == null)
+		{
 			Keymap parent = JTextComponent.getKeymap(JTextComponent.DEFAULT_KEYMAP);
 			map = JTextComponent.addKeymap(RTEXTAREA_KEYMAP_NAME, parent);
 			map.setDefaultAction(new RTextAreaEditorKit.DefaultKeyTypedAction());
 		}
 
 		return map;
-
 	}
 
 
@@ -207,29 +250,26 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 *
 	 * @return The action map.
 	 */
-	protected ActionMap createRTextAreaActionMap() {
-
+	protected ActionMap createRTextAreaActionMap()
+	{
 		// Get the actions of the text area (which in turn gets them from its
 		// DefaultEditorKit).
 		ActionMap map = new ActionMapUIResource();
 		Action[] actions = textArea.getActions();
 		int n = actions.length;
-		for (int i = 0; i < n; i++) {
+		for(int i = 0; i < n; i++)
+		{
 			Action a = actions[i];
 			map.put(a.getValue(Action.NAME), a);
 		}
 
 		// Not sure if we need these; not sure they are ever called
 		// (check their NAMEs).
-		map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-									TransferHandler.getCutAction());
-		map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-									TransferHandler.getCopyAction());
-		map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-									TransferHandler.getPasteAction());
+		map.put(TransferHandler.getCutAction().getValue(Action.NAME), TransferHandler.getCutAction());
+		map.put(TransferHandler.getCopyAction().getValue(Action.NAME), TransferHandler.getCopyAction());
+		map.put(TransferHandler.getPasteAction().getValue(Action.NAME), TransferHandler.getPasteAction());
 
 		return map;
-
 	}
 
 
@@ -240,7 +280,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 *
 	 * @return The name of the cached action map.
 	 */
-	protected String getActionMapName() {
+	protected String getActionMapName()
+	{
 		return SHARED_ACTION_MAP_NAME;
 	}
 
@@ -253,7 +294,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @see TextUI#getEditorKit
 	 */
 	@Override
-	public EditorKit getEditorKit(JTextComponent tc) {
+	public EditorKit getEditorKit(JTextComponent tc)
+	{
 		return defaultKit;
 	}
 
@@ -263,7 +305,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 *
 	 * @return The text area.
 	 */
-	public RTextArea getRTextArea() {
+	public RTextArea getRTextArea()
+	{
 		return textArea;
 	}
 
@@ -280,12 +323,13 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @return The action map.
 	 * @see #createRTextAreaActionMap()
 	 */
-	private ActionMap getRTextAreaActionMap() {
-
+	private ActionMap getRTextAreaActionMap()
+	{
 		// Get the UIManager-cached action map; if this is the first
 		// RTextArea created, create the action map and cache it.
 		ActionMap map = (ActionMap)UIManager.get(getActionMapName());
-		if (map==null) {
+		if(map == null)
+		{
 			map = createRTextAreaActionMap();
 			UIManager.put(getActionMapName(), map);
 		}
@@ -293,10 +337,11 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		ActionMap componentMap = new ActionMapUIResource();
 		componentMap.put("requestFocus", new FocusAction());
 
-		if (map != null)
+		if(map != null)
+		{
 			componentMap.setParent(map);
+		}
 		return componentMap;
-
 	}
 
 
@@ -309,10 +354,12 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * issue warnings that you are not actually overriding the original method
 	 * (since it is package-private).
 	 */
-	protected InputMap getRTextAreaInputMap() {
+	protected InputMap getRTextAreaInputMap()
+	{
 		InputMap map = new InputMapUIResource();
 		InputMap shared = (InputMap)UIManager.get(SHARED_INPUT_MAP_NAME);
-		if (shared==null) {
+		if(shared == null)
+		{
 			shared = new RTADefaultInputMap();
 			UIManager.put(SHARED_INPUT_MAP_NAME, shared);
 		}
@@ -335,9 +382,11 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @return the bounding box for the root view
 	 */
 	@Override
-	protected Rectangle getVisibleEditorRect() {
+	protected Rectangle getVisibleEditorRect()
+	{
 		Rectangle alloc = textArea.getBounds();
-		if ((alloc.width > 0) && (alloc.height > 0)) {
+		if((alloc.width > 0) && (alloc.height > 0))
+		{
 			alloc.x = alloc.y = 0;
 			Insets insets = textArea.getInsets();
 			alloc.x += insets.left;
@@ -351,8 +400,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 
 	@Override
-	protected void installDefaults() {
-
+	protected void installDefaults()
+	{
 		super.installDefaults();
 
 		JTextComponent editor = getComponent();
@@ -363,7 +412,6 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		correctNimbusDefaultProblems(editor);
 
 		editor.setTransferHandler(defaultTransferHandler);
-
 	}
 
 
@@ -371,8 +419,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void installKeyboardActions() {
-
+	protected void installKeyboardActions()
+	{
 		// NOTE: Don't call super.installKeyboardActions(), as that causes
 		// JTextAreas to stop responding to certain keystrokes if an RTextArea
 		// is the first-instantiated text area.  This is because of the code
@@ -387,20 +435,19 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 		// backward compatibility support... keymaps for the UI
 		// are now installed in the more friendly input map.
-		textArea.setKeymap(createKeymap()); 
+		textArea.setKeymap(createKeymap());
 
 		// Since BasicTextUI.getInputMap() is package-private, instead use
 		// our own version here.
 		InputMap map = getRTextAreaInputMap();
-		SwingUtilities.replaceUIInputMap(textArea,JComponent.WHEN_FOCUSED,map);
+		SwingUtilities.replaceUIInputMap(textArea, JComponent.WHEN_FOCUSED, map);
 
 		// Same thing here with action map.
 		ActionMap am = getRTextAreaActionMap();
-		if (am!=null) {
-		    SwingUtilities.replaceUIActionMap(textArea, am);
+		if(am != null)
+		{
+			SwingUtilities.replaceUIActionMap(textArea, am);
 		}
-
-
 	}
 
 
@@ -408,8 +455,10 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * Installs this UI to the given text component.
 	 */
 	@Override
-	public void installUI(JComponent c) {
-		if (!(c instanceof RTextArea)) {
+	public void installUI(JComponent c)
+	{
+		if(!(c instanceof RTextArea))
+		{
 			throw new Error("RTextAreaUI needs an instance of RTextArea!");
 		}
 		super.installUI(c);
@@ -417,15 +466,16 @@ public class RTextAreaUI extends BasicTextAreaUI {
 
 
 	@Override
-	protected void paintBackground(Graphics g) {
-
+	protected void paintBackground(Graphics g)
+	{
 		// Only fill in the background if an image isn't being used.
 		Color bg = textArea.getBackground();
-		if (bg!=null) {
+		if(bg != null)
+		{
 			g.setColor(bg);
 			//g.fillRect(0, 0, textArea.getWidth(), textArea.getHeight());
 			Rectangle r = g.getClipBounds();
-			g.fillRect(r.x,r.y, r.width,r.height);
+			g.fillRect(r.x, r.y, r.width, r.height);
 		}
 
 		Rectangle visibleRect = textArea.getVisibleRect();
@@ -433,7 +483,6 @@ public class RTextAreaUI extends BasicTextAreaUI {
 		paintLineHighlights(g);
 		paintCurrentLineHighlight(g, visibleRect);
 		paintMarginLine(g, visibleRect);
-
 	}
 
 
@@ -443,13 +492,13 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @param g The graphics context with which to paint.
 	 * @param visibleRect The visible rectangle of the text area.
 	 */
-	protected void paintCurrentLineHighlight(Graphics g, Rectangle visibleRect) {
-
-		if (textArea.getHighlightCurrentLine()) {
-
+	protected void paintCurrentLineHighlight(Graphics g, Rectangle visibleRect)
+	{
+		if(textArea.getHighlightCurrentLine())
+		{
 			Caret caret = textArea.getCaret();
-			if (caret.getDot()==caret.getMark()) {
-
+			if(caret.getDot() == caret.getMark())
+			{
 				Color highlight = textArea.getCurrentLineHighlightColor();
 				// NOTE:  We use the getLineHeight() method below instead
 				// of currentCaretRect.height because of a bug where
@@ -460,27 +509,21 @@ public class RTextAreaUI extends BasicTextAreaUI {
 				//int height = textArea.currentCaretRect.height);
 				int height = textArea.getLineHeight();
 
-				if (textArea.getFadeCurrentLineHighlight()) {
+				if(textArea.getFadeCurrentLineHighlight())
+				{
 					Graphics2D g2d = (Graphics2D)g;
 					Color bg = textArea.getBackground();
-					GradientPaint paint = new GradientPaint(
-						visibleRect.x,0, highlight,
-						visibleRect.x+visibleRect.width,0,
-								bg==null ? Color.WHITE : bg);
+					GradientPaint paint = new GradientPaint(visibleRect.x, 0, highlight, visibleRect.x + visibleRect.width, 0, bg == null ? Color.WHITE : bg);
 					g2d.setPaint(paint);
-					g2d.fillRect(visibleRect.x,textArea.currentCaretY,
-									visibleRect.width, height);
+					g2d.fillRect(visibleRect.x, textArea.currentCaretY, visibleRect.width, height);
 				}
-				else {
+				else
+				{
 					g.setColor(highlight);
-					g.fillRect(visibleRect.x,textArea.currentCaretY,
-									visibleRect.width, height);
+					g.fillRect(visibleRect.x, textArea.currentCaretY, visibleRect.width, height);
 				}
-
 			}
-
 		}
-
 	}
 
 
@@ -489,9 +532,11 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 *
 	 * @param g The graphics context.
 	 */
-	protected void paintLineHighlights(Graphics g) {
+	protected void paintLineHighlights(Graphics g)
+	{
 		LineHighlightManager lhm = textArea.getLineHighlightManager();
-		if (lhm!=null) {
+		if(lhm != null)
+		{
 			lhm.paintLineHighlights(g);
 		}
 	}
@@ -503,14 +548,14 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @param g The graphics context to paint with.
 	 * @param visibleRect The visible rectangle of this text area.
 	 */
-	protected void paintMarginLine(Graphics g, Rectangle visibleRect) {
-		if (textArea.isMarginLineEnabled()) {
+	protected void paintMarginLine(Graphics g, Rectangle visibleRect)
+	{
+		if(textArea.isMarginLineEnabled())
+		{
 			g.setColor(textArea.getMarginLineColor());
 			Insets insets = textArea.getInsets();
-			int marginLineX = textArea.getMarginLinePixelLocation() +
-							(insets==null ? 0 : insets.left);
-			g.drawLine(marginLineX,visibleRect.y,
-						marginLineX,visibleRect.y+visibleRect.height);
+			int marginLineX = textArea.getMarginLinePixelLocation() + (insets == null ? 0 : insets.left);
+			g.drawLine(marginLineX, visibleRect.y, marginLineX, visibleRect.y + visibleRect.height);
 		}
 	}
 
@@ -536,7 +581,8 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @throws BadLocationException If <code>line</code> isn't a valid line
 	 *         number for this document.
 	 */
-	public int yForLine(int line) throws BadLocationException {
+	public int yForLine(int line) throws BadLocationException
+	{
 		int startOffs = textArea.getLineStartOffset(line);
 		return yForLineContaining(startOffs);
 	}
@@ -564,27 +610,29 @@ public class RTextAreaUI extends BasicTextAreaUI {
 	 * @throws BadLocationException If <code>offs</code> isn't a valid offset
 	 *         into the document.
 	 */
-	public int yForLineContaining(int offs) throws BadLocationException {
+	public int yForLineContaining(int offs) throws BadLocationException
+	{
 		Rectangle r = modelToView(textArea, offs);
-		return r!=null ? r.y : -1;
+		return r != null ? r.y : -1;
 	}
 
 
 	/**
 	 * Registered in the ActionMap.
 	 */
-	class FocusAction extends AbstractAction {
-
-		public void actionPerformed(ActionEvent e) {
+	class FocusAction
+	    extends AbstractAction
+	{
+		public void actionPerformed(ActionEvent e)
+		{
 			textArea.requestFocus();
 		}
 
+
 		@Override
-		public boolean isEnabled() {
+		public boolean isEnabled()
+		{
 			return textArea.isEditable();
 		}
-
 	}
-
-
 }

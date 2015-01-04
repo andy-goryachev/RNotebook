@@ -346,10 +346,13 @@ public class NotebookPanel
 	{
 		if(t != null)
 		{
-			String text = activeCell.getText();
-			CellPanel p = CellPanel.create(t, text, null);
-			
-			replace(activeCell, p);
+			if(activeCell != null)
+			{
+				String text = activeCell.getText();
+				CellPanel p = CellPanel.create(t, text, null);
+				
+				replace(activeCell, p);
+			}
 		}
 	}
 	

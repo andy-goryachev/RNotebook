@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Font;
@@ -42,42 +41,41 @@ import javax.swing.text.StyleContext;
  * @author Robert Futrell
  * @version 0.8
  */
-public abstract class RTextAreaBase extends JTextArea {
+public abstract class RTextAreaBase
+    extends JTextArea
+{
+	public static final String BACKGROUND_IMAGE_PROPERTY = "background.image";
+	public static final String CURRENT_LINE_HIGHLIGHT_COLOR_PROPERTY = "RTA.currentLineHighlightColor";
+	public static final String CURRENT_LINE_HIGHLIGHT_FADE_PROPERTY = "RTA.currentLineHighlightFade";
+	public static final String HIGHLIGHT_CURRENT_LINE_PROPERTY = "RTA.currentLineHighlight";
+	public static final String ROUNDED_SELECTION_PROPERTY = "RTA.roundedSelection";
 
-	public static final String BACKGROUND_IMAGE_PROPERTY			= "background.image";
-	public static final String CURRENT_LINE_HIGHLIGHT_COLOR_PROPERTY	= "RTA.currentLineHighlightColor";
-	public static final String CURRENT_LINE_HIGHLIGHT_FADE_PROPERTY	= "RTA.currentLineHighlightFade";
-	public static final String HIGHLIGHT_CURRENT_LINE_PROPERTY		= "RTA.currentLineHighlight";
-	public static final String ROUNDED_SELECTION_PROPERTY			= "RTA.roundedSelection";
-
-	private boolean tabsEmulatedWithSpaces;		// If true, tabs will be expanded to spaces.
-
-	private boolean highlightCurrentLine;		// If true, the current line is highlighted.
-	private Color currentLineColor;			// The color used to highlight the current line.
-	private boolean marginLineEnabled;			// If true, paint a "margin line."
-	private Color marginLineColor;			// The color used to paint the margin line.
-	private int marginLineX;				// The x-location of the margin line.
-	private int marginSizeInChars;			// How many 'm' widths the margin line is over.
-	private boolean fadeCurrentLineHighlight;	// "Fade effect" for current line highlight.
+	private boolean tabsEmulatedWithSpaces; // If true, tabs will be expanded to spaces.
+	private boolean highlightCurrentLine; // If true, the current line is highlighted.
+	private Color currentLineColor; // The color used to highlight the current line.
+	private boolean marginLineEnabled; // If true, paint a "margin line."
+	private Color marginLineColor; // The color used to paint the margin line.
+	private int marginLineX; // The x-location of the margin line.
+	private int marginSizeInChars; // How many 'm' widths the margin line is over.
+	private boolean fadeCurrentLineHighlight; // "Fade effect" for current line highlight.
 	private boolean roundedSelectionEdges;
 	private int previousCaretY;
-int currentCaretY;							// Used to know when to rehighlight current line.
-
-	private BackgroundPainterStrategy backgroundPainter;	// Paints the background.
-
+	protected int currentCaretY; // Used to know when to rehighlight current line.
+	private BackgroundPainterStrategy backgroundPainter; // Paints the background.
 	private RTAMouseListener mouseListener;
 
-	private static final Color DEFAULT_CARET_COLOR				= new ColorUIResource(255,51,51);
-	private static final Color DEFAULT_CURRENT_LINE_HIGHLIGHT_COLOR	= new Color(255,255,170);
-	private static final Color DEFAULT_MARGIN_LINE_COLOR			= new Color(255,224,224);
-	private static final int DEFAULT_TAB_SIZE					= 4;
-	private static final int DEFAULT_MARGIN_LINE_POSITION			= 80;
+	private static final Color DEFAULT_CARET_COLOR = new ColorUIResource(255, 51, 51);
+	private static final Color DEFAULT_CURRENT_LINE_HIGHLIGHT_COLOR = new Color(255, 255, 170);
+	private static final Color DEFAULT_MARGIN_LINE_COLOR = new Color(255, 224, 224);
+	private static final int DEFAULT_TAB_SIZE = 4;
+	private static final int DEFAULT_MARGIN_LINE_POSITION = 80;
 
 
 	/**
 	 * Constructor.
 	 */
-	public RTextAreaBase() {
+	public RTextAreaBase()
+	{
 		init();
 	}
 
@@ -87,7 +85,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @param doc The document for the editor.
 	 */
-	public RTextAreaBase(AbstractDocument doc) {
+	public RTextAreaBase(AbstractDocument doc)
+	{
 		super(doc);
 		init();
 	}
@@ -98,7 +97,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @param text The initial text to display.
 	 */
-	public RTextAreaBase(String text) {
+	public RTextAreaBase(String text)
+	{
 		// Don't call super(text) to avoid NPE due to our funky RTextAreaUI...
 		init();
 		setText(text);
@@ -113,7 +113,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextAreaBase(int rows, int cols) {
+	public RTextAreaBase(int rows, int cols)
+	{
 		super(rows, cols);
 		init();
 	}
@@ -128,7 +129,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextAreaBase(String text, int rows, int cols) {
+	public RTextAreaBase(String text, int rows, int cols)
+	{
 		// Don't call this super() due to NPE from our funky RTextAreaUI...
 		//super(text, rows, cols);
 		super(rows, cols);
@@ -147,8 +149,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @throws IllegalArgumentException If either <code>rows</code> or
 	 *         <code>cols</code> is negative.
 	 */
-	public RTextAreaBase(AbstractDocument doc, String text, int rows,
-							int cols) {
+	public RTextAreaBase(AbstractDocument doc, String text, int rows, int cols)
+	{
 		// Don't call super() with text due to NPE from our funky RTextAreaUI...
 		super(doc, null/*text*/, rows, cols);
 		init();
@@ -162,42 +164,54 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * apparent difference between the JRE 1.4.2 and 1.5.0 (needed on 1.4.2,
 	 * not needed on 1.5.0).
 	 */
-	private void addCurrentLineHighlightListeners() {
+	private void addCurrentLineHighlightListeners()
+	{
 		boolean add = true;
 		MouseMotionListener[] mouseMotionListeners = getMouseMotionListeners();
-		for (int i=0; i<mouseMotionListeners.length; i++) {
-			if (mouseMotionListeners[i]==mouseListener) {
+		for(int i = 0; i < mouseMotionListeners.length; i++)
+		{
+			if(mouseMotionListeners[i] == mouseListener)
+			{
 				add = false;
 				break;
 			}
 		}
-		if (add==true) {
+		if(add == true)
+		{
 			//System.err.println("Adding mouse motion listener!");
 			addMouseMotionListener(mouseListener);
 		}
 		MouseListener[] mouseListeners = getMouseListeners();
-		for (int i=0; i<mouseListeners.length; i++) {
-			if (mouseListeners[i]==mouseListener) {
+		for(int i = 0; i < mouseListeners.length; i++)
+		{
+			if(mouseListeners[i] == mouseListener)
+			{
 				add = false;
 				break;
 			}
 		}
-		if (add==true) {
+		if(add == true)
+		{
 			//System.err.println("Adding mouse listener!");
 			addMouseListener(mouseListener);
 		}
 	}
 
+
 	@Override
-	public void addNotify() {
+	public void addNotify()
+	{
 		super.addNotify();
+		
 		// If the caret is not on the first line, we must recalculate the line
 		// highlight y-offset after the text area is sized.  This seems to be
 		// the best way to do it.
-		if (getCaretPosition() != 0) {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					System.out.println("Yo");
+		if(getCaretPosition() != 0)
+		{
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run()
+				{
 					possiblyUpdateCurrentLineHighlightLocation();
 				}
 			});
@@ -208,9 +222,9 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	/*
 	 * TODO: Figure out why RTextArea doesn't work with RTL orientation!
 	 */
-//	public void applyComponentOrientation(ComponentOrientation orientation) {
-//		super.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-//	}
+	//	public void applyComponentOrientation(ComponentOrientation orientation) {
+	//		super.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+	//	}
 
 
 	/**
@@ -221,8 +235,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getTabsEmulated
 	 * @see #setTabsEmulated
 	 */
-	public void convertSpacesToTabs() {
-
+	public void convertSpacesToTabs()
+	{
 		// FIXME:  This is inefficient and will yield an OutOfMemoryError if
 		// done on a large document.  We should scan 1 line at a time and
 		// replace; it'll be slower but safer.
@@ -230,17 +244,24 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		int caretPosition = getCaretPosition();
 		int tabSize = getTabSize();
 		String tabInSpaces = "";
-		for (int i=0; i<tabSize; i++)
+		for(int i = 0; i < tabSize; i++)
+		{
 			tabInSpaces += " ";
+		}
+		
 		String text = getText();
 		setText(text.replaceAll(tabInSpaces, "\t"));
 		int newDocumentLength = getDocument().getLength();
 
 		// Place the caret back in its proper position.
-		if (caretPosition<newDocumentLength)
+		if(caretPosition < newDocumentLength)
+		{
 			setCaretPosition(caretPosition);
+		}
 		else
-			setCaretPosition(newDocumentLength-1);
+		{
+			setCaretPosition(newDocumentLength - 1);
+		}
 
 	}
 
@@ -253,7 +274,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getTabsEmulated
 	 * @see #setTabsEmulated
 	 */
-	public void convertTabsToSpaces() {
+	public void convertTabsToSpaces()
+	{
 
 		// FIXME:  This is inefficient and will yield an OutOfMemoryError if
 		// done on a large document.  We should scan 1 line at a time and
@@ -262,7 +284,7 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		int caretPosition = getCaretPosition();
 		int tabSize = getTabSize();
 		StringBuilder tabInSpaces = new StringBuilder();
-		for (int i=0; i<tabSize; i++)
+		for(int i = 0; i < tabSize; i++)
 			tabInSpaces.append(' ');
 		String text = getText();
 		setText(text.replaceAll("\t", tabInSpaces.toString()));
@@ -299,10 +321,12 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * word wrap is toggled and when syntax styles are changed in an
 	 * <code>RSyntaxTextArea</code>.
 	 */
-	protected void forceCurrentLineHighlightRepaint() {
+	protected void forceCurrentLineHighlightRepaint()
+	{
 		// Check isShowing() to prevent BadLocationException
 		// in constructor if linewrap is set to true.
-		if (isShowing()) {
+		if(isShowing())
+		{
 			// Changing previousCaretY makes us sure to get a repaint.
 			previousCaretY = -1;
 			// Trick it into checking for the need to repaint by firing
@@ -321,10 +345,12 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *         is currently the background.
 	 */
 	@Override
-	public final Color getBackground() {
+	public final Color getBackground()
+	{
 		Object bg = getBackgroundObject();
 		return (bg instanceof Color) ? (Color)bg : null;
 	}
+
 
 	/**
 	 * Returns the image currently used for the background.
@@ -335,7 +361,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *         <code>null</code> if the background is not an image.
 	 * @see #setBackgroundImage
 	 */
-	public final Image getBackgroundImage() {
+	public final Image getBackgroundImage()
+	{
 		Object bg = getBackgroundObject();
 		return (bg instanceof Image) ? (Image)bg : null;
 	}
@@ -350,14 +377,13 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return The <code>Object</code> used for the background.
 	 * @see #setBackgroundObject(Object newBackground)
 	 */
-	public final Object getBackgroundObject() {
-		if (backgroundPainter==null)
+	public final Object getBackgroundObject()
+	{
+		if(backgroundPainter == null)
+		{
 			return null;
-		return (backgroundPainter instanceof ImageBackgroundPainterStrategy) ?
-			(Object)((ImageBackgroundPainterStrategy)backgroundPainter).
-					getMasterImage() :
-			(Object)((ColorBackgroundPainterStrategy)backgroundPainter).
-					getColor();
+		}
+		return (backgroundPainter instanceof ImageBackgroundPainterStrategy) ? (Object)((ImageBackgroundPainterStrategy)backgroundPainter).getMasterImage() : (Object)((ColorBackgroundPainterStrategy)backgroundPainter).getColor();
 	}
 
 
@@ -366,10 +392,14 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The zero-based line number that the caret is on.
 	 */
-	public final int getCaretLineNumber() {
-		try {
+	public final int getCaretLineNumber()
+	{
+		try
+		{
 			return getLineOfOffset(getCaretPosition());
-		} catch (BadLocationException ble) {
+		}
+		catch(BadLocationException ble)
+		{
 			return 0; // Never happens
 		}
 	}
@@ -382,11 +412,15 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return The zero-based position from the beginning of the current line
 	 *         that the caret is on.
 	 */
-	public final int getCaretOffsetFromLineStart() {
-		try {
+	public final int getCaretOffsetFromLineStart()
+	{
+		try
+		{
 			int pos = getCaretPosition();
 			return pos - getLineStartOffset(getLineOfOffset(pos));
-		} catch (BadLocationException ble) {
+		}
+		catch(BadLocationException ble)
+		{
 			return 0; // Never happens
 		}
 	}
@@ -402,7 +436,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #setHighlightCurrentLine(boolean)
 	 * @see #setCurrentLineHighlightColor
 	 */
-	public Color getCurrentLineHighlightColor() {
+	public Color getCurrentLineHighlightColor()
+	{
 		return currentLineColor;
 	}
 
@@ -412,7 +447,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The default caret color.
 	 */
-	public static final Color getDefaultCaretColor() {
+	public static final Color getDefaultCaretColor()
+	{
 		return DEFAULT_CARET_COLOR;
 	}
 
@@ -424,7 +460,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The default color for highlighting the current line.
 	 */
-	public static final Color getDefaultCurrentLineHighlightColor() {
+	public static final Color getDefaultCurrentLineHighlightColor()
+	{
 		return DEFAULT_CURRENT_LINE_HIGHLIGHT_COLOR;
 	}
 
@@ -434,35 +471,39 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The default font.
 	 */
-	public static final Font getDefaultFont() {
-
+	public static final Font getDefaultFont()
+	{
 		// Use StyleContext to get a composite font for better Asian language
 		// support; see Sun bug S282887.
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		Font font = null;
 
-		if (isOSX()) {
+		if(isOSX())
+		{
 			// Snow Leopard (1.6) uses Menlo as default monospaced font,
 			// pre-Snow Leopard used Monaco.
 			font = sc.getFont("Menlo", Font.PLAIN, 12);
-			if (!"Menlo".equals(font.getFamily())) {
+			if(!"Menlo".equals(font.getFamily()))
+			{
 				font = sc.getFont("Monaco", Font.PLAIN, 12);
-				if (!"Monaco".equals(font.getFamily())) { // Shouldn't happen
+				if(!"Monaco".equals(font.getFamily()))
+				{ 
+					// Shouldn't happen
 					font = sc.getFont("Monospaced", Font.PLAIN, 13);
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Consolas added in Vista, used by VS2010+.
 			font = sc.getFont("Consolas", Font.PLAIN, 13);
-			if (!"Consolas".equals(font.getFamily())) {
+			if(!"Consolas".equals(font.getFamily()))
+			{
 				font = sc.getFont("Monospaced", Font.PLAIN, 13);
 			}
 		}
 
-		//System.out.println(font.getFamily() + ", " + font.getName());
 		return font;
-
 	}
 
 
@@ -471,7 +512,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The default foreground color.
 	 */
-	public static final Color getDefaultForeground() {
+	public static final Color getDefaultForeground()
+	{
 		return Color.BLACK;
 	}
 
@@ -483,7 +525,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getMarginLineColor()
 	 * @see #setMarginLineColor(Color)
 	 */
-	public static final Color getDefaultMarginLineColor() {
+	public static final Color getDefaultMarginLineColor()
+	{
 		return DEFAULT_MARGIN_LINE_COLOR;
 	}
 
@@ -495,7 +538,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getMarginLinePosition
 	 * @see #setMarginLinePosition
 	 */
-	public static final int getDefaultMarginLinePosition() {
+	public static final int getDefaultMarginLinePosition()
+	{
 		return DEFAULT_MARGIN_LINE_POSITION;
 	}
 
@@ -505,7 +549,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The default tab size.
 	 */
-	public static final int getDefaultTabSize() {
+	public static final int getDefaultTabSize()
+	{
 		return DEFAULT_TAB_SIZE;
 	}
 
@@ -516,7 +561,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return Whether the current line highlight is faded.
 	 * @see #setFadeCurrentLineHighlight
 	 */
-	public boolean getFadeCurrentLineHighlight() {
+	public boolean getFadeCurrentLineHighlight()
+	{
 		return fadeCurrentLineHighlight;
 	}
 
@@ -529,7 +575,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getCurrentLineHighlightColor
 	 * @see #setCurrentLineHighlightColor
 	 */
-	public boolean getHighlightCurrentLine() {
+	public boolean getHighlightCurrentLine()
+	{
 		return highlightCurrentLine;
 	}
 
@@ -540,10 +587,14 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The last offset of the line that the caret is currently on.
 	 */
-	public final int getLineEndOffsetOfCurrentLine() {
-		try {
+	public final int getLineEndOffsetOfCurrentLine()
+	{
+		try
+		{
 			return getLineEndOffset(getCaretLineNumber());
-		} catch (BadLocationException ble) {
+		}
+		catch(BadLocationException ble)
+		{
 			return 0; // Never happens
 		}
 	}
@@ -554,7 +605,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The height of a line of text.
 	 */
-	public int getLineHeight() {
+	public int getLineHeight()
+	{
 		return getRowHeight();
 	}
 
@@ -565,10 +617,14 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return The first offset of the line that the caret is currently on.
 	 */
-	public final int getLineStartOffsetOfCurrentLine() {
-		try {
+	public final int getLineStartOffsetOfCurrentLine()
+	{
+		try
+		{
 			return getLineStartOffset(getCaretLineNumber());
-		} catch (BadLocationException ble) {
+		}
+		catch(BadLocationException ble)
+		{
 			return 0; // Never happens
 		}
 	}
@@ -580,7 +636,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return The margin line color.
 	 * @see #setMarginLineColor(Color)
 	 */
-	public Color getMarginLineColor() {
+	public Color getMarginLineColor()
+	{
 		return marginLineColor;
 	}
 
@@ -593,7 +650,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getDefaultMarginLinePosition
 	 * @see #setMarginLinePosition
 	 */
-	public int getMarginLinePixelLocation() {
+	public int getMarginLinePixelLocation()
+	{
 		return marginLineX;
 	}
 
@@ -606,7 +664,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @see #getDefaultMarginLinePosition
 	 * @see #setMarginLinePosition
 	 */
-	public int getMarginLinePosition() {
+	public int getMarginLinePosition()
+	{
 		return marginSizeInChars;
 	}
 
@@ -617,7 +676,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return Whether selection edges are rounded.
 	 * @see #setRoundedSelectionEdges(boolean)
 	 */
-	public boolean getRoundedSelectionEdges() {
+	public boolean getRoundedSelectionEdges()
+	{
 		return roundedSelectionEdges;
 	}
 
@@ -630,7 +690,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *         <code>false</code> if they aren't.
 	 * @see #setTabsEmulated
 	 */
-	public boolean getTabsEmulated() {
+	public boolean getTabsEmulated()
+	{
 		return tabsEmulatedWithSpaces;
 	}
 
@@ -638,8 +699,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	/**
 	 * Initializes this text area.
 	 */
-	protected void init() {
-
+	protected void init()
+	{
 		// Sets the UI.  Note that setUI() is overridden in RTextArea to only
 		// update the popup menu; this method must be called to set the real
 		// UI.  This is done because the look and feel of an RTextArea is
@@ -647,7 +708,7 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		setRTextAreaUI(createRTextAreaUI());
 
 		// So we get notified when the component is resized.
-		enableEvents(AWTEvent.COMPONENT_EVENT_MASK|AWTEvent.KEY_EVENT_MASK);
+		enableEvents(AWTEvent.COMPONENT_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
 
 		// Defaults for various properties.
 		setHighlightCurrentLine(true);
@@ -680,7 +741,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @return Whether or not the margin line is being painted.
 	 * @see #setMarginLineEnabled
 	 */
-	public boolean isMarginLineEnabled() {
+	public boolean isMarginLineEnabled()
+	{
 		return marginLineEnabled;
 	}
 
@@ -690,7 +752,8 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 *
 	 * @return Whether the OS we're running on is OS X.
 	 */
-	public static boolean isOSX() {
+	public static boolean isOSX()
+	{
 		// Recommended at:
 		// http://developer.apple.com/mac/library/technotes/tn2002/tn2110.html
 		String osName = System.getProperty("os.name").toLowerCase();
@@ -704,35 +767,33 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 	 * @param g The graphics context with which to paint.
 	 */
 	@Override
-	protected void paintComponent(Graphics g) {
-
-		//long startTime = System.currentTimeMillis();
-
+	protected void paintComponent(Graphics g)
+	{
 		backgroundPainter.paint(g, getVisibleRect());
 
 		// Paint the main part of the text area.
 		TextUI ui = getUI();
-		if (ui != null) {
+		if(ui != null)
+		{
 			// Not allowed to modify g, so make a copy.
 			Graphics scratchGraphics = g.create();
-			try {
+			try
+			{
 				ui.update(scratchGraphics, this);
-			} finally {
+			}
+			finally
+			{
 				scratchGraphics.dispose();
 			}
 		}
-
-		//long endTime = System.currentTimeMillis();
-		//System.err.println(endTime-startTime);
-
 	}
 
 
 	/**
 	 * Updates the current line highlight location.
 	 */
-	public void possiblyUpdateCurrentLineHighlightLocation() {
-
+	public void possiblyUpdateCurrentLineHighlightLocation()
+	{
 		int width = getWidth();
 		int lineHeight = getLineHeight();
 		int dot = getCaretPosition();
@@ -740,49 +801,59 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		// If we're wrapping lines we need to check the actual y-coordinate
 		// of the caret, not just the line number, since a single logical
 		// line can span multiple physical lines.
-		if (getLineWrap()) {
-			try {
+		if(getLineWrap())
+		{
+			try
+			{
 				Rectangle temp = modelToView(dot);
-				if (temp!=null) {
+				if(temp != null)
+				{
 					currentCaretY = temp.y;
 				}
-			} catch (BadLocationException ble) {
+			}
+			catch(BadLocationException ble)
+			{
 				ble.printStackTrace(); // Should never happen.
 			}
 		}
 
 		// No line wrap - we can simply check the line number (quicker).
-		else {
-//			Document doc = getDocument();
-//			if (doc!=null) {
-//				Element map = doc.getDefaultRootElement();
-//				int caretLine = map.getElementIndex(dot);
-//				Rectangle alloc = ((RTextAreaUI)getUI()).
-//											getVisibleEditorRect();
-//				if (alloc!=null)
-//					currentCaretY = alloc.y + caretLine*lineHeight;
-//			}
-// Modified for code folding requirements
-try {
-	Rectangle temp = modelToView(dot);
-	if (temp!=null) {
-		currentCaretY = temp.y;
-	}
-} catch (BadLocationException ble) {
-	ble.printStackTrace(); // Should never happen.
-}
+		else
+		{
+			//			Document doc = getDocument();
+			//			if (doc!=null) {
+			//				Element map = doc.getDefaultRootElement();
+			//				int caretLine = map.getElementIndex(dot);
+			//				Rectangle alloc = ((RTextAreaUI)getUI()).
+			//											getVisibleEditorRect();
+			//				if (alloc!=null)
+			//					currentCaretY = alloc.y + caretLine*lineHeight;
+			//			}
+			// Modified for code folding requirements
+			try
+			{
+				Rectangle temp = modelToView(dot);
+				if(temp != null)
+				{
+					currentCaretY = temp.y;
+				}
+			}
+			catch(BadLocationException ble)
+			{
+				ble.printStackTrace(); // Should never happen.
+			}
 		}
 
 		// Repaint current line (to fill in entire highlight), and old line
 		// (to erase entire old highlight) if necessary.  Always repaint
 		// current line in case selection is added or removed.
-		repaint(0,currentCaretY, width,lineHeight);
-		if (previousCaretY!=currentCaretY) {
-			repaint(0,previousCaretY, width,lineHeight);
+		repaint(0, currentCaretY, width, lineHeight);
+		if(previousCaretY != currentCaretY)
+		{
+			repaint(0, previousCaretY, width, lineHeight);
 		}
 
 		previousCaretY = currentCaretY;
-
 	}
 
 
@@ -795,20 +866,19 @@ try {
 	 *        <code>ComponentListener</code>s.
 	 */
 	@Override
-	protected void processComponentEvent(ComponentEvent e) {
-
+	protected void processComponentEvent(ComponentEvent e)
+	{
 		// In line wrap mode, resizing the text area means that the caret's
 		// "line" could change - not to a different logical line, but a
 		// different physical one.  So, here we force a repaint of the current
 		// line's highlight if necessary.
-		if (e.getID()==ComponentEvent.COMPONENT_RESIZED &&
-				getLineWrap()==true && getHighlightCurrentLine()) {
-			previousCaretY = -1;  // So we are sure to repaint.
+		if(e.getID() == ComponentEvent.COMPONENT_RESIZED && getLineWrap() == true && getHighlightCurrentLine())
+		{
+			previousCaretY = -1; // So we are sure to repaint.
 			fireCaretUpdate(mouseListener);
 		}
 
 		super.processComponentEvent(e);
-
 	}
 
 
@@ -829,13 +899,17 @@ try {
 	 * @param bg The color to use as the background color.
 	 */
 	@Override
-	public void setBackground(Color bg) {
+	public void setBackground(Color bg)
+	{
 		Object oldBG = getBackgroundObject();
-		if (oldBG instanceof Color) { // Just change color of strategy.
-			((ColorBackgroundPainterStrategy)backgroundPainter).
-						setColor(bg);
+		if(oldBG instanceof Color)
+		{ 
+			// Just change color of strategy.
+			((ColorBackgroundPainterStrategy)backgroundPainter).setColor(bg);
 		}
-		else { // Was an image painter...
+		else
+		{ 
+			// Was an image painter...
 			backgroundPainter = new ColorBackgroundPainterStrategy(bg);
 		}
 		setOpaque(true);
@@ -861,15 +935,18 @@ try {
 	 * @param image The image to use as this text area's background.
 	 * @see #getBackgroundImage
 	 */
-	public void setBackgroundImage(Image image) {
+	public void setBackgroundImage(Image image)
+	{
 		Object oldBG = getBackgroundObject();
-		if (oldBG instanceof Image) { // Just change image being displayed.
-			((ImageBackgroundPainterStrategy)backgroundPainter).
-					setImage(image);
+		if(oldBG instanceof Image)
+		{ 
+			// Just change image being displayed.
+			((ImageBackgroundPainterStrategy)backgroundPainter).setImage(image);
 		}
-		else { // Was a color strategy...
-			ImageBackgroundPainterStrategy strategy =
-				new BufferedImageBackgroundPainterStrategy(this);
+		else
+		{ 
+			// Was a color strategy...
+			ImageBackgroundPainterStrategy strategy = new BufferedImageBackgroundPainterStrategy(this);
 			strategy.setImage(image);
 			backgroundPainter = strategy;
 		}
@@ -886,17 +963,20 @@ try {
 	 *        <code>java.awt.Image</code> object. If <code>newBackground</code>
 	 *        is not either of these, the background is set to plain white.
 	 */
-	public void setBackgroundObject(Object newBackground) {
-		if (newBackground instanceof Color) {
+	public void setBackgroundObject(Object newBackground)
+	{
+		if(newBackground instanceof Color)
+		{
 			setBackground((Color)newBackground);
 		}
-		else if (newBackground instanceof Image) {
+		else if(newBackground instanceof Image)
+		{
 			setBackgroundImage((Image)newBackground);
 		}
-		else {
+		else
+		{
 			setBackground(Color.WHITE);
 		}
-
 	}
 
 
@@ -904,12 +984,12 @@ try {
 	 * TODO: Figure out why RTextArea doesn't work with RTL (e.g. Arabic)
 	 * and fix it!
 	 */
-//	public void setComponentOrientation(ComponentOrientation o) {
-//		if (!o.isLeftToRight()) {
-//			o = ComponentOrientation.LEFT_TO_RIGHT;
-//		}
-//		super.setComponentOrientation(o);
-//	}
+	//	public void setComponentOrientation(ComponentOrientation o) {
+	//		if (!o.isLeftToRight()) {
+	//			o = ComponentOrientation.LEFT_TO_RIGHT;
+	//		}
+	//		super.setComponentOrientation(o);
+	//	}
 
 
 	/**
@@ -924,14 +1004,18 @@ try {
 	 * @see #setHighlightCurrentLine(boolean)
 	 * @see #getCurrentLineHighlightColor
 	 */
-	public void setCurrentLineHighlightColor(Color color) {
-		if (color==null)
+	public void setCurrentLineHighlightColor(Color color)
+	{
+		if(color == null)
+		{
 			throw new NullPointerException();
-		if (!color.equals(currentLineColor)) {
+		}
+		
+		if(!color.equals(currentLineColor))
+		{
 			Color old = currentLineColor;
 			currentLineColor = color;
-			firePropertyChange(CURRENT_LINE_HIGHLIGHT_COLOR_PROPERTY,
-							old, color);
+			firePropertyChange(CURRENT_LINE_HIGHLIGHT_COLOR_PROPERTY, old, color);
 		}
 	}
 
@@ -944,13 +1028,16 @@ try {
 	 * @param fade Whether the fade effect should be enabled.
 	 * @see #getFadeCurrentLineHighlight
 	 */
-	public void setFadeCurrentLineHighlight(boolean fade) {
-		if (fade!=fadeCurrentLineHighlight) {
+	public void setFadeCurrentLineHighlight(boolean fade)
+	{
+		if(fade != fadeCurrentLineHighlight)
+		{
 			fadeCurrentLineHighlight = fade;
-			if (getHighlightCurrentLine())
+			if(getHighlightCurrentLine())
+			{
 				forceCurrentLineHighlightRepaint();
-			firePropertyChange(CURRENT_LINE_HIGHLIGHT_FADE_PROPERTY,
-							!fade, fade);
+			}
+			firePropertyChange(CURRENT_LINE_HIGHLIGHT_FADE_PROPERTY, !fade, fade);
 		}
 	}
 
@@ -963,15 +1050,22 @@ try {
 	 * @param font The font to use for this text component.
 	 */
 	@Override
-	public void setFont(Font font) {
-		if (font!=null && font.getSize()<=0) {
+	public void setFont(Font font)
+	{
+		if(font != null && font.getSize() <= 0)
+		{
 			throw new IllegalArgumentException("Font size must be > 0");
 		}
+		
 		super.setFont(font);
-		if (font!=null) {
+		
+		if(font != null)
+		{
 			updateMarginLineX();
-			if (highlightCurrentLine)
+			if(highlightCurrentLine)
+			{
 				possiblyUpdateCurrentLineHighlightLocation();
+			}
 		}
 	}
 
@@ -985,11 +1079,12 @@ try {
 	 * @see #getCurrentLineHighlightColor
 	 * @see #setCurrentLineHighlightColor
 	 */
-	public void setHighlightCurrentLine(boolean highlight) {
-		if (highlight!=highlightCurrentLine) {
+	public void setHighlightCurrentLine(boolean highlight)
+	{
+		if(highlight != highlightCurrentLine)
+		{
 			highlightCurrentLine = highlight;
-			firePropertyChange(HIGHLIGHT_CURRENT_LINE_PROPERTY,
-							!highlight, highlight);
+			firePropertyChange(HIGHLIGHT_CURRENT_LINE_PROPERTY, !highlight, highlight);
 			repaint(); // Repaint entire width of line.
 		}
 	}
@@ -1002,7 +1097,8 @@ try {
 	 * @param wrap Whether or not word wrap should be enabled.
 	 */
 	@Override
-	public void setLineWrap(boolean wrap) {
+	public void setLineWrap(boolean wrap)
+	{
 		super.setLineWrap(wrap);
 		forceCurrentLineHighlightRepaint();
 	}
@@ -1014,11 +1110,13 @@ try {
 	 * @param insets The new insets.
 	 */
 	@Override
-	public void setMargin(Insets insets) {
+	public void setMargin(Insets insets)
+	{
 		Insets old = getInsets();
-		int oldTop = old!=null ? old.top : 0;
-		int newTop = insets!=null ? insets.top : 0;
-		if (oldTop!=newTop) {
+		int oldTop = old != null ? old.top : 0;
+		int newTop = insets != null ? insets.top : 0;
+		if(oldTop != newTop)
+		{
 			// The entire editor will be automatically repainted if it is
 			// visible, so no need to call repaint() or forceCurrentLine...().
 			previousCaretY = currentCaretY = newTop;
@@ -1034,11 +1132,13 @@ try {
 	 * @see #getDefaultMarginLineColor()
 	 * @see #getMarginLineColor()
 	 */
-	public void setMarginLineColor(Color color) {
+	public void setMarginLineColor(Color color)
+	{
 		marginLineColor = color;
-		if (marginLineEnabled) {
+		if(marginLineEnabled)
+		{
 			Rectangle visibleRect = getVisibleRect();
-			repaint(marginLineX,visibleRect.y, 1,visibleRect.height);
+			repaint(marginLineX, visibleRect.y, 1, visibleRect.height);
 		}
 	}
 
@@ -1049,12 +1149,15 @@ try {
 	 * @param enabled Whether or not the margin line should be enabled.
 	 * @see #isMarginLineEnabled
 	 */
-	public void setMarginLineEnabled(boolean enabled) {
-		if (enabled!=marginLineEnabled) {
+	public void setMarginLineEnabled(boolean enabled)
+	{
+		if(enabled != marginLineEnabled)
+		{
 			marginLineEnabled = enabled;
-			if (marginLineEnabled) {
+			if(marginLineEnabled)
+			{
 				Rectangle visibleRect = getVisibleRect();
-				repaint(marginLineX,visibleRect.y, 1,visibleRect.height);
+				repaint(marginLineX, visibleRect.y, 1, visibleRect.height);
 			}
 		}
 	}
@@ -1067,13 +1170,15 @@ try {
 	 * #see #getDefaultMarginLinePosition
 	 * @see #getMarginLinePosition
 	 */
-	public void setMarginLinePosition(int size) {
+	public void setMarginLinePosition(int size)
+	{
 		marginSizeInChars = size;
-		if (marginLineEnabled) {
+		if(marginLineEnabled)
+		{
 			Rectangle visibleRect = getVisibleRect();
-			repaint(marginLineX,visibleRect.y, 1,visibleRect.height);
+			repaint(marginLineX, visibleRect.y, 1, visibleRect.height);
 			updateMarginLineX();
-			repaint(marginLineX,visibleRect.y, 1,visibleRect.height);
+			repaint(marginLineX, visibleRect.y, 1, visibleRect.height);
 		}
 	}
 
@@ -1086,18 +1191,21 @@ try {
 	 * @param rounded Whether selection edges should be rounded.
 	 * @see #getRoundedSelectionEdges()
 	 */
-	public void setRoundedSelectionEdges(boolean rounded) {
-		if (roundedSelectionEdges!=rounded) {
+	public void setRoundedSelectionEdges(boolean rounded)
+	{
+		if(roundedSelectionEdges != rounded)
+		{
 			roundedSelectionEdges = rounded;
 			Caret c = getCaret();
-			if (c instanceof ConfigurableCaret) {
+			if(c instanceof ConfigurableCaret)
+			{
 				((ConfigurableCaret)c).setRoundedSelectionEdges(rounded);
-				if (c.getDot()!=c.getMark()) { // e.g., there's is a selection
+				if(c.getDot() != c.getMark())
+				{ // e.g., there's is a selection
 					repaint();
 				}
 			}
-			firePropertyChange(ROUNDED_SELECTION_PROPERTY, !rounded,
-											rounded);
+			firePropertyChange(ROUNDED_SELECTION_PROPERTY, !rounded, rounded);
 		}
 	}
 
@@ -1113,7 +1221,8 @@ try {
 	 * @param ui The new UI.
 	 * @see #setUI
 	 */
-	protected void setRTextAreaUI(RTextAreaUI ui) {
+	protected void setRTextAreaUI(RTextAreaUI ui)
+	{
 
 		super.setUI(ui);
 
@@ -1135,7 +1244,8 @@ try {
 	 * @see #convertTabsToSpaces
 	 * @see #getTabsEmulated
 	 */
-	public void setTabsEmulated(boolean areEmulated) {
+	public void setTabsEmulated(boolean areEmulated)
+	{
 		tabsEmulatedWithSpaces = areEmulated;
 	}
 
@@ -1151,7 +1261,8 @@ try {
 	 * @param size Number of characters to expand to.
 	 */
 	@Override
-	public void setTabSize(int size) {
+	public void setTabSize(int size)
+	{
 		super.setTabSize(size);
 		boolean b = getLineWrap();
 		setLineWrap(!b);
@@ -1164,14 +1275,15 @@ try {
 	 * have multiple fonts can define exactly what it means, for example, for
 	 * the margin line to be "80 characters" over.
 	 */
-	protected void updateMarginLineX() {
+	protected void updateMarginLineX()
+	{
 		Font font = getFont();
-		if (font == null) {
+		if(font == null)
+		{
 			marginLineX = 0;
 			return;
 		}
-		marginLineX = getFontMetrics(font).charWidth('m') *
-												marginSizeInChars;
+		marginLineX = getFontMetrics(font).charWidth('m') * marginSizeInChars;
 	}
 
 
@@ -1185,7 +1297,8 @@ try {
 	 * @throws BadLocationException If <code>line</code> isn't a valid line
 	 *         number for this document.
 	 */
-	public int yForLine(int line) throws BadLocationException {
+	public int yForLine(int line) throws BadLocationException
+	{
 		return ((RTextAreaUI)getUI()).yForLine(line);
 	}
 
@@ -1200,42 +1313,51 @@ try {
 	 * @throws BadLocationException If <code>offs</code> isn't a valid offset
 	 *         into the document.
 	 */
-	public int yForLineContaining(int offs) throws BadLocationException {
+	public int yForLineContaining(int offs) throws BadLocationException
+	{
 		return ((RTextAreaUI)getUI()).yForLineContaining(offs);
 	}
+	
+	
+	//
 
 
-	protected class RTAMouseListener extends CaretEvent implements
-					MouseListener, MouseMotionListener, FocusListener {
-
-		RTAMouseListener(RTextAreaBase textArea) {
+	protected class RTAMouseListener
+	    extends CaretEvent
+	    implements MouseListener, MouseMotionListener, FocusListener
+	{
+		protected int dot;
+		protected int mark;
+		
+		
+		protected RTAMouseListener(RTextAreaBase textArea)
+		{
 			super(textArea);
 		}
 
-		public void focusGained(FocusEvent e) {}
-		public void focusLost(FocusEvent e) {}
-		public void mouseDragged(MouseEvent e) {}
-		public void mouseMoved(MouseEvent e) {}
-		public void mouseClicked(MouseEvent e) {}
-		public void mousePressed(MouseEvent e) {}
-		public void mouseReleased(MouseEvent e) {}
-		public void mouseEntered(MouseEvent e) {}
-		public void mouseExited(MouseEvent e) {}
+
+		public void focusGained(FocusEvent ev) { }
+		public void focusLost(FocusEvent ev) { }
+		public void mouseDragged(MouseEvent ev) { }
+		public void mouseMoved(MouseEvent ev) { }
+		public void mouseClicked(MouseEvent ev) { }
+		public void mousePressed(MouseEvent ev) { }
+		public void mouseReleased(MouseEvent ev) { }
+		public void mouseEntered(MouseEvent ev) { }
+		public void mouseExited(MouseEvent ev) { }
+
 
 		@Override
-		public int getDot() {
+		public int getDot()
+		{
 			return dot;
 		}
 
+
 		@Override
-		public int getMark() {
+		public int getMark()
+		{
 			return mark;
 		}
-
-		protected int dot;
-		protected int mark;
-
 	}
-
-
 }

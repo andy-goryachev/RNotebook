@@ -15,14 +15,15 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 
 public class CodePanel
 	extends CellPanel
 {
-	public final JTextArea textField;
+	public final RSyntaxTextArea textField;
 	public final JLabel inField;
 	public final JLabel marginField;
 	private static CBorder BORDER = new CBorder(2, 4);
@@ -32,12 +33,19 @@ public class CodePanel
 	
 	public CodePanel(String text, CList<Object> results)
 	{
-		textField = new JTextArea(text);
+		textField = new RSyntaxTextArea(text);
 		textField.setFont(Theme.monospacedFont());
 		textField.setBackground(Styles.codeColor);
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		textField.addMouseListener(handler);
+		//
+		textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
+		textField.setCodeFoldingEnabled(false);
+		textField.setFont(Theme.monospacedFont());
+		textField.setAnimateBracketMatching(false);
+		textField.setHighlightCurrentLine(false);
+		//
 		setTop(textField);
 		
 		inField = new JLabel("In (*):");
