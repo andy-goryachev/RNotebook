@@ -22,4 +22,9 @@ public class Accelerators
 	public static Accelerator SAVE_AS = new Accelerator("save.as", MAIN_MENU, Menus.SaveAs);
 	public static Accelerator SELECT_NEXT_CELL = new Accelerator("select.next.cell", MAIN_MENU, "Select Next Cell", KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK);
 	public static Accelerator SELECT_PREV_CELL = new Accelerator("select.prev.cell", MAIN_MENU, "Select Previous Cell", KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK);
+	public static Accelerator TO_CODE = new Accelerator("to.code", EDITOR, "Convert Cell to Code", KeyEvent.VK_C, InputEvent.ALT_DOWN_MASK);
+	public static Accelerator TO_H1 = new Accelerator("to.h1", EDITOR, "Convert Cell to Heading 1", KeyEvent.VK_1, InputEvent.ALT_DOWN_MASK);
+	public static Accelerator TO_H2 = new Accelerator("to.h2", EDITOR, "Convert Cell to Heading 2", KeyEvent.VK_2, InputEvent.ALT_DOWN_MASK);
+	public static Accelerator TO_H3 = new Accelerator("to.h3", EDITOR, "Convert Cell to Heading 3", KeyEvent.VK_3, InputEvent.ALT_DOWN_MASK);
+	public static Accelerator TO_TEXT = new Accelerator("to.text", EDITOR, "Convert Cell to Text", KeyEvent.VK_T, InputEvent.ALT_DOWN_MASK);
 }

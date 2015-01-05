@@ -153,7 +153,7 @@ public abstract class CellPanel
 		case H1:
 		case H2:
 		case H3:
-			return new HeaderPanel(text, type);
+			return new HeadingPanel(text, type);
 		case TEXT:
 		default:
 			return new TextPanel(text);

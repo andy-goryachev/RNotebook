@@ -40,6 +40,8 @@ public class NotebookPanel
 	public final CAction toCodeAction = new CAction() { public void action() { actionSwitchType(CellType.CODE); } };
 	public final CAction toTextAction = new CAction() { public void action() { actionSwitchType(CellType.TEXT); } };
 	public final CAction toH1Action = new CAction() { public void action() { actionSwitchType(CellType.H1); } };
+	public final CAction toH2Action = new CAction() { public void action() { actionSwitchType(CellType.H2); } };
+	public final CAction toH3Action = new CAction() { public void action() { actionSwitchType(CellType.H3); } };
 	
 	public final CComboBox typeField;
 	public final InputTracker typeFieldTracker;
@@ -220,6 +222,8 @@ public class NotebookPanel
 		splitCellAction.setEnabled(cell);
 		toCodeAction.setEnabled(cell && (t != CellType.CODE));
 		toH1Action.setEnabled(cell && (t != CellType.H1));
+		toH2Action.setEnabled(cell && (t != CellType.H2));
+		toH3Action.setEnabled(cell && (t != CellType.H3));
 		toTextAction.setEnabled(cell && (t != CellType.TEXT));
 	}
 	

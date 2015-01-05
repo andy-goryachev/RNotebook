@@ -1,0 +1,219 @@
+{
+  "type": "ResearchNotebook",
+  "version": "1.0",
+  "cells": [
+    {
+      "type": "h1",
+      "source": "Research Notebook Built-in Objects"
+    },
+    {
+      "type": "h2",
+      "source": "Overview"
+    },
+    {
+      "type": "text",
+      "source": "Research Notebook is a cross-platform, self-contained, interactive computational environment inspired by IPython Notebook, utlizing Javascript engine instead of Python.  The main goal of Research Notebook development was to provide a piece of software that \"just works\", regardless of the operating system.\n\nA Research Notebook document is a JSON document containing an ordered set of cells which can contain executable Javascript code, text, plots, tables, and images.  Embedded code can be run in place, producing results rendered inline according to the type of the result, be it text output, image, table, or plot.  These results become part of the notebook document, which can be saved or exported to PDF or HTML format.\n"
+    },
+    {
+      "type": "h2",
+      "source": "Built-in Objects"
+    },
+    {
+      "type": "text",
+      "source": "Even though the underlying scripting engine is Javascript, the bulk of Notebook functionality is provided by set of built-in Java objects, each implementing a particular set of functions.  These objects are:\n\nFS\nIO\nNET\nNB\nOS\nUT"
+    },
+    {
+      "type": "h2",
+      "source": "FS"
+    },
+    {
+      "type": "text",
+      "source": "FS object provides a platform-independent access to the file system.  The main goal is make it possible for the user to write scripts which will run on any supported OS or file system, producing uniform results, using familiar Javascript control constructs instead of archane and archaic syntax of a native command shell."
+    },
+    {
+      "type": "js",
+      "source": "FS",
+      "sequence": 1,
+      "output": [
+        {
+          "type": "text",
+          "text": "FS provides filesystem operations:\n   FS.ls([path],[mode]) - lists files in current directory\n   FS.pwd()             - prints current directory"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "source": "FS.ls()"
+    },
+    {
+      "type": "text",
+      "source": "FS.ls() lists files in the current directory, producing standard output similar to ls -l command on unix."
+    },
+    {
+      "type": "js",
+      "source": "FS.ls()",
+      "sequence": 9,
+      "output": [
+        {
+          "type": "text",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "source": "FS.ls(dir) lists files in the specified directory.  This command understands \"~\" alias as the user home directory."
+    },
+    {
+      "type": "js",
+      "source": "FS.ls('~');",
+      "sequence": 10,
+      "output": [
+        {
+          "type": "text",
+          "text": "\n         0 [~]"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "source": "FS.ls(dir, columns) produces a JData object with columns specified by the second argument.  Valid columns are: name, size, time, mode (TBD)."
+    },
+    {
+      "type": "js",
+      "source": "FS.ls('~', [ 'name', 'size' ]);",
+      "sequence": 11,
+      "output": [
+        {
+          "type": "text",
+          "text": "\n         0 [~]\n         1 [org.mozilla.javascript.NativeArray@39305cfc]"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "source": "FS.pwd() returns the name of the current working directory."
+    },
+    {
+      "type": "js",
+      "source": "FS.pwd()",
+      "sequence": 13,
+      "output": [
+        {
+          "type": "text",
+          "text": "C:\\Projects\\Notebook 4"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "IO"
+    },
+    {
+      "type": "js",
+      "source": "IO",
+      "sequence": 3,
+      "output": [
+        {
+          "type": "text",
+          "text": "IO provides input/output functionality:\n   IO.loadImage(filename) - loads image file\n   IO.loadTable(filename) - loads table from CSV, XLS, or XLSX file"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "NET"
+    },
+    {
+      "type": "text",
+      "source": "Network-related functionality is provided by the NET object.\nTBD"
+    },
+    {
+      "type": "js",
+      "source": "NET",
+      "sequence": 2,
+      "output": [
+        {
+          "type": "text",
+          "text": "NET provides network-related functions:\n   NET.get(url) - returns content specified by the URL"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "NB"
+    },
+    {
+      "type": "js",
+      "source": "NB",
+      "sequence": 8,
+      "output": [
+        {
+          "type": "text",
+          "text": "NB object allows for operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display('line 1');\nNB.display('line 2');\nNB.display('line 3');",
+      "sequence": 11,
+      "output": [
+        {
+          "type": "text",
+          "text": "line 1"
+        },
+        {
+          "type": "text",
+          "text": "line 2"
+        },
+        {
+          "type": "text",
+          "text": "line 3"
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "OS"
+    },
+    {
+      "type": "text",
+      "source": "Access to the operating system functions is provided by the OS object."
+    },
+    {
+      "type": "js",
+      "source": "OS",
+      "sequence": 15,
+      "output": [
+        {
+          "type": "text",
+          "text": "OS provides access to the following system functions:\n   OS.cpuCount - current time in milliseconds\n   OS.time     - current time in milliseconds"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "UT"
+    },
+    {
+      "type": "text",
+      "source": "Utilitiy methods are available via UT object."
+    },
+    {
+      "type": "js",
+      "source": "UT",
+      "sequence": 1,
+      "output": [
+        {
+          "type": "text",
+          "text": "UT provides network-related functions:\n   UT.sleep(ms) - sleeps for a specified period in milliseconds"
+        }
+      ]
+    }
+  ]
+}

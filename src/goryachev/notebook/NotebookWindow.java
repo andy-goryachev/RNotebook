@@ -128,12 +128,12 @@ public class NotebookWindow
 		m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
 		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Code", np.toCodeAction));
-		m.add(new CMenuItem("Markdown", CAction.TODO));
-		m.add(new CMenuItem("Raw Text", np.toTextAction));
-		m.add(new CMenuItem("Heading 1", np.toH1Action));
-		m.add(new CMenuItem("Heading 2", CAction.TODO));
-		m.add(new CMenuItem("Heading 3", CAction.TODO));
+		m.add(new CMenuItem("Code", Accelerators.TO_CODE, np.toCodeAction));
+//		m.add(new CMenuItem("Markdown", CAction.TODO));
+		m.add(new CMenuItem("Text", Accelerators.TO_TEXT, np.toTextAction));
+		m.add(new CMenuItem("Heading 1", Accelerators.TO_H1, np.toH1Action));
+		m.add(new CMenuItem("Heading 2", Accelerators.TO_H2, np.toH2Action));
+		m.add(new CMenuItem("Heading 3", Accelerators.TO_H3, np.toH3Action));
 //		m.add(new CMenuItem("Heading 4", CAction.DISABLED));
 //		m.add(new CMenuItem("Heading 5", CAction.DISABLED));
 //		m.add(new CMenuItem("Heading 6", CAction.DISABLED));

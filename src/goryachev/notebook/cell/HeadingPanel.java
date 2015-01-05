@@ -13,14 +13,18 @@ import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 
-public class HeaderPanel
+public class HeadingPanel
 	extends CellPanel
 {
+	private static int INDENT = 8;
+	private static float FONT_SIZE_MAX = 1.8f;
+	private static float FONT_SIZE_STEP = 0.2f;
+	
 	public final CellType type;
 	public final JTextArea textField;
 	
 	
-	public HeaderPanel(String text, CellType t)
+	public HeadingPanel(String text, CellType t)
 	{
 		this.type = t;
 		
@@ -37,8 +41,8 @@ public class HeaderPanel
 			level = 1;
 		}
 		
-		int indent = 5 * level;
-		float scale = 1.8f - (level - 1) * 0.2f;
+		int indent = INDENT * level;
+		float scale = FONT_SIZE_MAX - (level - 1) * FONT_SIZE_STEP;
 		
 		textField = new JTextArea(text);
 		textField.setFont(UI.deriveFont(Theme.plainFont(), true, scale));

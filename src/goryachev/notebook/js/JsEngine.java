@@ -6,10 +6,6 @@ import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
 import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.cell.Results;
-import goryachev.notebook.js.fs.FS;
-import goryachev.notebook.js.io.IO;
-import goryachev.notebook.js.io.OS;
-import goryachev.notebook.js.nb.NB;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -18,7 +14,6 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class JsEngine
 {
-	public static final String SOURCE = "line ";
 	private final NotebookPanel np;
 	protected ScriptableObject scope;
 	protected GlobalScope globalScope;
@@ -40,15 +35,6 @@ public class JsEngine
 		if(scope == null)
 		{
 			scope = new GlobalScope(cx);
-			
-			// top level objects
-			ScriptableObject.putProperty(scope, "FS", new FS());
-			ScriptableObject.putProperty(scope, "IO", new IO());
-			ScriptableObject.putProperty(scope, "NB", new NB());
-			ScriptableObject.putProperty(scope, "OS", new OS());
-			
-			// java integration
-			cx.evaluateString(scope, "importPackage(java.lang);", "INIT", 1, null);
 		}
 		
 		return scope;
@@ -107,7 +93,8 @@ public class JsEngine
 				{
 					engine.set(JsEngine.this);
 					
-					Object rv = cx.evaluateString(scope(cx), script, SOURCE, 1, null);
+					// "line " produces an error message like "line #5"
+					Object rv = cx.evaluateString(scope(cx), script, "line ", 1, null);
 					if(rv == Context.getUndefinedValue())
 					{
 						rv = null;

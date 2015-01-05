@@ -1,6 +1,12 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.fs.FS;
+import goryachev.notebook.js.io.IO;
+import goryachev.notebook.js.io.OS;
+import goryachev.notebook.js.nb.NB;
+import goryachev.notebook.js.net.NET;
+import goryachev.notebook.js.ut.UT;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -22,8 +28,22 @@ public class GlobalScope
 		};
 		defineFunctionProperties(names, GlobalScope.class, ScriptableObject.DONTENUM);
 		
-		// make these easily accessible		
-		cx.evaluateString(this, "importPackage(Packages.goryachev.notebook.js.classes)", "INIT", 1, null);
+		String initScript =
+			// java integration
+			"importPackage(java.lang);" +
+			// classes here can be created using 'new'
+			"importPackage(Packages.goryachev.notebook.js.classes)"
+			;
+				
+		cx.evaluateString(this, initScript, "GlobalScope.init", 1, null);
+		
+		// top level objects
+		ScriptableObject.putProperty(this, "FS", new FS());
+		ScriptableObject.putProperty(this, "IO", new IO());
+		ScriptableObject.putProperty(this, "NET", new NET());
+		ScriptableObject.putProperty(this, "NB", new NB());
+		ScriptableObject.putProperty(this, "OS", new OS());
+		ScriptableObject.putProperty(this, "UT", new UT());
 	}
 	
 	
@@ -64,7 +84,5 @@ public class GlobalScope
 		}
 		
 		JsEngine.get().print(sb.toString());
-		
-		//return Context.getUndefinedValue();
 	}
 }
