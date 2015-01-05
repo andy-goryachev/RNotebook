@@ -24,16 +24,16 @@
     },
     {
       "type": "text",
-      "source": "TBD here we need to provide a good example."
+      "source": "In this example, an instance of built-in Java class JImage is created.  This class not only holds an image, but also allows for a wide range of manipulations of that image."
     },
     {
       "type": "js",
-      "source": "// this example programmatically generates a simple image\nim = new JImage(100, 100);",
-      "sequence": 17,
+      "source": "// programmatically generate a simple image\nim = new JImage(50, 50);\nim.setColor('Dark Orange');\nim.fillRect(10, 10, 10, 10);",
+      "sequence": 7,
       "output": [
         {
           "type": "image",
-          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAANElEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABLpXWfAAAAABJRU5ErkJggg=="
+          "image": "iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAALUlEQVR42u3OQQkAAAgAMftjZ23gUxA3LsBFAPBW5ZQtW7Zs2bq9BQAAAMC6BrS6mk1/+22QAAAAAElFTkSuQmCC"
         }
       ]
     },

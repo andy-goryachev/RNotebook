@@ -3,6 +3,7 @@ package goryachev.notebook;
 import goryachev.common.ui.Colors;
 import goryachev.common.ui.Gray;
 import goryachev.common.ui.Theme;
+import goryachev.common.ui.UI;
 import java.awt.Color;
 
 
@@ -14,5 +15,6 @@ public class Styles
 	public static final Color marginTextColor = Color.lightGray;
 	public static final Color numberColor = new Color(0xa04dbe);
 	public static final Color resultColor = Colors.eclipseGreen;
-	public static final Color sectionBorderColor = Theme.hoverColor(); // Color.gray;
+	public static final Color sectionBorderColor = Theme.hoverColor();
+	public static final Color textColor = UI.mix(64, Theme.textBG(), Theme.textFG());
 }

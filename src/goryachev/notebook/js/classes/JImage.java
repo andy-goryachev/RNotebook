@@ -2,9 +2,13 @@
 package goryachev.notebook.js.classes;
 import goryachev.common.ui.ImageScaler;
 import goryachev.common.ui.ImageTools;
+import goryachev.common.ui.UI;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.jhlabs.InvertFilter;
+import goryachev.notebook.js.JsUtil;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 
@@ -12,7 +16,7 @@ import java.awt.image.BufferedImage;
 public class JImage
 {
 	private BufferedImage image;
-	private transient Graphics2D g;
+	private transient Graphics2D graphics;
 	
 	
 	public JImage(BufferedImage im)
@@ -65,9 +69,9 @@ public class JImage
 	
 	protected void commit()
 	{
-		if(g != null)
+		if(graphics != null)
 		{
-			g.dispose();
+			graphics.dispose();
 		}
 	}
 	
@@ -96,6 +100,104 @@ public class JImage
 		int w = (int)Math.round(getWidth() * factor);
 		int h = (int)Math.round(getHeight() * factor);
 		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
+		return this;
+	}
+	
+	
+	public JImage setColor(Object color)
+	{
+		Color c = JsUtil.parseColor(color);
+		gr().setColor(c);
+		return this;
+	}
+	
+	
+	public JImage setColor(double r, double g, double b)
+	{
+		Color c = JsUtil.parseColor(r, g, b, null);
+		gr().setColor(c);
+		return this;
+	}
+	
+	
+	public JImage setColor(double r, double g, double b, double a)
+	{
+		Color c = JsUtil.parseColor(r, g, b, a);
+		gr().setColor(c);
+		return this;
+	}
+	
+	
+	protected Graphics2D gr()
+	{
+		if(graphics == null)
+		{
+			graphics = image.createGraphics();
+			UI.setAntiAliasingAndQuality(graphics);
+		}
+		return graphics;
+	}
+	
+	
+	public JImage setStroke()
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage moveTo(double x, double y)
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage lineTo(double x, double y)
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage setDirection(double degrees)
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage line(double length)
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage turn(double degrees)
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage mark()
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage lineToMark()
+	{
+		// TODO
+		return this;
+	}
+	
+	
+	public JImage fillRect(double x, double y, double w, double h)
+	{
+		gr().fill(new Rectangle2D.Double(x, y, w, h));
 		return this;
 	}
 }

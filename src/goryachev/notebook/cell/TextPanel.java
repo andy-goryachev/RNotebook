@@ -5,6 +5,7 @@ import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
+import goryachev.notebook.Styles;
 import java.awt.Component;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
@@ -24,6 +25,7 @@ public class TextPanel
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		textField.addMouseListener(handler);
+		textField.setForeground(Styles.textColor);
 		
 		setEditor(textField, false);
 	}
