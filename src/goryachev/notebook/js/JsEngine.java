@@ -8,6 +8,7 @@ import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.cell.Results;
 import goryachev.notebook.js.fs.FS;
 import goryachev.notebook.js.io.IO;
+import goryachev.notebook.js.io.OS;
 import goryachev.notebook.js.nb.NB;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.mozilla.javascript.Context;
@@ -44,6 +45,7 @@ public class JsEngine
 			ScriptableObject.putProperty(scope, "FS", new FS());
 			ScriptableObject.putProperty(scope, "IO", new IO());
 			ScriptableObject.putProperty(scope, "NB", new NB());
+			ScriptableObject.putProperty(scope, "OS", new OS());
 			
 			// java integration
 			cx.evaluateString(scope, "importPackage(java.lang);", "INIT", 1, null);

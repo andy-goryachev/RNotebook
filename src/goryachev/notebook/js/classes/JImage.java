@@ -1,5 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
+import goryachev.common.ui.ImageScaler;
 import goryachev.common.ui.ImageTools;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.jhlabs.InvertFilter;
@@ -85,5 +86,16 @@ public class JImage
 		
 		BufferedImage im = ImageTools.copyImageRGB(image);
 		return new JImage(im);
+	}
+	
+	
+	public JImage scale(double factor)
+	{
+		commit();
+		
+		int w = (int)Math.round(getWidth() * factor);
+		int h = (int)Math.round(getHeight() * factor);
+		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
+		return this;
 	}
 }

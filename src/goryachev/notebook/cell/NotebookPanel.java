@@ -128,7 +128,8 @@ public class NotebookPanel
 				activeCell.setActive(true);	
 				activeCell.getEditor().requestFocusInWindow();
 				
-				activeCell.scrollRectToVisible(new Rectangle(0, 0, activeCell.getWidth(), activeCell.getHeight()));
+				// FIX
+				//activeCell.scrollRectToVisible(new Rectangle(0, 0, activeCell.getWidth(), activeCell.getHeight()));
 			}
 			
 			updateActions();
