@@ -163,7 +163,7 @@ public class RSyntaxTextArea
 
 	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR = new Color(255, 192, 255);
 	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR = UI.mix(10, Color.black, DEFAULT_BRACKET_MATCH_BG_COLOR);
-	private static final Color DEFAULT_SELECTION_COLOR = Theme.getDefaultSelectionBG();
+	private static final Color DEFAULT_SELECTION_COLOR = RTheme.getDefaultSelectionBG();
 
 	// FIX kill
 	private static final String MSG = "org.fife.ui.rsyntaxtextarea.RSyntaxTextArea";

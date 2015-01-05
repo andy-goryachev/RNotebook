@@ -62,7 +62,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Robert Futrell
  * @version 1.0
  */
-public class Theme
+public class RTheme
 {
 	protected Font baseFont;
 	protected Color bgColor;
@@ -101,7 +101,7 @@ public class Theme
 	 *        not specified in the theme XML.  If this is <code>null</code>,
 	 *        a default monospaced font will be used.
 	 */
-	private Theme(Font baseFont)
+	private RTheme(Font baseFont)
 	{
 		// Optional fields that require a default value.
 		this.baseFont = baseFont != null ? baseFont : RTextArea.getDefaultFont();
@@ -116,7 +116,7 @@ public class Theme
 	 *
 	 * @param textArea The text area.
 	 */
-	public Theme(RSyntaxTextArea textArea)
+	public RTheme(RSyntaxTextArea textArea)
 	{
 
 		baseFont = textArea.getFont();
@@ -332,7 +332,7 @@ public class Theme
 	 * @throws IOException If an IO error occurs.
 	 * @see #save(OutputStream)
 	 */
-	public static Theme load(InputStream in) throws IOException
+	public static RTheme load(InputStream in) throws IOException
 	{
 		return load(in, null);
 	}
@@ -350,9 +350,9 @@ public class Theme
 	 * @throws IOException If an IO error occurs.
 	 * @see #save(OutputStream)
 	 */
-	public static Theme load(InputStream in, Font baseFont) throws IOException
+	public static RTheme load(InputStream in, Font baseFont) throws IOException
 	{
-		Theme theme = new Theme(baseFont);
+		RTheme theme = new RTheme(baseFont);
 
 		BufferedInputStream bin = new BufferedInputStream(in);
 		try
@@ -617,7 +617,7 @@ public class Theme
 	private static class XmlHandler
 	    extends DefaultHandler
 	{
-		private Theme theme;
+		private RTheme theme;
 
 
 		@Override
@@ -634,7 +634,7 @@ public class Theme
 		}
 
 
-		public static void load(Theme theme, InputStream in) throws IOException
+		public static void load(RTheme theme, InputStream in) throws IOException
 		{
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			spf.setValidating(true);

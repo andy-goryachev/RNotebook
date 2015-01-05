@@ -80,6 +80,74 @@ public class SyntaxScheme
 
 
 	/**
+	 * Restores all colors and fonts to their default values.
+	 *
+	 * @param baseFont The base font to use when creating this scheme.  If
+	 *        this is <code>null</code>, then a default monospaced font is
+	 *        used.
+	 * @param fontStyles Whether bold and italic should be used in the scheme
+	 *        (vs. all tokens using a plain font).
+	 */
+	public void restoreDefaults(Font f, boolean fontStyles)
+	{
+		Color comment = Color.red;
+		Color keyword = Color.gray;
+		Color normal = Color.black;
+		Color arg = Color.blue;
+		Color error = Color.magenta;
+
+		styles[COMMENT_EOL] = new Style(comment);
+		styles[COMMENT_MULTILINE] = new Style(comment);
+		styles[COMMENT_DOCUMENTATION] = new Style(comment);
+		styles[COMMENT_KEYWORD] = new Style(comment);
+		styles[COMMENT_MARKUP] = new Style(comment);
+		styles[RESERVED_WORD] = new Style(keyword);
+		styles[RESERVED_WORD_2] = new Style(keyword);
+		styles[FUNCTION] = new Style(normal);
+		styles[LITERAL_BOOLEAN] = new Style(arg);
+		styles[LITERAL_NUMBER_DECIMAL_INT] = new Style(arg);
+		styles[LITERAL_NUMBER_FLOAT] = new Style(arg);
+		styles[LITERAL_NUMBER_HEXADECIMAL] = new Style(arg);
+		styles[LITERAL_STRING_DOUBLE_QUOTE] = new Style(arg);
+		styles[LITERAL_CHAR] = new Style(arg);
+		styles[LITERAL_BACKQUOTE] = new Style(arg);
+		styles[DATA_TYPE] = new Style(normal);
+		styles[VARIABLE] = new Style(normal);
+		styles[REGEX] = new Style(arg);
+		styles[ANNOTATION] = new Style(Color.gray);
+		styles[IDENTIFIER] = new Style(null);
+		styles[WHITESPACE] = new Style(Color.gray);
+		styles[SEPARATOR] = new Style(normal);
+		styles[OPERATOR] = new Style(normal);
+		styles[PREPROCESSOR] = new Style(keyword);
+		styles[MARKUP_TAG_DELIMITER] = new Style(keyword);
+		styles[MARKUP_TAG_NAME] = new Style(keyword);
+		styles[MARKUP_TAG_ATTRIBUTE] = new Style(keyword);
+		styles[MARKUP_TAG_ATTRIBUTE_VALUE] = new Style(arg);
+		styles[MARKUP_COMMENT] = new Style(comment);
+		styles[MARKUP_DTD] = new Style(normal);
+		styles[MARKUP_PROCESSING_INSTRUCTION] = new Style(keyword);
+		styles[MARKUP_CDATA] = new Style(keyword);
+		styles[MARKUP_CDATA_DELIMITER] = new Style(keyword);
+		styles[MARKUP_ENTITY_REFERENCE] = new Style(normal);
+		styles[ERROR_IDENTIFIER] = new Style(error);
+		styles[ERROR_NUMBER_FORMAT] = new Style(error);
+		styles[ERROR_STRING_DOUBLE] = new Style(error);
+		styles[ERROR_CHAR] = new Style(error);
+
+		// Issue #34: If an application modifies TokenTypes to add new built-in
+		// token types, we'll get NPEs if not all styles are initialized.
+		for(int i=0; i<styles.length; i++)
+		{
+			if(styles[i] == null)
+			{
+				styles[i] = new Style();
+			}
+		}
+	}
+
+
+	/**
 	 * Changes the "base font" for this syntax scheme.  This is called by
 	 * <code>RSyntaxTextArea</code> when its font changes via
 	 * <code>setFont()</code>.  This looks for tokens that use a derivative of
@@ -91,7 +159,7 @@ public class SyntaxScheme
 	 * @param old The old font of the text area.
 	 * @param font The new font of the text area.
 	 */
-	void changeBaseFont(Font old, Font font)
+	protected void changeBaseFont(Font old, Font font)
 	{
 		for(int i=0; i<styles.length; i++)
 		{
@@ -285,83 +353,6 @@ public class SyntaxScheme
 	public void restoreDefaults(Font baseFont)
 	{
 		restoreDefaults(baseFont, true);
-	}
-
-
-	/**
-	 * Restores all colors and fonts to their default values.
-	 *
-	 * @param baseFont The base font to use when creating this scheme.  If
-	 *        this is <code>null</code>, then a default monospaced font is
-	 *        used.
-	 * @param fontStyles Whether bold and italic should be used in the scheme
-	 *        (vs. all tokens using a plain font).
-	 */
-	public void restoreDefaults(Font f, boolean fontStyles)
-	{
-		// Colors used by tokens.
-		Color comment = Color.red;
-		Color markupComment = Color.red;
-		Color keyword = new Color(0x008000); // eclipse green
-		Color normal = Color.black;
-		Color regex = Color.blue;
-		Color arg = Color.blue;
-		Color error = Color.magenta;
-
-		// (Possible) special font styles for keywords and comments.
-		if(f == null)
-		{
-			f = RSyntaxTextArea.getDefaultFont();
-		}
-		
-		styles[COMMENT_EOL] = new Style(comment, null, f);
-		styles[COMMENT_MULTILINE] = new Style(comment, null, f);
-		styles[COMMENT_DOCUMENTATION] = new Style(comment, null, f);
-		styles[COMMENT_KEYWORD] = new Style(comment, null, f);
-		styles[COMMENT_MARKUP] = new Style(comment, null, f);
-		styles[RESERVED_WORD] = new Style(keyword, null, f);
-		styles[RESERVED_WORD_2] = new Style(keyword, null, f);
-		styles[FUNCTION] = new Style(normal);
-		styles[LITERAL_BOOLEAN] = new Style(arg);
-		styles[LITERAL_NUMBER_DECIMAL_INT] = new Style(arg);
-		styles[LITERAL_NUMBER_FLOAT] = new Style(arg);
-		styles[LITERAL_NUMBER_HEXADECIMAL] = new Style(arg);
-		styles[LITERAL_STRING_DOUBLE_QUOTE] = new Style(arg);
-		styles[LITERAL_CHAR] = new Style(arg);
-		styles[LITERAL_BACKQUOTE] = new Style(arg);
-		styles[DATA_TYPE] = new Style(normal, null, f);
-		styles[VARIABLE] = new Style(normal);
-		styles[REGEX] = new Style(regex);
-		styles[ANNOTATION] = new Style(Color.gray);
-		styles[IDENTIFIER] = new Style(null);
-		styles[WHITESPACE] = new Style(Color.gray);
-		styles[SEPARATOR] = new Style(normal);
-		styles[OPERATOR] = new Style(normal);
-		styles[PREPROCESSOR] = new Style(keyword);
-		styles[MARKUP_TAG_DELIMITER] = new Style(keyword);
-		styles[MARKUP_TAG_NAME] = new Style(keyword);
-		styles[MARKUP_TAG_ATTRIBUTE] = new Style(keyword);
-		styles[MARKUP_TAG_ATTRIBUTE_VALUE] = new Style(arg);
-		styles[MARKUP_COMMENT] = new Style(markupComment, null, f);
-		styles[MARKUP_DTD] = new Style(normal);
-		styles[MARKUP_PROCESSING_INSTRUCTION] = new Style(keyword);
-		styles[MARKUP_CDATA] = new Style(keyword);
-		styles[MARKUP_CDATA_DELIMITER] = new Style(keyword);
-		styles[MARKUP_ENTITY_REFERENCE] = new Style(normal);
-		styles[ERROR_IDENTIFIER] = new Style(error);
-		styles[ERROR_NUMBER_FORMAT] = new Style(error);
-		styles[ERROR_STRING_DOUBLE] = new Style(error);
-		styles[ERROR_CHAR] = new Style(error);
-
-		// Issue #34: If an application modifies TokenTypes to add new built-in
-		// token types, we'll get NPEs if not all styles are initialized.
-		for(int i=0; i<styles.length; i++)
-		{
-			if(styles[i] == null)
-			{
-				styles[i] = new Style();
-			}
-		}
 	}
 
 
