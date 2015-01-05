@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-import java.util.ResourceBundle;
 import javax.swing.Action;
 import javax.swing.UIManager;
 import javax.swing.event.UndoableEditEvent;
@@ -35,12 +34,7 @@ public class RUndoManager
 	protected RCompoundEdit compoundEdit;
 	private RTextArea textArea;
 	private int lastOffset;
-	private String cantUndoText;
-	private String cantRedoText;
-
 	private int internalAtomicEditDepth;
-
-	private static final String MSG = "org.fife.ui.rtextarea.RTextArea";
 
 
 	/**
@@ -51,9 +45,6 @@ public class RUndoManager
 	public RUndoManager(RTextArea textArea)
 	{
 		this.textArea = textArea;
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
-		cantUndoText = msg.getString("Action.CantUndo.Name");
-		cantRedoText = msg.getString("Action.CantRedo.Name");
 	}
 
 
@@ -93,30 +84,6 @@ public class RUndoManager
 			compoundEdit = null;
 			updateActions(); // Needed to show the new display name.
 		}
-	}
-
-
-	/**
-	 * Returns the localized "Can't Redo" string.
-	 *
-	 * @return The localized "Can't Redo" string.
-	 * @see #getCantUndoText()
-	 */
-	public String getCantRedoText()
-	{
-		return cantRedoText;
-	}
-
-
-	/**
-	 * Returns the localized "Can't Undo" string.
-	 *
-	 * @return The localized "Can't Undo" string.
-	 * @see #getCantRedoText()
-	 */
-	public String getCantUndoText()
-	{
-		return cantUndoText;
 	}
 
 
@@ -218,9 +185,9 @@ public class RUndoManager
 			if(a.isEnabled())
 			{
 				a.setEnabled(false);
-				text = cantUndoText;
-				a.putValue(Action.NAME, text);
-				a.putValue(Action.SHORT_DESCRIPTION, text);
+//				text = cantUndoText;
+//				a.putValue(Action.NAME, text);
+//				a.putValue(Action.SHORT_DESCRIPTION, text);
 			}
 		}
 
@@ -237,9 +204,9 @@ public class RUndoManager
 			if(a.isEnabled())
 			{
 				a.setEnabled(false);
-				text = cantRedoText;
-				a.putValue(Action.NAME, text);
-				a.putValue(Action.SHORT_DESCRIPTION, text);
+//				text = cantRedoText;
+//				a.putValue(Action.NAME, text);
+//				a.putValue(Action.SHORT_DESCRIPTION, text);
 			}
 		}
 	}
@@ -276,7 +243,9 @@ public class RUndoManager
 		public void undo() throws CannotUndoException
 		{
 			if(compoundEdit != null)
+			{
 				compoundEdit.end();
+			}
 			super.undo();
 			compoundEdit = null;
 		}

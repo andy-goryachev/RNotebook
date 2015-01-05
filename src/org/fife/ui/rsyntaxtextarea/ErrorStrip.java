@@ -8,7 +8,7 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-
+import goryachev.common.util.TXT;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -19,19 +19,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
-
 import org.fife.ui.rsyntaxtextarea.parser.Parser;
 import org.fife.ui.rsyntaxtextarea.parser.ParserNotice;
 import org.fife.ui.rsyntaxtextarea.parser.TaskTagParser.TaskNotice;
@@ -73,8 +70,9 @@ import org.fife.ui.rtextarea.RTextArea;
  *       the notices being reloaded from the Markers (removing any Markers that
  *       are now "empty").
  */
-public class ErrorStrip extends JComponent {
-
+public class ErrorStrip
+    extends JComponent
+{
 	/**
 	 * The text area.
 	 */
@@ -101,7 +99,7 @@ public class ErrorStrip extends JComponent {
 	 * Mapping of colors to brighter colors.  This is kept to prevent
 	 * unnecessary creation of the same Colors over and over.
 	 */
-	private Map<Color, Color> brighterColors;
+	private Map<Color,Color> brighterColors;
 
 	/**
 	 * Only notices of this severity (or worse) will be displayed in this
@@ -134,15 +132,14 @@ public class ErrorStrip extends JComponent {
 	 */
 	private static final int PREFERRED_WIDTH = 14;
 
-	private static final String MSG = "org.fife.ui.rsyntaxtextarea.ErrorStrip";
-	protected static final ResourceBundle msg = ResourceBundle.getBundle(MSG);
 
 	/**
 	 * Constructor.
 	 *
 	 * @param textArea The text area we are examining.
 	 */
-	public ErrorStrip(RSyntaxTextArea textArea) {
+	public ErrorStrip(RSyntaxTextArea textArea)
+	{
 		this.textArea = textArea;
 		listener = new Listener();
 		ToolTipManager.sharedInstance().registerComponent(this);
@@ -161,17 +158,14 @@ public class ErrorStrip extends JComponent {
 	 * component (and presumably the text area) are visible.
 	 */
 	@Override
-	public void addNotify() {
+	public void addNotify()
+	{
 		super.addNotify();
 		textArea.addCaretListener(listener);
-		textArea.addPropertyChangeListener(
-				RSyntaxTextArea.PARSER_NOTICES_PROPERTY, listener);
-		textArea.addPropertyChangeListener(
-				RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY, listener);
-		textArea.addPropertyChangeListener(
-				RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY, listener);
-		textArea.addPropertyChangeListener(
-			RSyntaxTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY, listener);
+		textArea.addPropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, listener);
+		textArea.addPropertyChangeListener(RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY, listener);
+		textArea.addPropertyChangeListener(RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY, listener);
+		textArea.addPropertyChangeListener(RSyntaxTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY, listener);
 		refreshMarkers();
 	}
 
@@ -180,8 +174,10 @@ public class ErrorStrip extends JComponent {
 	 * Manually manages layout since this component uses no layout manager.
 	 */
 	@Override
-	public void doLayout() {
-		for (int i=0; i<getComponentCount(); i++) {
+	public void doLayout()
+	{
+		for(int i = 0; i < getComponentCount(); i++)
+		{
 			Marker m = (Marker)getComponent(i);
 			m.updateLocation();
 		}
@@ -195,12 +191,15 @@ public class ErrorStrip extends JComponent {
 	 * @param c The color.
 	 * @return A brighter color.
 	 */
-	protected Color getBrighterColor(Color c) {
-		if (brighterColors==null) {
-			brighterColors = new HashMap<Color, Color>(5); // Usually small
+	protected Color getBrighterColor(Color c)
+	{
+		if(brighterColors == null)
+		{
+			brighterColors = new HashMap<Color,Color>(5); // Usually small
 		}
 		Color brighter = brighterColors.get(c);
-		if (brighter==null) {
+		if(brighter == null)
+		{
 			// Don't use c.brighter() as it doesn't work well for blue, and
 			// also doesn't return something brighter "enough."
 			int r = possiblyBrighter(c.getRed());
@@ -219,7 +218,8 @@ public class ErrorStrip extends JComponent {
 	 * @return The caret marker color.
 	 * @see #setCaretMarkerColor(Color)
 	 */
-	public Color getCaretMarkerColor() {
+	public Color getCaretMarkerColor()
+	{
 		return caretMarkerColor;
 	}
 
@@ -230,7 +230,8 @@ public class ErrorStrip extends JComponent {
 	 * @return Whether the caret's position should be drawn.
 	 * @see #setFollowCaret(boolean)
 	 */
-	public boolean getFollowCaret() {
+	public boolean getFollowCaret()
+	{
 		return followCaret;
 	}
 
@@ -239,7 +240,8 @@ public class ErrorStrip extends JComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Dimension getPreferredSize() {
+	public Dimension getPreferredSize()
+	{
 		int height = textArea.getPreferredScrollableViewportSize().height;
 		return new Dimension(PREFERRED_WIDTH, height);
 	}
@@ -253,7 +255,8 @@ public class ErrorStrip extends JComponent {
 	 * @return The minimum severity.
 	 * @see #setLevelThreshold(org.fife.ui.rsyntaxtextarea.parser.ParserNotice.Level)
 	 */
-	public ParserNotice.Level getLevelThreshold() {
+	public ParserNotice.Level getLevelThreshold()
+	{
 		return levelThreshold;
 	}
 
@@ -264,7 +267,8 @@ public class ErrorStrip extends JComponent {
 	 * @return Whether markers are shown for "mark all" highlights.
 	 * @see #setShowMarkAll(boolean)
 	 */
-	public boolean getShowMarkAll() {
+	public boolean getShowMarkAll()
+	{
 		return showMarkAll;
 	}
 
@@ -275,7 +279,8 @@ public class ErrorStrip extends JComponent {
 	 * @return Whether marked occurrences are shown.
 	 * @see #setShowMarkedOccurrences(boolean)
 	 */
-	public boolean getShowMarkedOccurrences() {
+	public boolean getShowMarkedOccurrences()
+	{
 		return showMarkedOccurrences;
 	}
 
@@ -284,12 +289,13 @@ public class ErrorStrip extends JComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getToolTipText(MouseEvent e) {
+	public String getToolTipText(MouseEvent e)
+	{
 		String text = null;
 		int line = yToLine(e.getY());
-		if (line>-1) {
-			text = msg.getString("Line");
-			text = MessageFormat.format(text, Integer.valueOf(line+1));
+		if(line > -1)
+		{
+			text = TXT.get("ErrorStrip.line NUMBER", "Line: {0}", line + 1);
 		}
 		return text;
 	}
@@ -303,10 +309,11 @@ public class ErrorStrip extends JComponent {
 	 * @return The y-offset.
 	 * @see #yToLine(int)
 	 */
-	protected int lineToY(int line) {
+	protected int lineToY(int line)
+	{
 		int h = textArea.getVisibleRect().height;
 		float lineCount = textArea.getLineCount();
-		return (int)(((line-1)/(lineCount-1)) * h) - 2;
+		return (int)(((line - 1) / (lineCount - 1)) * h) - 2;
 	}
 
 
@@ -316,9 +323,11 @@ public class ErrorStrip extends JComponent {
 	 * @param g The graphics context.
 	 */
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g)
+	{
 		super.paintComponent(g);
-		if (caretLineY>-1) {
+		if(caretLineY > -1)
+		{
 			g.setColor(getCaretMarkerColor());
 			g.fillRect(0, caretLineY, getWidth(), 2);
 		}
@@ -331,9 +340,11 @@ public class ErrorStrip extends JComponent {
 	 * @param i An RGB component for a color (0-255).
 	 * @return A possibly brighter value for the component.
 	 */
-	private static final int possiblyBrighter(int i) {
-		if (i<255) {
-			i += (int)((255-i)*0.8f);
+	private static final int possiblyBrighter(int i)
+	{
+		if(i < 255)
+		{
+			i += (int)((255 - i) * 0.8f);
 		}
 		return i;
 	}
@@ -342,35 +353,40 @@ public class ErrorStrip extends JComponent {
 	/**
 	 * Refreshes the markers displayed in this error strip.
 	 */
-	protected void refreshMarkers() {
-
+	protected void refreshMarkers()
+	{
 		removeAll(); // listener is removed in Marker.removeNotify()
-		Map<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
+		Map<Integer,Marker> markerMap = new HashMap<Integer,Marker>();
 
 		List<ParserNotice> notices = textArea.getParserNotices();
-		for (ParserNotice notice : notices) {
-			if (notice.getLevel().isEqualToOrWorseThan(levelThreshold) ||
-					(notice instanceof TaskNotice)) {
+		for(ParserNotice notice: notices)
+		{
+			if(notice.getLevel().isEqualToOrWorseThan(levelThreshold) || (notice instanceof TaskNotice))
+			{
 				Integer key = Integer.valueOf(notice.getLine());
 				Marker m = markerMap.get(key);
-				if (m==null) {
+				if(m == null)
+				{
 					m = new Marker(notice);
 					m.addMouseListener(listener);
 					markerMap.put(key, m);
 					add(m);
 				}
-				else {
+				else
+				{
 					m.addNotice(notice);
 				}
 			}
 		}
 
-		if (getShowMarkedOccurrences() && textArea.getMarkOccurrences()) {
+		if(getShowMarkedOccurrences() && textArea.getMarkOccurrences())
+		{
 			List<DocumentRange> occurrences = textArea.getMarkedOccurrences();
 			addMarkersForRanges(occurrences, markerMap, textArea.getMarkOccurrencesColor());
 		}
 
-		if (getShowMarkAll() /*&& textArea.getMarkAll()*/) {
+		if(getShowMarkAll() /*&& textArea.getMarkAll()*/)
+		{
 			Color markAllColor = textArea.getMarkAllHighlightColor();
 			List<DocumentRange> ranges = textArea.getMarkAllHighlightRanges();
 			addMarkersForRanges(ranges, markerMap, markAllColor);
@@ -378,7 +394,6 @@ public class ErrorStrip extends JComponent {
 
 		revalidate();
 		repaint();
-
 	}
 
 
@@ -389,26 +404,33 @@ public class ErrorStrip extends JComponent {
 	 * @param markerMap A mapping from line number to <code>Marker</code>.
 	 * @param color The color to use for the markers.
 	 */
-	private void addMarkersForRanges(List<DocumentRange> ranges,
-			Map<Integer, Marker> markerMap, Color color) {
-		for (DocumentRange range : ranges) {
+	private void addMarkersForRanges(List<DocumentRange> ranges, Map<Integer,Marker> markerMap, Color color)
+	{
+		for(DocumentRange range: ranges)
+		{
 			int line = 0;
-			try {
+			try
+			{
 				line = textArea.getLineOfOffset(range.getStartOffset());
-			} catch (BadLocationException ble) { // Never happens
+			}
+			catch(BadLocationException ble)
+			{ // Never happens
 				continue;
 			}
 			ParserNotice notice = new MarkedOccurrenceNotice(range, color);
 			Integer key = Integer.valueOf(line);
 			Marker m = markerMap.get(key);
-			if (m==null) {
+			if(m == null)
+			{
 				m = new Marker(notice);
 				m.addMouseListener(listener);
 				markerMap.put(key, m);
 				add(m);
 			}
-			else {
-				if (!m.containsMarkedOccurence()) {
+			else
+			{
+				if(!m.containsMarkedOccurence())
+				{
 					m.addNotice(notice);
 				}
 			}
@@ -420,17 +442,14 @@ public class ErrorStrip extends JComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removeNotify() {
+	public void removeNotify()
+	{
 		super.removeNotify();
 		textArea.removeCaretListener(listener);
-		textArea.removePropertyChangeListener(
-				RSyntaxTextArea.PARSER_NOTICES_PROPERTY, listener);
-		textArea.removePropertyChangeListener(
-				RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY, listener);
-		textArea.removePropertyChangeListener(
-				RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY, listener);
-		textArea.removePropertyChangeListener(
-			RSyntaxTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY, listener);
+		textArea.removePropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, listener);
+		textArea.removePropertyChangeListener(RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY, listener);
+		textArea.removePropertyChangeListener(RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY, listener);
+		textArea.removePropertyChangeListener(RSyntaxTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY, listener);
 	}
 
 
@@ -440,8 +459,10 @@ public class ErrorStrip extends JComponent {
 	 * @param color The new caret marker color.
 	 * @see #getCaretMarkerColor()
 	 */
-	public void setCaretMarkerColor(Color color) {
-		if (color!=null) {
+	public void setCaretMarkerColor(Color color)
+	{
+		if(color != null)
+		{
 			caretMarkerColor = color;
 			listener.caretUpdate(null); // Force repaint
 		}
@@ -454,10 +475,13 @@ public class ErrorStrip extends JComponent {
 	 * @param follow Whether the caret's current location should be followed.
 	 * @see #getFollowCaret()
 	 */
-	public void setFollowCaret(boolean follow) {
-		if (followCaret!=follow) {
-			if (followCaret) {
-				repaint(0,caretLineY, getWidth(),2); // Erase
+	public void setFollowCaret(boolean follow)
+	{
+		if(followCaret != follow)
+		{
+			if(followCaret)
+			{
+				repaint(0, caretLineY, getWidth(), 2); // Erase
 			}
 			caretLineY = -1;
 			lastLineY = -1;
@@ -477,9 +501,11 @@ public class ErrorStrip extends JComponent {
 	 * @see #getLevelThreshold()
 	 * @see ParserNotice
 	 */
-	public void setLevelThreshold(ParserNotice.Level level) {
+	public void setLevelThreshold(ParserNotice.Level level)
+	{
 		levelThreshold = level;
-		if (isDisplayable()) {
+		if(isDisplayable())
+		{
 			refreshMarkers();
 		}
 	}
@@ -491,10 +517,14 @@ public class ErrorStrip extends JComponent {
 	 * @param show Whether to show markers for "mark all" highlights.
 	 * @see #getShowMarkAll()
 	 */
-	public void setShowMarkAll(boolean show) {
-		if (show!=showMarkAll) {
+	public void setShowMarkAll(boolean show)
+	{
+		if(show != showMarkAll)
+		{
 			showMarkAll = show;
-			if (isDisplayable()) { // Skip this when we're first created
+			if(isDisplayable())
+			{ 
+				// Skip this when we're first created
 				refreshMarkers();
 			}
 		}
@@ -507,10 +537,14 @@ public class ErrorStrip extends JComponent {
 	 * @param show Whether to show marked occurrences.
 	 * @see #getShowMarkedOccurrences()
 	 */
-	public void setShowMarkedOccurrences(boolean show) {
-		if (show!=showMarkedOccurrences) {
+	public void setShowMarkedOccurrences(boolean show)
+	{
+		if(show != showMarkedOccurrences)
+		{
 			showMarkedOccurrences = show;
-			if (isDisplayable()) { // Skip this when we're first created
+			if(isDisplayable())
+			{ 
+				// Skip this when we're first created
 				refreshMarkers();
 			}
 		}
@@ -525,12 +559,14 @@ public class ErrorStrip extends JComponent {
 	 * @return The line.
 	 * @see #lineToY(int)
 	 */
-	protected final int yToLine(int y) {
+	protected final int yToLine(int y)
+	{
 		int line = -1;
 		int h = textArea.getVisibleRect().height;
-		if (y<h) {
-			float at = y/(float)h;
-			line = Math.round((textArea.getLineCount()-1)*at);
+		if(y < h)
+		{
+			float at = y / (float)h;
+			line = Math.round((textArea.getLineCount() - 1) * at);
 		}
 		return line;
 	}
@@ -539,188 +575,240 @@ public class ErrorStrip extends JComponent {
 	/**
 	 * Listens for events in the error strip and its markers.
 	 */
-	protected class Listener extends MouseAdapter
-					implements PropertyChangeListener, CaretListener {
-
+	protected class Listener
+	    extends MouseAdapter
+	    implements PropertyChangeListener, CaretListener
+	{
 		private Rectangle visibleRect = new Rectangle();
 
-		public void caretUpdate(CaretEvent e) {
-			if (getFollowCaret()) {
+
+		public void caretUpdate(CaretEvent e)
+		{
+			if(getFollowCaret())
+			{
 				int line = textArea.getCaretLineNumber();
-				float percent = line / (float)(textArea.getLineCount()-1);
+				float percent = line / (float)(textArea.getLineCount() - 1);
 				textArea.computeVisibleRect(visibleRect);
-				caretLineY = (int)(visibleRect.height*percent);
-				if (caretLineY!=lastLineY) {
-					repaint(0,lastLineY, getWidth(), 2); // Erase old position
-					repaint(0,caretLineY, getWidth(), 2);
+				caretLineY = (int)(visibleRect.height * percent);
+				if(caretLineY != lastLineY)
+				{
+					repaint(0, lastLineY, getWidth(), 2); // Erase old position
+					repaint(0, caretLineY, getWidth(), 2);
 					lastLineY = caretLineY;
 				}
 			}
 		}
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
 
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{
 			Component source = (Component)e.getSource();
-			if (source instanceof Marker) {
+			if(source instanceof Marker)
+			{
 				((Marker)source).mouseClicked(e);
 				return;
 			}
 
 			int line = yToLine(e.getY());
-			if (line>-1) {
-				try {
+			if(line > -1)
+			{
+				try
+				{
 					int offs = textArea.getLineStartOffset(line);
 					textArea.setCaretPosition(offs);
-				} catch (BadLocationException ble) { // Never happens
+				}
+				catch(BadLocationException ble)
+				{ // Never happens
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 			}
-
 		}
 
-		public void propertyChange(PropertyChangeEvent e) {
 
+		public void propertyChange(PropertyChangeEvent e)
+		{
 			String propName = e.getPropertyName();
 
 			// If they change whether marked occurrences are visible in editor
-			if (RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY.equals(propName)) {
-				if (getShowMarkedOccurrences()) {
+			if(RSyntaxTextArea.MARK_OCCURRENCES_PROPERTY.equals(propName))
+			{
+				if(getShowMarkedOccurrences())
+				{
 					refreshMarkers();
 				}
 			}
 
 			// If parser notices changed.
 			// TODO: Don't update "mark all/occurrences" markers.
-			else if (RSyntaxTextArea.PARSER_NOTICES_PROPERTY.equals(propName)) {
+			else if(RSyntaxTextArea.PARSER_NOTICES_PROPERTY.equals(propName))
+			{
 				refreshMarkers();
 			}
 
 			// If marked occurrences changed.
 			// TODO: Only update "mark occurrences" markers, not all of them.
-			else if (RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY.
-					equals(propName)) {
-				if (getShowMarkedOccurrences()) {
+			else if(RSyntaxTextArea.MARKED_OCCURRENCES_CHANGED_PROPERTY.equals(propName))
+			{
+				if(getShowMarkedOccurrences())
+				{
 					refreshMarkers();
 				}
 			}
 
 			// If "mark all" occurrences changed.
 			// TODO: Only update "mark all" markers, not all of them.
-			else if (RTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY.
-					equals(propName)) {
-				if (getShowMarkAll()) {
+			else if(RTextArea.MARK_ALL_OCCURRENCES_CHANGED_PROPERTY.equals(propName))
+			{
+				if(getShowMarkAll())
+				{
 					refreshMarkers();
 				}
 			}
-
 		}
-
 	}
 
 
 	/**
 	 * A notice that wraps a "marked occurrence."
 	 */
-	private class MarkedOccurrenceNotice implements ParserNotice {
-
+	private class MarkedOccurrenceNotice
+	    implements ParserNotice
+	{
 		private DocumentRange range;
 		private Color color;
 
-		public MarkedOccurrenceNotice(DocumentRange range, Color color) {
+
+		public MarkedOccurrenceNotice(DocumentRange range, Color color)
+		{
 			this.range = range;
 			this.color = color;
 		}
 
-		public int compareTo(ParserNotice other) {
+
+		public int compareTo(ParserNotice other)
+		{
 			return 0; // Value doesn't matter
 		}
 
-		public boolean containsPosition(int pos) {
-			return pos>=range.getStartOffset() && pos<range.getEndOffset();
+
+		public boolean containsPosition(int pos)
+		{
+			return pos >= range.getStartOffset() && pos < range.getEndOffset();
 		}
+
 
 		@Override
-		public boolean equals(Object o) {
+		public boolean equals(Object o)
+		{
 			// FindBugs - Define equals() when defining compareTo()
-			if (!(o instanceof ParserNotice)) {
+			if(!(o instanceof ParserNotice))
+			{
 				return false;
 			}
-			return compareTo((ParserNotice)o)==0;
+			return compareTo((ParserNotice)o) == 0;
 		}
 
-		public Color getColor() {
+
+		public Color getColor()
+		{
 			return color;
 		}
+
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public boolean getKnowsOffsetAndLength() {
+		public boolean getKnowsOffsetAndLength()
+		{
 			return true;
 		}
 
-		public int getLength() {
+
+		public int getLength()
+		{
 			return range.getEndOffset() - range.getStartOffset();
 		}
 
-		public Level getLevel() {
+
+		public Level getLevel()
+		{
 			return Level.INFO; // Won't matter
 		}
 
-		public int getLine() {
-			try {
-				return textArea.getLineOfOffset(range.getStartOffset())+1;
-			} catch (BadLocationException ble) {
+
+		public int getLine()
+		{
+			try
+			{
+				return textArea.getLineOfOffset(range.getStartOffset()) + 1;
+			}
+			catch(BadLocationException ble)
+			{
 				return 0;
 			}
 		}
 
-		public String getMessage() {
+
+		public String getMessage()
+		{
 			String text = null;
-			try {
-				String word = textArea.getText(range.getStartOffset(),
-												getLength());
-				text = msg.getString("OccurrenceOf");
-				text = MessageFormat.format(text, word);
-			} catch (BadLocationException ble) {
+			try
+			{
+				String word = textArea.getText(range.getStartOffset(), getLength());
+				text = TXT.get("ErrorStrip.occurrence of WORD", "Occurrence of \"{0}\"", word);
+			}
+			catch(BadLocationException ble)
+			{
 				UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 			}
 			return text;
 		}
 
-		public int getOffset() {
+
+		public int getOffset()
+		{
 			return range.getStartOffset();
 		}
 
-		public Parser getParser() {
+
+		public Parser getParser()
+		{
 			return null;
 		}
 
-		public boolean getShowInEditor() {
+
+		public boolean getShowInEditor()
+		{
 			return false; // Value doesn't matter
 		}
 
-		public String getToolTipText() {
+
+		public String getToolTipText()
+		{
 			return null;
 		}
 
+
 		@Override
-		public int hashCode() { // FindBugs, since we override equals()
+		public int hashCode()
+		{ // FindBugs, since we override equals()
 			return 0; // Value doesn't matter for us.
 		}
-
 	}
 
 
 	/**
 	 * A "marker" in this error strip, representing one or more notices.
 	 */
-	private class Marker extends JComponent {
-
+	private class Marker
+	    extends JComponent
+	{
 		private List<ParserNotice> notices;
 
-		public Marker(ParserNotice notice) {
+
+		public Marker(ParserNotice notice)
+		{
 			notices = new ArrayList<ParserNotice>(1); // Usually just 1
 			addNotice(notice);
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -728,14 +816,20 @@ public class ErrorStrip extends JComponent {
 			ToolTipManager.sharedInstance().registerComponent(this);
 		}
 
-		public void addNotice(ParserNotice notice) {
+
+		public void addNotice(ParserNotice notice)
+		{
 			notices.add(notice);
 		}
 
-		public boolean containsMarkedOccurence() {
+
+		public boolean containsMarkedOccurence()
+		{
 			boolean result = false;
-			for (int i=0; i<notices.size(); i++) {
-				if (notices.get(i) instanceof MarkedOccurrenceNotice) {
+			for(int i = 0; i < notices.size(); i++)
+			{
+				if(notices.get(i) instanceof MarkedOccurrenceNotice)
+				{
 					result = true;
 					break;
 				}
@@ -743,12 +837,16 @@ public class ErrorStrip extends JComponent {
 			return result;
 		}
 
-		public Color getColor() {
+
+		public Color getColor()
+		{
 			// Return the color for the highest-level parser.
 			Color c = null;
 			int lowestLevel = Integer.MAX_VALUE; // ERROR is 0
-			for (ParserNotice notice : notices) {
-				if (notice.getLevel().getNumericValue()<lowestLevel) {
+			for(ParserNotice notice: notices)
+			{
+				if(notice.getLevel().getNumericValue() < lowestLevel)
+				{
 					lowestLevel = notice.getLevel().getNumericValue();
 					c = notice.getColor();
 				}
@@ -756,25 +854,32 @@ public class ErrorStrip extends JComponent {
 			return c;
 		}
 
+
 		@Override
-		public Dimension getPreferredSize() {
+		public Dimension getPreferredSize()
+		{
 			int w = PREFERRED_WIDTH - 4; // 2-pixel empty border
 			return new Dimension(w, 5);
 		}
 
-		@Override
-		public String getToolTipText() {
 
+		@Override
+		public String getToolTipText()
+		{
 			String text = null;
 
-			if (notices.size()==1) {
+			if(notices.size() == 1)
+			{
 				text = notices.get(0).getMessage();
 			}
-			else { // > 1
+			else
+			{ 
+				// > 1
 				StringBuilder sb = new StringBuilder("<html>");
-				sb.append(msg.getString("MultipleMarkers"));
+				sb.append(TXT.get("ErrorStrip.multiple markers at this line", "Multiple markers at this line:"));
 				sb.append("<br>");
-				for (int i=0; i<notices.size(); i++) {
+				for(int i=0; i<notices.size(); i++)
+				{
 					ParserNotice pn = notices.get(i);
 					sb.append("&nbsp;&nbsp;&nbsp;- ");
 					sb.append(pn.getMessage());
@@ -784,36 +889,46 @@ public class ErrorStrip extends JComponent {
 			}
 
 			return text;
-
 		}
 
-		protected void mouseClicked(MouseEvent e) {
+
+		protected void mouseClicked(MouseEvent e)
+		{
 			ParserNotice pn = notices.get(0);
 			int offs = pn.getOffset();
 			int len = pn.getLength();
-			if (offs>-1 && len>-1) { // These values are optional
+			if(offs > -1 && len > -1)
+			{ 
+				// These values are optional
 				textArea.setSelectionStart(offs);
-				textArea.setSelectionEnd(offs+len);
+				textArea.setSelectionEnd(offs + len);
 			}
-			else {
+			else
+			{
 				int line = pn.getLine();
-				try {
+				try
+				{
 					offs = textArea.getLineStartOffset(line);
 					textArea.setCaretPosition(offs);
-				} catch (BadLocationException ble) { // Never happens
+				}
+				catch(BadLocationException ble)
+				{ 
+					// Never happens
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 			}
 		}
 
-		@Override
-		protected void paintComponent(Graphics g) {
 
+		@Override
+		protected void paintComponent(Graphics g)
+		{
 			// TODO: Give "priorities" and always pick color of a notice with
 			// highest priority (e.g. parsing errors will usually be red).
 
 			Color borderColor = getColor();
-			if (borderColor==null) {
+			if(borderColor == null)
+			{
 				borderColor = Color.DARK_GRAY;
 			}
 			Color fillColor = getBrighterColor(borderColor);
@@ -822,27 +937,27 @@ public class ErrorStrip extends JComponent {
 			int h = getHeight();
 
 			g.setColor(fillColor);
-			g.fillRect(0,0, w,h);
+			g.fillRect(0, 0, w, h);
 
 			g.setColor(borderColor);
-			g.drawRect(0,0, w-1,h-1);
-
+			g.drawRect(0, 0, w - 1, h - 1);
 		}
 
+
 		@Override
-		public void removeNotify() {
+		public void removeNotify()
+		{
 			super.removeNotify();
 			ToolTipManager.sharedInstance().unregisterComponent(this);
 			removeMouseListener(listener);
 		}
 
-		public void updateLocation() {
+
+		public void updateLocation()
+		{
 			int line = notices.get(0).getLine();
 			int y = lineToY(line);
 			setLocation(2, y);
 		}
-
 	}
-
-
 }
