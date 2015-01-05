@@ -17,7 +17,7 @@ public class JsEngine
 	private final NotebookPanel np;
 	protected ScriptableObject scope;
 	protected GlobalScope globalScope;
-	private AtomicInteger runCount = new AtomicInteger(1);
+	private AtomicInteger sequence = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
 	private CList<Object> results;
@@ -39,12 +39,11 @@ public class JsEngine
 		
 		return scope;
 	}
+
 	
-	
-	@Deprecated // for debugging
-	public GlobalScope getGlobalScope()
+	public void setSequence(int x)
 	{
-		return globalScope;
+		sequence.set(x);		
 	}
 	
 	
@@ -127,7 +126,7 @@ public class JsEngine
 	{
 		thread = null;
 		
-		int count = runCount.getAndIncrement();  
+		int count = sequence.getAndIncrement();  
 		p.setResult(count, results);
 	}
 	

@@ -85,8 +85,9 @@ public class NotebookWindow
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Save, Accelerators.SAVE, saveAction));
 		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
-		m.add(new CMenuItem("Save as PDF", CAction.TODO));
-		m.add(new CMenuItem("Save as HTML", CAction.TODO));
+		m.addSeparator();
+		m.add(new CMenuItem("Export PDF", CAction.TODO));
+		m.add(new CMenuItem("Export HTML", CAction.TODO));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
 		m.addSeparator();
@@ -359,7 +360,7 @@ public class NotebookWindow
 				DataBook b = np.getDataBook();
 				DataBookJsonWriter.saveJSON(b, file);
 				setModified(false);
-				updateTitle();
+				updateActions();
 			}
 			catch(Exception e)
 			{
@@ -396,6 +397,8 @@ public class NotebookWindow
 	
 	protected void openNewWindow(File f)
 	{
+		// TODO check if current window is blank, open there
+		
 		// TODO perhaps warn the user
 //		if(f != null)
 //		{
@@ -459,7 +462,7 @@ public class NotebookWindow
 
 				setFile(file);
 				setDataBook(b);
-				updateTitle();
+				updateActions();
 			}
 			finally
 			{

@@ -59,13 +59,6 @@
       "title": "BUGS",
       "tasks": [
         {
-          "id": "DFAEAEABDB21EE53C1F89EC205C3B9A4DC20FE82",
-          "title": "open long notebook, does not scroll to top",
-          "created": 1420424264581,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "575E658C1015346F1236321997526F578959C70A",
           "title": "jump if insert cell at the end of document",
           "created": 1420450735261,
@@ -423,13 +416,6 @@
           "description": null
         },
         {
-          "id": "9440AD1078C5E410C7EC104777F0329AEE1C9040",
-          "title": "OS.freeMem,usedMem,totalMem",
-          "created": 1420449385985,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "32BB7BA6C732258BAD22A91E160DFC118B081B14",
           "title": "OS.hostname",
           "created": 1420450163093,
@@ -447,13 +433,6 @@
           "id": "9AB7262C5E4CF90681F25604C04A7B96C08C987C",
           "title": "OS.arch",
           "created": 1420450176578,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "EA7135A26B39D90EB7AF8535DF2251852081AB58",
-          "title": "OS.cpuCount",
-          "created": 1420450194203,
           "completed": null,
           "description": null
         }
@@ -565,6 +544,27 @@
       "title": "FS.pwd",
       "created": 1420451859595,
       "completed": 1420451870314,
+      "description": null
+    },
+    {
+      "id": "EA7135A26B39D90EB7AF8535DF2251852081AB58",
+      "title": "OS.cpuCount",
+      "created": 1420450194203,
+      "completed": 1420491345164,
+      "description": null
+    },
+    {
+      "id": "DFAEAEABDB21EE53C1F89EC205C3B9A4DC20FE82",
+      "title": "open long notebook, does not scroll to top",
+      "created": 1420424264581,
+      "completed": 1420500577903,
+      "description": null
+    },
+    {
+      "id": "9440AD1078C5E410C7EC104777F0329AEE1C9040",
+      "title": "OS.freeMem,usedMem,totalMem",
+      "created": 1420449385985,
+      "completed": 1420500588216,
       "description": null
     }
   ]

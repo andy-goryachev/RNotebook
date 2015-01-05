@@ -143,8 +143,11 @@ public class NotebookPanel
 	{
 		panel.removeAll();
 		
+		CellPanel first = null;
+		
 		if(b != null)
 		{
+			int sequence = -1;
 			int sz = b.size();
 			for(int i=0; i<sz; i++)
 			{
@@ -152,27 +155,44 @@ public class NotebookPanel
 				CellPanel p = CellPanel.create(c.type, c.text, c.sequence, c.results);
 				panel.add(p);
 				
-				if(i == 0)
+				if(first == null)
 				{
-					setActiveCell(p);
+					first = p;
+				}
+				
+				if(sequence < c.sequence)
+				{
+					sequence = c.sequence + 1;
 				}
 			}
+			
+			engine.setSequence(sequence);
 		}
 		
 		UI.validateAndRepaint(this);
 		updateActions();
+		
+		if(first != null)
+		{
+			setActiveLater(first);
+		}
+	}
 
-		// FIX does not work!
+
+	protected void setActiveLater(final CellPanel c)
+	{
 		UI.later(new Runnable()
 		{
 			public void run()
 			{
-				scrollRectToVisible(new Rectangle(0, 0, getWidth(), 1));
+				setActiveCell(c);
+				int w = c.getWidth();
+				c.scrollRectToVisible(new Rectangle(0, 0, w, 10));
 			}
 		});
 	}
-	
-	
+
+
 	public DataBook getDataBook()
 	{
 		DataBook b = new DataBook();

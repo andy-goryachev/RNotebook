@@ -59,13 +59,6 @@
       "title": "BUGS",
       "tasks": [
         {
-          "id": "DFAEAEABDB21EE53C1F89EC205C3B9A4DC20FE82",
-          "title": "open long notebook, does not scroll to top",
-          "created": 1420424264581,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "575E658C1015346F1236321997526F578959C70A",
           "title": "jump if insert cell at the end of document",
           "created": 1420450735261,
@@ -392,6 +385,13 @@
           "created": 1420450118983,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "1CCAA6F19FF95F019F2D6F9ACD2DFF3210C1EA93",
+          "title": "UT.colorNames",
+          "created": 1420500600076,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -419,13 +419,6 @@
           "id": "29EA71EDC0DEDE6B3FDEABA8AFC9B5DEB8E63441",
           "title": "OS.exec/run",
           "created": 1420449356390,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "9440AD1078C5E410C7EC104777F0329AEE1C9040",
-          "title": "OS.freeMem,usedMem,totalMem",
-          "created": 1420449385985,
           "completed": null,
           "description": null
         },
@@ -565,6 +558,20 @@
       "title": "OS.cpuCount",
       "created": 1420450194203,
       "completed": 1420491345164,
+      "description": null
+    },
+    {
+      "id": "DFAEAEABDB21EE53C1F89EC205C3B9A4DC20FE82",
+      "title": "open long notebook, does not scroll to top",
+      "created": 1420424264581,
+      "completed": 1420500577903,
+      "description": null
+    },
+    {
+      "id": "9440AD1078C5E410C7EC104777F0329AEE1C9040",
+      "title": "OS.freeMem,usedMem,totalMem",
+      "created": 1420449385985,
+      "completed": 1420500588216,
       "description": null
     }
   ]
