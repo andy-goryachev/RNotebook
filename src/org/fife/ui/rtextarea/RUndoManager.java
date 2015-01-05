@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-
 import java.util.ResourceBundle;
 import javax.swing.Action;
 import javax.swing.UIManager;
@@ -30,8 +29,9 @@ import javax.swing.undo.UndoableEdit;
  * @author Robert Futrell
  * @version 1.0
  */
-public class RUndoManager extends UndoManager {
-
+public class RUndoManager
+    extends UndoManager
+{
 	protected RCompoundEdit compoundEdit;
 	private RTextArea textArea;
 	private int lastOffset;
@@ -40,7 +40,7 @@ public class RUndoManager extends UndoManager {
 
 	private int internalAtomicEditDepth;
 
-	private static final String MSG	= "org.fife.ui.rtextarea.RTextArea";
+	private static final String MSG = "org.fife.ui.rtextarea.RTextArea";
 
 
 	/**
@@ -48,7 +48,8 @@ public class RUndoManager extends UndoManager {
 	 *
 	 * @param textArea The parent text area.
 	 */
-	public RUndoManager(RTextArea textArea) {
+	public RUndoManager(RTextArea textArea)
+	{
 		this.textArea = textArea;
 		ResourceBundle msg = ResourceBundle.getBundle(MSG);
 		cantUndoText = msg.getString("Action.CantUndo.Name");
@@ -65,10 +66,14 @@ public class RUndoManager extends UndoManager {
 	 *
 	 * @see #endInternalAtomicEdit()
 	 */
-	public void beginInternalAtomicEdit() {
-		if (++internalAtomicEditDepth==1) {
-			if (compoundEdit!=null)
+	public void beginInternalAtomicEdit()
+	{
+		if(++internalAtomicEditDepth == 1)
+		{
+			if(compoundEdit != null)
+			{
 				compoundEdit.end();
+			}
 			compoundEdit = new RCompoundEdit();
 		}
 	}
@@ -79,12 +84,14 @@ public class RUndoManager extends UndoManager {
 	 *
 	 * @see #beginInternalAtomicEdit()
 	 */
-	public void endInternalAtomicEdit() {
-		if (internalAtomicEditDepth>0 && --internalAtomicEditDepth==0) {
+	public void endInternalAtomicEdit()
+	{
+		if(internalAtomicEditDepth > 0 && --internalAtomicEditDepth == 0)
+		{
 			addEdit(compoundEdit);
 			compoundEdit.end();
 			compoundEdit = null;
-			updateActions();	// Needed to show the new display name.
+			updateActions(); // Needed to show the new display name.
 		}
 	}
 
@@ -95,7 +102,8 @@ public class RUndoManager extends UndoManager {
 	 * @return The localized "Can't Redo" string.
 	 * @see #getCantUndoText()
 	 */
-	public String getCantRedoText() {
+	public String getCantRedoText()
+	{
 		return cantRedoText;
 	}
 
@@ -106,7 +114,8 @@ public class RUndoManager extends UndoManager {
 	 * @return The localized "Can't Undo" string.
 	 * @see #getCantRedoText()
 	 */
-	public String getCantUndoText() {
+	public String getCantUndoText()
+	{
 		return cantUndoText;
 	}
 
@@ -115,13 +124,15 @@ public class RUndoManager extends UndoManager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void redo() throws CannotRedoException {
+	public synchronized void redo() throws CannotRedoException
+	{
 		super.redo();
 		updateActions();
 	}
 
 
-	private RCompoundEdit startCompoundEdit(UndoableEdit edit) {
+	private RCompoundEdit startCompoundEdit(UndoableEdit edit)
+	{
 		lastOffset = textArea.getCaretPosition();
 		compoundEdit = new RCompoundEdit();
 		compoundEdit.addEdit(edit);
@@ -134,24 +145,27 @@ public class RUndoManager extends UndoManager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void undo() throws CannotUndoException {
+	public synchronized void undo() throws CannotUndoException
+	{
 		super.undo();
 		updateActions();
 	}
 
 
 	@Override
-	public void undoableEditHappened(UndoableEditEvent e) {
-
+	public void undoableEditHappened(UndoableEditEvent e)
+	{
 		// This happens when the first undoable edit occurs, and
 		// just after an undo.  So, we need to update our actions.
-		if (compoundEdit==null) {
+		if(compoundEdit == null)
+		{
 			compoundEdit = startCompoundEdit(e.getEdit());
 			updateActions();
 			return;
 		}
 
-		else if (internalAtomicEditDepth>0) {
+		else if(internalAtomicEditDepth > 0)
+		{
 			compoundEdit.addEdit(e.getEdit());
 			return;
 		}
@@ -164,7 +178,8 @@ public class RUndoManager extends UndoManager {
 		int diff = textArea.getCaretPosition() - lastOffset;
 		// "<=1" allows contiguous "overwrite mode" key presses to be
 		// grouped together.
-		if (Math.abs(diff)<=1) {//==1) {
+		if(Math.abs(diff) <= 1)
+		{//==1) {
 			compoundEdit.addEdit(e.getEdit());
 			lastOffset += diff;
 			//updateActions();
@@ -186,19 +201,22 @@ public class RUndoManager extends UndoManager {
 	 * Ensures that undo/redo actions are enabled appropriately and have
 	 * descriptive text at all times.
 	 */
-	public void updateActions() {
-
+	public void updateActions()
+	{
 		String text;
 
 		Action a = RTextArea.getAction(RTextArea.UNDO_ACTION);
-		if (canUndo()) {
+		if(canUndo())
+		{
 			a.setEnabled(true);
 			text = getUndoPresentationName();
 			a.putValue(Action.NAME, text);
 			a.putValue(Action.SHORT_DESCRIPTION, text);
 		}
-		else {
-			if (a.isEnabled()) {
+		else
+		{
+			if(a.isEnabled())
+			{
 				a.setEnabled(false);
 				text = cantUndoText;
 				a.putValue(Action.NAME, text);
@@ -207,52 +225,60 @@ public class RUndoManager extends UndoManager {
 		}
 
 		a = RTextArea.getAction(RTextArea.REDO_ACTION);
-		if (canRedo()) {
+		if(canRedo())
+		{
 			a.setEnabled(true);
 			text = getRedoPresentationName();
 			a.putValue(Action.NAME, text);
 			a.putValue(Action.SHORT_DESCRIPTION, text);
 		}
-		else {
-			if (a.isEnabled()) {
+		else
+		{
+			if(a.isEnabled())
+			{
 				a.setEnabled(false);
 				text = cantRedoText;
 				a.putValue(Action.NAME, text);
 				a.putValue(Action.SHORT_DESCRIPTION, text);
 			}
 		}
-
 	}
+	
 
 	/**
 	 * The edit used by {@link RUndoManager}.
 	 */
-	class RCompoundEdit extends CompoundEdit {
-
+	public class RCompoundEdit
+	    extends CompoundEdit
+	{
 		@Override
-		public String getUndoPresentationName() {
+		public String getUndoPresentationName()
+		{
 			return UIManager.getString("AbstractUndoableEdit.undoText");
 		}
 
+
 		@Override
-		public String getRedoPresentationName() {
+		public String getRedoPresentationName()
+		{
 			return UIManager.getString("AbstractUndoableEdit.redoText");
 		}
 
+
 		@Override
-		public boolean isInProgress() {
+		public boolean isInProgress()
+		{
 			return false;
 		}
 
+
 		@Override
-		public void undo() throws CannotUndoException {
-			if (compoundEdit!=null)
+		public void undo() throws CannotUndoException
+		{
+			if(compoundEdit != null)
 				compoundEdit.end();
 			super.undo();
 			compoundEdit = null;
 		}
-
 	}
-
-
 }

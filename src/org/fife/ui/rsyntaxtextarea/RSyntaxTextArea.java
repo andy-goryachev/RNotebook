@@ -170,6 +170,7 @@ public class RSyntaxTextArea
 
 	// FIX kill
 	private JMenu foldingMenu;
+	
 	private static RecordableTextAction toggleCurrentFoldAction;
 	private static RecordableTextAction collapseAllCommentFoldsAction;
 	private static RecordableTextAction collapseAllFoldsAction;
