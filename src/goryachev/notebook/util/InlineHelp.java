@@ -1,18 +1,22 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
 import goryachev.common.util.CList;
+import goryachev.common.util.CMap;
+import goryachev.common.util.CSorter;
 import goryachev.common.util.SB;
 
 
 /** Little object helps create inline help generated when js evaluates a top-level interpreter object */ 
 public class InlineHelp
 {
+	private final String name;
 	private CList<Object> lines = new CList();
 	private static int indent = 3;
 	
 	
-	public InlineHelp()
+	public InlineHelp(String name)
 	{
+		this.name = name;
 	}
 	
 	
@@ -24,7 +28,7 @@ public class InlineHelp
 	
 	public void a(String function, String description)
 	{
-		lines.add(new String[] { function, description });
+		lines.add(new String[] { name + "." + function, description });
 	}
 	
 	
@@ -32,42 +36,56 @@ public class InlineHelp
 	{
 		int w = 0;
 		SB sb = new SB();
+		CMap<String,String> fs = new CMap();
 		
-		// TODO sort?
 		for(Object x: lines)
 		{
 			if(x instanceof String[])
 			{
-				String s = ((String[])x)[0];
-				if(s.length() > w)
+				String[] ss = (String[])x;
+				String k = ss[0];
+				if(k.length() > w)
 				{
-					w = s.length();
+					w = k.length();
 				}
+				
+				String v = ss[1];
+				
+				fs.put(k, v);
 			}
 		}
 		
+		// sort functions
+		CList<String> ks = new CList(fs.keySet());
+		CSorter.sort(ks);
 		
 		for(Object x: lines)
+		{
+			if(x instanceof String)
+			{
+				if(sb.length() > 0)
+				{
+					sb.nl();
+				}
+				
+				sb.a(x);
+			}
+		}
+		
+		for(String k: ks)
 		{
 			if(sb.length() > 0)
 			{
 				sb.nl();
 			}
 			
-			if(x instanceof String)
-			{
-				sb.a(x);
-			}
-			else if(x instanceof String[])
-			{				
-				String[] ss = (String[])x;
-				
-				sb.sp(indent);
-				sb.a(ss[0]);
-				sb.sp(w - ss[0].length());
-				sb.a(" - ");
-				sb.a(ss[1]);
-			}
+			String v = fs.get(k);
+
+			sb.sp(indent);
+			sb.a(k);
+			sb.sp(w - k.length());
+			sb.a(" - ");
+			sb.a(v);
 		}
 		
 		return sb.toString();

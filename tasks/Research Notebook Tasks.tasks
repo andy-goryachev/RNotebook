@@ -449,13 +449,6 @@
           "created": 1420450176578,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "EA7135A26B39D90EB7AF8535DF2251852081AB58",
-          "title": "OS.cpuCount",
-          "created": 1420450194203,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -565,6 +558,13 @@
       "title": "FS.pwd",
       "created": 1420451859595,
       "completed": 1420451870314,
+      "description": null
+    },
+    {
+      "id": "EA7135A26B39D90EB7AF8535DF2251852081AB58",
+      "title": "OS.cpuCount",
+      "created": 1420450194203,
+      "completed": 1420491345164,
       "description": null
     }
   ]

@@ -119,8 +119,8 @@ public class NotebookWindow
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
-		m.add(new CMenuItem("Insert Cell Above", np.insertCellAboveAction));
-		m.add(new CMenuItem("Insert Cell Below", np.insertCellBelowAction));
+		m.add(new CMenuItem("Insert Cell Above", Accelerators.INSERT_CELL_ABOVE, np.insertCellAboveAction));
+		m.add(new CMenuItem("Insert Cell Below", Accelerators.INSERT_CELL_BELOW, np.insertCellBelowAction));
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));

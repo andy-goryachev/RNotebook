@@ -1,15 +1,10 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
-import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancelledException;
-import goryachev.notebook.js.classes.JImage;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Undefined;
 
 
 public class JsUtil
@@ -51,8 +46,8 @@ public class JsUtil
 	}
 
 
-	public static void todo()
+	public static RuntimeException todo()
 	{
-		throw new CException("To be implemented...");
+		return new CException("To be implemented...");
 	}
 }

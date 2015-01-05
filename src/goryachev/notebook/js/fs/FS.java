@@ -41,10 +41,10 @@ public class FS
 	
 	public String toString()
 	{
-		InlineHelp h = new InlineHelp();
-		h.a("FS provides filesystem operations:");
-		h.a("FS.ls([path],[mode])", "lists files in current directory");
-		h.a("FS.pwd()", "prints current directory");
+		InlineHelp h = new InlineHelp("FS");
+		h.a("provides filesystem operations:");
+		h.a("ls([path],[mode])", "lists files in current directory");
+		h.a("pwd()", "prints current directory");
 		return h.toString();
 	}
 }

@@ -4,6 +4,7 @@ import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
+import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import java.awt.Component;
@@ -100,6 +101,10 @@ public abstract class CellPanel
 		}
 		
 		editTracker.add(ed);
+		
+		// FIX not yet available
+//		NotebookPanel np = NotebookPanel.get(this);
+//		UI.whenFocused(ed, Accelerators.TO_CODE.getKeyStroke(), np.toCodeAction);
 	}
 
 

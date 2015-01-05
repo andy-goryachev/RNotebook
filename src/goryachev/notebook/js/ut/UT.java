@@ -10,11 +10,17 @@ public class UT
 	}
 	
 	
+	public void sleep(long ms) throws Exception
+	{
+		Thread.sleep(ms);
+	}
+	
+	
 	public String toString()
 	{
-		InlineHelp h = new InlineHelp();
-		h.a("UT provides network-related functions:");
-		h.a("UT.sleep(ms)", "sleeps for a specified period in milliseconds");
+		InlineHelp h = new InlineHelp("UT");
+		h.a("provides network-related functions:");
+		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
 		return h.toString();
 	}
 }
