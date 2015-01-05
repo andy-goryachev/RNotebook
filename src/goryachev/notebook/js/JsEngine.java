@@ -80,7 +80,7 @@ public class JsEngine
 			results.add(log.getAndClear());
 		}
 		
-		Object v = Results.createValueCopy(x);
+		Object v = Results.copyValue(x);
 		results.add(v);
 	}
 	

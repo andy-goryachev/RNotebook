@@ -186,7 +186,7 @@ public class CodePanel
 			text = true;
 		}
 		
-		if(c instanceof JsImageViewer)
+		if(c instanceof JImageViewer)
 		{
 			img = true;
 			run = false;

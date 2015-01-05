@@ -3,7 +3,7 @@ package goryachev.notebook.js.io;
 import goryachev.common.ui.ImageTools;
 import goryachev.notebook.js.JsEngine;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.img.JsImage;
+import goryachev.notebook.js.img.JImage;
 import goryachev.notebook.js.table.JsTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
@@ -24,7 +24,7 @@ public class IO
 	{
 		File f = JsUtil.parseFile(x);
 		BufferedImage im = ImageTools.read(f);
-		JsImage r = new JsImage(im);
+		JImage r = new JImage(im);
 		
 		// FIX does it need to be wrapped?
 		//return new NativeJavaObject(JsEngine.get().getGlobalScope(), r, null);

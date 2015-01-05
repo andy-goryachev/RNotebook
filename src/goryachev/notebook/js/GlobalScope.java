@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.util.SB;
-import goryachev.notebook.js.img.JsImage;
+import goryachev.notebook.js.img.JImage;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;

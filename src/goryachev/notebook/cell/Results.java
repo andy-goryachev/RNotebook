@@ -6,7 +6,7 @@ import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.img.JsImage;
+import goryachev.notebook.js.img.JImage;
 import goryachev.notebook.js.table.JsTable;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -23,16 +23,16 @@ public class Results
 	 * suitable for rendering after the execution is completed.
 	 * See also createViewer() below.
 	 */
-	public static Object createValueCopy(Object x)
+	public static Object copyValue(Object x)
 	{
 		if(x instanceof NativeJavaObject)
 		{
 			x = ((NativeJavaObject)x).unwrap();
 		}
 		
-		if(x instanceof JsImage)
+		if(x instanceof JImage)
 		{
-			BufferedImage im = ((JsImage)x).getBufferedImage();
+			BufferedImage im = ((JImage)x).getBufferedImage();
 			return ImageTools.copyImageRGB(im);
 		}
 		else if(x instanceof JsTable)
@@ -60,13 +60,13 @@ public class Results
 	
 	
 	/**
-	 * Creates viewer component for the result created by createValueCopy() above.
+	 * Creates viewer component for the result created by copyValue() above.
 	 */
 	public static JComponent createViewer(CodePanel p, Object x)
 	{
 		if(x instanceof BufferedImage)
 		{
-			JsImageViewer v = new JsImageViewer((BufferedImage)x);
+			JImageViewer v = new JImageViewer((BufferedImage)x);
 			v.addMouseListener(p.handler);
 			return v;
 		}

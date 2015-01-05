@@ -4,7 +4,7 @@ import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancelledException;
-import goryachev.notebook.js.img.JsImage;
+import goryachev.notebook.js.img.JImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import org.mozilla.javascript.NativeJavaObject;

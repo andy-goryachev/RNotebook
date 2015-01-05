@@ -1,31 +1,27 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.img;
 import java.awt.image.BufferedImage;
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.annotations.JSConstructor;
-import org.mozilla.javascript.annotations.JSGetter;
 
 
-public class JsImage
-//	extends ScriptableObject
+public class JImage
 {
 	private BufferedImage image;
 	
 	
-	public JsImage(BufferedImage im)
+	public JImage(BufferedImage im)
 	{
 		this.image = im;
 	}
 	
 	
 	// rhino requires a no-arg constructor
-	public JsImage()
+	public JImage()
 	{
 	}
 	
 	
-	@JSConstructor
-	public JsImage(int width, int height)
+	//@JSConstructor
+	public JImage(int width, int height)
 	{
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	}
@@ -37,21 +33,21 @@ public class JsImage
 	}
 
 
-	@JSGetter
+	//@JSGetter
 	public BufferedImage getBufferedImage()
 	{
 		return image;
 	}
 
 
-	@JSGetter
+	//@JSGetter
 	public int getWidth()
 	{
 		return image.getWidth();
 	}
 	
 
-	@JSGetter
+	//@JSGetter
 	public int getHeight()
 	{
 		return image.getHeight();

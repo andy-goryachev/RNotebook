@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "//print(\"This snippet displays multiple results (two images):\");\nvar im = IO.loadImage('examples/picture.jpg');\nNB.display(im);\nprint(\"width: \" + im.width);\nim.width",
-      "sequence": 2,
+      "sequence": 3,
       "output": [
         {
           "type": "image",
@@ -21,22 +21,26 @@
         },
         {
           "type": "text",
-          "text": "width: undefined"
+          "text": "width: 500"
         },
         {
           "type": "text",
-          "text": null
+          "text": "500"
         }
       ]
     },
     {
       "type": "js",
-      "source": "var im = new Image(10, 10)\nim.width",
-      "sequence": 3,
+      "source": "importPackage(Packages.goryachev.notebook.js.img)\nvar im = new JsImage(100, 100)\nprint(im.width)\nim",
+      "sequence": 4,
       "output": [
         {
           "type": "text",
-          "text": "10"
+          "text": "100"
+        },
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAPklEQVR42u3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgKcBnKQAAdh7HF4AAAAASUVORK5CYII="
         }
       ]
     },
