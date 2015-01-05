@@ -1,12 +1,15 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.io;
 import goryachev.common.ui.ImageTools;
+import goryachev.notebook.js.JsEngine;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.img.JsImage;
 import goryachev.notebook.js.table.JsTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJavaObject;
 
 
 /** "IO" object in the global context */
@@ -17,11 +20,15 @@ public class IO
 	}
 	
 	
-	public JsImage loadImage(Object x) throws Exception
+	public Object loadImage(Object x) throws Exception
 	{
 		File f = JsUtil.parseFile(x);
 		BufferedImage im = ImageTools.read(f);
-		return new JsImage(im);
+		JsImage r = new JsImage(im);
+		
+		// FIX does it need to be wrapped?
+		//return new NativeJavaObject(JsEngine.get().getGlobalScope(), r, null);
+		return r;
 	}
 	
 	

@@ -23,7 +23,14 @@ public class GlobalScope
 		};
 		defineFunctionProperties(names, GlobalScope.class, ScriptableObject.DONTENUM);
 		
-		defineClass(this, JsImage.class, true);
+		// FIX
+		// http://stackoverflow.com/questions/14561874/calling-jsfunction-from-javascript-typeerror-cannot-find-default-value-for-ob
+		// having problems with im.width
+		defineClass(this, JsImage.class, true, true);
+		
+		//cx.evaluateString(this, "importPackage(goryachev.notebook.js.img.JsImage)", "INIT", 1, null);
+		
+		//cx.evaluateString(this, "Packages.goryachev.notebook.js.img.JsImage", "INIT", 1, null);
 	}
 	
 	

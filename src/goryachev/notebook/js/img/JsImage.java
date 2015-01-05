@@ -49,15 +49,15 @@ public class JsImage
 	{
 		return image.getWidth();
 	}
-
+	
 
 	@JSGetter
 	public int getHeight()
 	{
 		return image.getHeight();
 	}
-
-
+	
+	
 	public String toString()
 	{
 		return "Image(" + getWidth() + "x" + getHeight() + ")";

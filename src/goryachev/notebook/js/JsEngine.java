@@ -53,6 +53,13 @@ public class JsEngine
 	}
 	
 	
+	@Deprecated // for debugging
+	public GlobalScope getGlobalScope()
+	{
+		return globalScope;
+	}
+	
+	
 	protected synchronized void print(String s)
 	{
 		if(log.isNotEmpty())

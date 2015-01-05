@@ -93,16 +93,21 @@ public class CodePanel
 
 	public void setRunning()
 	{
-		marginField.setText(">>>");
+		setMargin("...", false);
 		
 		// TODO clear results or show animation
 	}
 	
 	
+	protected void setMargin(String text, boolean error)
+	{
+		marginField.setText(text);
+		marginField.setForeground(error ? Styles.errorColor : Styles.marginTextColor);
+	}
+	
+	
 	public void setResult(int seq, CList<Object> results)
 	{
-		NotebookPanel np = NotebookPanel.get(this);
-		
 		// sequence
 		this.sequence = seq;
 		inField.setText("In (" + (seq <= 0 ? "*" : seq) + "):");
@@ -137,7 +142,7 @@ public class CodePanel
 		}
 		
 		// margin
-		marginField.setText(error ? "ERROR" : "=");
+		setMargin(error ? "ERROR" : "=", error);
 		
 		// components
 		if(resultComponents != null)
@@ -159,11 +164,7 @@ public class CodePanel
 		}
 		
 		UI.validateAndRepaint(this);
-		
-		if(np != null)
-		{
-			np.updateActions();
-		}
+		setModified();
 	}
 	
 	

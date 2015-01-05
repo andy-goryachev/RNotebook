@@ -2645,7 +2645,9 @@ public class ScriptRuntime
 		{
 			Object noSuchMethod = ScriptableObject.getProperty(thisObj, "__noSuchMethod__");
 			if(noSuchMethod instanceof Callable)
+			{
 				value = new NoSuchMethodShim((Callable)noSuchMethod, property);
+			}
 		}
 
 		if(!(value instanceof Callable))

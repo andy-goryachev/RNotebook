@@ -31,17 +31,23 @@ public class JsUtil
 			Throwable e = err.getCause();
 			if(e != null)
 			{
-				return e.getMessage();
+				String msg = e.getMessage();
+				if(CKit.isNotBlank(msg))
+				{
+					return msg;
+				}
+				else
+				{
+					err = e;
+				}
 			}
 			else
 			{
 				return ((RhinoException)err).getMessage();
 			}
 		}
-		else
-		{
-			return CKit.stackTrace(err);
-		}
+		
+		return CKit.stackTrace(err);
 	}
 
 
