@@ -28,6 +28,8 @@ public class NotebookPanel
 	public final CAction interruptAction = new CAction() { public void action() { actionInterrupt(); } };
 	public final CAction mergeCellAboveAction = new CAction() { public void action() { actionMergeCell(true); } };
 	public final CAction mergeCellBelowAction = new CAction() { public void action() { actionMergeCell(false); } };
+	public final CAction moveCellDownAction = new CAction() { public void action() { actionMoveCell(false); } };
+	public final CAction moveCellUpAction = new CAction() { public void action() { actionMoveCell(true); } };
 	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
@@ -200,6 +202,8 @@ public class NotebookPanel
 		interruptAction.setEnabled(running);
 		mergeCellAboveAction.setEnabled(cell);
 		mergeCellBelowAction.setEnabled(cell);
+		moveCellDownAction.setEnabled(cell);
+		moveCellUpAction.setEnabled(cell);
 		runAllAction.setEnabled(false); // FIX
 		runCellAction.setEnabled(code && !running);
 		runInPlaceAction.setEnabled(code && !running);
@@ -585,6 +589,40 @@ public class NotebookPanel
 		
 		activeCell.getEditor().setText(text);
 		activeCell.getEditor().setCaretPosition(caret);
+		
+		UI.validateAndRepaint(this);
+		setModified(true);
+	}
+	
+	
+	protected void actionMoveCell(boolean up)
+	{
+		int ix = indexOf(activeCell);
+		if(ix < 0)
+		{
+			return;
+		}
+		
+		if(up)
+		{
+			if(ix == 0)
+			{
+				return;
+			}
+			
+			panel.remove(activeCell);
+			insert(ix - 1, activeCell);
+		}
+		else
+		{
+			if(ix >= (getCellCount() - 1))
+			{
+				return;
+			}
+			
+			panel.remove(activeCell);
+			insert(ix + 1, activeCell);
+		}
 		
 		UI.validateAndRepaint(this);
 		setModified(true);

@@ -80,10 +80,6 @@
       "source": "And this is how a notebook page looks like.\nThe end."
     },
     {
-      "type": "h1",
-      "source": "Heading 1"
-    },
-    {
       "type": "text",
       "source": "1\n2\n3--[\n<cell>\n]---\n4\n5"
     },
@@ -94,6 +90,10 @@
     {
       "type": "h3",
       "source": "Heading 3"
+    },
+    {
+      "type": "h1",
+      "source": "Heading 1"
     }
   ]
 }

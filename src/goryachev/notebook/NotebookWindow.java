@@ -106,8 +106,8 @@ public class NotebookWindow
 		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
 		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Move Cell Up", CAction.TODO));
-		m.add(new CMenuItem("Move Cell Down", CAction.TODO));
+		m.add(new CMenuItem("Move Cell Up", np.moveCellUpAction));
+		m.add(new CMenuItem("Move Cell Down", np.moveCellDownAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Select Previous Cell", Accelerators.SELECT_PREV_CELL, np.selectPreviousCellAction));
 		m.add(new CMenuItem("Select Next Cell", Accelerators.SELECT_NEXT_CELL, np.selectNextCellAction));
@@ -159,8 +159,8 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.TODO));
 		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.TODO));
 		t.space();
-		t.add(new TButton(NotebookIcons.MoveUp, "Move Section Up", true, CAction.TODO));
-		t.add(new TButton(NotebookIcons.MoveDown, "Move Section Down", true, CAction.TODO));
+		t.add(new TButton(NotebookIcons.MoveUp, "Move Cell Up", true, np.moveCellUpAction));
+		t.add(new TButton(NotebookIcons.MoveDown, "Move Cell Down", true, np.moveCellDownAction));
 		t.space();
 		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
