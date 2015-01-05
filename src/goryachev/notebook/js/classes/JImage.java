@@ -1,8 +1,10 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.img;
+package goryachev.notebook.js.classes;
+import goryachev.common.util.Noobfuscate;
 import java.awt.image.BufferedImage;
 
 
+@Noobfuscate
 public class JImage
 {
 	private BufferedImage image;
@@ -56,6 +58,6 @@ public class JImage
 	
 	public String toString()
 	{
-		return "Image(" + getWidth() + "x" + getHeight() + ")";
+		return "JImage(" + getWidth() + "x" + getHeight() + ")";
 	}
 }

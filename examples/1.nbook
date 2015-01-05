@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "//print(\"This snippet displays multiple results (two images):\");\nvar im = IO.loadImage('examples/picture.jpg');\nNB.display(im);\nprint(\"width: \" + im.width);\nim.width",
-      "sequence": 3,
+      "sequence": 2,
       "output": [
         {
           "type": "image",
@@ -31,8 +31,8 @@
     },
     {
       "type": "js",
-      "source": "importPackage(Packages.goryachev.notebook.js.img)\nvar im = new JsImage(100, 100)\nprint(im.width)\nim",
-      "sequence": 4,
+      "source": "var im = new JImage(100, 100)\nprint(im.width)\nim",
+      "sequence": 1,
       "output": [
         {
           "type": "text",

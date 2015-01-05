@@ -1,7 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.util.SB;
-import goryachev.notebook.js.img.JImage;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -23,14 +22,8 @@ public class GlobalScope
 		};
 		defineFunctionProperties(names, GlobalScope.class, ScriptableObject.DONTENUM);
 		
-		// FIX
-		// http://stackoverflow.com/questions/14561874/calling-jsfunction-from-javascript-typeerror-cannot-find-default-value-for-ob
-		// having problems with im.width
-//		defineClass(this, JsImage.class, true, true);
-		
-		//cx.evaluateString(this, "importPackage(goryachev.notebook.js.img.JsImage)", "INIT", 1, null);
-		
-		//cx.evaluateString(this, "Packages.goryachev.notebook.js.img.JsImage", "INIT", 1, null);
+		// make these easily accessible		
+		cx.evaluateString(this, "importPackage(Packages.goryachev.notebook.js.classes)", "INIT", 1, null);
 	}
 	
 	

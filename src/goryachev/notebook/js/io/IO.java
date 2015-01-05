@@ -3,7 +3,7 @@ package goryachev.notebook.js.io;
 import goryachev.common.ui.ImageTools;
 import goryachev.notebook.js.JsEngine;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.img.JImage;
+import goryachev.notebook.js.classes.JImage;
 import goryachev.notebook.js.table.JsTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;

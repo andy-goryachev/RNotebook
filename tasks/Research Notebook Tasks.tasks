@@ -29,7 +29,15 @@
       "x": 2,
       "y": 0,
       "title": "BUGS",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "DFAEAEABDB21EE53C1F89EC205C3B9A4DC20FE82",
+          "title": "open long notebook, does not scroll to top",
+          "created": 1420424264581,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",

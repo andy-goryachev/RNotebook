@@ -156,10 +156,17 @@ public class NotebookPanel
 			}
 		}
 		
-		validate();
-		repaint();
-		
+		UI.validateAndRepaint(this);
 		updateActions();
+
+		// FIX does not work!
+		UI.later(new Runnable()
+		{
+			public void run()
+			{
+				scrollRectToVisible(new Rectangle(0, 0, getWidth(), 1));
+			}
+		});
 	}
 	
 	

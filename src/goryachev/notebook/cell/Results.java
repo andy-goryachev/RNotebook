@@ -6,7 +6,7 @@ import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.img.JImage;
+import goryachev.notebook.js.classes.JImage;
 import goryachev.notebook.js.table.JsTable;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
