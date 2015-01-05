@@ -34,10 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -137,6 +134,11 @@ public class RSyntaxTextArea
     extends RTextArea
     implements SyntaxConstants
 {
+	public static final RecordableTextAction toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.ToggleCurrentFoldAction();
+	public static final RecordableTextAction collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllCommentFoldsAction();
+	public static final RecordableTextAction collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction();
+	public static final RecordableTextAction expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction();
+
 	public static final String ANIMATE_BRACKET_MATCHING_PROPERTY = "RSTA.animateBracketMatching";
 	public static final String ANTIALIAS_PROPERTY = "RSTA.antiAlias";
 	public static final String AUTO_INDENT_PROPERTY = "RSTA.autoIndent";
@@ -163,19 +165,7 @@ public class RSyntaxTextArea
 
 	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR = new Color(255, 192, 255);
 	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR = UI.mix(10, Color.black, DEFAULT_BRACKET_MATCH_BG_COLOR);
-	private static final Color DEFAULT_SELECTION_COLOR = RTheme.getDefaultSelectionBG();
-
-	// FIX kill
-	private static final String MSG = "org.fife.ui.rsyntaxtextarea.RSyntaxTextArea";
-
-	// FIX kill
-	private JMenu foldingMenu;
-	
-	private static RecordableTextAction toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.ToggleCurrentFoldAction();
-	private static RecordableTextAction collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllCommentFoldsAction();
-	private static RecordableTextAction collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction();
-	private static RecordableTextAction expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction();
-
+	private static final Color DEFAULT_SELECTION_COLOR = RTheme.getDefaultSelectionBG();	
 	
 	/** The key for the syntax style to be highlighting. */
 	private String syntaxStyleKey;
@@ -498,27 +488,6 @@ public class RSyntaxTextArea
 
 
 	/**
-	 * Appends a submenu with code folding options to this text component's
-	 * popup menu.
-	 *
-	 * @param popup The popup menu to append to.
-	 * @see #createPopupMenu()
-	 */
-	protected void appendFoldingMenu(JPopupMenu popup)
-	{
-		popup.addSeparator();
-		ResourceBundle bundle = ResourceBundle.getBundle(MSG);
-		foldingMenu = new JMenu(bundle.getString("ContextMenu.Folding"));
-		foldingMenu.add(createPopupMenuItem(toggleCurrentFoldAction));
-		foldingMenu.add(createPopupMenuItem(collapseAllCommentFoldsAction));
-		foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));
-		foldingMenu.add(createPopupMenuItem(expandAllFoldsAction));
-		popup.add(foldingMenu);
-
-	}
-
-
-	/**
 	 * Recalculates the height of a line in this text area and the
 	 * maximum ascent of all fonts displayed.
 	 */
@@ -598,31 +567,6 @@ public class RSyntaxTextArea
 		}
 
 		return clone;
-	}
-
-
-	/**
-	 * Overridden to toggle the enabled state of various
-	 * RSyntaxTextArea-specific menu items.
-	 * 
-	 * If you set the popup menu via {@link #setPopupMenu(JPopupMenu)}, you
-	 * will want to override this method, especially if you removed any of the
-	 * menu items in the default popup menu.
-	 *
-	 * @param popupMenu The popup menu.  This will never be <code>null</code>.
-	 * @see #createPopupMenu()
-	 * @see #setPopupMenu(JPopupMenu)
-	 */
-	@Override
-	protected void configurePopupMenu(JPopupMenu popupMenu)
-	{
-		super.configurePopupMenu(popupMenu);
-
-		// They may have overridden createPopupMenu()...
-		if(popupMenu != null && popupMenu.getComponentCount() > 0 && foldingMenu != null)
-		{
-			foldingMenu.setEnabled(foldManager.isCodeFoldingSupportedAndEnabled());
-		}
 	}
 
 
@@ -724,21 +668,6 @@ public class RSyntaxTextArea
 	protected RTAMouseListener createMouseListener()
 	{
 		return new RSyntaxTextAreaMutableCaretEvent(this);
-	}
-
-
-	/**
-	 * Overridden to add menu items related to cold folding.
-	 *
-	 * @return The popup menu.
-	 * @see #appendFoldingMenu(JPopupMenu)
-	 */
-	@Override
-	protected JPopupMenu createPopupMenu()
-	{
-		JPopupMenu popup = super.createPopupMenu();
-		appendFoldingMenu(popup);
-		return popup;
 	}
 
 

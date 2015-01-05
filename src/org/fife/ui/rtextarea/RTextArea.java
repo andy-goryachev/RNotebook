@@ -8,12 +8,9 @@
  */
 package org.fife.ui.rtextarea;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -22,15 +19,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.swing.Action;
-import javax.swing.Icon;
 import javax.swing.InputMap;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.plaf.TextUI;
@@ -77,33 +68,33 @@ public class RTextArea
     extends RTextAreaBase
     implements Printable
 {
+	public static final RecordableTextAction cutAction = new RTextAreaEditorKit.CutAction();
+	public static final RecordableTextAction copyAction = new RTextAreaEditorKit.CopyAction();
+	public static final RecordableTextAction pasteAction = new RTextAreaEditorKit.PasteAction();
+	public static final RecordableTextAction deleteAction = new RTextAreaEditorKit.DeleteNextCharAction();
+	public static final RecordableTextAction undoAction = new RTextAreaEditorKit.UndoAction();
+	public static final RecordableTextAction redoAction = new RTextAreaEditorKit.RedoAction();
+	public static final RecordableTextAction selectAllAction = new RTextAreaEditorKit.SelectAllAction();
+
 	/**
 	 * Constant representing insert mode.
-	 *
 	 * @see #setCaretStyle(int, CaretStyle)
 	 */
 	public static final int INSERT_MODE = 0;
 
 	/**
 	 * Constant representing overwrite mode.
-	 *
 	 * @see #setCaretStyle(int, CaretStyle)
 	 */
 	public static final int OVERWRITE_MODE = 1;
 
-	/**
-	 * The property fired when the "mark all" color changes.
-	 */
+	/** The property fired when the "mark all" color changes. */
 	public static final String MARK_ALL_COLOR_PROPERTY = "RTA.markAllColor";
 
-	/**
-	 * The property fired when what ranges are labeled "mark all" changes.
-	 */
+	/** The property fired when what ranges are labeled "mark all" changes. */
 	public static final String MARK_ALL_OCCURRENCES_CHANGED_PROPERTY = "RTA.markAllOccurrencesChanged";
 
-	/*
-	 * Constants for all actions.
-	 */
+	/* Constants for all actions. */
 	private static final int MIN_ACTION_CONSTANT = 0;
 	public static final int COPY_ACTION = 0;
 	public static final int CUT_ACTION = 1;
@@ -124,26 +115,8 @@ public class RTextArea
 	// All macros are shared across all RTextAreas.
 	private static boolean recordingMacro; // Whether we're recording a macro.
 	private static Macro currentMacro;
-
 	private static StringBuilder repTabsSB;
 	private static Segment repTabsSeg = new Segment();
-
-
-	/**
-	 * This text area's popup menu.
-	 */
-	private JPopupMenu popupMenu;
-
-	private JMenuItem undoMenuItem;
-	private JMenuItem redoMenuItem;
-	private JMenuItem cutMenuItem;
-	private JMenuItem pasteMenuItem;
-	private JMenuItem deleteMenuItem;
-
-	/**
-	 * Whether the popup menu has been created.
-	 */
-	private boolean popupMenuCreated;
 
 	/**
 	 * The text last searched for via Ctrl+K or Ctrl+Shift+K.
@@ -157,22 +130,11 @@ public class RTextArea
 	 * before calling the super class's version.
 	 */
 	private ToolTipSupplier toolTipSupplier;
-
-	protected static RecordableTextAction cutAction;
-	protected static RecordableTextAction copyAction;
-	protected static RecordableTextAction pasteAction;
-	protected static RecordableTextAction deleteAction;
-	protected static RecordableTextAction undoAction;
-	protected static RecordableTextAction redoAction;
-	protected static RecordableTextAction selectAllAction;
-
-	private static IconGroup iconGroup; // Info on icons for actions.
 	protected transient RUndoManager undoManager;
 	private transient LineHighlightManager lineHighlightManager;
 	private SmartHighlightPainter markAllHighlightPainter;
 	private CaretStyle[] carets; // Index 0=>insert caret, 1=>overwrite.
-	private static final String MSG = "org.fife.ui.rtextarea.RTextArea";
-
+		
 
 	/**
 	 * Constructor.
@@ -383,39 +345,6 @@ public class RTextArea
 
 
 	/**
-	 * Configures the popup menu for this text area.  This method is called
-	 * right before it is displayed, so a hosting application can do any
-	 * custom configuration (configuring actions, adding/removing items, etc.).
-	 * <p>
-	 *
-	 * The default implementation does nothing.<p>
-	 * 
-	 * If you set the popup menu via {@link #setPopupMenu(JPopupMenu)}, you
-	 * will want to override this method, especially if you removed any of the
-	 * menu items in the default popup menu.
-	 *
-	 * @param popupMenu The popup menu.  This will never be <code>null</code>.
-	 * @see #createPopupMenu()
-	 * @see #setPopupMenu(JPopupMenu)
-	 */
-	protected void configurePopupMenu(JPopupMenu popupMenu)
-	{
-		boolean canType = isEditable() && isEnabled();
-
-		// Since the user can customize the popup menu, these actions may not
-		// have been created.
-		if(undoMenuItem != null)
-		{
-			undoMenuItem.setEnabled(undoAction.isEnabled() && canType);
-			redoMenuItem.setEnabled(redoAction.isEnabled() && canType);
-			cutMenuItem.setEnabled(cutAction.isEnabled() && canType);
-			pasteMenuItem.setEnabled(pasteAction.isEnabled() && canType);
-			deleteMenuItem.setEnabled(deleteAction.isEnabled() && canType);
-		}
-	}
-
-
-	/**
 	 * Creates the default implementation of the model to be used at
 	 * construction if one isn't explicitly given. A new instance of RDocument
 	 * is returned.
@@ -438,94 +367,6 @@ public class RTextArea
 	protected RTAMouseListener createMouseListener()
 	{
 		return new RTextAreaMutableCaretEvent(this);
-	}
-
-
-	/**
-	 * Creates the right-click popup menu. Subclasses can override this method
-	 * to replace or augment the popup menu returned.
-	 *
-	 * @return The popup menu.
-	 * @see #setPopupMenu(JPopupMenu)
-	 * @see #configurePopupMenu(JPopupMenu)
-	 * @see #createPopupMenuItem(Action)
-	 */
-	@Deprecated // kill
-	protected JPopupMenu createPopupMenu()
-	{
-		JPopupMenu menu = new JPopupMenu();
-		menu.add(undoMenuItem = createPopupMenuItem(undoAction));
-		menu.add(redoMenuItem = createPopupMenuItem(redoAction));
-		menu.addSeparator();
-		menu.add(cutMenuItem = createPopupMenuItem(cutAction));
-		menu.add(createPopupMenuItem(copyAction));
-		menu.add(pasteMenuItem = createPopupMenuItem(pasteAction));
-		menu.add(deleteMenuItem = createPopupMenuItem(deleteAction));
-		menu.addSeparator();
-		menu.add(createPopupMenuItem(selectAllAction));
-		return menu;
-	}
-
-
-	/**
-	 * Creates the actions used in the popup menu and retrievable by
-	 * {@link #getAction(int)}.
-	 * TODO: Remove these horrible hacks and move localizing of actions into
-	 * the editor kits, where it should be!  The context menu should contain
-	 * actions from the editor kits.
-	 */
-	private static void createPopupMenuActions()
-	{
-		// Create actions for right-click popup menu.
-		// 1.5.2004/pwy: Replaced the CTRL_MASK with the cross-platform version...
-		int mod = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
-
-		cutAction = new RTextAreaEditorKit.CutAction();
-		cutAction.setProperties(msg, "Action.Cut");
-		cutAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, mod));
-		copyAction = new RTextAreaEditorKit.CopyAction();
-		copyAction.setProperties(msg, "Action.Copy");
-		copyAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, mod));
-		pasteAction = new RTextAreaEditorKit.PasteAction();
-		pasteAction.setProperties(msg, "Action.Paste");
-		pasteAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, mod));
-		deleteAction = new RTextAreaEditorKit.DeleteNextCharAction();
-		deleteAction.setProperties(msg, "Action.Delete");
-		deleteAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
-		undoAction = new RTextAreaEditorKit.UndoAction();
-		undoAction.setProperties(msg, "Action.Undo");
-		undoAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, mod));
-		redoAction = new RTextAreaEditorKit.RedoAction();
-		redoAction.setProperties(msg, "Action.Redo");
-		redoAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, mod));
-		selectAllAction = new RTextAreaEditorKit.SelectAllAction();
-		selectAllAction.setProperties(msg, "Action.SelectAll");
-		selectAllAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, mod));
-	}
-
-
-	/**
-	 * Creates and configures a menu item for used in the popup menu.
-	 *
-	 * @param a The action for the menu item.
-	 * @return The menu item.
-	 * @see #createPopupMenu()
-	 */
-	@Deprecated
-	protected JMenuItem createPopupMenuItem(Action a)
-	{
-		JMenuItem item = new JMenuItem(a)
-		{
-			@Override
-			public void setToolTipText(String text)
-			{
-				// Ignore!  Actions (e.g. undo/redo) set this when changing
-				// their text due to changing enabled state.
-			}
-		};
-		item.setAccelerator(null);
-		return item;
 	}
 
 
@@ -746,18 +587,6 @@ public class RTextArea
 
 
 	/**
-	 * Returns the icon group being used for the actions of this text area.
-	 *
-	 * @return The icon group.
-	 * @see #setIconGroup(IconGroup)
-	 */
-	public static IconGroup getIconGroup()
-	{
-		return iconGroup;
-	}
-
-
-	/**
 	 * Returns the line highlight manager.
 	 *
 	 * @return The line highlight manager.  This may be <code>null</code>.
@@ -793,30 +622,6 @@ public class RTextArea
 	public int getMaxAscent()
 	{
 		return getFontMetrics(getFont()).getAscent();
-	}
-
-
-	/**
-	 * Returns the popup menu for this component, lazily creating it if
-	 * necessary.
-	 *
-	 * @return The popup menu.
-	 * @see #createPopupMenu()
-	 * @see #setPopupMenu(JPopupMenu)
-	 */
-	public JPopupMenu getPopupMenu()
-	{
-		if(!popupMenuCreated)
-		{
-			popupMenu = createPopupMenu();
-			if(popupMenu != null)
-			{
-				ComponentOrientation orientation = ComponentOrientation.getOrientation(Locale.getDefault());
-				popupMenu.applyComponentOrientation(orientation);
-			}
-			popupMenuCreated = true;
-		}
-		return popupMenu;
 	}
 
 
@@ -902,17 +707,6 @@ public class RTextArea
 	protected void init()
 	{
 		super.init();
-
-		// NOTE: Our actions are created here instead of in a static block
-		// so they are only created when the first RTextArea is instantiated,
-		// not before.  There have been reports of users calling static getters
-		// (e.g. RSyntaxTextArea.getDefaultBracketMatchBGColor()) which would
-		// cause these actions to be created and (possibly) incorrectly
-		// localized, if they were in a static block.
-		if(cutAction == null)
-		{
-			createPopupMenuActions();
-		}
 
 		// Install the undo manager.
 		undoManager = createUndoManager();
@@ -1537,46 +1331,6 @@ public class RTextArea
 
 
 	/**
-	 * Sets the path in which to find images to associate with the editor's
-	 * actions.  The path MUST contain the following images (with the
-	 * appropriate extension as defined by the icon group):<br>
-	 * <ul>
-	 *   <li>cut</li>
-	 *   <li>copy</li>
-	 *   <li>paste</li>
-	 *   <li>delete</li>
-	 *   <li>undo</li>
-	 *   <li>redo</li>
-	 *   <li>selectall</li>
-	 * </ul>
-	 * If any of the above images don't exist, the corresponding action will
-	 * not have an icon.
-	 *
-	 * @param group The icon group to load.
-	 * @see #getIconGroup()
-	 */
-	@Deprecated // kill
-	public static synchronized void setIconGroup(IconGroup group)
-	{
-		Icon icon = group.getIcon("cut");
-		cutAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("copy");
-		copyAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("paste");
-		pasteAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("delete");
-		deleteAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("undo");
-		undoAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("redo");
-		redoAction.putValue(Action.SMALL_ICON, icon);
-		icon = group.getIcon("selectall");
-		selectAllAction.putValue(Action.SMALL_ICON, icon);
-		iconGroup = group;
-	}
-
-
-	/**
 	 * Sets the color used for "mark all."  This fires a property change of
 	 * type {@link #MARK_ALL_COLOR_PROPERTY}.
 	 *
@@ -1596,25 +1350,6 @@ public class RTextArea
 			}
 			firePropertyChange(MARK_ALL_COLOR_PROPERTY, old, color);
 		}
-	}
-
-
-	/**
-	 * Sets the popup menu used by this text area.<p>
-	 * 
-	 * If you set the popup menu with this method, you'll want to consider also
-	 * overriding {@link #configurePopupMenu(JPopupMenu)}, especially if you
-	 * removed any of the default menu items.
-	 *
-	 * @param popupMenu The popup menu.  If this is <code>null</code>, no
-	 *        popup menu will be displayed.
-	 * @see #getPopupMenu()
-	 * @see #configurePopupMenu(JPopupMenu)
-	 */
-	public void setPopupMenu(JPopupMenu popupMenu)
-	{
-		this.popupMenu = popupMenu;
-		popupMenuCreated = true;
 	}
 
 
@@ -1709,12 +1444,6 @@ public class RTextArea
 	@Override
 	public final void setUI(TextUI ui)
 	{
-		// Update the popup menu's ui.
-		if(popupMenu != null)
-		{
-			SwingUtilities.updateComponentTreeUI(popupMenu);
-		}
-
 		// Set things like selection color, selected text color, etc. to
 		// laf defaults (if values are null or UIResource instances).
 		RTextAreaUI rtaui = (RTextAreaUI)getUI();
@@ -1758,7 +1487,6 @@ public class RTextArea
 		getDocument().removeUndoableEditListener(undoManager);
 		s.defaultWriteObject();
 		getDocument().addUndoableEditListener(undoManager);
-
 	}
 	
 	
@@ -1774,7 +1502,6 @@ public class RTextArea
 	protected class RTextAreaMutableCaretEvent
 	    extends RTAMouseListener
 	{
-
 		protected RTextAreaMutableCaretEvent(RTextArea textArea)
 		{
 			super(textArea);
@@ -1818,8 +1545,8 @@ public class RTextArea
 		public void mousePressed(MouseEvent e)
 		{
 			if(e.isPopupTrigger())
-			{ // OS X popup triggers are on pressed
-				showPopup(e);
+			{ 
+				// OS X popup triggers are on pressed
 			}
 			else if((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0)
 			{
@@ -1832,30 +1559,8 @@ public class RTextArea
 
 
 		@Override
-		public void mouseReleased(MouseEvent e)
+		public void mouseReleased(MouseEvent ev)
 		{
-			if(e.isPopupTrigger())
-			{
-				showPopup(e);
-			}
-		}
-
-
-		/**
-		 * Shows a popup menu with cut, copy, paste, etc. options if the
-		 * user clicked the right button.
-		 *
-		 * @param e The mouse event that caused this method to be called.
-		 */
-		private void showPopup(MouseEvent e)
-		{
-			JPopupMenu popupMenu = getPopupMenu();
-			if(popupMenu != null)
-			{
-				configurePopupMenu(popupMenu);
-				popupMenu.show(e.getComponent(), e.getX(), e.getY());
-				e.consume();
-			}
 		}
 	}
 }
