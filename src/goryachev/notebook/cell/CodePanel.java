@@ -164,7 +164,13 @@ public class CodePanel
 		}
 		
 		UI.validateAndRepaint(this);
-		setModified();
+		
+		NotebookPanel np = NotebookPanel.get(this);
+		if(np != null)
+		{
+			np.setModified(true);
+			np.updateActions();
+		}
 	}
 	
 	

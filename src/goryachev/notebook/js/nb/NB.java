@@ -20,7 +20,7 @@ public class NB
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp();
-		h.a("NB :");
+		h.a("NB object allows for operations with the notebook application:");
 		h.a("NB.display(x)", "displays an object in the code output section");
 		//h.a("NB.loadTable(filename)", "loads table from CSV, XLS, or XLSX file");
 		return h.toString();

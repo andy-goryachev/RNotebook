@@ -4,18 +4,15 @@
   "cells": [
     {
       "type": "h1",
-      "source": "Top Level Objects in Research Notebook",
-      "output": []
+      "source": "Top Level Objects in Research Notebook"
     },
     {
       "type": "text",
-      "source": "A number of objects defined in the global context form the bulk of Research Notebook functionality.\nThese objects are:\n\nFS\nIO\nNB",
-      "output": []
+      "source": "A number of objects defined in the global context form the bulk of Research Notebook functionality.\nThese objects are:\n\nFS\nIO\nNB"
     },
     {
       "type": "h3",
-      "source": "FS",
-      "output": []
+      "source": "FS"
     },
     {
       "type": "js",
@@ -29,8 +26,7 @@
     },
     {
       "type": "h3",
-      "source": "IO",
-      "output": []
+      "source": "IO"
     },
     {
       "type": "js",
@@ -45,16 +41,39 @@
     },
     {
       "type": "h3",
-      "source": "NB",
-      "output": []
+      "source": "NB"
     },
     {
       "type": "js",
       "source": "NB",
+      "sequence": 5,
       "output": [
         {
           "type": "text",
-          "text": "NB :\n   NB.display(x) - displays an object in the code output section"
+          "text": "NB object allows for operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display('line 1');\nNB.display('line 2');\nNB.display('line 3');",
+      "sequence": 11,
+      "output": [
+        {
+          "type": "text",
+          "text": "line 1"
+        },
+        {
+          "type": "text",
+          "text": "line 2"
+        },
+        {
+          "type": "text",
+          "text": "line 3"
+        },
+        {
+          "type": "text",
+          "text": null
         }
       ]
     }

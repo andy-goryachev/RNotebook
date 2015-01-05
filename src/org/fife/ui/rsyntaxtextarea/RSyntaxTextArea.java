@@ -171,11 +171,12 @@ public class RSyntaxTextArea
 	// FIX kill
 	private JMenu foldingMenu;
 	
-	private static RecordableTextAction toggleCurrentFoldAction;
-	private static RecordableTextAction collapseAllCommentFoldsAction;
-	private static RecordableTextAction collapseAllFoldsAction;
-	private static RecordableTextAction expandAllFoldsAction;
+	private static RecordableTextAction toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.ToggleCurrentFoldAction();
+	private static RecordableTextAction collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllCommentFoldsAction();
+	private static RecordableTextAction collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction();
+	private static RecordableTextAction expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction();
 
+	
 	/** The key for the syntax style to be highlighting. */
 	private String syntaxStyleKey;
 
@@ -738,27 +739,6 @@ public class RSyntaxTextArea
 		JPopupMenu popup = super.createPopupMenu();
 		appendFoldingMenu(popup);
 		return popup;
-	}
-
-
-	/**
-	 * See createPopupMenuActions() in RTextArea.
-	 * TODO: Remove these horrible hacks and move localizing of actions into
-	 * the editor kits, where it should be!  The context menu should contain
-	 * actions from the editor kits.
-	 */
-	private static void createRstaPopupMenuActions()
-	{
-		ResourceBundle msg = ResourceBundle.getBundle(MSG);
-
-		toggleCurrentFoldAction = new RSyntaxTextAreaEditorKit.ToggleCurrentFoldAction();
-		toggleCurrentFoldAction.setProperties(msg, "Action.ToggleCurrentFold");
-
-		collapseAllCommentFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllCommentFoldsAction();
-		collapseAllCommentFoldsAction.setProperties(msg, "Action.CollapseCommentFolds");
-
-		collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction(true);
-		expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction(true);
 	}
 
 
@@ -1979,17 +1959,6 @@ public class RSyntaxTextArea
 		metricsNeverRefreshed = true;
 
 		tokenPainter = new DefaultTokenPainter();
-
-		// NOTE: Our actions are created here instead of in a static block
-		// so they are only created when the first RTextArea is instantiated,
-		// not before.  There have been reports of users calling static getters
-		// (e.g. RSyntaxTextArea.getDefaultBracketMatchBGColor()) which would
-		// cause these actions to be created and (possibly) incorrectly
-		// localized, if they were in a static block.
-		if(toggleCurrentFoldAction == null)
-		{
-			createRstaPopupMenuActions();
-		}
 
 		// Set some RSyntaxTextArea default values.
 		syntaxStyleKey = SYNTAX_STYLE_NONE;

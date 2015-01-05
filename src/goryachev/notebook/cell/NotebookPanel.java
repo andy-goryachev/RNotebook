@@ -321,6 +321,7 @@ public class NotebookPanel
 		if(activeCell instanceof CodePanel)
 		{
 			engine.execute((CodePanel)activeCell);
+			updateActions();
 		}
 		else
 		{
@@ -353,6 +354,7 @@ public class NotebookPanel
 		if(activeCell instanceof CodePanel)
 		{
 			engine.execute((CodePanel)activeCell);
+			updateActions();
 		}
 		else
 		{

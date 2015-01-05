@@ -3,6 +3,10 @@
 	
 mozilla rhino Rhino 1.7R4
 	https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino
+	
+NET
+	- curl-like
+	- jsoup?
 
 
 TODO
@@ -29,3 +33,4 @@ SUBSYSTEMS
 - compression
 - os (see node.js)
 - display.display(image, text, ...)
+- NET
