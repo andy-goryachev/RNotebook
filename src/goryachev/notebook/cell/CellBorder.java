@@ -10,7 +10,8 @@ import javax.swing.border.AbstractBorder;
 public class CellBorder
     extends AbstractBorder
 {
-	public static final Insets INSETS = new Insets(1, 1, 1, 1);
+	public static final int GAP = 3;
+	public static final Insets INSETS = new Insets(1, 1, 1 + GAP, 1);
 	private boolean active;
 	
 	
@@ -30,7 +31,7 @@ public class CellBorder
 		if(active)
 		{
 			g.setColor(Styles.sectionBorderColor);
-			g.drawRect(x, y, w-1, h-1);
+			g.drawRect(x, y, w-1, h-1-GAP);
 		}
 	}
 

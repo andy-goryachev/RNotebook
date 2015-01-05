@@ -1,6 +1,9 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
+import goryachev.common.ui.ImageTools;
 import goryachev.common.util.Noobfuscate;
+import goryachev.common.util.img.jhlabs.InvertFilter;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
@@ -8,6 +11,7 @@ import java.awt.image.BufferedImage;
 public class JImage
 {
 	private BufferedImage image;
+	private transient Graphics2D g;
 	
 	
 	public JImage(BufferedImage im)
@@ -16,16 +20,15 @@ public class JImage
 	}
 	
 	
-	// rhino requires a no-arg constructor
-	public JImage()
+	public JImage(int width, int height)
 	{
+		this(width, height, false);
 	}
 	
 	
-	//@JSConstructor
-	public JImage(int width, int height)
+	public JImage(int width, int height, boolean alpha)
 	{
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(width, height, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
 	}
 	
 	
@@ -35,21 +38,18 @@ public class JImage
 	}
 
 
-	//@JSGetter
 	public BufferedImage getBufferedImage()
 	{
 		return image;
 	}
 
 
-	//@JSGetter
 	public int getWidth()
 	{
 		return image.getWidth();
 	}
 	
 
-	//@JSGetter
 	public int getHeight()
 	{
 		return image.getHeight();
@@ -59,5 +59,31 @@ public class JImage
 	public String toString()
 	{
 		return "JImage(" + getWidth() + "x" + getHeight() + ")";
+	}
+	
+	
+	protected void commit()
+	{
+		if(g != null)
+		{
+			g.dispose();
+		}
+	}
+	
+	
+	public JImage invert()
+	{
+		commit();
+		image = new InvertFilter().filter(image, null);
+		return this;
+	}
+	
+	
+	public JImage copy()
+	{
+		commit();
+		
+		BufferedImage im = ImageTools.copyImageRGB(image);
+		return new JImage(im);
 	}
 }
