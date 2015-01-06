@@ -86,7 +86,15 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "B9028C8044099516DC40CD6D55DC0DE88809E800",
+          "title": "package tracking example",
+          "created": 1420566212736,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -118,7 +126,7 @@
       "tasks": [
         {
           "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
-          "title": "FS.ls, list",
+          "title": "FS.ls",
           "created": 1420448021380,
           "completed": null,
           "description": null

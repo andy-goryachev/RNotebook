@@ -86,7 +86,15 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "B9028C8044099516DC40CD6D55DC0DE88809E800",
+          "title": "package tracking example",
+          "created": 1420566212736,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -105,6 +113,13 @@
           "id": "932A5F2BD1CF355C1D5371E33CBBA68298BE440C",
           "title": "web site",
           "created": 1420358107868,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "6C31F387C589972D0AC3038F8C05E11E8573A7E7",
+          "title": "jump cursor to error line",
+          "created": 1420568321460,
           "completed": null,
           "description": null
         }
