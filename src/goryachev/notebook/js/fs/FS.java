@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
 import goryachev.common.util.Dump;
+import goryachev.common.util.FileTools;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
 import java.io.File;
@@ -65,6 +66,20 @@ public class FS
 	}
 	
 	
+	public void touch(Object x) throws Exception
+	{
+		File f = JsUtil.parseFile(x);
+		if(!f.exists())
+		{
+			FileTools.createZeroLengthFile(f);
+		}
+		else
+		{
+			f.setLastModified(System.currentTimeMillis());
+		}
+	}
+	
+	
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp("FS");
@@ -74,6 +89,7 @@ public class FS
 		h.a("ls([path],[mode])", "returns the list of files in the current directory");
 		h.a("pwd()", "returns the current directory");
 		h.a("totalSpace, getTotalSpace(file)", "returns the amount of total space");
+		h.a("touch", "updates the timestamp of a file, creating it if necessary");
 		return h.toString();
 	}
 }

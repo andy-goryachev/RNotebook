@@ -167,13 +167,6 @@
           "description": null
         },
         {
-          "id": "B236ABB2DE4CB7ECFF0D3E66273B5B172328981B",
-          "title": "FS.freeSpace,totalSpace,usedSpace",
-          "created": 1420449056557,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "2E0078597216AD7384FEFD61BBBBC86CB089B121",
           "title": "FS.isDirectory,isFile,isHidden",
           "created": 1420449076854,
@@ -565,6 +558,13 @@
       "title": "OS.hostname",
       "created": 1420450163093,
       "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "B236ABB2DE4CB7ECFF0D3E66273B5B172328981B",
+      "title": "FS.freeSpace,totalSpace",
+      "created": 1420449056557,
+      "completed": 1420502973106,
       "description": null
     }
   ]

@@ -359,13 +359,6 @@
           "description": null
         },
         {
-          "id": "E3C2FA43A6C529BF5770A8FFC7DDB9F8B9665DFD",
-          "title": "UT.sleep",
-          "created": 1420449526206,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "4AD8DFF0CEDEBAF530D477049A22A567A8667E04",
           "title": "UT.format",
           "created": 1420450013778,
@@ -565,6 +558,13 @@
       "title": "FS.freeSpace,totalSpace",
       "created": 1420449056557,
       "completed": 1420502973106,
+      "description": null
+    },
+    {
+      "id": "E3C2FA43A6C529BF5770A8FFC7DDB9F8B9665DFD",
+      "title": "UT.sleep",
+      "created": 1420449526206,
+      "completed": 1420503252705,
       "description": null
     }
   ]

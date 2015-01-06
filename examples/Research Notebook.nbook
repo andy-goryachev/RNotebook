@@ -56,11 +56,11 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 36,
+      "sequence": 40,
       "output": [
         {
           "type": "text",
-          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space"
+          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space\n   FS.touch                           - updates the timestamp of a file, creating it if necessary"
         }
       ]
     },
@@ -169,6 +169,17 @@
       ]
     },
     {
+      "type": "js",
+      "source": "FS.touch(\"test.file\");",
+      "sequence": 41,
+      "output": [
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    },
+    {
       "type": "h2",
       "source": "IO"
     },
@@ -189,7 +200,7 @@
     },
     {
       "type": "text",
-      "source": "Network-related functionality is provided by the NET object.\nTBD"
+      "source": "Network-related functionality is provided by the NET object.\nTBD\nNET.get(url)\nNET.post(url, object)\nNET.email(address, subject, text, data)"
     },
     {
       "type": "js",
@@ -377,6 +388,21 @@
         {
           "type": "text",
           "text": "provides network-related functions:\n   UT.sleep(ms) - sleeps for the specified number of milliseconds"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "time = OS.time;\nUT.sleep(1234);\nprint(OS.time - time);",
+      "sequence": 39,
+      "output": [
+        {
+          "type": "text",
+          "text": "1234"
+        },
+        {
+          "type": "text",
+          "text": null
         }
       ]
     }
