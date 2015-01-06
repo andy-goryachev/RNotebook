@@ -118,7 +118,7 @@
       "tasks": [
         {
           "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
-          "title": "FS.ls, list",
+          "title": "FS.ls",
           "created": 1420448021380,
           "completed": null,
           "description": null
@@ -162,20 +162,6 @@
           "id": "FB3BCB1F9EE6492F96796DACFA2041447477659A",
           "title": "FS.exists",
           "created": 1420449022306,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "2E0078597216AD7384FEFD61BBBBC86CB089B121",
-          "title": "FS.isDirectory,isFile,isHidden",
-          "created": 1420449076854,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "528F5B70567DC09BB4BDF6ED4478831A24F211C0",
-          "title": "FS.lastModified",
-          "created": 1420449081604,
           "completed": null,
           "description": null
         },
@@ -571,6 +557,20 @@
       "title": "table result",
       "created": 1420393625079,
       "completed": 1420523894990,
+      "description": null
+    },
+    {
+      "id": "528F5B70567DC09BB4BDF6ED4478831A24F211C0",
+      "title": "FS.lastModified",
+      "created": 1420449081604,
+      "completed": 1420533499645,
+      "description": null
+    },
+    {
+      "id": "2E0078597216AD7384FEFD61BBBBC86CB089B121",
+      "title": "FS.isDirectory,isFile,isHidden",
+      "created": 1420449076854,
+      "completed": 1420533905146,
       "description": null
     }
   ]

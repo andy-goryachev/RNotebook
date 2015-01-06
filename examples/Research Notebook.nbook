@@ -29,7 +29,7 @@
     {
       "type": "js",
       "source": "// programmatically generate a simple image\nim = new JImage(50, 50);\nim.setColor('Dark Orange');\nim.fillRect(10, 10, 10, 10);",
-      "sequence": 7,
+      "sequence": 81,
       "output": [
         {
           "type": "image",
@@ -43,7 +43,7 @@
     },
     {
       "type": "text",
-      "source": "Even though the underlying scripting engine is Javascript, the bulk of Notebook functionality is provided by set of built-in Java objects, each implementing a particular set of functions.  These objects are:\n\nFS\nIO\nNET\nNB\nOS\nUT"
+      "source": "Even though the underlying scripting engine is Javascript, the bulk of Notebook functionality is provided by set of built-in Java objects.\nThese objects are:\n\nFS\nIO\nNET\nNB\nOS\nUT"
     },
     {
       "type": "h2",
@@ -56,33 +56,77 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 40,
+      "sequence": 79,
       "output": [
         {
           "type": "text",
-          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space\n   FS.touch                           - updates the timestamp of a file, creating it if necessary"
+          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space\n   FS.touch                           - updates the timestamp of a file, creating it if necessary"
         }
       ]
     },
     {
       "type": "js",
-      "source": "FS.freeSpace",
-      "sequence": 71,
+      "source": "FS.freeSpace;",
+      "sequence": 76,
       "output": [
         {
           "type": "text",
-          "text": "172830380032"
+          "text": "172829720576"
         }
       ]
     },
     {
       "type": "js",
-      "source": "FS.getFreeSpace(\"h:\")",
-      "sequence": 70,
+      "source": "FS.getFreeSpace(\"h:\");",
+      "sequence": 77,
       "output": [
         {
           "type": "text",
           "text": "1505838366720"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isDirectory(\"c:\");",
+      "sequence": 75,
+      "output": [
+        {
+          "type": "text",
+          "text": "true"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isFile(\"c:\");",
+      "sequence": 78,
+      "output": [
+        {
+          "type": "text",
+          "text": "false"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isHidden(\"c:\");",
+      "sequence": 80,
+      "output": [
+        {
+          "type": "text",
+          "text": "false"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.lastModified(\"c:\");",
+      "sequence": 72,
+      "output": [
+        {
+          "type": "text",
+          "text": "1420503642978"
         }
       ]
     },
