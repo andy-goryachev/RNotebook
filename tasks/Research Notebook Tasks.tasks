@@ -389,13 +389,6 @@
       "title": "NET",
       "tasks": [
         {
-          "id": "AA2BB1D38BDA2FBEADE4169022199EB3D49B0FD5",
-          "title": "NET.get",
-          "created": 1420448649893,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "8165812268B4A79866691F2EAE364CFBF8CA5DF8",
           "title": "NET.post",
           "created": 1420448655549,
@@ -586,6 +579,13 @@
       "title": "FS.isDirectory,isFile,isHidden",
       "created": 1420449076854,
       "completed": 1420533905146,
+      "description": null
+    },
+    {
+      "id": "AA2BB1D38BDA2FBEADE4169022199EB3D49B0FD5",
+      "title": "NET.get",
+      "created": 1420448649893,
+      "completed": 1420577788521,
       "description": null
     }
   ]

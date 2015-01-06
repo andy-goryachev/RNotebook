@@ -607,4 +607,15 @@ public class SB
 			}
 		}
 	}
+
+
+	public boolean conditionalNewline()
+    {
+		if(sb.length() > 0)
+		{
+			sb.append('\n');
+			return true;
+		}
+		return false;
+    }
 }

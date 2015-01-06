@@ -26,7 +26,15 @@ public class JsUtil
 	
 	public static File parseFile(Object x)
 	{
-		return new File(x.toString());
+		String s = x.toString();
+		if(s.startsWith("~"))
+		{
+			if(s.equals("~") || (s.equals("~/")) || s.equals("~\\"))
+			{
+				s = System.getProperty("user.home");
+			}
+		}
+		return new File(s);
 	}
 
 

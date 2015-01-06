@@ -115,6 +115,13 @@
           "created": 1420358107868,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "6C31F387C589972D0AC3038F8C05E11E8573A7E7",
+          "title": "jump cursor to error line",
+          "created": 1420568321460,
+          "completed": null,
+          "description": null
         }
       ]
     },

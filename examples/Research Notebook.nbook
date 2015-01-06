@@ -43,7 +43,15 @@
     },
     {
       "type": "text",
-      "source": "Even though the underlying scripting engine is Javascript, the bulk of Notebook functionality is provided by set of built-in Java objects.\nThese objects are:\n\nFS\nIO\nNET\nNB\nOS\nUT"
+      "source": "Even though the underlying scripting engine is Javascript, the bulk of Notebook functionality is provided by set of built-in Java objects.\nThese objects are:\n\nFS - file system functions\nIO - input/output tools\nNB - notebook functions\nNET - network-related functionality\nOS - operating system values and functions\nUT - utility methods"
+    },
+    {
+      "type": "h2",
+      "source": "Top Level Functions"
+    },
+    {
+      "type": "text",
+      "source": "There is a number of top-level functions available in the global context to add a bit of interactivity to the notebook.\nThese functions are:\nprint(x)"
     },
     {
       "type": "h2",
@@ -56,11 +64,22 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 79,
+      "sequence": 94,
       "output": [
         {
           "type": "text",
-          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space\n   FS.touch                           - updates the timestamp of a file, creating it if necessary"
+          "text": "provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],[path],...)           - lists files\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space\n   FS.touch                           - updates the timestamp of a file, creating it if necessary"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.exists(\"~\")",
+      "sequence": 88,
+      "output": [
+        {
+          "type": "text",
+          "text": "true"
         }
       ]
     },
@@ -137,11 +156,11 @@
     {
       "type": "js",
       "source": "FS.ls()",
-      "sequence": 67,
+      "sequence": 91,
       "output": [
         {
-          "type": "error",
-          "text": "To be implemented..."
+          "type": "text",
+          "text": ".classpath        \n.git              \n.gitignore        \n.project          \narchive           \nbuild             \nbuild.xml         \ncompetition       \ndoc               \nexamples          \nlib               \nMAKE-JAR.bat      \nNotebook4.jar     \nNotes.txt         \nout               \nreference         \nRelease Notes.txt \nscreenshots       \nsrc               \ntasks             \nuser.home         "
         }
       ]
     },
@@ -151,33 +170,14 @@
     },
     {
       "type": "js",
-      "source": "FS.ls('~');",
-      "sequence": 68,
+      "source": "FS.ls('.', 'c:/');",
+      "sequence": 100,
       "output": [
         {
-          "type": "error",
-          "text": "To be implemented..."
+          "type": "text",
+          "text": "C:\\Projects\\Notebook 4:\n.classpath        \n.git/              \n.gitignore        \n.project          \narchive/           \nbuild/             \nbuild.xml         \ncompetition/       \ndoc/               \nexamples/          \nlib/               \nMAKE-JAR.bat      \nNotebook4.jar     \nNotes.txt         \nout/               \nreference/         \nRelease Notes.txt \nscreenshots/       \nsrc/               \ntasks/             \nuser.home/         \n\nC:\\:\nA/                          \nboot.ini                   \nCONFIG.SYS                 \ndell.sdr                   \nDocuments and Settings/     \nGoryachev/                  \nIO.SYS                     \nLocalizer/                  \nmsdia80.dll                \nMSDOS.SYS                  \nNews/                       \nNTDETECT.COM               \nntldr                      \nProgram Files/              \nProgram Files (x86)/        \nProjects/                   \nRECYCLER/                   \nSynthetic Intelligence/     \nSystem/                     \nSystem Volume Information/  \nWINDOWS/                    "
         }
       ]
-    },
-    {
-      "type": "text",
-      "source": "FS.ls(dir, columns) produces a JData object with columns specified by the second argument.  Valid columns are: name, size, time, mode (TBD)."
-    },
-    {
-      "type": "js",
-      "source": "FS.ls('~', [ 'name', 'size' ]);",
-      "sequence": 69,
-      "output": [
-        {
-          "type": "error",
-          "text": "To be implemented..."
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "source": "FS.pwd() returns the name of the current working directory."
     },
     {
       "type": "js",
@@ -272,6 +272,36 @@
     },
     {
       "type": "h2",
+      "source": "NB"
+    },
+    {
+      "type": "js",
+      "source": "NB",
+      "sequence": 84,
+      "output": [
+        {
+          "type": "text",
+          "text": "this object allows for operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display('string');",
+      "sequence": 11,
+      "output": [
+        {
+          "type": "text",
+          "text": "string"
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "source": "NET"
     },
     {
@@ -293,36 +323,6 @@
         {
           "type": "image",
           "image": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAECElEQVR42u1aTU/UUBS9LTMwTAf5GgQUBkQ+XJqYmJjoD3ClRt2YuDMuiBuNO/0fJsatrnTFVoOICszghh2B+EXcaDSCunAj3ran8Chtp4PO6+vwXnMgTDu8nvNu37v39BHppptu0toiXaMKPeffK87vebrOn2YYTQyTYQAN1qYpR2/oAxPfDMBHukfDfFULIwsxGkyEcPIuKrTGVx1gWBCigUSww94jusTYYNjHT/ztnZuiW3x1F6PQWCK4z7xL0iO/KYjgnXtJc3x1P0Sw8DiYjRABK1skgw7v3By956uHGL2MdiEKUt2MGgUYYRxGFOSxQhjpFqBCq7EEeM0TJdEoY5BRxGOw7wQYY5QYPcI8sG8FKGgBtABaAC2AFkALkF4BDCeXr10AOx0+yGhjNAs+QSry/vM7DI9ZulKTAPdpkr8zTwv0ln/O0jO6iijIqG2Y2IZHhW86quavJkC4V5ACwyQO+b0KoLxhYoe9aHisg9iGz/CII0DU9584/qGCholoeKz7yP32kYgSYAnXi8evNBgm1ep9UYQwAYLIp8YwiYoAvwhBRxR5MQJe8Nqw0zBpVcEvMOgVXYwMY1GEWj8XH58HdFNFw8RwbqJM72KJEPfwk5+nT9zPMVUFaOJ0p5Mfhc//RQQ/+TJ9p0t0hvuZYBxlDKjmGZrOhDTJI1P+RxGCyJ+ikxh9O00exkrQwcip4hqbWJIsTlyP8E1/2ZMIfvIV+iGQHxdGv4hcoFmV9wYGRiLnZGsnuJpboK81ibB75NfpNp0D+Qk8+yVhCcyplhIbiIK8E54XeMTiirB7wvsmjLxHfgih34k+lHxrZAoidAaKEJYHxCPvZYDKlsgGbqwZN+qKsEh/tggu+8gv+2qBeOSVfmm6W4TjPHPHqfhu0Nm0k68WCeHktye88bSTDxeBqI+m6fEO4k9pShj1MSx1pbSTDxOhA8vYABKaEYz2KIgP41wvBEs1+SAR8ljDi040uFXdIDCAUS/imnwjkPeLkEUCU0A0dIGwjW581oYyN1WbpYwYMEEoCyOjFSFeACx8JhqfZsz/nYgLtL3fz7XAV6WhTDPJ7S+M3u8nGwnY5eqQT8AuD9vvJ/tIbH9h1H6/JESQbpdXs79lH9LtclUjQJJdbjhLj4pzwCO6I7jF3fVyi1372156VFoFJNrlov29pgz5y3QalaSULbYmJpgDztJjz772BGTD3twgCzOcCz6kuwHmSZ/PMK2b8WlB6X507JW1Y5Ixir7tezgkPP91M0w9+7sFSUcXlh6vrC1JxiD67gP5NpKwb0AUwULIeWVtj2QU0Xe7kAVKeVVmCKVtDpOO5StvZcBC37kk/AOxxs8AWcnIBJTEyhoi9YRuuumm257bX+k5CFe4f87FAAAAAElFTkSuQmCC"
-        }
-      ]
-    },
-    {
-      "type": "h2",
-      "source": "NB"
-    },
-    {
-      "type": "js",
-      "source": "NB",
-      "sequence": 4,
-      "output": [
-        {
-          "type": "text",
-          "text": "this object allows for operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
-        }
-      ]
-    },
-    {
-      "type": "js",
-      "source": "NB.display('string');",
-      "sequence": 11,
-      "output": [
-        {
-          "type": "text",
-          "text": "string"
-        },
-        {
-          "type": "text",
-          "text": null
         }
       ]
     },
