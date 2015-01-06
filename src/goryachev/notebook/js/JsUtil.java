@@ -1,14 +1,21 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
+import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancelledException;
 import goryachev.common.util.Hex;
+import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
+import goryachev.notebook.js.classes.JImage;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
+import java.nio.charset.Charset;
 import org.mozilla.javascript.RhinoException;
 
 
@@ -178,6 +185,56 @@ public class JsUtil
 		{
 			float a = toEightBit(alpha);
 			return new Color(r, g, b, a);
+		}
+	}
+
+
+	public static URL parseURL(Object url) throws Exception
+	{
+		return new URL(url.toString());
+	}
+
+
+	public static Charset parseCharset(String enc)
+	{
+		try
+		{
+			if(enc != null)
+			{
+				return Charset.forName(enc);
+			}
+		}
+		catch(Exception e)
+		{
+			Log.err(e);
+		}
+		
+		return CKit.CHARSET_UTF8;
+	}
+	
+	
+	public static Object wrap(Object x)
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof String)
+		{
+			return x;
+		}
+		else if(x instanceof BufferedImage)
+		{
+			return new JImage((BufferedImage)x);
+		}
+		else if(x instanceof Image)
+		{
+			BufferedImage im = ImageTools.toBufferedImage((Image)x);
+			return new JImage(im);
+		}
+		else
+		{
+			return x;
 		}
 	}
 }

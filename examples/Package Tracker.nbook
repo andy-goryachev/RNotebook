@@ -8,26 +8,18 @@
     },
     {
       "type": "text",
-      "source": "This example allows the user to track the shipping status of package by querying appropriate URL.\nSupported companies include FedEx, UPS, and USPS."
+      "source": "This example allows the user to track shipping status of packages in one script rather than go to each shipping company's web site.\n"
     },
     {
       "type": "js",
-      "source": "var trackingNumber = \"9407 1000 0000 0000 0000 00\";\n\n// tracking urls\ndhlUS = \"http://track.dhl-usa.com/TrackByNbr.asp?ShipmentNumber=\";\ndhlGlobal = \"http://webtrack.dhlglobalmail.com/?mobile=&trackingnumber=\";\nfedEx = \"https://www.fedex.com/fedextrack/WTRK/index.html?action=track&trackingnumber=\";\nonTrack = \"http://www.ontrac.com/trackingdetail.asp?tracking=\";\nups = \"http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=\";\nusps = \"https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=\";\n\n// remove internal spaces\nvar s = new java.lang.String(trackingNumber);\ns = s.replace(\" \", \"\");\nvar url = null;\n\n// determine the shipping company\nif(isUSPS(s))\n{\n\turl = usps;\n}\nelse if(isUPS(s))\n{\n\turl = ups;\n}\nelse if(isFedex(s))\n{\n\turl = fedEx;\n}\nelse\n{\n\tthrow \"Sorry, I don't know how to track this package\";\n}\n\n// track\nprint(url + s);\nNET.get(url + s);\n\n\n// http://verysimple.com/2011/07/06/ups-tracking-url/\n// http://answers.google.com/answers/threadview/id/207899.html\n\nfunction isUSPS(x)\n{\n\treturn x.startsWith(\"9407\") && (x.length() == 22);\n}\n\nfunction isUPS(x)\n{\n\treturn x.startsWith(\"1Z\") || (s.length() == 11);\n}\n\nfunction isFedex(x)\n{\n\treturn (s.length() == 12) || (s.length() == 15);\n}",
-      "sequence": 53,
+      "source": "var trackingNumber = \"9407 1000 0000 0000 0000 00\";\n\n// tracking urls\ndhlUS = \"http://track.dhl-usa.com/TrackByNbr.asp?ShipmentNumber=\";\ndhlGlobal = \"http://webtrack.dhlglobalmail.com/?mobile=&trackingnumber=\";\nfedEx = \"https://www.fedex.com/fedextrack/WTRK/index.html?action=track&trackingnumber=\";\nonTrack = \"http://www.ontrac.com/trackingdetail.asp?tracking=\";\nups = \"http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=\";\nusps = \"https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=\";\n\n// remove internal spaces\nvar s = new java.lang.String(trackingNumber);\ns = s.replace(\" \", \"\");\nvar url = null;\n\n// determine the shipping company\nif(isUSPS(s))\n{\n\turl = usps;\n}\nelse if(isUPS(s))\n{\n\turl = ups;\n}\nelse if(isFedex(s))\n{\n\turl = fedEx;\n}\nelse\n{\n\tthrow \"Sorry, I don't know how to track this package\";\n}\n\nfunction isUSPS(x)\n{\n\treturn x.startsWith(\"9407\") && (x.length() == 22);\n}\n\nfunction isUPS(x)\n{\n\treturn x.startsWith(\"1Z\") || (s.length() == 11);\n}\n\nfunction isFedex(x)\n{\n\treturn (s.length() == 12) || (s.length() == 15);\n}\n\n// track\nNET.inBrowser(url + s);",
+      "sequence": 72,
       "output": [
         {
           "type": "text",
-          "text": "https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=9407100000000000000000"
-        },
-        {
-          "type": "error",
-          "text": "To be implemented..."
+          "text": null
         }
       ]
-    },
-    {
-      "type": "js",
-      "source": ""
     }
   ]
 }

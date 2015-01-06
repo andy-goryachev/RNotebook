@@ -498,10 +498,20 @@ public class CKit
 	{
 		try
 		{
+			boolean first = true;
 			StringBuilder sb = new StringBuilder(16384);
 			int c;
 			while((c = in.read()) != -1)
 			{
+				if(first)
+				{
+					first = false;
+					if(c == BOM)
+					{
+						continue;
+					}
+				}
+				
 				sb.append((char)c);
 			}
 			return sb.toString();

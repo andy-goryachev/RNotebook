@@ -24,8 +24,7 @@ public class IO
 	{
 		File f = JsUtil.parseFile(x);
 		BufferedImage im = ImageTools.read(f);
-		JImage r = new JImage(im);
-		return r;
+		return JsUtil.wrap(im);
 	}
 	
 	
