@@ -10,6 +10,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
+import goryachev.notebook.js.classes.DTable;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -17,12 +18,18 @@ import java.io.File;
 /** DataBook writer */
 public class DataBookJsonWriter
 {
-	private DataBookJsonWriter()
+	private final DataBook data;
+	private final JsonEncoder wr;
+	
+	
+	protected DataBookJsonWriter(DataBook b, JsonEncoder wr)
 	{
+		this.data = b;
+		this.wr = wr;
 	}
 
 
-	private static void writeCell(DataBook.Cell c, JsonEncoder wr) throws Exception
+	protected void writeCell(DataBook.Cell c) throws Exception
 	{
 		wr.beginObject();
 		{
@@ -43,7 +50,7 @@ public class DataBookJsonWriter
 				{
 					for(Object r: rs)
 					{
-						writeResult(r, wr);
+						writeResult(r);
 					}
 				}
 				wr.endArray();
@@ -53,7 +60,7 @@ public class DataBookJsonWriter
 	}
 	
 	
-	private static void writeResult(Object x, JsonEncoder wr) throws Exception
+	protected void writeResult(Object x) throws Exception
 	{
 		wr.beginObject();
 		{
@@ -69,6 +76,36 @@ public class DataBookJsonWriter
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_ERROR);
 				wr.write(Schema.KEY_OUTPUT_TEXT, msg);
 			}
+			else if(x instanceof DTable)
+			{
+				DTable t = (DTable)x;
+				
+				// columns
+				wr.name(Schema.KEY_OUTPUT_TABLE_COLUMNS);
+				wr.beginArray();
+				{
+					for(int i=0; i<t.getColumnCount(); i++)
+					{
+						wr.value(t.getColumnName(i));
+					}
+				}
+				wr.endArray();
+				
+				// rows
+				wr.name(Schema.KEY_OUTPUT_TABLE_ROWS);
+				wr.beginArray();
+				{
+					for(int i=0; i<t.getRowCount(); i++)
+					{
+						wr.beginArray();
+						{
+							// row array
+						}
+						wr.endArray();
+					}
+				}
+				wr.endArray();
+			}
 			else 
 			{
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_TEXT);
@@ -78,38 +115,41 @@ public class DataBookJsonWriter
 		wr.endObject();
 	}
 	
+
+	public void write() throws Exception
+	{
+		wr.beginObject();
+		{
+			if(data != null)
+			{
+				// file attributes
+				wr.write(Schema.KEY_TYPE, Schema.TYPE);
+				wr.write(Schema.KEY_VERSION, Schema.VERSION);
+
+				// sections
+				wr.name(Schema.KEY_CELLS);
+				wr.beginArray();
+				{
+					int sz = data.size();
+					for(int i = 0; i < sz; i++)
+					{
+						DataBook.Cell c = data.getCell(i);
+						writeCell(c);
+					}
+				}
+				wr.endArray();
+			}
+		}
+	}
+	
 	
 	public static void saveJSON(DataBook b, File f) throws Exception
 	{
 		FileTools.createBackup(f);
-		
-		// write
 		JsonEncoder wr = new JsonEncoder(f);
 		try
 		{
-			wr.beginObject();
-			{
-				if(b != null)
-				{
-					// file attributes
-					wr.write(Schema.KEY_TYPE, Schema.TYPE);
-					wr.write(Schema.KEY_VERSION, Schema.VERSION);
-
-					// sections
-					wr.name(Schema.KEY_CELLS);
-					wr.beginArray();
-					{
-						int sz = b.size();
-						for(int i=0; i<sz; i++)
-						{
-							DataBook.Cell c = b.getCell(i);
-							writeCell(c, wr);
-						}
-					}
-					wr.endArray();
-				}
-			}
-			wr.endObject();
+			new DataBookJsonWriter(b, wr).write();
 		}
 		finally
 		{

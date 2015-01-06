@@ -24,6 +24,8 @@ public class Schema
 	public static final String KEY_OUTPUT_IMAGE = "image";
 	public static final String KEY_OUTPUT_TEXT = "text";
 	public static final String KEY_OUTPUT_TYPE = "type";
+	public static final String KEY_OUTPUT_TABLE_COLUMNS = "columns";
+	public static final String KEY_OUTPUT_TABLE_ROWS = "rows";
 	public static final String KEY_TEXT = "text";
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_VERSION = "version";

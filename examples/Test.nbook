@@ -1,0 +1,28 @@
+{
+  "type": "ResearchNotebook",
+  "version": "1.0",
+  "cells": [
+    {
+      "type": "js",
+      "source": "IO.loadTable('examples/world population.csv')",
+      "sequence": 38,
+      "output": [
+        {
+          "type": "text",
+          "text": "goryachev.notebook.js.classes.DTable@6dea0585"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "IO.loadTable('examples/small.csv')",
+      "sequence": 35,
+      "output": [
+        {
+          "type": "text",
+          "text": "goryachev.notebook.js.classes.DTable@62507110"
+        }
+      ]
+    }
+  ]
+}
