@@ -167,13 +167,6 @@
           "description": null
         },
         {
-          "id": "B236ABB2DE4CB7ECFF0D3E66273B5B172328981B",
-          "title": "FS.freeSpace,totalSpace,usedSpace",
-          "created": 1420449056557,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "2E0078597216AD7384FEFD61BBBBC86CB089B121",
           "title": "FS.isDirectory,isFile,isHidden",
           "created": 1420449076854,
@@ -402,44 +395,9 @@
       "title": "OS",
       "tasks": [
         {
-          "id": "33062C75E209A6A858B1A8611740D65057F8C560",
-          "title": "OS.name",
-          "created": 1420448218166,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "470D814DD89E6CC471E2B6A948ED7ABFC6553F36",
-          "title": "OS.version",
-          "created": 1420448220431,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "29EA71EDC0DEDE6B3FDEABA8AFC9B5DEB8E63441",
-          "title": "OS.exec/run",
+          "title": "OS.exec/launch",
           "created": 1420449356390,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "32BB7BA6C732258BAD22A91E160DFC118B081B14",
-          "title": "OS.hostname",
-          "created": 1420450163093,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "304DFE50440030046FB57FBE8B5EAFE1E052DF7C",
-          "title": "OS.platform",
-          "created": 1420450174031,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "9AB7262C5E4CF90681F25604C04A7B96C08C987C",
-          "title": "OS.arch",
-          "created": 1420450176578,
           "completed": null,
           "description": null
         }
@@ -572,6 +530,41 @@
       "title": "OS.freeMem,usedMem,totalMem",
       "created": 1420449385985,
       "completed": 1420500588216,
+      "description": null
+    },
+    {
+      "id": "470D814DD89E6CC471E2B6A948ED7ABFC6553F36",
+      "title": "OS.version",
+      "created": 1420448220431,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "9AB7262C5E4CF90681F25604C04A7B96C08C987C",
+      "title": "OS.arch",
+      "created": 1420450176578,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "33062C75E209A6A858B1A8611740D65057F8C560",
+      "title": "OS.name",
+      "created": 1420448218166,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "32BB7BA6C732258BAD22A91E160DFC118B081B14",
+      "title": "OS.hostname",
+      "created": 1420450163093,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "B236ABB2DE4CB7ECFF0D3E66273B5B172328981B",
+      "title": "FS.freeSpace,totalSpace",
+      "created": 1420449056557,
+      "completed": 1420502973106,
       "description": null
     }
   ]

@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "source": "Research Notebook is a cross-platform, self-contained, interactive computational environment inspired by IPython Notebook, utlizing Javascript engine instead of Python.  \nThe main goal of Research Notebook development was to provide a simple, cross-platform scripting environment that \"just works\", without the need to delve into the intricacies of the underlying operating system or installing and maintaining additional dependencies.  This tool is not intended, at least initially, to provide rich text or formulae, nor require massive third-party tools like mathplotlib or octave.\n\nA Research Notebook document is a JSON document containing an ordered set of cells which can contain executable Javascript code, text, plots, tables, and images.  Embedded code can be run in place, producing results rendered inline according to the type of the result, be it text output, image, table, or plot.  These results become part of the notebook document, which can be saved or exported to PDF or HTML format.\n"
+      "source": "Research Notebook is a cross-platform, self-contained, interactive computational environment inspired by IPython Notebook, utlizing Javascript engine instead of Python.\n\nThe main goal of Research Notebook development was to provide a simple, cross-platform scripting environment that \"just works\", without the need to delve into the intricacies of the underlying operating system or installing and maintaining additional dependencies.  This tool is not intended, at least initially, to provide rich text or formulae, nor require massive third-party tools like mathplotlib or octave.\n\nA Research Notebook document is a JSON document containing an ordered set of cells which can contain executable Javascript code, text, plots, tables, and images.  Embedded code can be run in place, producing results rendered inline according to the type of the result, be it text output, image, table, or plot.  These results become part of the notebook document, which can be saved or exported to PDF or HTML format.\n"
     },
     {
       "type": "h2",
@@ -56,17 +56,35 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 1,
+      "sequence": 36,
       "output": [
         {
           "type": "text",
-          "text": "provides filesystem operations:\n   FS.ls([path],[mode]) - lists files in current directory\n   FS.pwd()             - prints current directory"
+          "text": "provides access to the filesystem:\n   FS.freeSpace, getFreeSpace(file)   - returns the amount of free space\n   FS.ls([path],[mode])               - returns the list of files in the current directory\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(file) - returns the amount of total space"
         }
       ]
     },
     {
-      "type": "h3",
-      "source": "FS.ls"
+      "type": "js",
+      "source": "FS.freeSpace",
+      "sequence": 27,
+      "output": [
+        {
+          "type": "text",
+          "text": "172842311680"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.getFreeSpace(\"h:\")",
+      "sequence": 32,
+      "output": [
+        {
+          "type": "text",
+          "text": "1505838366720"
+        }
+      ]
     },
     {
       "type": "text",
@@ -118,10 +136,6 @@
       "source": "FS.pwd() returns the name of the current working directory."
     },
     {
-      "type": "h3",
-      "source": "FS.pwd"
-    },
-    {
       "type": "js",
       "source": "FS.pwd()",
       "sequence": 13,
@@ -129,6 +143,28 @@
         {
           "type": "text",
           "text": "C:\\Projects\\Notebook 4"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.totalSpace",
+      "sequence": 33,
+      "output": [
+        {
+          "type": "text",
+          "text": "240054759424"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.getTotalSpace(\"H:\");",
+      "sequence": 34,
+      "output": [
+        {
+          "type": "text",
+          "text": "2000243589120"
         }
       ]
     },
@@ -207,11 +243,22 @@
     {
       "type": "js",
       "source": "OS",
-      "sequence": 5,
+      "sequence": 16,
       "output": [
         {
           "type": "text",
-          "text": "OS provides access to the following system functions:\n   OS.cpuCount - current time in milliseconds\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use.\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used"
+          "text": "provides access to the following system functions:\n   OS.arch     - returns the OS architecture\n   OS.cpuCount - returns number of processor cores\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.hostName - returns the host name\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use.\n   OS.name     - returns the OS name\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used\n   OS.version  - returns the OS version"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.arch",
+      "sequence": 17,
+      "output": [
+        {
+          "type": "text",
+          "text": "amd64"
         }
       ]
     },
@@ -239,12 +286,34 @@
     },
     {
       "type": "js",
+      "source": "OS.hostName",
+      "sequence": 15,
+      "output": [
+        {
+          "type": "text",
+          "text": "DELL7500"
+        }
+      ]
+    },
+    {
+      "type": "js",
       "source": "OS.maxMem",
       "sequence": 7,
       "output": [
         {
           "type": "text",
           "text": "11453595648"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.name",
+      "sequence": 16,
+      "output": [
+        {
+          "type": "text",
+          "text": "Windows XP"
         }
       ]
     },
@@ -278,6 +347,17 @@
         {
           "type": "text",
           "text": "100668592"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.version",
+      "sequence": 18,
+      "output": [
+        {
+          "type": "text",
+          "text": "5.2"
         }
       ]
     },

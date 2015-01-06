@@ -385,6 +385,13 @@
           "created": 1420450118983,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "1CCAA6F19FF95F019F2D6F9ACD2DFF3210C1EA93",
+          "title": "UT.colorNames",
+          "created": 1420500600076,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -395,44 +402,9 @@
       "title": "OS",
       "tasks": [
         {
-          "id": "33062C75E209A6A858B1A8611740D65057F8C560",
-          "title": "OS.name",
-          "created": 1420448218166,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "470D814DD89E6CC471E2B6A948ED7ABFC6553F36",
-          "title": "OS.version",
-          "created": 1420448220431,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "29EA71EDC0DEDE6B3FDEABA8AFC9B5DEB8E63441",
-          "title": "OS.exec/run",
+          "title": "OS.exec/launch",
           "created": 1420449356390,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "32BB7BA6C732258BAD22A91E160DFC118B081B14",
-          "title": "OS.hostname",
-          "created": 1420450163093,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "304DFE50440030046FB57FBE8B5EAFE1E052DF7C",
-          "title": "OS.platform",
-          "created": 1420450174031,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "9AB7262C5E4CF90681F25604C04A7B96C08C987C",
-          "title": "OS.arch",
-          "created": 1420450176578,
           "completed": null,
           "description": null
         }
@@ -565,6 +537,34 @@
       "title": "OS.freeMem,usedMem,totalMem",
       "created": 1420449385985,
       "completed": 1420500588216,
+      "description": null
+    },
+    {
+      "id": "470D814DD89E6CC471E2B6A948ED7ABFC6553F36",
+      "title": "OS.version",
+      "created": 1420448220431,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "9AB7262C5E4CF90681F25604C04A7B96C08C987C",
+      "title": "OS.arch",
+      "created": 1420450176578,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "33062C75E209A6A858B1A8611740D65057F8C560",
+      "title": "OS.name",
+      "created": 1420448218166,
+      "completed": 1420502181278,
+      "description": null
+    },
+    {
+      "id": "32BB7BA6C732258BAD22A91E160DFC118B081B14",
+      "title": "OS.hostname",
+      "created": 1420450163093,
+      "completed": 1420502181278,
       "description": null
     }
   ]
