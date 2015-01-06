@@ -6,8 +6,8 @@ import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.js.classes.JImage;
-import goryachev.notebook.js.table.JsTable;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
@@ -35,9 +35,9 @@ public class Results
 			BufferedImage im = ((JImage)x).getBufferedImage();
 			return ImageTools.copyImageRGB(im);
 		}
-		else if(x instanceof JsTable)
+		else if(x instanceof DTable)
 		{
-			return ((JsTable)x).copy();
+			return ((DTable)x).copy();
 		}
 		else if(x instanceof Throwable)
 		{
@@ -75,9 +75,9 @@ public class Results
 			String text = ((JsError)x).error;
 			return createTextViewer(p, text, Styles.errorColor);
 		}
-		else if(x instanceof JsTable)
+		else if(x instanceof DTable)
 		{
-			return new JsTableViewer((JsTable)x);
+			return new JsTableViewer((DTable)x);
 		}
 		else if(x != null)
 		{

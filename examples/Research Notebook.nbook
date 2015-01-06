@@ -195,6 +195,17 @@
       ]
     },
     {
+      "type": "js",
+      "source": "IO.loadTable('examples/world population.csv');",
+      "sequence": 64,
+      "output": [
+        {
+          "type": "text",
+          "text": "Table"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "source": "NET"
     },

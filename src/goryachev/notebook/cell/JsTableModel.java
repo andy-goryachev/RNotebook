@@ -1,21 +1,23 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import goryachev.common.ui.Theme;
-import goryachev.common.ui.table.ElasticTableModel;
 import goryachev.common.ui.table.ZColumnHandler;
 import goryachev.common.ui.table.ZTableRenderer;
-import goryachev.common.util.Parsers;
 import goryachev.notebook.Styles;
+import goryachev.notebook.js.classes.DTable;
+import javax.swing.table.AbstractTableModel;
 
 
 public class JsTableModel
-	extends ElasticTableModel
+	extends AbstractTableModel
 {
+	private DTable data;
 	public static final ZColumnHandler handler = createColumnHandler();
 
 	
-	public JsTableModel()
+	public JsTableModel(DTable t)
 	{
+		this.data = t;
 	}
 	
 
@@ -39,91 +41,26 @@ public class JsTableModel
 	}
 
 
-	public void addColumn(String name)
+	public int getRowCount()
 	{
-		super.addColumn(name);
-		setHandler(handler);
-	}
-	
-	
-	public void setValueAt(Object x, int r, int c)
-	{
-		Object v = parse(x);
-		super.setValueAt(v, r, c);
-	}
-	
-	
-	public void setRawValueAt(Object v, int r, int c)
-	{
-		super.setValueAt(v, r, c);
+		return data.getRowCount();
 	}
 
 
-	protected Object parse(Object x)
+	public int getColumnCount()
 	{
-		if(x instanceof Number)
-		{
-			return x;
-		}
-		else if(x != null)
-		{
-			String s = Parsers.parseString(x);
-			return parseString(s);
-		}
-		else
-		{
-			return null;
-		}
+		return data.getColumnCount();
 	}
 	
 	
-	protected Object parseString(String s)
+	public String getColumnName(int col)
 	{
-		if(s.startsWith("'"))
-		{
-			if(isPrefixedNumber(s))
-			{
-				return s.substring(1);
-			}
-			else
-			{
-				return s;
-			}
-		}
-		else
-		{
-			String trimmed = s.trim();
-			
-			try
-			{
-				return Integer.parseInt(trimmed);
-			}
-			catch(Exception e)
-			{ }
-			
-			try
-			{
-				return Double.parseDouble(trimmed);
-			}
-			catch(Exception e)
-			{ }
-			
-			return s;
-		}
+		return data.getColumnName(col);
 	}
-	
-	
-	protected boolean isPrefixedNumber(String s)
+
+
+	public Object getValueAt(int row, int col)
 	{
-		int sz = s.length();
-		for(int i=1; i<sz; i++)
-		{
-			char c = s.charAt(i);
-			if("0123456789.-+eE".indexOf(c) < 0)
-			{
-				return false;
-			}
-		}
-		return true;
+		return data.getValue(row, col);
 	}
 }

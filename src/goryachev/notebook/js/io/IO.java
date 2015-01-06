@@ -1,15 +1,18 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.io;
+import goryachev.common.io.CReader;
+import goryachev.common.io.CSVReader;
 import goryachev.common.ui.ImageTools;
+import goryachev.common.util.CKit;
+import goryachev.common.util.D;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.js.classes.JImage;
-import goryachev.notebook.js.table.JsTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-/** "IO" object in the global context */
 public class IO
 {
 	public IO()
@@ -22,24 +25,46 @@ public class IO
 		File f = JsUtil.parseFile(x);
 		BufferedImage im = ImageTools.read(f);
 		JImage r = new JImage(im);
-		
-		// FIX does it need to be wrapped?
-		//return new NativeJavaObject(JsEngine.get().getGlobalScope(), r, null);
 		return r;
 	}
 	
 	
-	public JsTable loadTable(Object filename) throws Exception
+	public DTable loadTable(Object filename) throws Exception
 	{
 		File f = JsUtil.parseFile(filename);
-		return new JsTable();
+		DTable t = new DTable();
+		CReader rd = new CReader(f);
+		try
+		{
+			boolean header = true;
+			CSVReader csv = new CSVReader(rd);
+			String[] ss;
+			while((ss = csv.readNext()) != null)
+			{
+				if(header)
+				{
+					t.setColumns(ss);
+					header = false;
+				}
+				else
+				{
+					t.addRow((Object[])ss);
+				}
+			}
+		}
+		finally
+		{
+			CKit.close(rd);
+		}
+		
+		return t;
 	}
 	
 	
-	public JsTable loadTable(Object filename, Object type) throws Exception
+	public DTable loadTable(Object filename, Object type) throws Exception
 	{
 		File f = JsUtil.parseFile(filename);
-		return new JsTable();
+		return new DTable();
 	}
 	
 	

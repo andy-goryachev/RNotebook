@@ -1720,6 +1720,66 @@ public class UI
 	        {
 	        	m.addSeparator();
 	        }
-        }
+		}
+	}
+
+
+	public static void resizeToContent(JTable t)
+	{
+		resizeToContent(t, -1);
+	}
+	
+	
+	public static void resizeToContent(JTable t, int maxColumnWidth)
+	{
+		int rows = t.getRowCount();		
+		if(rows > 0)
+		{
+			int sp = t.getIntercellSpacing().width + 2; // little space looks better
+			
+			int cols = t.getColumnCount();
+			for(int c=0; c<cols; c++)
+			{
+				int w = 5;
+				for(int r=0; r<rows; r++)
+				{
+					Object v = t.getValueAt(r, c);
+					Component rend = t.getCellRenderer(r, c).getTableCellRendererComponent(t, v, false, false, r, c);
+					int cw = rend.getPreferredSize().width;
+					if(w < cw)
+					{
+						w = cw;
+						
+						if(maxColumnWidth > 0)
+						{
+							if(w >= maxColumnWidth)
+							{
+								w = maxColumnWidth;
+								break;
+							}
+						}
+					}
+				}
+				
+				TableColumn tc = t.getColumnModel().getColumn(c);
+				
+				Component hr = t.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(t, tc.getHeaderValue(), false, false, 0, c);
+				int hw = hr.getPreferredSize().width;
+				if(hw > w)
+				{
+					w = hw;
+					
+					if(maxColumnWidth > 0)
+					{
+						if(w > maxColumnWidth)
+						{
+							w = maxColumnWidth;
+						}
+					}
+				}
+				
+				tc.setPreferredWidth(w + sp);
+			}
+		}
 	}
 }

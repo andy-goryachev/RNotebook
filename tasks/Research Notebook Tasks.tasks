@@ -71,6 +71,13 @@
           "created": 1420451111018,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "CD784626531F91F181083309FAC89E164B449505",
+          "title": "exception opening non-existing recent file",
+          "created": 1420512286456,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -84,6 +91,13 @@
           "id": "97F919748E7FF7BF7558A97ADAE118E7AAAA8CB3",
           "title": "table result",
           "created": 1420393625079,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "D0BACF30FA15B86A4FC62EB6F058AA307B5A0928",
+          "title": "IO.loadTable",
+          "created": 1420393622314,
           "completed": null,
           "description": null
         }
@@ -188,13 +202,6 @@
           "description": null
         },
         {
-          "id": "A1018EDD244810B55EC152F633849D636B48BE88",
-          "title": "FS.touch",
-          "created": 1420449128589,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "05B295A9EC386AAF1A8DBBB194A7EECCE256602D",
           "title": "FS.chmod",
           "created": 1420450064107,
@@ -259,13 +266,6 @@
       "y": 1,
       "title": "IO",
       "tasks": [
-        {
-          "id": "D0BACF30FA15B86A4FC62EB6F058AA307B5A0928",
-          "title": "IO.readTable",
-          "created": 1420393622314,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "446B174E57231E193FA0E670832E12822B7F0669",
           "title": "IO.newWriter",
@@ -565,6 +565,13 @@
       "title": "UT.sleep",
       "created": 1420449526206,
       "completed": 1420503252705,
+      "description": null
+    },
+    {
+      "id": "A1018EDD244810B55EC152F633849D636B48BE88",
+      "title": "FS.touch",
+      "created": 1420449128589,
+      "completed": 1420503758168,
       "description": null
     }
   ]

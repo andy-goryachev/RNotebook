@@ -454,7 +454,7 @@ public class NotebookWindow
 		
 		try
 		{
-			CReader rd = file == null ? null : new CReader(file);
+			CReader rd = (file == null ? null : new CReader(file));
 			
 			try
 			{
