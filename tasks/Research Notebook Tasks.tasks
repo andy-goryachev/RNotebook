@@ -86,22 +86,7 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": [
-        {
-          "id": "97F919748E7FF7BF7558A97ADAE118E7AAAA8CB3",
-          "title": "table result",
-          "created": 1420393625079,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "D0BACF30FA15B86A4FC62EB6F058AA307B5A0928",
-          "title": "IO.loadTable",
-          "created": 1420393622314,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -572,6 +557,20 @@
       "title": "FS.touch",
       "created": 1420449128589,
       "completed": 1420503758168,
+      "description": null
+    },
+    {
+      "id": "D0BACF30FA15B86A4FC62EB6F058AA307B5A0928",
+      "title": "IO.loadTable",
+      "created": 1420393622314,
+      "completed": 1420523894990,
+      "description": null
+    },
+    {
+      "id": "97F919748E7FF7BF7558A97ADAE118E7AAAA8CB3",
+      "title": "table result",
+      "created": 1420393625079,
+      "completed": 1420523894990,
       "description": null
     }
   ]

@@ -11,6 +11,7 @@ public class Schema
 	public static final String CELL_TYPE_TEXT = "text";
 	public static final String RESULT_ERROR = "error";
 	public static final String RESULT_IMAGE = "image";
+	public static final String RESULT_TABLE = "table";
 	public static final String RESULT_TEXT = "text";
 	public static final String TYPE = "ResearchNotebook";
 	public static final String VERSION = "1.0";

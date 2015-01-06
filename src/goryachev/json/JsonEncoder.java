@@ -98,6 +98,21 @@ public class JsonEncoder
 	
 	public void value(Object x) throws Exception
 	{
-		wr.value(String.valueOf(x));
+		if(x == null)
+		{
+			wr.value((String)null);
+		}
+		else if(x instanceof String)
+		{
+			wr.value(String.valueOf(x));
+		}
+		else if(x instanceof Number)
+		{
+			wr.value((Number)x);
+		}
+		else
+		{
+			wr.value(String.valueOf(x));
+		}
 	}
 }

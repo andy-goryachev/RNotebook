@@ -71,6 +71,13 @@
           "created": 1420451111018,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "CD784626531F91F181083309FAC89E164B449505",
+          "title": "exception opening non-existing recent file",
+          "created": 1420512286456,
+          "completed": null,
+          "description": null
         }
       ]
     },

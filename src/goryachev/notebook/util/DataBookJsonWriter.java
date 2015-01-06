@@ -80,6 +80,8 @@ public class DataBookJsonWriter
 			{
 				DTable t = (DTable)x;
 				
+				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_TABLE);
+				
 				// columns
 				wr.name(Schema.KEY_OUTPUT_TABLE_COLUMNS);
 				wr.beginArray();
@@ -99,7 +101,14 @@ public class DataBookJsonWriter
 					{
 						wr.beginArray();
 						{
-							// row array
+							Object[] cells = t.getDataRow(i);
+							if(cells != null)
+							{
+								for(int j=0; j<cells.length; j++)
+								{
+									wr.value(cells[j]);
+								}
+							}
 						}
 						wr.endArray();
 					}
@@ -140,6 +149,7 @@ public class DataBookJsonWriter
 				wr.endArray();
 			}
 		}
+		wr.endObject();
 	}
 	
 	

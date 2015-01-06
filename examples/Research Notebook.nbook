@@ -196,12 +196,33 @@
     },
     {
       "type": "js",
-      "source": "IO.loadTable('examples/world population.csv');",
-      "sequence": 64,
+      "source": "IO.loadTable('examples/small.csv')",
+      "sequence": 65,
       "output": [
         {
-          "type": "text",
-          "text": "Table"
+          "type": "table",
+          "columns": [
+            "First Name",
+            "Last Name",
+            "Wide"
+          ],
+          "rows": [
+            [
+              "Hugo",
+              "Farnsworth",
+              "*************************"
+            ],
+            [
+              "Bender",
+              "Rodrigues",
+              null
+            ],
+            [
+              "Leela",
+              "Turanga",
+              null
+            ]
+          ]
         }
       ]
     },

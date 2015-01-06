@@ -77,7 +77,7 @@ public class Results
 		}
 		else if(x instanceof DTable)
 		{
-			return new JsTableViewer((DTable)x);
+			return new DTableViewer((DTable)x);
 		}
 		else if(x != null)
 		{

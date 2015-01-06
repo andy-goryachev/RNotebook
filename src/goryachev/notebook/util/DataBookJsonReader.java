@@ -7,6 +7,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
+import goryachev.notebook.js.classes.DTable;
 import java.io.Reader;
 
 
@@ -136,6 +137,7 @@ public class DataBookJsonReader
 		String type = null;
 		byte[] image = null;
 		String text = null;
+		DTable table = null;
 		
 		beginObject();
 		while(inObject())
@@ -153,6 +155,44 @@ public class DataBookJsonReader
 			{
 				text = nextString();
 			}
+			else if(Schema.KEY_OUTPUT_TABLE_COLUMNS.equals(s))
+			{
+				if(table == null)
+				{
+					table = new DTable();
+				}
+				
+				beginArray();
+				while(inArray())
+				{
+					String name = nextString(); 
+					table.addColumn(name);
+				}
+				endArray();
+			}
+			else if(Schema.KEY_OUTPUT_TABLE_ROWS.equals(s))
+			{
+				if(table == null)
+				{
+					table = new DTable();
+				}
+				
+				beginArray();
+				while(inArray())
+				{
+					// read row
+					CList<Object> row = new CList();
+					beginArray();
+					while(inArray())
+					{
+						String v = nextString();
+						row.add(v);
+					}
+					endArray();
+					table.addRow(row.toArray());
+				}
+				endArray();
+			}
 		}
 		endObject();
 		
@@ -168,6 +208,10 @@ public class DataBookJsonReader
 		else if(Schema.RESULT_TEXT.equals(type))
 		{
 			return text;
+		}
+		else if(Schema.RESULT_TABLE.equals(type))
+		{
+			return table;
 		}
 		else
 		{

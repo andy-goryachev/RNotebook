@@ -56,6 +56,16 @@ public class DTable
 	}
 	
 	
+	public void addColumn(String name)
+	{
+		if(columns == null)
+		{
+			columns = new CList();
+		}
+		columns.add(name);
+	}
+	
+	
 	public String getColumnName(int ix)
 	{
 		if(columns == null)
@@ -97,6 +107,16 @@ public class DTable
 					return r[col];
 				}
 			}
+		}
+		return null;
+	}
+	
+	
+	public Object[] getDataRow(int row)
+	{
+		if(row < data.size())
+		{
+			return data.get(row);
 		}
 		return null;
 	}
