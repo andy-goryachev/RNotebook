@@ -8,7 +8,7 @@
     },
     {
       "type": "text",
-      "source": "Version 0.04.01"
+      "source": "Version 0.04.02"
     },
     {
       "type": "h2",
@@ -67,18 +67,18 @@
     {
       "type": "js",
       "source": "FS.freeSpace",
-      "sequence": 27,
+      "sequence": 71,
       "output": [
         {
           "type": "text",
-          "text": "172842311680"
+          "text": "172830380032"
         }
       ]
     },
     {
       "type": "js",
       "source": "FS.getFreeSpace(\"h:\")",
-      "sequence": 32,
+      "sequence": 70,
       "output": [
         {
           "type": "text",
@@ -93,11 +93,11 @@
     {
       "type": "js",
       "source": "FS.ls()",
-      "sequence": 9,
+      "sequence": 67,
       "output": [
         {
-          "type": "text",
-          "text": ""
+          "type": "error",
+          "text": "To be implemented..."
         }
       ]
     },
@@ -108,11 +108,11 @@
     {
       "type": "js",
       "source": "FS.ls('~');",
-      "sequence": 10,
+      "sequence": 68,
       "output": [
         {
-          "type": "text",
-          "text": "\n         0 [~]"
+          "type": "error",
+          "text": "To be implemented..."
         }
       ]
     },
@@ -123,11 +123,11 @@
     {
       "type": "js",
       "source": "FS.ls('~', [ 'name', 'size' ]);",
-      "sequence": 11,
+      "sequence": 69,
       "output": [
         {
-          "type": "text",
-          "text": "\n         0 [~]\n         1 [org.mozilla.javascript.NativeArray@39305cfc]"
+          "type": "error",
+          "text": "To be implemented..."
         }
       ]
     },
@@ -197,25 +197,25 @@
     {
       "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 65,
+      "sequence": 66,
       "output": [
         {
           "type": "table",
           "columns": [
             "First Name",
             "Last Name",
-            "Wide"
+            "Potential Suicidal Tendency"
           ],
           "rows": [
             [
               "Hugo",
               "Farnsworth",
-              "*************************"
+              ""
             ],
             [
               "Bender",
               "Rodrigues",
-              null
+              "High"
             ],
             [
               "Leela",

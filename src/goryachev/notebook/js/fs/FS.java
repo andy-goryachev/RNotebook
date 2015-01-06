@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
-import goryachev.common.util.Dump;
 import goryachev.common.util.FileTools;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
@@ -35,8 +34,7 @@ public class FS
 	
 	public String ls(Object ... as)
 	{
-		// FIX
-		return Dump.list(as);
+		throw JsUtil.todo();
 	}
 	
 	
