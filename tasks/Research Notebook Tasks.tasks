@@ -60,7 +60,7 @@
       "tasks": [
         {
           "id": "575E658C1015346F1236321997526F578959C70A",
-          "title": "jump if insert cell at the end of document",
+          "title": "jumps when inserting cell at the end of document",
           "created": 1420450735261,
           "completed": null,
           "description": null
@@ -88,9 +88,9 @@
       "title": "ONGOING",
       "tasks": [
         {
-          "id": "B9028C8044099516DC40CD6D55DC0DE88809E800",
-          "title": "package tracking example",
-          "created": 1420566212736,
+          "id": "ED0ED35E51E5FDB5C504A55B84DD9202392B6AF9",
+          "title": "popup menus",
+          "created": 1420249246766,
           "completed": null,
           "description": null
         }
@@ -102,13 +102,6 @@
       "y": 0,
       "title": "TO DO",
       "tasks": [
-        {
-          "id": "ED0ED35E51E5FDB5C504A55B84DD9202392B6AF9",
-          "title": "popup menus",
-          "created": 1420249246766,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "932A5F2BD1CF355C1D5371E33CBBA68298BE440C",
           "title": "web site",
@@ -131,13 +124,6 @@
       "y": 1,
       "title": "FS",
       "tasks": [
-        {
-          "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
-          "title": "FS.ls",
-          "created": 1420448021380,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "700F8F8D13E17C843313A7B178A7809EBF97EA92",
           "title": "FS.copy",
@@ -586,6 +572,20 @@
       "title": "NET.get",
       "created": 1420448649893,
       "completed": 1420577788521,
+      "description": null
+    },
+    {
+      "id": "B9028C8044099516DC40CD6D55DC0DE88809E800",
+      "title": "package tracking example",
+      "created": 1420566212736,
+      "completed": 1420581657309,
+      "description": null
+    },
+    {
+      "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
+      "title": "FS.ls",
+      "created": 1420448021380,
+      "completed": 1420581697037,
       "description": null
     }
   ]

@@ -1,12 +1,13 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
+import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
-import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
+import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
@@ -163,5 +164,17 @@ public abstract class CellPanel
 		default:
 			return new TextPanel(text);
 		}
+	}
+	
+	
+	protected void addCellMenus(JPopupMenu m, NotebookPanel np)
+	{
+		UI.separator(m);
+		m.add(new CMenuItem("Split Cell", np.splitCellAction));
+		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
+		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));
+		UI.separator(m);
+		m.add(new CMenuItem(NotebookIcons.MoveUp, "Move Cell Up", np.moveCellUpAction));
+		m.add(new CMenuItem(NotebookIcons.MoveDown, "Move Cell down", np.moveCellDownAction));
 	}
 }

@@ -58,16 +58,17 @@ public class TextPanel
 	
 	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
 	{
+		NotebookPanel np = NotebookPanel.get(c);
+		
+		addCellMenus(m, np);
+		
 		if(c == textField)
 		{
-			m.add(new CMenuItem("Cut", CAction.TODO));
-			m.add(new CMenuItem("Copy", CAction.TODO));
-			m.add(new CMenuItem("Paste", CAction.TODO));
+			m.add(new CMenuItem("Cut", np.cutAction));
+			m.add(new CMenuItem("Copy", np.copyAction));
+			m.add(new CMenuItem("Paste", np.pasteAction));
 		}
-		else
-		{
-			m.add("text");
-		}
+
 		return m;
 	}
 }

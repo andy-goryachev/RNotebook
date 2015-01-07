@@ -94,6 +94,12 @@ public class CExtensionFileFilter
 	{
 		return extensions.toArray(new String[extensions.size()]);
 	}
+	
+	
+	public String toString()
+	{
+		return "CExtensionFileFilter(" + getDescription() + ")";
+	}
 
 
 	public static CExtensionFileFilter getImageIOFilters()

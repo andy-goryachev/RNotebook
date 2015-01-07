@@ -4,7 +4,6 @@ import goryachev.common.io.CReader;
 import goryachev.common.ui.AppFrame;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
-import goryachev.common.ui.CExtensionFileFilter;
 import goryachev.common.ui.CMenu;
 import goryachev.common.ui.CMenuBar;
 import goryachev.common.ui.CMenuItem;
@@ -24,6 +23,7 @@ import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.util.DataBookJsonReader;
 import goryachev.notebook.util.DataBookJsonWriter;
+import goryachev.notebook.util.FileFilters;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -40,8 +40,6 @@ public class NotebookWindow
 	public final NotebookPanel np;
 	protected final RecentFilesOption recentFilesOption;
 	private static final String KEY_LAST_FILE = "last.file";
-	public static final String EXTENSION = ".nbook";
-	public static final CExtensionFileFilter FILE_FILTER = new CExtensionFileFilter("Notebook Files" + " (*" + EXTENSION + ")", EXTENSION);
 	private File file;
 	
 	
@@ -107,8 +105,8 @@ public class NotebookWindow
 		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
 		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Move Cell Up", np.moveCellUpAction));
-		m.add(new CMenuItem("Move Cell Down", np.moveCellDownAction));
+		m.add(new CMenuItem(NotebookIcons.MoveUp, "Move Cell Up", np.moveCellUpAction));
+		m.add(new CMenuItem(NotebookIcons.MoveDown, "Move Cell Down", np.moveCellDownAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Select Previous Cell", Accelerators.SELECT_PREV_CELL, np.selectPreviousCellAction));
 		m.add(new CMenuItem("Select Next Cell", Accelerators.SELECT_NEXT_CELL, np.selectNextCellAction));
@@ -120,13 +118,13 @@ public class NotebookWindow
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
-		m.add(new CMenuItem("Insert Cell Above", Accelerators.INSERT_CELL_ABOVE, np.insertCellAboveAction));
-		m.add(new CMenuItem("Insert Cell Below", Accelerators.INSERT_CELL_BELOW, np.insertCellBelowAction));
+		m.add(new CMenuItem(NotebookIcons.InsertAbove, "Insert Cell Above", Accelerators.INSERT_CELL_ABOVE, np.insertCellAboveAction));
+		m.add(new CMenuItem(NotebookIcons.InsertBelow, "Insert Cell Below", Accelerators.INSERT_CELL_BELOW, np.insertCellBelowAction));
 		
 		// cell
 		mb.add(m = new CMenu("Cell"));
 		m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
-		m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
+		m.add(new CMenuItem(NotebookIcons.Start, "Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
 		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Code", Accelerators.TO_CODE, np.toCodeAction));
@@ -336,11 +334,11 @@ public class NotebookWindow
 		CFileChooser fc = new CFileChooser(this, KEY_LAST_FILE);
 		fc.setTitle(Menus.Open);
 		fc.setApproveButtonText(Menus.Open);
-		fc.setFileFilter(FILE_FILTER);
+		fc.setFileFilter(FileFilters.NOTEBOOK_FILES_FILTER);
 		File f = fc.openFileChooser();
 		if(f != null)
 		{
-			openNewWindow(f);
+			openFile(f);
 		}
 	}
 	
@@ -375,11 +373,11 @@ public class NotebookWindow
 		CFileChooser fc = new CFileChooser(this, KEY_LAST_FILE);
 		fc.setTitle(Menus.SaveAs);
 		fc.setApproveButtonText(Menus.Save);
-		fc.setFileFilter(FILE_FILTER);
+		fc.setFileFilter(FileFilters.NOTEBOOK_FILES_FILTER);
 		File f = fc.openFileChooser();
 		if(f != null)
 		{
-			f = CKit.ensureExtension(f, EXTENSION);
+			f = CKit.ensureExtension(f, FileFilters.EXTENSION);
 			
 			if(f.exists())
 			{

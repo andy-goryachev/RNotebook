@@ -1,6 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
@@ -10,6 +9,7 @@ import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
+import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.js.JsError;
 import java.awt.Component;
 import javax.swing.JComponent;
@@ -178,7 +178,7 @@ public class CodePanel
 	{
 		boolean run = true;
 		boolean text = false;
-		boolean img = false;
+		JImageViewer imgViewer = null;
 		boolean copy = false;
 		
 		if(c == textField)
@@ -188,7 +188,7 @@ public class CodePanel
 		
 		if(c instanceof JImageViewer)
 		{
-			img = true;
+			imgViewer = (JImageViewer)c;
 			run = false;
 		}
 		
@@ -196,25 +196,27 @@ public class CodePanel
 		
 		if(run)
 		{
-			m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
-			m.add(new CMenuItem("Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
-			m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
+			//m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
+			m.add(new CMenuItem(NotebookIcons.Start, "Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
+			//m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		}
+		
+		addCellMenus(m, np);
 		
 		if(text)
 		{
 			UI.separator(m);
-			m.add(new CMenuItem("Cut", CAction.TODO));
-			m.add(new CMenuItem("Copy", CAction.TODO));
-			m.add(new CMenuItem("Paste", CAction.TODO));
+			m.add(new CMenuItem("Cut", np.cutAction));
+			m.add(new CMenuItem("Copy", np.copyAction));
+			m.add(new CMenuItem("Paste", np.pasteAction));
 		}
 		
-		if(img)
+		if(imgViewer != null)
 		{
 			UI.separator(m);
-			m.add(new CMenuItem("Copy", CAction.TODO));
+			m.add(new CMenuItem("Copy", np.copyAction));
 			m.addSeparator();
-			m.add(new CMenuItem("Save Image", CAction.TODO));
+			m.add(new CMenuItem("Save Image", imgViewer.saveImageAction));
 		}
 		
 		return m;

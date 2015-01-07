@@ -21,7 +21,9 @@ import javax.swing.text.JTextComponent;
 public class NotebookPanel
 	extends CPanel
 {
+	public final CAction copyAction = new CAction() { public void action() { actionCopy(); } };
 	public final CAction ctrlEnterAction = new CAction() { public void action() { actionCtrlEnter(); } };
+	public final CAction cutAction = new CAction() { public void action() { actionCut(); } };
 	public final CAction deleteCellAction = new CAction() { public void action() { actionDeleteCell(); } };
 	public final CAction insertCellAboveAction = new CAction() { public void action() { actionInsertCell(true, null); } };
 	public final CAction insertCellBelowAction = new CAction() { public void action() { actionInsertCell(false, null); } };
@@ -30,6 +32,7 @@ public class NotebookPanel
 	public final CAction mergeCellBelowAction = new CAction() { public void action() { actionMergeCell(false); } };
 	public final CAction moveCellDownAction = new CAction() { public void action() { actionMoveCell(false); } };
 	public final CAction moveCellUpAction = new CAction() { public void action() { actionMoveCell(true); } };
+	public final CAction pasteAction = new CAction() { public void action() { actionPaste(); } };
 	public final CAction restartEngineAction = new CAction() { public void action() { actionRestartEngine(); } };
 	public final CAction runAllAction = new CAction() { public void action() { actionRunAll(); } };
 	public final CAction runCellAction = new CAction() { public void action() { actionRunCell(); } };
@@ -660,5 +663,23 @@ public class NotebookPanel
 		
 		UI.validateAndRepaint(this);
 		setModified(true);
+	}
+	
+	
+	public void actionCopy()
+	{
+		// TODO
+	}
+	
+	
+	public void actionCut()
+	{
+		// TODO
+	}
+
+	
+	public void actionPaste()
+	{
+		// TODO
 	}
 }
