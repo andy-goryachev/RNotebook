@@ -539,6 +539,7 @@ public class FileTools
 
 	public static void createZeroLengthFile(File f) throws Exception
 	{
+		ensureParentFolder(f);
 		FileOutputStream os = new FileOutputStream(f);
 		CKit.close(os);
 	}

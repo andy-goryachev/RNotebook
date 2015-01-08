@@ -71,8 +71,8 @@ public class IO
 	{
 		InlineHelp h = new InlineHelp("IO");
 		h.a("provides input/output functionality:");
-		h.a("loadImage(filename)", "loads image file");
-		h.a("loadTable(filename)", "loads table from CSV, XLS, or XLSX file");
+		h.a("loadImage(file)", "loads image file");
+		h.a("loadTable(file)", "loads table from CSV, XLS, or XLSX file");
 		return h.toString();
 	}
 }

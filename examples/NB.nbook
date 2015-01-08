@@ -1,0 +1,87 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "NB"
+    },
+    {
+      "type": "js",
+      "source": "NB",
+      "sequence": 136,
+      "output": [
+        {
+          "type": "text",
+          "text": "provides operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display('text\\nstring');",
+      "sequence": 135,
+      "output": [
+        {
+          "type": "text",
+          "text": "text\nstring"
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display(new JImage(100, 10, 'magenta'));",
+      "sequence": 132,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAKCAIAAADNfmwpAAAAKUlEQVR42u3QMQ0AAAwDoPo33Vnot4cEBaQpoyiQJUuWLFmyFMiS9e0AnFDImnYaXfgAAAAASUVORK5CYII="
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.display(IO.loadTable('examples/small.csv'));",
+      "sequence": 131,
+      "output": [
+        {
+          "type": "table",
+          "columns": [
+            "First Name",
+            "Last Name",
+            "Potential Suicidal Tendency"
+          ],
+          "rows": [
+            [
+              "Hugo",
+              "Farnsworth",
+              ""
+            ],
+            [
+              "Bender",
+              "Rodrigues",
+              "High"
+            ],
+            [
+              "Leela",
+              "Turanga",
+              null
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    }
+  ]
+}

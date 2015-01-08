@@ -1,0 +1,142 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "OS"
+    },
+    {
+      "type": "js",
+      "source": "OS",
+      "sequence": 130,
+      "output": [
+        {
+          "type": "text",
+          "text": "provides access to the following system functions:\n   OS.arch     - returns the OS architecture\n   OS.cpuCount - returns number of processor cores\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.hostName - returns the host name\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use.\n   OS.name     - returns the OS name\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used\n   OS.userName - returns the user name\n   OS.version  - returns the OS version"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.arch",
+      "sequence": 17,
+      "output": [
+        {
+          "type": "text",
+          "text": "amd64"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.cpuCount",
+      "sequence": 1,
+      "output": [
+        {
+          "type": "text",
+          "text": "24"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.freeMem",
+      "sequence": 6,
+      "output": [
+        {
+          "type": "text",
+          "text": "687189976"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.hostName",
+      "sequence": 15,
+      "output": [
+        {
+          "type": "text",
+          "text": "DELL7500"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.maxMem",
+      "sequence": 7,
+      "output": [
+        {
+          "type": "text",
+          "text": "11453595648"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.name",
+      "sequence": 16,
+      "output": [
+        {
+          "type": "text",
+          "text": "Windows XP"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.time",
+      "sequence": 2,
+      "output": [
+        {
+          "type": "text",
+          "text": "1420492182117"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.totalMem",
+      "sequence": 8,
+      "output": [
+        {
+          "type": "text",
+          "text": "771751936"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.usedMem",
+      "sequence": 9,
+      "output": [
+        {
+          "type": "text",
+          "text": "100668592"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.userName",
+      "sequence": 131,
+      "output": [
+        {
+          "type": "text",
+          "text": "Andy"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "OS.version",
+      "sequence": 18,
+      "output": [
+        {
+          "type": "text",
+          "text": "5.2"
+        }
+      ]
+    }
+  ]
+}

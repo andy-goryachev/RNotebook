@@ -372,13 +372,13 @@ public class NotebookPanel
 			{
 				t = activeCell.getType();
 				
-				// change to text from heading
+				// change to code from heading
 				switch(t)
 				{
 				case H1:
 				case H2:
 				case H3:
-					t = CellType.TEXT;
+					t = CellType.CODE;
 				}
 			}
 			

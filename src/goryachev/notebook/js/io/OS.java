@@ -72,6 +72,12 @@ public class OS
 	}
 	
 	
+	public String getUserName()
+	{
+		return System.getProperty("user.name");
+	}
+	
+	
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp("OS");
@@ -86,6 +92,7 @@ public class OS
 		h.a("time", "current time in milliseconds");
 		h.a("totalMem", "returns the total amount of memory in the JVM");
 		h.a("usedMem", "returns the amount of memory currently being used");
+		h.a("userName", "returns the user name");
 		h.a("version", "returns the OS version");
 		return h.toString();
 	}

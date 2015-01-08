@@ -1,0 +1,175 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "FS"
+    },
+    {
+      "type": "js",
+      "source": "FS",
+      "sequence": 105,
+      "output": [
+        {
+          "type": "text",
+          "text": "provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.exists(\"~\")",
+      "sequence": 106,
+      "output": [
+        {
+          "type": "text",
+          "text": "true"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.freeSpace;",
+      "sequence": 108,
+      "output": [
+        {
+          "type": "text",
+          "text": "172720103424"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.getFreeSpace(\"h:\");",
+      "sequence": 109,
+      "output": [
+        {
+          "type": "text",
+          "text": "1505829847040"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isDirectory(\"c:\");",
+      "sequence": 110,
+      "output": [
+        {
+          "type": "text",
+          "text": "true"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isFile(\"c:\");",
+      "sequence": 111,
+      "output": [
+        {
+          "type": "text",
+          "text": "false"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.isHidden(\"c:\");",
+      "sequence": 112,
+      "output": [
+        {
+          "type": "text",
+          "text": "false"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.lastModified(\"c:\");",
+      "sequence": 113,
+      "output": [
+        {
+          "type": "text",
+          "text": "1420680750346"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.ls()",
+      "sequence": 124,
+      "output": [
+        {
+          "type": "text",
+          "text": ".classpath            \n.git/                  \n.gitignore            \n.project              \narchive/               \nbuild/                 \nbuild.xml             \ncompetition/           \ndoc/                   \nexamples/              \nFeature Matrix.xlsx   \nlib/                   \nMAKE-JAR.bat          \nNotebook4.jar         \nNotes.txt             \nout/                   \nreference/             \nRelease Notes.txt     \nscreenshots/           \nsrc/                   \ntasks/                 \ntest.file             \nuser.home/             \n~$Feature Matrix.xlsx "
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.ls(\"src\");",
+      "sequence": 123,
+      "output": [
+        {
+          "type": "text",
+          "text": "goryachev/  \ninfo/       \norg/        \ntest/       "
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.ls('src', 'lib');",
+      "sequence": 116,
+      "output": [
+        {
+          "type": "text",
+          "text": "C:\\Projects\\Notebook 4\\src:\ngoryachev/  \ninfo/       \norg/        \ntest/       \n\nC:\\Projects\\Notebook 4\\lib:\njars/  "
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.pwd()",
+      "sequence": 118,
+      "output": [
+        {
+          "type": "text",
+          "text": "C:\\Projects\\Notebook 4"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.totalSpace",
+      "sequence": 119,
+      "output": [
+        {
+          "type": "text",
+          "text": "240054759424"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.getTotalSpace(\"H:\");",
+      "sequence": 120,
+      "output": [
+        {
+          "type": "text",
+          "text": "2000243589120"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.touch(\"test/test.file\");",
+      "sequence": 126,
+      "output": [
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    }
+  ]
+}

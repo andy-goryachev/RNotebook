@@ -1,0 +1,47 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "UT"
+    },
+    {
+      "type": "js",
+      "source": "UT",
+      "sequence": 133,
+      "output": [
+        {
+          "type": "text",
+          "text": "provides network-related functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "// programmatically generate an image\nim = new JImage(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tim.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tim.fillRect(im.width*i/sz, 0, im.width/sz, im.height);\n}",
+      "sequence": 131,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAfQAAAAeCAIAAABVHHuNAAABa0lEQVR42u3UkZKCUQCA0ctxHMe7HMdxnMdxnMdxHMd5HMdx/77B5ztzZs4znDGNURZplbbpkM7plp7pU95TeaRrOqV92qTfNE9jmqVlWqddOqZLuqdX+pbXVO7pko5pl9ZpmWZlPspP2qR9OqVreqR3msYnPdMtndMhbdMqLcKQu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nL/r7n/AXZOcr5AXZxvAAAAAElFTkSuQmCC"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "time = OS.time;\nUT.sleep(1234);\nprint(OS.time - time);",
+      "sequence": 132,
+      "output": [
+        {
+          "type": "text",
+          "text": "1231"
+        },
+        {
+          "type": "text",
+          "text": null
+        }
+      ]
+    }
+  ]
+}

@@ -20,7 +20,7 @@ public class NB
 	public String toString()
 	{
 		InlineHelp h = new InlineHelp("NB");
-		h.a("this object allows for operations with the notebook application:");
+		h.a("provides operations with the notebook application:");
 		h.a("display(x)", "displays an object in the code output section");
 		return h.toString();
 	}
