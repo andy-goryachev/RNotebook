@@ -97,11 +97,11 @@
     {
       "type": "js",
       "source": "FS.ls()",
-      "sequence": 124,
+      "sequence": 127,
       "output": [
         {
           "type": "text",
-          "text": ".classpath            \n.git/                  \n.gitignore            \n.project              \narchive/               \nbuild/                 \nbuild.xml             \ncompetition/           \ndoc/                   \nexamples/              \nFeature Matrix.xlsx   \nlib/                   \nMAKE-JAR.bat          \nNotebook4.jar         \nNotes.txt             \nout/                   \nreference/             \nRelease Notes.txt     \nscreenshots/           \nsrc/                   \ntasks/                 \ntest.file             \nuser.home/             \n~$Feature Matrix.xlsx "
+          "text": ".classpath          \n.git/                \n.gitignore          \n.project            \narchive/             \nbuild/               \nbuild.xml           \ncompetition/         \ndoc/                 \nexamples/            \nFeature Matrix.xlsx \nlib/                 \nMAKE-JAR.bat        \nNotebook4.jar       \nNotes.txt           \nout/                 \nreference/           \nRelease Notes.txt   \nscreenshots/         \nsrc/                 \ntasks/               \ntest/                \nuser.home/           "
         }
       ]
     },

@@ -45,7 +45,7 @@
         },
         {
           "id": "36061F0BB5693114AE525472FEBE5F2DE5207EC9",
-          "title": "cell selection",
+          "title": "multiple cell selection",
           "created": 1420674687189,
           "completed": null,
           "description": null
@@ -329,13 +329,6 @@
           "created": 1420449356390,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "0A8A6B8C3AF37E6F96494B438082A2FC48E6AA79",
-          "title": "OS.userName",
-          "created": 1420449474143,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -606,6 +599,13 @@
       "title": "popup menus",
       "created": 1420249246766,
       "completed": 1420673402825,
+      "description": null
+    },
+    {
+      "id": "0A8A6B8C3AF37E6F96494B438082A2FC48E6AA79",
+      "title": "OS.userName",
+      "created": 1420449474143,
+      "completed": 1420693447621,
       "description": null
     }
   ]
