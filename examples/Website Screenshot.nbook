@@ -1,0 +1,104 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "Research Notebook    研究ノート   ספר הערה מחקר"
+    },
+    {
+      "type": "h2",
+      "source": "Introduction"
+    },
+    {
+      "type": "text",
+      "source": "Research Notebook is a cross-platform, self-contained, interactive computational environment inspired by IPython Notebook, utlizing Javascript engine instead of Python.\n\nThe main goal of Research Notebook development was to provide a simple, cross-platform scripting environment that \"just works\", without the need to delve into the intricacies of the underlying operating system or installing and maintaining additional dependencies."
+    },
+    {
+      "type": "h2",
+      "source": "Images"
+    },
+    {
+      "type": "js",
+      "source": "// programmatically generate an image\nim = new JImage(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tim.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tim.fillRect(im.width*i/sz, 0, im.width/sz, im.height);\n}",
+      "sequence": 115,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAfQAAAAeCAIAAABVHHuNAAABa0lEQVR42u3UkZKCUQCA0ctxHMe7HMdxnMdxnMdxHMd5HMdx/77B5ztzZs4znDGNURZplbbpkM7plp7pU95TeaRrOqV92qTfNE9jmqVlWqddOqZLuqdX+pbXVO7pko5pl9ZpmWZlPspP2qR9OqVreqR3msYnPdMtndMhbdMqLcKQu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nL/r7n/AXZOcr5AXZxvAAAAAElFTkSuQmCC"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "Tables"
+    },
+    {
+      "type": "js",
+      "source": "t = new DTable('First Name','Last Name', 'Born');\nt.addRow([ 'Albert', 'Einstein', new Integer(1879) ]);\nt.addRow([ 'Niels', 'Bohr', new Integer(1885) ]);\nt.addRow([ 'Richard', 'Feynman', new Integer(1918) ]);\nt.addRow([ 'Sean', 'Carroll', new Integer(1966) ]);",
+      "sequence": 119,
+      "output": [
+        {
+          "type": "table",
+          "columns": [
+            "First Name",
+            "Last Name",
+            "Born"
+          ],
+          "rows": [
+            [
+              "Albert",
+              "Einstein",
+              "1879"
+            ],
+            [
+              "Niels",
+              "Bohr",
+              "1885"
+            ],
+            [
+              "Richard",
+              "Feynman",
+              "1918"
+            ],
+            [
+              "Sean",
+              "Carroll",
+              "1966"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "File System Operations"
+    },
+    {
+      "type": "js",
+      "source": "FS",
+      "sequence": 95,
+      "output": [
+        {
+          "type": "text",
+          "text": "provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.pwd()                           - returns the current directory\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "source": "Connectors"
+    },
+    {
+      "type": "js",
+      "source": "%oracle MyServer\nselect * from ORDERS",
+      "sequence": 93,
+      "output": [
+        {
+          "type": "error",
+          "text": "syntax error (line #1)"
+        }
+      ]
+    }
+  ]
+}

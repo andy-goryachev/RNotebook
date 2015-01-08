@@ -202,15 +202,15 @@ public class FS
 		h.a("provides access to the filesystem:");
 		
 		h.a("exists(file)", "tests whether the file exists");
-		h.a("freeSpace, getFreeSpace(file)", "returns the amount of free space");
+		h.a("freeSpace, getFreeSpace(path)", "returns the amount of free space");
 		h.a("isDirectory(path)", "tests whether the file denoted by this path is a directory"); 
 		h.a("isFile(path)", "tests whether the file denoted by this path is a normal file");
 		h.a("isHidden(path)", "tests whether the file denoted by this path is a hidden file"); 
 		h.a("lastModified(file)", "returns the file timestamp");
-		h.a("ls([path],[path],...)", "lists files");
+		h.a("ls([path],...)", "lists files");
 		h.a("pwd()", "returns the current directory");
-		h.a("totalSpace, getTotalSpace(file)", "returns the amount of total space");
-		h.a("touch", "updates the timestamp of a file, creating it if necessary");
+		h.a("totalSpace, getTotalSpace(path)", "returns the amount of total space");
+		h.a("touch(file)", "updates the timestamp of a file, creating it if necessary");
 		return h.toString();
 	}
 }

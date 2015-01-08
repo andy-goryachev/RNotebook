@@ -1,0 +1,97 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "Programmatic Image Generation"
+    },
+    {
+      "type": "text",
+      "source": "Research Notebook provides extensive image manipulation capabilities via its built-in JImage type.\nAn Image can be created using 'new' operator, or loaded via IO.loadImage() or NET.get() methods:"
+    },
+    {
+      "type": "js",
+      "source": "im = new JImage(100, 40);",
+      "sequence": 24,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAIAAACHGsgUAAAAI0lEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAA4McALwgAAWR8O+oAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "source": "A JImage instance is a Java object.\nNot only it contains an instance of BufferedImage, but it also allows for drawing and manipulation of the said image."
+    },
+    {
+      "type": "js",
+      "source": "im.help",
+      "sequence": 33,
+      "output": [
+        {
+          "type": "text",
+          "text": "new JImage(width, height)\nnew JImage(width, height, alpha)\nnew JImage(width, height, color)\n   JImage.bufferedImage                  - returns a copy of underlying BufferedImage object\n   JImage.height                         - returns image height\n   JImage.invert()                       - inverts RGB channels\n   JImage.scale(factor)                  - scales the image\n   JImage.setColor(name)                 - sets the current color\n   JImage.setColor(red,green,blue)       - sets the painting color by RGB values\n   JImage.setColor(red,green,blue,alpha) - sets the painting color by RGB with alpha\n   JImage.width                          - returns image width"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "source": "JImage.copy()"
+    },
+    {
+      "type": "text",
+      "source": "Makes a copy of the current image.\nReturns the newly created image."
+    },
+    {
+      "type": "h3",
+      "source": "JImage.invert()"
+    },
+    {
+      "type": "text",
+      "source": "Inverts RGB channels of the image, leaving alpha channel intact (if present)."
+    },
+    {
+      "type": "js",
+      "source": "im = new JImage(100, 40);",
+      "sequence": 15,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAIAAACHGsgUAAAAI0lEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAA4McALwgAAWR8O+oAAAAASUVORK5CYII="
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "im.invert()",
+      "sequence": 11,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAIAAACHGsgUAAAATklEQVR42u3QMQEAAAwCIPuX1gr79kAEUs6iQJYsWbJkyVIgS5YsWbJkKZAlS5YsWbIUyJIlS5YsWQpkyZIlS5YsBbJkyZIlS5YCWbK+Db0bs9Njf8SyAAAAAElFTkSuQmCC"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "source": "JImage.scale(factor)"
+    },
+    {
+      "type": "js",
+      "source": "im = new JImage(10, 10);\nNB.display(im);\nim.scale(2);",
+      "sequence": 18,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAADUlEQVR42mNgGAWkAwABNgABiY9t2AAAAABJRU5ErkJggg=="
+        },
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAAEklEQVR42mNgGAWjYBSMgqELAATEAAHOCvZkAAAAAElFTkSuQmCC"
+        }
+      ]
+    }
+  ]
+}

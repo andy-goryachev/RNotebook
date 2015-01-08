@@ -6,6 +6,7 @@ import goryachev.common.ui.UI;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.jhlabs.InvertFilter;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -31,9 +32,28 @@ public class JImage
 	}
 	
 	
-	public JImage(int width, int height, boolean alpha)
+	public JImage(int width, int height, Object arg)
 	{
-		image = new BufferedImage(width, height, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+		if(arg instanceof Boolean)
+		{
+			boolean alpha = Boolean.TRUE.equals(arg);
+			image = new BufferedImage(width, height, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+		}
+		else
+		{
+			Color c = JsUtil.parseColor(arg);
+			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = image.createGraphics();
+			try
+			{
+				g.setColor(c);
+				g.fillRect(0, 0, width, height);
+			}
+			finally
+			{
+				g.dispose();
+			}
+		}
 	}
 	
 	
@@ -45,7 +65,7 @@ public class JImage
 
 	public BufferedImage getBufferedImage()
 	{
-		return image;
+		return ImageTools.copyImageRGB(image);
 	}
 
 
@@ -199,5 +219,25 @@ public class JImage
 	{
 		gr().fill(new Rectangle2D.Double(x, y, w, h));
 		return this;
+	}
+	
+	
+	public Object getHelp()
+	{
+		InlineHelp h = new InlineHelp("JImage");
+		h.a("new JImage(width, height)");
+		h.a("new JImage(width, height, alpha)");
+		h.a("new JImage(width, height, color)");
+		//
+		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
+		h.a("height", "returns image height");
+		h.a("invert()", "inverts RGB channels");
+		h.a("scale(factor)", "scales the image");
+		h.a("setColor(name)", "sets the painting color by name");
+		h.a("setColor(red,green,blue)", "sets the painting color by RGB values");
+		h.a("setColor(red,green,blue,alpha)", "sets the painting color by RGB with alpha");
+		h.a("setColor(name)", "sets the current color");
+		h.a("width", "returns image width");
+		return h;
 	}
 }

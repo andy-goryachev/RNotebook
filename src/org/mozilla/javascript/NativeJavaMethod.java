@@ -142,7 +142,7 @@ public class NativeJavaMethod
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0, N = methods.length; i != N; ++i)
+		for(int i=0, N=methods.length; i != N; ++i)
 		{
 			// Check member type, we also use this for overloaded constructors
 			if(methods[i].isMethod())

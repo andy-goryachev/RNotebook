@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
+import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
@@ -199,6 +200,7 @@ public class CodePanel
 			//m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
 			m.add(new CMenuItem(NotebookIcons.Start, "Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
 			//m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
+			m.add(new CMenuItem("Run in Debugger", CAction.TODO));
 		}
 		
 		addCellMenus(m, np);

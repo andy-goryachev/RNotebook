@@ -170,6 +170,8 @@ public abstract class CellPanel
 	protected void addCellMenus(JPopupMenu m, NotebookPanel np)
 	{
 		UI.separator(m);
+		m.add(new CMenuItem("Delete", np.deleteCellAction));
+		UI.separator(m);
 		m.add(new CMenuItem("Split Cell", np.splitCellAction));
 		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
 		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));

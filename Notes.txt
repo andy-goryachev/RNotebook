@@ -1,4 +1,8 @@
-﻿node.js doc
+﻿app name
+	R/Notebook
+	JsNotebook
+
+node.js doc
 	http://nodejs.org/api/all.html
 	
 mozilla rhino Rhino 1.7R4
@@ -10,7 +14,6 @@ NET
 
 
 TODO
-- syntax highlight
 - markdown
 
 
@@ -23,7 +26,6 @@ RESULTS
 
 SUBSYSTEMS
 - csv files
-- file system
 - patterns
 - date/time
 - exec
@@ -31,6 +33,3 @@ SUBSYSTEMS
 - converters uu/base64
 - assert
 - compression
-- os (see node.js)
-- display.display(image, text, ...)
-- NET

@@ -115,11 +115,28 @@ public class JsUtil
 					
 					return new Color(r, g, b);
 				}
+				else if(s.length() == 9)
+				{
+					// #rrggbbaa
+					int r = Hex.parseHexChar(s.charAt(1)) << 4;
+					r += Hex.parseHexChar(s.charAt(2));
+					
+					int g = Hex.parseHexChar(s.charAt(3)) << 4;
+					g += Hex.parseHexChar(s.charAt(4));
+					
+					int b = Hex.parseHexChar(s.charAt(5)) << 4;
+					b += Hex.parseHexChar(s.charAt(6));
+					
+					int a = Hex.parseHexChar(s.charAt(7)) << 4;
+					b += Hex.parseHexChar(s.charAt(8));
+					
+					return new Color(r, g, b, a);
+				}
 			}
 			catch(Exception e)
 			{ }
 			
-			throw new UserException("expecting color #RGB or #RRGGBB");
+			throw new UserException("expecting color #RGB or #RRGGBB or #RRGGBBAA");
 		}
 		
 		if(colorNames == null)

@@ -51,6 +51,13 @@ public class JsonDecoder
 	}
 	
 	
+	public JsonDecoder(Reader r, boolean lenient)
+	{
+		rd = new JsonReader(r);
+		rd.setLenient(lenient);
+	}
+	
+	
 	public JsonDecoder(String s)
 	{
 		this(new StringReader(s));

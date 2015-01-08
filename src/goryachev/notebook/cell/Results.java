@@ -32,8 +32,7 @@ public class Results
 		
 		if(x instanceof JImage)
 		{
-			BufferedImage im = ((JImage)x).getBufferedImage();
-			return ImageTools.copyImageRGB(im);
+			return ((JImage)x).getBufferedImage();
 		}
 		else if(x instanceof DTable)
 		{

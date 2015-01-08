@@ -30,23 +30,23 @@
           "description": null
         },
         {
-          "id": "85B2B08ADA040BE9450F835D6959FB219A856549",
-          "title": "byte buffer",
-          "created": 1420450037122,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "84A5226E3D66DF499F3E2E237CD2085B552C6443",
-          "title": "JImage",
-          "created": 1420450245642,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "C97E02321355EFE942CE8E80722E13452EFB58B8",
           "title": "view outline",
           "created": 1420453175120,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "0B8B0864A81E26F39143C5615E9E707E85A10553",
+          "title": "bulk cell operations",
+          "created": 1420674682436,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "36061F0BB5693114AE525472FEBE5F2DE5207EC9",
+          "title": "cell selection",
+          "created": 1420674687189,
           "completed": null,
           "description": null
         }
@@ -71,13 +71,6 @@
           "created": 1420451111018,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "CD784626531F91F181083309FAC89E164B449505",
-          "title": "exception opening non-existing recent file",
-          "created": 1420512286456,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -86,15 +79,7 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": [
-        {
-          "id": "ED0ED35E51E5FDB5C504A55B84DD9202392B6AF9",
-          "title": "popup menus",
-          "created": 1420249246766,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -124,13 +109,6 @@
       "y": 1,
       "title": "FS",
       "tasks": [
-        {
-          "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
-          "title": "FS.ls",
-          "created": 1420448021380,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "700F8F8D13E17C843313A7B178A7809EBF97EA92",
           "title": "FS.copy",
@@ -163,13 +141,6 @@
           "id": "5ECFF3D2863F5219F09EE5575C53DFA1FF7715CC",
           "title": "FS.delete/rmdir",
           "created": 1420448990743,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "FB3BCB1F9EE6492F96796DACFA2041447477659A",
-          "title": "FS.exists",
-          "created": 1420449022306,
           "completed": null,
           "description": null
         },
@@ -217,23 +188,9 @@
           "description": null
         },
         {
-          "id": "0A8A6B8C3AF37E6F96494B438082A2FC48E6AA79",
-          "title": "NB.userName",
-          "created": 1420449474143,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "FFE7E276A12386EABC209014F865DA719BCFF927",
           "title": "NB.describe",
           "created": 1420450554757,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "429428FE183F087459626C1F5706CF34B37BD297",
-          "title": "NB.clear",
-          "created": 1420452214774,
           "completed": null,
           "description": null
         }
@@ -372,6 +329,13 @@
           "created": 1420449356390,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "0A8A6B8C3AF37E6F96494B438082A2FC48E6AA79",
+          "title": "OS.userName",
+          "created": 1420449474143,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -396,6 +360,34 @@
           "description": null
         }
       ]
+    },
+    {
+      "id": "B7FF3D52CF2DD25F73005BB894532B6A83A66A0A",
+      "x": 0,
+      "y": 2,
+      "title": "JImage",
+      "tasks": []
+    },
+    {
+      "id": "92CC5409A28C39B9464489755F02D553D2C7BE48",
+      "x": 1,
+      "y": 2,
+      "title": "JData",
+      "tasks": []
+    },
+    {
+      "id": "75C0D5FDE94F6932D329879FF9DF503A610907DE",
+      "x": 2,
+      "y": 2,
+      "title": "Plot",
+      "tasks": []
+    },
+    {
+      "id": "51F3A528E273359559F985E285E940C09E9AA12B",
+      "x": 3,
+      "y": 2,
+      "title": "ByteBuffer",
+      "tasks": []
     }
   ],
   "task.history": [
@@ -586,6 +578,34 @@
       "title": "package tracking example",
       "created": 1420566212736,
       "completed": 1420581657309,
+      "description": null
+    },
+    {
+      "id": "8A736D741BBCBA93EBEDE0B3D7F0809B38D422C3",
+      "title": "FS.ls",
+      "created": 1420448021380,
+      "completed": 1420581697037,
+      "description": null
+    },
+    {
+      "id": "FB3BCB1F9EE6492F96796DACFA2041447477659A",
+      "title": "FS.exists",
+      "created": 1420449022306,
+      "completed": 1420670573202,
+      "description": null
+    },
+    {
+      "id": "CD784626531F91F181083309FAC89E164B449505",
+      "title": "exception opening non-existing recent file",
+      "created": 1420512286456,
+      "completed": 1420672946077,
+      "description": null
+    },
+    {
+      "id": "ED0ED35E51E5FDB5C504A55B84DD9202392B6AF9",
+      "title": "popup menus",
+      "created": 1420249246766,
+      "completed": 1420673402825,
       "description": null
     }
   ]

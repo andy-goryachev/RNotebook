@@ -17,7 +17,7 @@ public class DataBookJsonReader
 {
 	public DataBookJsonReader(Reader rd)
 	{
-		super(rd);
+		super(rd, true);
 	}
 	
 	
@@ -25,7 +25,7 @@ public class DataBookJsonReader
 	{
 		DataBook b = new DataBook();
 		String type = null;
-		String ver = null;
+		int ver = -1;
 		
 		beginObject();
 		while(inObject())
@@ -40,7 +40,7 @@ public class DataBookJsonReader
 				}
 				
 				// check version
-				if(Schema.VERSION.equals(ver))
+				if(Schema.VERSION == ver)
 				{
 					// ok
 				}
@@ -57,7 +57,7 @@ public class DataBookJsonReader
 			}
 			else if(Schema.KEY_VERSION.equals(s))
 			{
-				ver = nextString();
+				ver = nextInt();
 			}
 		}
 		endObject();

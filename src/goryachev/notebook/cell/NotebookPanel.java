@@ -102,7 +102,7 @@ public class NotebookPanel
 	}
 	
 	
-	public void setModified(boolean on)
+	public boolean setModified(boolean on)
 	{
 		if(modified != on)
 		{
@@ -111,9 +111,12 @@ public class NotebookPanel
 			NotebookWindow w = NotebookWindow.get(this);
 			if(w != null)
 			{
-				w.updateTitle();
+				w.updateActions();
 			}
+			
+			return true;
 		}
+		return false;
 	}
 	
 	

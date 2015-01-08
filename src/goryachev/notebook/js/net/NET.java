@@ -1,5 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.net;
+import goryachev.common.ui.Application;
 import goryachev.common.util.CBrowser;
 import goryachev.common.util.CKit;
 import goryachev.common.util.TextTools;
@@ -24,6 +25,7 @@ public class NET
 	{
 		URL u = JsUtil.parseURL(url);
 		URLConnection c = u.openConnection();
+		c.setRequestProperty("User-Agent", Application.getTitle() + " " + Application.getVersion());
 		
 		try
 		{
@@ -42,6 +44,9 @@ public class NET
 					{
 						return readImage(ch);
 					}
+					
+					// TODO as binary if size is known
+					// otherwise input stream or exception
 				}
 				
 				throw new UserException("don't know how to handle response type " + type + " content: " + ch.getContent());

@@ -1,10 +1,12 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
 import goryachev.common.util.CList;
+import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.SB;
 import java.util.Arrays;
 
 
+@Noobfuscate
 public class DTable
 {
 	protected CList<String> columns;
@@ -12,8 +14,12 @@ public class DTable
 	private int width;
 	
 	
-	public DTable()
+	public DTable(String ... columns)
 	{
+		for(String c: columns)
+		{
+			addColumn(c);
+		}
 	}
 	
 	
@@ -50,19 +56,21 @@ public class DTable
 	}
 	
 	
-	public void setColumns(String[] cs)
+	public DTable setColumns(String[] cs)
 	{
 		columns = new CList(cs);
+		return this;
 	}
 	
 	
-	public void addColumn(String name)
+	public DTable addColumn(String name)
 	{
 		if(columns == null)
 		{
 			columns = new CList();
 		}
 		columns.add(name);
+		return this;
 	}
 	
 	
@@ -85,13 +93,14 @@ public class DTable
 	}
 
 
-	public void addRow(Object ... xs)
+	public DTable addRow(Object ... xs)
 	{
 		if(width < xs.length)
 		{
 			width = xs.length;
 		}
 		data.add(Arrays.copyOf(xs, xs.length));
+		return this;
 	}
 
 
@@ -122,7 +131,7 @@ public class DTable
 	}
 
 	
-	public void setValue(int row, int col, Object value)
+	public DTable setValue(int row, int col, Object value)
 	{
 		while(row >= data.size())
 		{
@@ -147,10 +156,12 @@ public class DTable
 		{
 			width = col+1;
 		}
+		
+		return this;
 	}
 	
 	
-	public String dump()
+	protected String dump()
 	{
 		SB sb = new SB();
 		for(int r=0; r<getRowCount(); r++)

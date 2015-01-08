@@ -51,7 +51,7 @@ public class NotebookWindow
 		{
 			protected void onRecentFileSelected(File f)
 			{
-				openNewWindow(f);
+				openRecentFile(f);
 			}
 		};
 				
@@ -246,11 +246,14 @@ public class NotebookWindow
 	
 	public void setModified(boolean on)
 	{
-		np.setModified(false);
+		if(np.setModified(false))
+		{
+			updateActions();
+		}
 	}
 	
 	
-	public void updateTitle()
+	protected void updateTitle()
 	{
 		SB sb = new SB();
 		
@@ -420,6 +423,21 @@ public class NotebookWindow
 	protected void actionNew()
 	{
 		openNewWindow(null);
+	}
+	
+	
+	protected void openRecentFile(File f)
+	{
+		if(f != null)
+		{
+			if(f.exists() && f.isFile())
+			{
+				openFile(f);
+				return;
+			}
+		}
+		
+		Dialogs.warn(this, "File Not Found", "File not found: " + f);
 	}
 	
 	
