@@ -938,6 +938,17 @@
           "text": "[\"a\",1,null]"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "NET.get('sftp://goryachev.com/');",
+      "sequence": 47,
+      "output": [
+        {
+          "type": "error",
+          "text": "unknown protocol: sftp"
+        }
+      ]
     }
   ]
 }

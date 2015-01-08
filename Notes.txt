@@ -1,4 +1,7 @@
-﻿app name
+﻿http://www.goryachev.com/products/research-notebook/
+
+
+app name
 	R/Notebook
 	JsNotebook
 

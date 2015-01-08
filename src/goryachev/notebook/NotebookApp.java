@@ -15,9 +15,9 @@ import javax.swing.ImageIcon;
 public class NotebookApp
 	extends Application
 {
-	public static final String VERSION = "0.04.04";
+	public static final String VERSION = "0.04.05";
 	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
-	public static final String WEB_SITE = "http://goryachev.com/products/"; // TODO
+	public static final String WEB_SITE = "http://goryachev.com/products/research-notebook";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);
 	public static final int REMINDER_COUNT = 60;
