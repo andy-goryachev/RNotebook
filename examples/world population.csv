@@ -1,4 +1,4 @@
-City / Urban area,Country,Population,Land area,Density
+﻿City / Urban area,Country,Population,Land area,Density
 Tokyo/Yokohama,Japan,"33,200,000","6,993","4,750"
 New York Metro,USA,"17,800,000","8,683","2,050"
 Sao Paulo,Brazil,"17,700,000","1,968","9,000"
@@ -25,7 +25,7 @@ Beijing,China,"8,614,000",748,"11,500"
 Chicago,USA,"8,308,000","5,498","1,500"
 London,UK,"8,278,000","1,623","5,100"
 Shenzhen,China,"8,000,000",466,"17,150"
-Essen/D�sseldorf,Germany,"7,350,000","2,642","2,800"
+Essen/Düsseldorf,Germany,"7,350,000","2,642","2,800"
 Tehran,Iran,"7,250,000",686,"10,550"
 Bogota,Colombia,"7,000,000",518,"13,500"
 Lima,Peru,"7,000,000",596,"11,750"

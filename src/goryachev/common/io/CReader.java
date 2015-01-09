@@ -26,7 +26,7 @@ public class CReader
 	
 	public CReader(InputStream in, Charset cs) throws Exception
 	{
-		super(new InputStreamReader(in, cs));
+		super(new InputStreamReader(in, (cs == null ? CKit.CHARSET_UTF8 : cs)));
 	}
 	
 	

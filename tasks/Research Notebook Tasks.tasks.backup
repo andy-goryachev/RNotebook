@@ -16,13 +16,6 @@
           "description": null
         },
         {
-          "id": "3850FB0B3312867EEA739029FE80E9D969BF7C61",
-          "title": "save as html",
-          "created": 1420249262648,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "2D8B4714112D32A6B02E757D001891F5564D9AFA",
           "title": "encrypted storage",
           "created": 1420432745900,
@@ -79,7 +72,29 @@
       "x": 0,
       "y": 0,
       "title": "ONGOING",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "3850FB0B3312867EEA739029FE80E9D969BF7C61",
+          "title": "save as html",
+          "created": 1420249262648,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "213FF94BFBBDF2F14062B66458D55493162139FC",
+          "title": "html builder",
+          "created": 1420693545158,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "A674D92A87AA794BDC26476160F4033E938EB56F",
+          "title": "data storage",
+          "created": 1420709288922,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "0F5D26E034425A357861C82A55A3E12796FE2A15",
@@ -98,6 +113,13 @@
           "id": "6C31F387C589972D0AC3038F8C05E11E8573A7E7",
           "title": "jump cursor to error line",
           "created": 1420568321460,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "8B0E8F5D8D2F3F6D07101CA1598C3AA58613BC1D",
+          "title": "remove jedit, find out if syntax can be used",
+          "created": 1420774972718,
           "completed": null,
           "description": null
         }
@@ -227,6 +249,13 @@
           "id": "5F09D26BE8B3A5437FD86BBE597D4BABD87C4851",
           "title": "IO.compress/decompress",
           "created": 1420450153609,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "BD000BB07FC5912C4553D94833CC6851C2F8A195",
+          "title": "IO.newTableReader",
+          "created": 1420709296622,
           "completed": null,
           "description": null
         }
@@ -381,6 +410,77 @@
       "y": 2,
       "title": "ByteBuffer",
       "tasks": []
+    },
+    {
+      "id": "FD3683C8375368462ED1A432BA8AA55788FFD0B1",
+      "x": 4,
+      "y": 2,
+      "title": "Table Reader",
+      "tasks": [
+        {
+          "id": "547E9D7E4AF6A69720AE1EC00CFBB531DE16646A",
+          "title": "setAutoDetect",
+          "created": 1420750168299,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "1DFE73A6E95380D71DC9D03A9604606FC2B012F1",
+          "title": "setDateFormat",
+          "created": 1420750172367,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "725EDAA2579BBE3852A08E5BAED9862CE444D72D",
+          "title": "read",
+          "created": 1420750182482,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "3E1BEFDD169ECF16D41A6EFB269C9D32778EAA88",
+          "title": "setTimeFormat",
+          "created": 1420750200094,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "2CA728F7E72894E89B527F61264B56AD6E573C3A",
+          "title": "setNumberFormat",
+          "created": 1420750203149,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "34FB1F5B3C22623E36BB5469C1901066EB0B6271",
+          "title": "setCurrencyFormat",
+          "created": 1420750207092,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "329EE1CB62754E3FDF907D15179A9991198D3366",
+          "title": "setColumnType",
+          "created": 1420750212625,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "C78046F4DEB13E0D54B89DA8DAA80B10B795A789",
+          "title": "setEncoding",
+          "created": 1420750232264,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "7BD07AB926DDABB24A8C96413DB7DFFBAC1EC4C5",
+          "title": "setFileFormat",
+          "created": 1420750240337,
+          "completed": null,
+          "description": null
+        }
+      ]
     }
   ],
   "task.history": [

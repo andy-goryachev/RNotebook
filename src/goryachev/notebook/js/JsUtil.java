@@ -16,6 +16,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import org.mozilla.javascript.RhinoException;
 
 
@@ -52,16 +56,12 @@ public class JsUtil
 				String msg = e.getMessage();
 				if(CKit.isNotBlank(msg))
 				{
-					return msg;
+					return e.getClass().getSimpleName() + ": " + msg;
 				}
 				else
 				{
-					err = e;
+					return e.getClass().getSimpleName();
 				}
-			}
-			else
-			{
-				return ((RhinoException)err).getMessage();
 			}
 		}
 		
@@ -261,5 +261,37 @@ public class JsUtil
 		{
 			return x;
 		}
+	}
+
+
+	public static NumberFormat parseNumberFormat(Object f)
+	{
+		if(f == null)
+		{
+			return null;
+		}
+		
+		if(f instanceof NumberFormat)
+		{
+			return (NumberFormat)f;
+		}
+		
+		return new DecimalFormat(f.toString());
+	}
+	
+	
+	public static DateFormat parseDateFormat(Object f)
+	{
+		if(f == null)
+		{
+			return null;
+		}
+		
+		if(f instanceof DateFormat)
+		{
+			return (DateFormat)f;
+		}
+		
+		return new SimpleDateFormat(f.toString());
 	}
 }

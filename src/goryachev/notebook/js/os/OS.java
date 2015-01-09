@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.io;
+package goryachev.notebook.js.os;
 import goryachev.notebook.util.InlineHelp;
 import java.net.InetAddress;
 

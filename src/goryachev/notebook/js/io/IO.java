@@ -60,10 +60,9 @@ public class IO
 	}
 	
 	
-	public DTable loadTable(Object filename, Object type) throws Exception
+	public DTableReader newTableReader()
 	{
-		File f = JsUtil.parseFile(filename);
-		return new DTable();
+		return new DTableReader();
 	}
 	
 	
