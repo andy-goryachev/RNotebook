@@ -14,6 +14,7 @@ import goryachev.json.gson.JsonReader;
 import info.clearthought.layout.TableLayout;
 import java.awt.Component;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.jsoup.Jsoup;
 import org.mozilla.javascript.RhinoException;
 
 
@@ -42,8 +43,7 @@ public class OpenSourceLicenses
 		
 		//d.addPage("jrawio", CKit.readStringQuiet(OpenSourceLicenses.class, "jrawio license.txt"));
 		
-		// not used
-		//d.addPage("JSoup", CKit.readStringQuiet(Jsoup.class, "LICENSE"));
+		d.addPage("JSoup", CKit.readStringQuiet(Jsoup.class, "LICENSE"));
 		
 		// https://drewnoakes.com/code/exif/
 		// https://github.com/drewnoakes/metadata-extractor
