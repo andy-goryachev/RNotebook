@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
@@ -263,22 +265,6 @@ public class JsUtil
 		}
 	}
 
-
-	public static NumberFormat parseNumberFormat(Object f)
-	{
-		if(f == null)
-		{
-			return null;
-		}
-		
-		if(f instanceof NumberFormat)
-		{
-			return (NumberFormat)f;
-		}
-		
-		return new DecimalFormat(f.toString());
-	}
-	
 	
 	public static DateFormat parseDateFormat(Object f)
 	{
@@ -293,5 +279,87 @@ public class JsUtil
 		}
 		
 		return new SimpleDateFormat(f.toString());
+	}
+	
+	
+	public static final String JSON_BIGINT = "I";
+	public static final String JSON_BIGDECIMAL = "D";
+	public static final String JSON_DOUBLE = "d";
+	public static final String JSON_INTEGER = "i";
+	public static final String JSON_LONG = "l";
+	public static final String JSON_NULL = "n";
+	public static final String JSON_STRING = "s";
+//	
+//	public static final String JSON_ = "";
+//	public static final String JSON_ = "";
+//	public static final String JSON_ = "";
+	// TODO date, sql date
+	
+	
+	/** encode object for writing to a JSON document */
+	public static String encodeTableCell(Object x)
+	{
+		if(x == null)
+		{
+			return JSON_NULL;
+		}
+		else if(x instanceof Double)
+		{
+			return JSON_DOUBLE + x;
+		}
+		else if(x instanceof Long)
+		{
+			return JSON_LONG + x;
+		}
+		else if(x instanceof BigInteger)
+		{
+			return JSON_BIGINT + x;
+		}
+		else if(x instanceof BigDecimal)
+		{
+			return JSON_BIGDECIMAL + x;
+		}
+		else if(x instanceof Number)
+		{
+			return JSON_INTEGER + x;
+		}
+		else
+		{
+			return JSON_STRING + x;
+		}
+	}
+	
+
+	/** decode object read from a JSON document */
+	public static Object decodeTableCell(String s)
+	{
+		if(s == null)
+		{
+			return null;
+		}
+		if(s.startsWith(JSON_DOUBLE))
+		{
+			return Double.parseDouble(s.substring(1));
+		}
+		if(s.startsWith(JSON_LONG))
+		{
+			return Long.parseLong(s.substring(1));
+		}
+		if(s.startsWith(JSON_BIGINT))
+		{
+			return new BigInteger(s.substring(1));
+		}
+		if(s.startsWith(JSON_BIGDECIMAL))
+		{
+			return new BigDecimal(s.substring(1));
+		}
+		if(s.startsWith(JSON_INTEGER))
+		{
+			return Integer.parseInt(s.substring(1));
+		}
+		else
+		{
+			return s.substring(1);
+		}
 	}
 }

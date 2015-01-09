@@ -4,13 +4,13 @@ import goryachev.common.io.CReader;
 import goryachev.common.io.CSVReader;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CMap;
+import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DTable;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 
 
 public class DTableReader
@@ -23,7 +23,7 @@ public class DTableReader
 	private DateFormat dateFormat;
 	private DateFormat dateTimeFormat;
 	private DateFormat timeFormat;
-	private NumberFormat numberFormat;
+	private char decimalSeparator = '.';
 	private static final String PREFIX_NAME = "c.";
 	private static final String PREFIX_TYPE = "t.";
 	private enum ColumnType
@@ -123,9 +123,9 @@ public class DTableReader
 	}
 	
 	
-	public void setNumberFormat(Object f)
+	public void setDecimalSeparator(Object x)
 	{
-		numberFormat = JsUtil.parseNumberFormat(f); 
+		decimalSeparator = x.toString().charAt(0);
 	}
 	
 	
@@ -219,20 +219,20 @@ public class DTableReader
 			}
 			else
 			{
-				return dateFormat.parse(s);
+				return dateFormat.parse(sanitizeNumber(s));
 			}
 			
 		case DOUBLE:
-			return Double.parseDouble(s);
+			return Double.parseDouble(sanitizeNumber(s));
 			
 		case FLOAT:
-			return Float.parseFloat(s);
+			return Float.parseFloat(sanitizeNumber(s));
 			
 		case INT:
-			return Integer.parseInt(s);
+			return Integer.parseInt(sanitizeNumber(s));
 			
 		case LONG:
-			return Long.parseLong(s);
+			return Long.parseLong(sanitizeNumber(s));
 			
 		case TIME:
 			if(timeFormat == null)
@@ -248,6 +248,48 @@ public class DTableReader
 		default:
 			return s;
 		}
+	}
+	
+	
+	protected String sanitizeNumber(String s)
+	{
+		// decimal separator
+		// 1e2
+		int sz = s.length();
+		SB sb = new SB(sz);
+		for(int i=0; i<sz; i++)
+		{
+			char c = s.charAt(i);
+			
+			if(decimalSeparator != 0)
+			{
+				if(c == decimalSeparator)
+				{
+					sb.append(c);
+					continue;
+				}
+			}
+			
+			switch(c)
+			{
+			case '-':
+			case '+':
+			case 'e':
+			case 'E':
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				sb.append(c);
+			}
+		}
+		return sb.toString();
 	}
 	
 	

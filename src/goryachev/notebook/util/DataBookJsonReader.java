@@ -7,6 +7,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
+import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DTable;
 import java.io.Reader;
 
@@ -185,7 +186,8 @@ public class DataBookJsonReader
 					beginArray();
 					while(inArray())
 					{
-						String v = nextString();
+						String cv = nextString();
+						Object v = JsUtil.decodeTableCell(cv);
 						row.add(v);
 					}
 					endArray();

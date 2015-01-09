@@ -4,925 +4,31 @@
   "cells": [
     {
       "type": "js",
-      "source": "IO.loadTable('examples/world population.csv')",
-      "sequence": 48,
-      "output": [
-        {
-          "type": "table",
-          "columns": [
-            "﻿City / Urban area",
-            "Country",
-            "Population",
-            "Land area",
-            "Density"
-          ],
-          "rows": [
-            [
-              "Tokyo/Yokohama",
-              "Japan",
-              "33,200,000",
-              "6,993",
-              "4,750"
-            ],
-            [
-              "New York Metro",
-              "USA",
-              "17,800,000",
-              "8,683",
-              "2,050"
-            ],
-            [
-              "Sao Paulo",
-              "Brazil",
-              "17,700,000",
-              "1,968",
-              "9,000"
-            ],
-            [
-              "Seoul/Incheon",
-              "South Korea",
-              "17,500,000",
-              "1,049",
-              "16,700"
-            ],
-            [
-              "Mexico City",
-              "Mexico",
-              "17,400,000",
-              "2,072",
-              "8,400"
-            ],
-            [
-              "Osaka/Kobe/Kyoto",
-              "Japan",
-              "16,425,000",
-              "2,564",
-              "6,400"
-            ],
-            [
-              "Manila",
-              "Philippines",
-              "14,750,000",
-              "1,399",
-              "10,550"
-            ],
-            [
-              "Mumbai",
-              "India",
-              "14,350,000",
-              "484",
-              "29,650"
-            ],
-            [
-              "Delhi",
-              "India",
-              "14,300,000",
-              "1,295",
-              "11,050"
-            ],
-            [
-              "Jakarta",
-              "Indonesia",
-              "14,250,000",
-              "1,360",
-              "10,500"
-            ],
-            [
-              "Lagos",
-              "Nigeria",
-              "13,400,000",
-              "738",
-              "18,150"
-            ],
-            [
-              "Kolkata",
-              "India",
-              "12,700,000",
-              "531",
-              "23,900"
-            ],
-            [
-              "Cairo",
-              "Egypt",
-              "12,200,000",
-              "1,295",
-              "9,400"
-            ],
-            [
-              "Los Angeles",
-              "USA",
-              "11,789,000",
-              "4,320",
-              "2,750"
-            ],
-            [
-              "Buenos Aires",
-              "Argentina",
-              "11,200,000",
-              "2,266",
-              "4,950"
-            ],
-            [
-              "Rio de Janeiro",
-              "Brazil",
-              "10,800,000",
-              "1,580",
-              "6,850"
-            ],
-            [
-              "Moscow",
-              "Russia",
-              "10,500,000",
-              "2,150",
-              "4,900"
-            ],
-            [
-              "Shanghai",
-              "China",
-              "10,000,000",
-              "746",
-              "13,400"
-            ],
-            [
-              "Karachi",
-              "Pakistan",
-              "9,800,000",
-              "518",
-              "18,900"
-            ],
-            [
-              "Paris",
-              "France",
-              "9,645,000",
-              "2,723",
-              "3,550"
-            ],
-            [
-              "Istanbul",
-              "Turkey",
-              "9,000,000",
-              "1,166",
-              "7,700"
-            ],
-            [
-              "Nagoya",
-              "Japan",
-              "9,000,000",
-              "2,875",
-              "3,150"
-            ],
-            [
-              "Beijing",
-              "China",
-              "8,614,000",
-              "748",
-              "11,500"
-            ],
-            [
-              "Chicago",
-              "USA",
-              "8,308,000",
-              "5,498",
-              "1,500"
-            ],
-            [
-              "London",
-              "UK",
-              "8,278,000",
-              "1,623",
-              "5,100"
-            ],
-            [
-              "Shenzhen",
-              "China",
-              "8,000,000",
-              "466",
-              "17,150"
-            ],
-            [
-              "Essen/Düsseldorf",
-              "Germany",
-              "7,350,000",
-              "2,642",
-              "2,800"
-            ],
-            [
-              "Tehran",
-              "Iran",
-              "7,250,000",
-              "686",
-              "10,550"
-            ],
-            [
-              "Bogota",
-              "Colombia",
-              "7,000,000",
-              "518",
-              "13,500"
-            ],
-            [
-              "Lima",
-              "Peru",
-              "7,000,000",
-              "596",
-              "11,750"
-            ],
-            [
-              "Bangkok",
-              "Thailand",
-              "6,500,000",
-              "1,010",
-              "6,450"
-            ],
-            [
-              "Johannesburg/East Rand",
-              "South Africa",
-              "6,000,000",
-              "2,396",
-              "2,500"
-            ],
-            [
-              "Chennai",
-              "India",
-              "5,950,000",
-              "414",
-              "14,350"
-            ],
-            [
-              "Taipei",
-              "Taiwan",
-              "5,700,000",
-              "376",
-              "15,200"
-            ],
-            [
-              "Baghdad",
-              "Iraq",
-              "5,500,000",
-              "596",
-              "9,250"
-            ],
-            [
-              "Santiago",
-              "Chile",
-              "5,425,000",
-              "648",
-              "8,400"
-            ],
-            [
-              "Bangalore",
-              "India",
-              "5,400,000",
-              "534",
-              "10,100"
-            ],
-            [
-              "Hyderabad",
-              "India",
-              "5,300,000",
-              "583",
-              "9,100"
-            ],
-            [
-              "St Petersburg",
-              "Russia",
-              "5,300,000",
-              "622",
-              "8,550"
-            ],
-            [
-              "Philadelphia",
-              "USA",
-              "5,149,000",
-              "4,661",
-              "1,100"
-            ],
-            [
-              "Lahore",
-              "Pakistan",
-              "5,100,000",
-              "622",
-              "8,200"
-            ],
-            [
-              "Kinshasa",
-              "Congo",
-              "5,000,000",
-              "469",
-              "10,650"
-            ],
-            [
-              "Miami",
-              "USA",
-              "4,919,000",
-              "2,891",
-              "1,700"
-            ],
-            [
-              "Ho Chi Minh City",
-              "Vietnam",
-              "4,900,000",
-              "518",
-              "9,450"
-            ],
-            [
-              "Madrid",
-              "Spain",
-              "4,900,000",
-              "945",
-              "5,200"
-            ],
-            [
-              "Tianjin",
-              "China",
-              "4,750,000",
-              "453",
-              "10,500"
-            ],
-            [
-              "Kuala Lumpur",
-              "Malaysia",
-              "4,400,000",
-              "1,606",
-              "2,750"
-            ],
-            [
-              "Toronto",
-              "Canada",
-              "4,367,000",
-              "1,655",
-              "2,650"
-            ],
-            [
-              "Milan",
-              "Italy",
-              "4,250,000",
-              "1,554",
-              "2,750"
-            ],
-            [
-              "Shenyang",
-              "China",
-              "4,200,000",
-              "453",
-              "9,250"
-            ],
-            [
-              "Dallas/Fort Worth",
-              "USA",
-              "4,146,000",
-              "3,644",
-              "1,150"
-            ],
-            [
-              "Boston",
-              "USA",
-              "4,032,000",
-              "4,497",
-              "900"
-            ],
-            [
-              "Belo Horizonte",
-              "Brazil",
-              "4,000,000",
-              "868",
-              "4,600"
-            ],
-            [
-              "Khartoum",
-              "Sudan",
-              "4,000,000",
-              "583",
-              "6,850"
-            ],
-            [
-              "Riyadh",
-              "Saudi Arabia",
-              "4,000,000",
-              "1,101",
-              "3,650"
-            ],
-            [
-              "Singapore",
-              "Singapore",
-              "4,000,000",
-              "479",
-              "8,350"
-            ],
-            [
-              "Washington",
-              "USA",
-              "3,934,000",
-              "2,996",
-              "1,300"
-            ],
-            [
-              "Detroit",
-              "USA",
-              "3,903,000",
-              "3,267",
-              "1,200"
-            ],
-            [
-              "Barcelona",
-              "Spain",
-              "3,900,000",
-              "803",
-              "4,850"
-            ],
-            [
-              "Houston",
-              "USA",
-              "3,823,000",
-              "3,355",
-              "1,150"
-            ],
-            [
-              "Athens",
-              "Greece",
-              "3,685,000",
-              "684",
-              "5,400"
-            ],
-            [
-              "Berlin",
-              "Germany",
-              "3,675,000",
-              "984",
-              "3,750"
-            ],
-            [
-              "Sydney",
-              "Australia",
-              "3,502,000",
-              "1,687",
-              "2,100"
-            ],
-            [
-              "Atlanta",
-              "USA",
-              "3,500,000",
-              "5,083",
-              "700"
-            ],
-            [
-              "Guadalajara",
-              "Mexico",
-              "3,500,000",
-              "596",
-              "5,900"
-            ],
-            [
-              "San Francisco/Oakland",
-              "USA",
-              "3,229,000",
-              "1,365",
-              "2,350"
-            ],
-            [
-              "Montreal.",
-              "Canada",
-              "3,216,000",
-              "1,740",
-              "1,850"
-            ],
-            [
-              "Monterey",
-              "Mexico",
-              "3,200,000",
-              "479",
-              "6,700"
-            ],
-            [
-              "Melbourne",
-              "Australia",
-              "3,162,000",
-              "2,080",
-              "1,500"
-            ],
-            [
-              "Ankara",
-              "Turkey",
-              "3,100,000",
-              "583",
-              "5,300"
-            ],
-            [
-              "Recife",
-              "Brazil",
-              "3,025,000",
-              "376",
-              "8,050"
-            ],
-            [
-              "Phoenix/Mesa",
-              "USA",
-              "2,907,000",
-              "2,069",
-              "1,400"
-            ],
-            [
-              "Durban",
-              "South Africa",
-              "2,900,000",
-              "829",
-              "3,500"
-            ],
-            [
-              "Porto Alegre",
-              "Brazil",
-              "2,800,000",
-              "583",
-              "4,800"
-            ],
-            [
-              "Dalian",
-              "China",
-              "2,750,000",
-              "389",
-              "7,100"
-            ],
-            [
-              "Jeddah",
-              "Saudi Arabia",
-              "2,750,000",
-              "777",
-              "3,550"
-            ],
-            [
-              "Seattle",
-              "USA",
-              "2,712,000",
-              "2,470",
-              "1,100"
-            ],
-            [
-              "Cape Town",
-              "South Africa",
-              "2,700,000",
-              "686",
-              "3,950"
-            ],
-            [
-              "San Diego",
-              "USA",
-              "2,674,000",
-              "2,026",
-              "1,300"
-            ],
-            [
-              "Fortaleza",
-              "Brazil",
-              "2,650,000",
-              "583",
-              "4,550"
-            ],
-            [
-              "Curitiba",
-              "Brazil",
-              "2,500,000",
-              "648",
-              "3,850"
-            ],
-            [
-              "Rome",
-              "Italy",
-              "2,500,000",
-              "842",
-              "2,950"
-            ],
-            [
-              "Naples",
-              "Italy",
-              "2,400,000",
-              "583",
-              "4,100"
-            ],
-            [
-              "Minneapolis/St. Paul",
-              "USA",
-              "2,389,000",
-              "2,316",
-              "1,050"
-            ],
-            [
-              "Tel Aviv",
-              "Israel",
-              "2,300,000",
-              "453",
-              "5,050"
-            ],
-            [
-              "Birmingham",
-              "UK",
-              "2,284,000",
-              "600",
-              "3,800"
-            ],
-            [
-              "Frankfurt",
-              "Germany",
-              "2,260,000",
-              "984",
-              "2,300"
-            ],
-            [
-              "Lisbon",
-              "Portugal",
-              "2,250,000",
-              "881",
-              "2,550"
-            ],
-            [
-              "Manchester",
-              "UK",
-              "2,245,000",
-              "558",
-              "4,000"
-            ],
-            [
-              "San Juan",
-              "Puerto Rico",
-              "2,217,000",
-              "2,309",
-              "950"
-            ],
-            [
-              "Katowice",
-              "Poland",
-              "2,200,000",
-              "544",
-              "4,050"
-            ],
-            [
-              "Tashkent",
-              "Uzbekistan",
-              "2,200,000",
-              "531",
-              "4,150"
-            ],
-            [
-              "Fukuoka",
-              "Japan",
-              "2,150,000",
-              "544",
-              "3,950"
-            ],
-            [
-              "Baku/Sumqayit",
-              "Azerbaijan",
-              "2,100,000",
-              "544",
-              "3,850"
-            ],
-            [
-              "St. Louis",
-              "USA",
-              "2,078,000",
-              "2,147",
-              "950"
-            ],
-            [
-              "Baltimore",
-              "USA",
-              "2,076,000",
-              "1,768",
-              "1,150"
-            ],
-            [
-              "Sapporo",
-              "Japan",
-              "2,075,000",
-              "414",
-              "5,000"
-            ],
-            [
-              "Tampa/St. Petersburg",
-              "USA",
-              "2,062,000",
-              "2,078",
-              "1,000"
-            ],
-            [
-              "Taichung",
-              "Taiwan",
-              "2,000,000",
-              "510",
-              "3,900"
-            ],
-            [
-              "Warsaw",
-              "Poland",
-              "2,000,000",
-              "466",
-              "4,300"
-            ],
-            [
-              "Denver",
-              "USA",
-              "1,985,000",
-              "1,292",
-              "1,550"
-            ],
-            [
-              "Cologne/Bonn",
-              "Germany",
-              "1,960,000",
-              "816",
-              "2,400"
-            ],
-            [
-              "Hamburg",
-              "Germany",
-              "1,925,000",
-              "829",
-              "2,300"
-            ],
-            [
-              "Dubai",
-              "UAE",
-              "1,900,000",
-              "712",
-              "2,650"
-            ],
-            [
-              "Pretoria",
-              "South Africa",
-              "1,850,000",
-              "673",
-              "2,750"
-            ],
-            [
-              "Vancouver",
-              "Canada",
-              "1,830,000",
-              "1,120",
-              "1,650"
-            ],
-            [
-              "Beirut",
-              "Lebanon",
-              "1,800,000",
-              "648",
-              "2,800"
-            ],
-            [
-              "Budapest",
-              "Hungary",
-              "1,800,000",
-              "702",
-              "2,550"
-            ],
-            [
-              "Cleveland",
-              "USA",
-              "1,787,000",
-              "1,676",
-              "1,050"
-            ],
-            [
-              "Pittsburgh",
-              "USA",
-              "1,753,000",
-              "2,208",
-              "800"
-            ],
-            [
-              "Campinas",
-              "Brazil",
-              "1,750,000",
-              "492",
-              "3,550"
-            ],
-            [
-              "Harare",
-              "Zimbabwe",
-              "1,750,000",
-              "712",
-              "2,450"
-            ],
-            [
-              "Brasilia",
-              "Brazil",
-              "1,625,000",
-              "583",
-              "2,800"
-            ],
-            [
-              "Kuwait",
-              "Kuwait",
-              "1,600,000",
-              "544",
-              "2,950"
-            ],
-            [
-              "Munich",
-              "Germany",
-              "1,600,000",
-              "518",
-              "3,100"
-            ],
-            [
-              "Portland",
-              "USA",
-              "1,583,000",
-              "1,228",
-              "1,300"
-            ],
-            [
-              "Brussels",
-              "Belgium",
-              "1,570,000",
-              "712",
-              "2,200"
-            ],
-            [
-              "Vienna",
-              "Austria",
-              "1,550,000",
-              "453",
-              "3,400"
-            ],
-            [
-              "San Jose",
-              "USA",
-              "1,538,000",
-              "674",
-              "2,300"
-            ],
-            [
-              "Damman",
-              "Saudi Arabia",
-              "1,525,000",
-              "673",
-              "2,250"
-            ],
-            [
-              "Copenhagen",
-              "Denmark",
-              "1,525,000",
-              "816",
-              "1,850"
-            ],
-            [
-              "Brisbane",
-              "Australia",
-              "1,508,000",
-              "1,603",
-              "950"
-            ],
-            [
-              "Riverside/San Bernardino",
-              "USA",
-              "1,507,000",
-              "1,136",
-              "1,350"
-            ],
-            [
-              "Cincinnati",
-              "USA",
-              "1,503,000",
-              "1,740",
-              "850"
-            ],
-            [
-              "Accra",
-              "Ghana",
-              "1,500,000",
-              "453",
-              "3,300"
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 42,
+      "sequence": 76,
       "output": [
         {
           "type": "table",
           "columns": [
             "First Name",
             "Last Name",
-            "Wide"
+            "Potential Suicidal Tendency"
           ],
           "rows": [
             [
-              "Hugo",
-              "Farnsworth",
-              "*************************"
+              "sHugo",
+              "sFarnsworth",
+              "s"
             ],
             [
-              "Bender",
-              "Rodrigues",
-              null
+              "sBender",
+              "sRodrigues",
+              "sHigh"
             ],
             [
-              "Leela",
-              "Turanga",
-              null
+              "sLeela",
+              "sTuranga",
+              "n"
             ]
           ]
         }
@@ -931,7 +37,7 @@
     {
       "type": "js",
       "source": "var x = [ \"a\", 1, null ];\nJSON.stringify(x);",
-      "sequence": 41,
+      "sequence": 80,
       "output": [
         {
           "type": "text",
@@ -941,8 +47,8 @@
     },
     {
       "type": "js",
-      "source": "rd = IO.newTableReader();\nrd.lenient = true;\nrd.firstRowContainsColumnNames = true;\nrd.setColumnType(2, 'long');\nrd.setColumnType(3, 'int');\nrd.setColumnType(4, 'int');\nrd.setNumberFormat(\"#,###\");\nt = rd.readFile('examples/world population.csv');",
-      "sequence": 54,
+      "source": "rd = IO.newTableReader();\n//rd.lenient = true;\nrd.firstRowContainsColumnNames = true;\nrd.decimalSeparator = '.';\nrd.setColumnType(2, 'long');\nrd.setColumnType(3, 'int');\nrd.setColumnType(4, 'double');\n\nt = rd.readFile('examples/world population.csv');\nt.setValue(5, 4, 123456789.55678);",
+      "sequence": 78,
       "output": [
         {
           "type": "table",
@@ -955,879 +61,879 @@
           ],
           "rows": [
             [
-              "Tokyo/Yokohama",
-              "Japan",
-              "33,200,000",
-              "6,993",
-              "4,750"
+              "sTokyo/Yokohama",
+              "sJapan",
+              "l33200000",
+              "i6993",
+              "d4750.0"
             ],
             [
-              "New York Metro",
-              "USA",
-              "17,800,000",
-              "8,683",
-              "2,050"
+              "sNew York Metro",
+              "sUSA",
+              "l17800000",
+              "i8683",
+              "d2050.0"
             ],
             [
-              "Sao Paulo",
-              "Brazil",
-              "17,700,000",
-              "1,968",
-              "9,000"
+              "sSao Paulo",
+              "sBrazil",
+              "l17700000",
+              "i1968",
+              "d9000.0"
             ],
             [
-              "Seoul/Incheon",
-              "South Korea",
-              "17,500,000",
-              "1,049",
-              "16,700"
+              "sSeoul/Incheon",
+              "sSouth Korea",
+              "l17500000",
+              "i1049",
+              "d16700.0"
             ],
             [
-              "Mexico City",
-              "Mexico",
-              "17,400,000",
-              "2,072",
-              "8,400"
+              "sMexico City",
+              "sMexico",
+              "l17400000",
+              "i2072",
+              "d8400.0"
             ],
             [
-              "Osaka/Kobe/Kyoto",
-              "Japan",
-              "16,425,000",
-              "2,564",
-              "6,400"
+              "sOsaka/Kobe/Kyoto",
+              "sJapan",
+              "l16425000",
+              "i2564",
+              "d1.2345678955678E8"
             ],
             [
-              "Manila",
-              "Philippines",
-              "14,750,000",
-              "1,399",
-              "10,550"
+              "sManila",
+              "sPhilippines",
+              "l14750000",
+              "i1399",
+              "d10550.0"
             ],
             [
-              "Mumbai",
-              "India",
-              "14,350,000",
-              484,
-              "29,650"
+              "sMumbai",
+              "sIndia",
+              "l14350000",
+              "i484",
+              "d29650.0"
             ],
             [
-              "Delhi",
-              "India",
-              "14,300,000",
-              "1,295",
-              "11,050"
+              "sDelhi",
+              "sIndia",
+              "l14300000",
+              "i1295",
+              "d11050.0"
             ],
             [
-              "Jakarta",
-              "Indonesia",
-              "14,250,000",
-              "1,360",
-              "10,500"
+              "sJakarta",
+              "sIndonesia",
+              "l14250000",
+              "i1360",
+              "d10500.0"
             ],
             [
-              "Lagos",
-              "Nigeria",
-              "13,400,000",
-              738,
-              "18,150"
+              "sLagos",
+              "sNigeria",
+              "l13400000",
+              "i738",
+              "d18150.0"
             ],
             [
-              "Kolkata",
-              "India",
-              "12,700,000",
-              531,
-              "23,900"
+              "sKolkata",
+              "sIndia",
+              "l12700000",
+              "i531",
+              "d23900.0"
             ],
             [
-              "Cairo",
-              "Egypt",
-              "12,200,000",
-              "1,295",
-              "9,400"
+              "sCairo",
+              "sEgypt",
+              "l12200000",
+              "i1295",
+              "d9400.0"
             ],
             [
-              "Los Angeles",
-              "USA",
-              "11,789,000",
-              "4,320",
-              "2,750"
+              "sLos Angeles",
+              "sUSA",
+              "l11789000",
+              "i4320",
+              "d2750.0"
             ],
             [
-              "Buenos Aires",
-              "Argentina",
-              "11,200,000",
-              "2,266",
-              "4,950"
+              "sBuenos Aires",
+              "sArgentina",
+              "l11200000",
+              "i2266",
+              "d4950.0"
             ],
             [
-              "Rio de Janeiro",
-              "Brazil",
-              "10,800,000",
-              "1,580",
-              "6,850"
+              "sRio de Janeiro",
+              "sBrazil",
+              "l10800000",
+              "i1580",
+              "d6850.0"
             ],
             [
-              "Moscow",
-              "Russia",
-              "10,500,000",
-              "2,150",
-              "4,900"
+              "sMoscow",
+              "sRussia",
+              "l10500000",
+              "i2150",
+              "d4900.0"
             ],
             [
-              "Shanghai",
-              "China",
-              "10,000,000",
-              746,
-              "13,400"
+              "sShanghai",
+              "sChina",
+              "l10000000",
+              "i746",
+              "d13400.0"
             ],
             [
-              "Karachi",
-              "Pakistan",
-              "9,800,000",
-              518,
-              "18,900"
+              "sKarachi",
+              "sPakistan",
+              "l9800000",
+              "i518",
+              "d18900.0"
             ],
             [
-              "Paris",
-              "France",
-              "9,645,000",
-              "2,723",
-              "3,550"
+              "sParis",
+              "sFrance",
+              "l9645000",
+              "i2723",
+              "d3550.0"
             ],
             [
-              "Istanbul",
-              "Turkey",
-              "9,000,000",
-              "1,166",
-              "7,700"
+              "sIstanbul",
+              "sTurkey",
+              "l9000000",
+              "i1166",
+              "d7700.0"
             ],
             [
-              "Nagoya",
-              "Japan",
-              "9,000,000",
-              "2,875",
-              "3,150"
+              "sNagoya",
+              "sJapan",
+              "l9000000",
+              "i2875",
+              "d3150.0"
             ],
             [
-              "Beijing",
-              "China",
-              "8,614,000",
-              748,
-              "11,500"
+              "sBeijing",
+              "sChina",
+              "l8614000",
+              "i748",
+              "d11500.0"
             ],
             [
-              "Chicago",
-              "USA",
-              "8,308,000",
-              "5,498",
-              "1,500"
+              "sChicago",
+              "sUSA",
+              "l8308000",
+              "i5498",
+              "d1500.0"
             ],
             [
-              "London",
-              "UK",
-              "8,278,000",
-              "1,623",
-              "5,100"
+              "sLondon",
+              "sUK",
+              "l8278000",
+              "i1623",
+              "d5100.0"
             ],
             [
-              "Shenzhen",
-              "China",
-              "8,000,000",
-              466,
-              "17,150"
+              "sShenzhen",
+              "sChina",
+              "l8000000",
+              "i466",
+              "d17150.0"
             ],
             [
-              "Essen/Düsseldorf",
-              "Germany",
-              "7,350,000",
-              "2,642",
-              "2,800"
+              "sEssen/Düsseldorf",
+              "sGermany",
+              "l7350000",
+              "i2642",
+              "d2800.0"
             ],
             [
-              "Tehran",
-              "Iran",
-              "7,250,000",
-              686,
-              "10,550"
+              "sTehran",
+              "sIran",
+              "l7250000",
+              "i686",
+              "d10550.0"
             ],
             [
-              "Bogota",
-              "Colombia",
-              "7,000,000",
-              518,
-              "13,500"
+              "sBogota",
+              "sColombia",
+              "l7000000",
+              "i518",
+              "d13500.0"
             ],
             [
-              "Lima",
-              "Peru",
-              "7,000,000",
-              596,
-              "11,750"
+              "sLima",
+              "sPeru",
+              "l7000000",
+              "i596",
+              "d11750.0"
             ],
             [
-              "Bangkok",
-              "Thailand",
-              "6,500,000",
-              "1,010",
-              "6,450"
+              "sBangkok",
+              "sThailand",
+              "l6500000",
+              "i1010",
+              "d6450.0"
             ],
             [
-              "Johannesburg/East Rand",
-              "South Africa",
-              "6,000,000",
-              "2,396",
-              "2,500"
+              "sJohannesburg/East Rand",
+              "sSouth Africa",
+              "l6000000",
+              "i2396",
+              "d2500.0"
             ],
             [
-              "Chennai",
-              "India",
-              "5,950,000",
-              414,
-              "14,350"
+              "sChennai",
+              "sIndia",
+              "l5950000",
+              "i414",
+              "d14350.0"
             ],
             [
-              "Taipei",
-              "Taiwan",
-              "5,700,000",
-              376,
-              "15,200"
+              "sTaipei",
+              "sTaiwan",
+              "l5700000",
+              "i376",
+              "d15200.0"
             ],
             [
-              "Baghdad",
-              "Iraq",
-              "5,500,000",
-              596,
-              "9,250"
+              "sBaghdad",
+              "sIraq",
+              "l5500000",
+              "i596",
+              "d9250.0"
             ],
             [
-              "Santiago",
-              "Chile",
-              "5,425,000",
-              648,
-              "8,400"
+              "sSantiago",
+              "sChile",
+              "l5425000",
+              "i648",
+              "d8400.0"
             ],
             [
-              "Bangalore",
-              "India",
-              "5,400,000",
-              534,
-              "10,100"
+              "sBangalore",
+              "sIndia",
+              "l5400000",
+              "i534",
+              "d10100.0"
             ],
             [
-              "Hyderabad",
-              "India",
-              "5,300,000",
-              583,
-              "9,100"
+              "sHyderabad",
+              "sIndia",
+              "l5300000",
+              "i583",
+              "d9100.0"
             ],
             [
-              "St Petersburg",
-              "Russia",
-              "5,300,000",
-              622,
-              "8,550"
+              "sSt Petersburg",
+              "sRussia",
+              "l5300000",
+              "i622",
+              "d8550.0"
             ],
             [
-              "Philadelphia",
-              "USA",
-              "5,149,000",
-              "4,661",
-              "1,100"
+              "sPhiladelphia",
+              "sUSA",
+              "l5149000",
+              "i4661",
+              "d1100.0"
             ],
             [
-              "Lahore",
-              "Pakistan",
-              "5,100,000",
-              622,
-              "8,200"
+              "sLahore",
+              "sPakistan",
+              "l5100000",
+              "i622",
+              "d8200.0"
             ],
             [
-              "Kinshasa",
-              "Congo",
-              "5,000,000",
-              469,
-              "10,650"
+              "sKinshasa",
+              "sCongo",
+              "l5000000",
+              "i469",
+              "d10650.0"
             ],
             [
-              "Miami",
-              "USA",
-              "4,919,000",
-              "2,891",
-              "1,700"
+              "sMiami",
+              "sUSA",
+              "l4919000",
+              "i2891",
+              "d1700.0"
             ],
             [
-              "Ho Chi Minh City",
-              "Vietnam",
-              "4,900,000",
-              518,
-              "9,450"
+              "sHo Chi Minh City",
+              "sVietnam",
+              "l4900000",
+              "i518",
+              "d9450.0"
             ],
             [
-              "Madrid",
-              "Spain",
-              "4,900,000",
-              945,
-              "5,200"
+              "sMadrid",
+              "sSpain",
+              "l4900000",
+              "i945",
+              "d5200.0"
             ],
             [
-              "Tianjin",
-              "China",
-              "4,750,000",
-              453,
-              "10,500"
+              "sTianjin",
+              "sChina",
+              "l4750000",
+              "i453",
+              "d10500.0"
             ],
             [
-              "Kuala Lumpur",
-              "Malaysia",
-              "4,400,000",
-              "1,606",
-              "2,750"
+              "sKuala Lumpur",
+              "sMalaysia",
+              "l4400000",
+              "i1606",
+              "d2750.0"
             ],
             [
-              "Toronto",
-              "Canada",
-              "4,367,000",
-              "1,655",
-              "2,650"
+              "sToronto",
+              "sCanada",
+              "l4367000",
+              "i1655",
+              "d2650.0"
             ],
             [
-              "Milan",
-              "Italy",
-              "4,250,000",
-              "1,554",
-              "2,750"
+              "sMilan",
+              "sItaly",
+              "l4250000",
+              "i1554",
+              "d2750.0"
             ],
             [
-              "Shenyang",
-              "China",
-              "4,200,000",
-              453,
-              "9,250"
+              "sShenyang",
+              "sChina",
+              "l4200000",
+              "i453",
+              "d9250.0"
             ],
             [
-              "Dallas/Fort Worth",
-              "USA",
-              "4,146,000",
-              "3,644",
-              "1,150"
+              "sDallas/Fort Worth",
+              "sUSA",
+              "l4146000",
+              "i3644",
+              "d1150.0"
             ],
             [
-              "Boston",
-              "USA",
-              "4,032,000",
-              "4,497",
-              900
+              "sBoston",
+              "sUSA",
+              "l4032000",
+              "i4497",
+              "d900.0"
             ],
             [
-              "Belo Horizonte",
-              "Brazil",
-              "4,000,000",
-              868,
-              "4,600"
+              "sBelo Horizonte",
+              "sBrazil",
+              "l4000000",
+              "i868",
+              "d4600.0"
             ],
             [
-              "Khartoum",
-              "Sudan",
-              "4,000,000",
-              583,
-              "6,850"
+              "sKhartoum",
+              "sSudan",
+              "l4000000",
+              "i583",
+              "d6850.0"
             ],
             [
-              "Riyadh",
-              "Saudi Arabia",
-              "4,000,000",
-              "1,101",
-              "3,650"
+              "sRiyadh",
+              "sSaudi Arabia",
+              "l4000000",
+              "i1101",
+              "d3650.0"
             ],
             [
-              "Singapore",
-              "Singapore",
-              "4,000,000",
-              479,
-              "8,350"
+              "sSingapore",
+              "sSingapore",
+              "l4000000",
+              "i479",
+              "d8350.0"
             ],
             [
-              "Washington",
-              "USA",
-              "3,934,000",
-              "2,996",
-              "1,300"
+              "sWashington",
+              "sUSA",
+              "l3934000",
+              "i2996",
+              "d1300.0"
             ],
             [
-              "Detroit",
-              "USA",
-              "3,903,000",
-              "3,267",
-              "1,200"
+              "sDetroit",
+              "sUSA",
+              "l3903000",
+              "i3267",
+              "d1200.0"
             ],
             [
-              "Barcelona",
-              "Spain",
-              "3,900,000",
-              803,
-              "4,850"
+              "sBarcelona",
+              "sSpain",
+              "l3900000",
+              "i803",
+              "d4850.0"
             ],
             [
-              "Houston",
-              "USA",
-              "3,823,000",
-              "3,355",
-              "1,150"
+              "sHouston",
+              "sUSA",
+              "l3823000",
+              "i3355",
+              "d1150.0"
             ],
             [
-              "Athens",
-              "Greece",
-              "3,685,000",
-              684,
-              "5,400"
+              "sAthens",
+              "sGreece",
+              "l3685000",
+              "i684",
+              "d5400.0"
             ],
             [
-              "Berlin",
-              "Germany",
-              "3,675,000",
-              984,
-              "3,750"
+              "sBerlin",
+              "sGermany",
+              "l3675000",
+              "i984",
+              "d3750.0"
             ],
             [
-              "Sydney",
-              "Australia",
-              "3,502,000",
-              "1,687",
-              "2,100"
+              "sSydney",
+              "sAustralia",
+              "l3502000",
+              "i1687",
+              "d2100.0"
             ],
             [
-              "Atlanta",
-              "USA",
-              "3,500,000",
-              "5,083",
-              700
+              "sAtlanta",
+              "sUSA",
+              "l3500000",
+              "i5083",
+              "d700.0"
             ],
             [
-              "Guadalajara",
-              "Mexico",
-              "3,500,000",
-              596,
-              "5,900"
+              "sGuadalajara",
+              "sMexico",
+              "l3500000",
+              "i596",
+              "d5900.0"
             ],
             [
-              "San Francisco/Oakland",
-              "USA",
-              "3,229,000",
-              "1,365",
-              "2,350"
+              "sSan Francisco/Oakland",
+              "sUSA",
+              "l3229000",
+              "i1365",
+              "d2350.0"
             ],
             [
-              "Montreal.",
-              "Canada",
-              "3,216,000",
-              "1,740",
-              "1,850"
+              "sMontreal.",
+              "sCanada",
+              "l3216000",
+              "i1740",
+              "d1850.0"
             ],
             [
-              "Monterey",
-              "Mexico",
-              "3,200,000",
-              479,
-              "6,700"
+              "sMonterey",
+              "sMexico",
+              "l3200000",
+              "i479",
+              "d6700.0"
             ],
             [
-              "Melbourne",
-              "Australia",
-              "3,162,000",
-              "2,080",
-              "1,500"
+              "sMelbourne",
+              "sAustralia",
+              "l3162000",
+              "i2080",
+              "d1500.0"
             ],
             [
-              "Ankara",
-              "Turkey",
-              "3,100,000",
-              583,
-              "5,300"
+              "sAnkara",
+              "sTurkey",
+              "l3100000",
+              "i583",
+              "d5300.0"
             ],
             [
-              "Recife",
-              "Brazil",
-              "3,025,000",
-              376,
-              "8,050"
+              "sRecife",
+              "sBrazil",
+              "l3025000",
+              "i376",
+              "d8050.0"
             ],
             [
-              "Phoenix/Mesa",
-              "USA",
-              "2,907,000",
-              "2,069",
-              "1,400"
+              "sPhoenix/Mesa",
+              "sUSA",
+              "l2907000",
+              "i2069",
+              "d1400.0"
             ],
             [
-              "Durban",
-              "South Africa",
-              "2,900,000",
-              829,
-              "3,500"
+              "sDurban",
+              "sSouth Africa",
+              "l2900000",
+              "i829",
+              "d3500.0"
             ],
             [
-              "Porto Alegre",
-              "Brazil",
-              "2,800,000",
-              583,
-              "4,800"
+              "sPorto Alegre",
+              "sBrazil",
+              "l2800000",
+              "i583",
+              "d4800.0"
             ],
             [
-              "Dalian",
-              "China",
-              "2,750,000",
-              389,
-              "7,100"
+              "sDalian",
+              "sChina",
+              "l2750000",
+              "i389",
+              "d7100.0"
             ],
             [
-              "Jeddah",
-              "Saudi Arabia",
-              "2,750,000",
-              777,
-              "3,550"
+              "sJeddah",
+              "sSaudi Arabia",
+              "l2750000",
+              "i777",
+              "d3550.0"
             ],
             [
-              "Seattle",
-              "USA",
-              "2,712,000",
-              "2,470",
-              "1,100"
+              "sSeattle",
+              "sUSA",
+              "l2712000",
+              "i2470",
+              "d1100.0"
             ],
             [
-              "Cape Town",
-              "South Africa",
-              "2,700,000",
-              686,
-              "3,950"
+              "sCape Town",
+              "sSouth Africa",
+              "l2700000",
+              "i686",
+              "d3950.0"
             ],
             [
-              "San Diego",
-              "USA",
-              "2,674,000",
-              "2,026",
-              "1,300"
+              "sSan Diego",
+              "sUSA",
+              "l2674000",
+              "i2026",
+              "d1300.0"
             ],
             [
-              "Fortaleza",
-              "Brazil",
-              "2,650,000",
-              583,
-              "4,550"
+              "sFortaleza",
+              "sBrazil",
+              "l2650000",
+              "i583",
+              "d4550.0"
             ],
             [
-              "Curitiba",
-              "Brazil",
-              "2,500,000",
-              648,
-              "3,850"
+              "sCuritiba",
+              "sBrazil",
+              "l2500000",
+              "i648",
+              "d3850.0"
             ],
             [
-              "Rome",
-              "Italy",
-              "2,500,000",
-              842,
-              "2,950"
+              "sRome",
+              "sItaly",
+              "l2500000",
+              "i842",
+              "d2950.0"
             ],
             [
-              "Naples",
-              "Italy",
-              "2,400,000",
-              583,
-              "4,100"
+              "sNaples",
+              "sItaly",
+              "l2400000",
+              "i583",
+              "d4100.0"
             ],
             [
-              "Minneapolis/St. Paul",
-              "USA",
-              "2,389,000",
-              "2,316",
-              "1,050"
+              "sMinneapolis/St. Paul",
+              "sUSA",
+              "l2389000",
+              "i2316",
+              "d1050.0"
             ],
             [
-              "Tel Aviv",
-              "Israel",
-              "2,300,000",
-              453,
-              "5,050"
+              "sTel Aviv",
+              "sIsrael",
+              "l2300000",
+              "i453",
+              "d5050.0"
             ],
             [
-              "Birmingham",
-              "UK",
-              "2,284,000",
-              600,
-              "3,800"
+              "sBirmingham",
+              "sUK",
+              "l2284000",
+              "i600",
+              "d3800.0"
             ],
             [
-              "Frankfurt",
-              "Germany",
-              "2,260,000",
-              984,
-              "2,300"
+              "sFrankfurt",
+              "sGermany",
+              "l2260000",
+              "i984",
+              "d2300.0"
             ],
             [
-              "Lisbon",
-              "Portugal",
-              "2,250,000",
-              881,
-              "2,550"
+              "sLisbon",
+              "sPortugal",
+              "l2250000",
+              "i881",
+              "d2550.0"
             ],
             [
-              "Manchester",
-              "UK",
-              "2,245,000",
-              558,
-              "4,000"
+              "sManchester",
+              "sUK",
+              "l2245000",
+              "i558",
+              "d4000.0"
             ],
             [
-              "San Juan",
-              "Puerto Rico",
-              "2,217,000",
-              "2,309",
-              950
+              "sSan Juan",
+              "sPuerto Rico",
+              "l2217000",
+              "i2309",
+              "d950.0"
             ],
             [
-              "Katowice",
-              "Poland",
-              "2,200,000",
-              544,
-              "4,050"
+              "sKatowice",
+              "sPoland",
+              "l2200000",
+              "i544",
+              "d4050.0"
             ],
             [
-              "Tashkent",
-              "Uzbekistan",
-              "2,200,000",
-              531,
-              "4,150"
+              "sTashkent",
+              "sUzbekistan",
+              "l2200000",
+              "i531",
+              "d4150.0"
             ],
             [
-              "Fukuoka",
-              "Japan",
-              "2,150,000",
-              544,
-              "3,950"
+              "sFukuoka",
+              "sJapan",
+              "l2150000",
+              "i544",
+              "d3950.0"
             ],
             [
-              "Baku/Sumqayit",
-              "Azerbaijan",
-              "2,100,000",
-              544,
-              "3,850"
+              "sBaku/Sumqayit",
+              "sAzerbaijan",
+              "l2100000",
+              "i544",
+              "d3850.0"
             ],
             [
-              "St. Louis",
-              "USA",
-              "2,078,000",
-              "2,147",
-              950
+              "sSt. Louis",
+              "sUSA",
+              "l2078000",
+              "i2147",
+              "d950.0"
             ],
             [
-              "Baltimore",
-              "USA",
-              "2,076,000",
-              "1,768",
-              "1,150"
+              "sBaltimore",
+              "sUSA",
+              "l2076000",
+              "i1768",
+              "d1150.0"
             ],
             [
-              "Sapporo",
-              "Japan",
-              "2,075,000",
-              414,
-              "5,000"
+              "sSapporo",
+              "sJapan",
+              "l2075000",
+              "i414",
+              "d5000.0"
             ],
             [
-              "Tampa/St. Petersburg",
-              "USA",
-              "2,062,000",
-              "2,078",
-              "1,000"
+              "sTampa/St. Petersburg",
+              "sUSA",
+              "l2062000",
+              "i2078",
+              "d1000.0"
             ],
             [
-              "Taichung",
-              "Taiwan",
-              "2,000,000",
-              510,
-              "3,900"
+              "sTaichung",
+              "sTaiwan",
+              "l2000000",
+              "i510",
+              "d3900.0"
             ],
             [
-              "Warsaw",
-              "Poland",
-              "2,000,000",
-              466,
-              "4,300"
+              "sWarsaw",
+              "sPoland",
+              "l2000000",
+              "i466",
+              "d4300.0"
             ],
             [
-              "Denver",
-              "USA",
-              "1,985,000",
-              "1,292",
-              "1,550"
+              "sDenver",
+              "sUSA",
+              "l1985000",
+              "i1292",
+              "d1550.0"
             ],
             [
-              "Cologne/Bonn",
-              "Germany",
-              "1,960,000",
-              816,
-              "2,400"
+              "sCologne/Bonn",
+              "sGermany",
+              "l1960000",
+              "i816",
+              "d2400.0"
             ],
             [
-              "Hamburg",
-              "Germany",
-              "1,925,000",
-              829,
-              "2,300"
+              "sHamburg",
+              "sGermany",
+              "l1925000",
+              "i829",
+              "d2300.0"
             ],
             [
-              "Dubai",
-              "UAE",
-              "1,900,000",
-              712,
-              "2,650"
+              "sDubai",
+              "sUAE",
+              "l1900000",
+              "i712",
+              "d2650.0"
             ],
             [
-              "Pretoria",
-              "South Africa",
-              "1,850,000",
-              673,
-              "2,750"
+              "sPretoria",
+              "sSouth Africa",
+              "l1850000",
+              "i673",
+              "d2750.0"
             ],
             [
-              "Vancouver",
-              "Canada",
-              "1,830,000",
-              "1,120",
-              "1,650"
+              "sVancouver",
+              "sCanada",
+              "l1830000",
+              "i1120",
+              "d1650.0"
             ],
             [
-              "Beirut",
-              "Lebanon",
-              "1,800,000",
-              648,
-              "2,800"
+              "sBeirut",
+              "sLebanon",
+              "l1800000",
+              "i648",
+              "d2800.0"
             ],
             [
-              "Budapest",
-              "Hungary",
-              "1,800,000",
-              702,
-              "2,550"
+              "sBudapest",
+              "sHungary",
+              "l1800000",
+              "i702",
+              "d2550.0"
             ],
             [
-              "Cleveland",
-              "USA",
-              "1,787,000",
-              "1,676",
-              "1,050"
+              "sCleveland",
+              "sUSA",
+              "l1787000",
+              "i1676",
+              "d1050.0"
             ],
             [
-              "Pittsburgh",
-              "USA",
-              "1,753,000",
-              "2,208",
-              800
+              "sPittsburgh",
+              "sUSA",
+              "l1753000",
+              "i2208",
+              "d800.0"
             ],
             [
-              "Campinas",
-              "Brazil",
-              "1,750,000",
-              492,
-              "3,550"
+              "sCampinas",
+              "sBrazil",
+              "l1750000",
+              "i492",
+              "d3550.0"
             ],
             [
-              "Harare",
-              "Zimbabwe",
-              "1,750,000",
-              712,
-              "2,450"
+              "sHarare",
+              "sZimbabwe",
+              "l1750000",
+              "i712",
+              "d2450.0"
             ],
             [
-              "Brasilia",
-              "Brazil",
-              "1,625,000",
-              583,
-              "2,800"
+              "sBrasilia",
+              "sBrazil",
+              "l1625000",
+              "i583",
+              "d2800.0"
             ],
             [
-              "Kuwait",
-              "Kuwait",
-              "1,600,000",
-              544,
-              "2,950"
+              "sKuwait",
+              "sKuwait",
+              "l1600000",
+              "i544",
+              "d2950.0"
             ],
             [
-              "Munich",
-              "Germany",
-              "1,600,000",
-              518,
-              "3,100"
+              "sMunich",
+              "sGermany",
+              "l1600000",
+              "i518",
+              "d3100.0"
             ],
             [
-              "Portland",
-              "USA",
-              "1,583,000",
-              "1,228",
-              "1,300"
+              "sPortland",
+              "sUSA",
+              "l1583000",
+              "i1228",
+              "d1300.0"
             ],
             [
-              "Brussels",
-              "Belgium",
-              "1,570,000",
-              712,
-              "2,200"
+              "sBrussels",
+              "sBelgium",
+              "l1570000",
+              "i712",
+              "d2200.0"
             ],
             [
-              "Vienna",
-              "Austria",
-              "1,550,000",
-              453,
-              "3,400"
+              "sVienna",
+              "sAustria",
+              "l1550000",
+              "i453",
+              "d3400.0"
             ],
             [
-              "San Jose",
-              "USA",
-              "1,538,000",
-              674,
-              "2,300"
+              "sSan Jose",
+              "sUSA",
+              "l1538000",
+              "i674",
+              "d2300.0"
             ],
             [
-              "Damman",
-              "Saudi Arabia",
-              "1,525,000",
-              673,
-              "2,250"
+              "sDamman",
+              "sSaudi Arabia",
+              "l1525000",
+              "i673",
+              "d2250.0"
             ],
             [
-              "Copenhagen",
-              "Denmark",
-              "1,525,000",
-              816,
-              "1,850"
+              "sCopenhagen",
+              "sDenmark",
+              "l1525000",
+              "i816",
+              "d1850.0"
             ],
             [
-              "Brisbane",
-              "Australia",
-              "1,508,000",
-              "1,603",
-              950
+              "sBrisbane",
+              "sAustralia",
+              "l1508000",
+              "i1603",
+              "d950.0"
             ],
             [
-              "Riverside/San Bernardino",
-              "USA",
-              "1,507,000",
-              "1,136",
-              "1,350"
+              "sRiverside/San Bernardino",
+              "sUSA",
+              "l1507000",
+              "i1136",
+              "d1350.0"
             ],
             [
-              "Cincinnati",
-              "USA",
-              "1,503,000",
-              "1,740",
-              850
+              "sCincinnati",
+              "sUSA",
+              "l1503000",
+              "i1740",
+              "d850.0"
             ],
             [
-              "Accra",
-              "Ghana",
-              "1,500,000",
-              453,
-              "3,300"
+              "sAccra",
+              "sGhana",
+              "l1500000",
+              "i453",
+              "d3300.0"
             ]
           ]
         }

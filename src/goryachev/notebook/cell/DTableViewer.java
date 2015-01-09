@@ -17,7 +17,7 @@ public class DTableViewer
 	extends CPanel
 {
 	public final DTableModel model;
-	public final ZTable table;
+	public final JTable table;
 	public final CScrollPane scroll;
 	
 	
@@ -26,11 +26,12 @@ public class DTableViewer
 		model = new DTableModel(t);
 
 		// TODO alignment, data coloring, proper border
-		table = new ZTable(model);
+		table = new JTable(model);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setBackground(Theme.textBG());
+		table.setDefaultRenderer(Object.class, new DTableRenderer());
 		UI.resizeToContent(table, 250);
 
 		scroll = new CScrollPane(table);

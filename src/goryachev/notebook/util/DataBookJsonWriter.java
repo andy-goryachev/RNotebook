@@ -10,6 +10,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
+import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DTable;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -106,7 +107,7 @@ public class DataBookJsonWriter
 							{
 								for(int j=0; j<cells.length; j++)
 								{
-									wr.value(cells[j]);
+									wr.value(JsUtil.encodeTableCell(cells[j]));
 								}
 							}
 						}

@@ -178,4 +178,11 @@ public class DTable
 		}
 		return sb.toString();
 	}
+	
+	
+//	public String toJSON(String x)
+//	{
+//		D.print(x);
+//		return "{ }";
+//	}
 }
