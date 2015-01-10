@@ -31,6 +31,6 @@ public class HelpMenu
 	
 	public void actionCheckForUpdates()
 	{
-		new CheckForUpdatesDialog(this, NotebookApp.getUpdateURL(true)).open();
+		new CheckForUpdatesDialog(this, RNotebookApp.getUpdateURL(true)).open();
 	}
 }

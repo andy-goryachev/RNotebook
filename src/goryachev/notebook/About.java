@@ -16,12 +16,12 @@ public class About
 	public static void about(Window parent)
 	{
 		CDocumentBuilder b = new CDocumentBuilder();
-		b.a("Research Notebook").nl(2);
+		b.a(Application.getTitle()).nl(2);
 		
 		b.a("Version").sp().a(Application.getVersion()).nl();
 		b.a(Application.getCopyright()).nl(2);
 		
-		b.link(NotebookApp.WEB_SITE);
+		b.link(RNotebookApp.WEB_SITE);
 		
 		AboutDialog d = new AboutDialog(parent);
 		d.setLogo(NotebookIcons.Logo);

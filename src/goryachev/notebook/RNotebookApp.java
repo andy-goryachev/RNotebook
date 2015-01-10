@@ -12,26 +12,26 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 
-public class NotebookApp
+public class RNotebookApp
 	extends Application
 {
-	public static final String VERSION = "0.04.05";
+	public static final String VERSION = "0.04.06";
 	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
-	public static final String WEB_SITE = "http://goryachev.com/products/research-notebook";
+	public static final String WEB_SITE = "http://goryachev.com/products/rnotebook";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);
 	public static final int REMINDER_COUNT = 60;
 	
 	
-	public NotebookApp()
+	public RNotebookApp()
 	{
-		super("Notebook.4", VERSION, COPYRIGHT);
+		super("RNotebook", VERSION, COPYRIGHT);
 	}
 	
 	
 	public static void main(String[] args)
 	{
-		new NotebookApp().start();
+		new RNotebookApp().start();
 	}
 	
 	
@@ -59,7 +59,7 @@ public class NotebookApp
 
 	public String getAppTitle()
 	{
-		return "Research Notebook";
+		return "RNotebook";
 	}
 
 
