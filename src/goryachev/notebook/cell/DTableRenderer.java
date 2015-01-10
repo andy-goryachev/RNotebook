@@ -4,8 +4,10 @@ import goryachev.common.ui.CAlignment;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.table.CTableRendererBorder;
+import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
+import goryachev.common.util.TextTools;
 import goryachev.notebook.Styles;
 import java.awt.Color;
 import java.awt.Component;
@@ -101,7 +103,7 @@ public class DTableRenderer
 			}
 			else
 			{
-				text = Parsers.parseString(val);
+				text = formatText(val);
 				alignment = CAlignment.LEADING;
 				fg = Theme.textFG();
 			}
@@ -118,6 +120,34 @@ public class DTableRenderer
 			Log.err(e);
 		}
 		return this;
+	}
+	
+	
+	protected String formatText(Object x)
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		
+		String s = x.toString();
+		
+		if(s.indexOf('\n') >= 0)
+		{
+			s = s.replace("\n", "\\n");
+		}
+		
+		if(s.indexOf('\r') >= 0)
+		{
+			s = s.replace("\r", "\\r");
+		}
+		
+		if(s.indexOf('\t') >= 0)
+		{
+			s = s.replace("\t", "\\t");
+		}
+		
+		return s;
 	}
 	
 	

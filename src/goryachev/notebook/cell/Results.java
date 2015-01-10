@@ -78,14 +78,14 @@ public class Results
 		{
 			return new DTableViewer((DTable)x);
 		}
-		else if(x != null)
+		else if(x == null)
 		{
-			String text = x.toString();
-			return createTextViewer(p, text, Styles.resultColor);
+			return createTextViewer(p, "null", Styles.numberColor);
 		}
 		else
 		{
-			return null;
+			String text = x.toString();
+			return createTextViewer(p, text, Styles.resultColor);
 		}
 	}
 	

@@ -122,7 +122,7 @@ public class CodePanel
 		{
 			for(Object rv: results)
 			{
-				if(rv != null)
+//				if(rv != null)
 				{
 					if(rv instanceof JsError)
 					{

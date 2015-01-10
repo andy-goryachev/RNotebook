@@ -29,20 +29,6 @@ public class JsUtil
 {
 	private static SvgColorNames colorNames;
 	
-	
-	public static File parseFile(Object x)
-	{
-		String s = x.toString();
-		if(s.startsWith("~"))
-		{
-			if(s.equals("~") || (s.equals("~/")) || s.equals("~\\"))
-			{
-				s = System.getProperty("user.home");
-			}
-		}
-		return new File(s);
-	}
-
 
 	public static String decodeException(Throwable err)
 	{
@@ -53,7 +39,11 @@ public class JsUtil
 		else if(err instanceof RhinoException)
 		{
 			Throwable e = err.getCause();
-			if(e != null)
+			if(e == null)
+			{
+				return err.getClass().getSimpleName() + ": " + err.getMessage();
+			}
+			else
 			{
 				String msg = e.getMessage();
 				if(CKit.isNotBlank(msg))
@@ -68,6 +58,20 @@ public class JsUtil
 		}
 		
 		return CKit.stackTrace(err);
+	}
+
+	
+	public static File parseFile(Object x)
+	{
+		String s = x.toString();
+		if(s.startsWith("~"))
+		{
+			if(s.equals("~") || (s.equals("~/")) || s.equals("~\\"))
+			{
+				s = System.getProperty("user.home");
+			}
+		}
+		return new File(s);
 	}
 
 
