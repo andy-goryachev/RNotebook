@@ -12,8 +12,8 @@
     },
     {
       "type": "js",
-      "source": "//print(\"This snippet displays multiple results (two images):\");\nvar im = IO.loadImage('examples/picture.jpg');\nNB.display(im);\nprint(\"original width: \" + im.width);\nim.scale(0.3);\nNB.display(im);\nim.invert()",
-      "sequence": 6,
+      "source": "//print(\"This snippet displays multiple results (two images):\");\nvar im = IO.loadImage('examples/picture.jpg');\nNB.display(im);\nprint(\"original width: \" + im.width);\nim.scale(0.3);\nNB.display(im);\nim.invert()\n",
+      "sequence": 13,
       "output": [
         {
           "type": "image",

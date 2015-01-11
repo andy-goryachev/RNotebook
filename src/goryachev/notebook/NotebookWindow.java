@@ -444,29 +444,26 @@ public class NotebookWindow
 	// f may be null
 	protected void openFile(File file)
 	{
-		// FIX open in the same window
-		
-		// always in new window
-//		if(isModified())
-//		{
-//			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
-//			d.addButton(Menus.Save, 0, true);
-//			d.addButton(Menus.Cancel, 1);
-//			d.addButton(Menus.DiscardChanges, 2);
-//			int rv = d.openChoiceDialog();
-//			switch(rv)
-//			{
-//			case 0:
-//				save();
-//				break;
-//			case 1:
-//				return;
-//			case 2:
-//				break;
-//			default:
-//				return;
-//			}
-//		}
+		if(isModified())
+		{
+			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
+			d.addButton(Menus.Save, 0, true);
+			d.addButton(Menus.Cancel, 1);
+			d.addButton(Menus.DiscardChanges, 2);
+			int rv = d.openChoiceDialog();
+			switch(rv)
+			{
+			case 0:
+				actionSave();
+				break;
+			case 1:
+				return;
+			case 2:
+				break;
+			default:
+				return;
+			}
+		}
 		
 		try
 		{
@@ -478,6 +475,8 @@ public class NotebookWindow
 
 				setFile(file);
 				setDataBook(b);
+				setModified(false);
+				
 				updateActions();
 			}
 			finally

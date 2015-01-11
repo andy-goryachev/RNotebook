@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "IO",
-      "sequence": 124,
+      "sequence": 126,
       "output": [
         {
           "type": "text",
@@ -35,7 +35,7 @@
     {
       "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 66,
+      "sequence": 125,
       "output": [
         {
           "type": "table",
@@ -46,19 +46,19 @@
           ],
           "rows": [
             [
-              "Hugo",
-              "Farnsworth",
-              ""
+              "sHugo",
+              "sFarnsworth",
+              "s"
             ],
             [
-              "Bender",
-              "Rodrigues",
-              "High"
+              "sBender",
+              "sRodrigues",
+              "sHigh"
             ],
             [
-              "Leela",
-              "Turanga",
-              null
+              "sLeela",
+              "sTuranga",
+              "n"
             ]
           ]
         }

@@ -361,9 +361,14 @@ public class JsUtil
 		{
 			return Integer.parseInt(s.substring(1));
 		}
-		else
+		else if(s.length() > 1)
 		{
 			return s.substring(1);
+		}
+		else
+		{
+			// fallback
+			return s;
 		}
 	}
 }

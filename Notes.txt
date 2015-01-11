@@ -1,9 +1,13 @@
-﻿http://www.goryachev.com/products/research-notebook/
+﻿http://www.goryachev.com/products/rnotebook/
+
 
 
 app name
 	R/Notebook
 	JsNotebook
+
+protovis visualization
+	http://mbostock.github.io/protovis/
 
 node.js doc
 	http://nodejs.org/api/all.html

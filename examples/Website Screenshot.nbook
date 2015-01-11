@@ -36,7 +36,7 @@
     {
       "type": "js",
       "source": "t = new DTable('First Name','Last Name', 'Born');\nt.addRow([ 'Albert', 'Einstein', new Integer(1879) ]);\nt.addRow([ 'Niels', 'Bohr', new Integer(1885) ]);\nt.addRow([ 'Richard', 'Feynman', new Integer(1918) ]);\nt.addRow([ 'Sean', 'Carroll', new Integer(1966) ]);",
-      "sequence": 119,
+      "sequence": 121,
       "output": [
         {
           "type": "table",
@@ -47,24 +47,24 @@
           ],
           "rows": [
             [
-              "Albert",
-              "Einstein",
-              "1879"
+              "sAlbert",
+              "sEinstein",
+              "i1879"
             ],
             [
-              "Niels",
-              "Bohr",
-              "1885"
+              "sNiels",
+              "sBohr",
+              "i1885"
             ],
             [
-              "Richard",
-              "Feynman",
-              "1918"
+              "sRichard",
+              "sFeynman",
+              "i1918"
             ],
             [
-              "Sean",
-              "Carroll",
-              "1966"
+              "sSean",
+              "sCarroll",
+              "i1966"
             ]
           ]
         }
@@ -77,7 +77,7 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 95,
+      "sequence": 120,
       "output": [
         {
           "type": "text",

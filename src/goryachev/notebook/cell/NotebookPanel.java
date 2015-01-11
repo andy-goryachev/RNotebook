@@ -337,7 +337,7 @@ public class NotebookPanel
 			{
 				setActiveCell(p);
 			}
-
+			
 			UI.validateAndRepaint(this);
 			setModified(true);
 		}
