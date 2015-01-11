@@ -9,11 +9,10 @@
     {
       "type": "js",
       "source": "new DPlot();",
-      "sequence": 105,
+      "sequence": 106,
       "output": [
         {
-          "type": "text",
-          "text": "goryachev.notebook.js.classes.DPlot@7bd0b029"
+          "type": "plot"
         }
       ]
     },

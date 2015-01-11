@@ -13,6 +13,7 @@ public class Schema
 	public static final String CELL_TYPE_H3 = "h3";
 	public static final String CELL_TYPE_TEXT = "text";
 	public static final String RESULT_ERROR = "error";
+	public static final String RESULT_PLOT = "plot";
 	public static final String RESULT_IMAGE = "image";
 	public static final String RESULT_TABLE = "table";
 	public static final String RESULT_TEXT = "text";

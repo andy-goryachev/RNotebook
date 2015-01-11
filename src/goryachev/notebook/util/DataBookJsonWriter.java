@@ -11,6 +11,7 @@ import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -115,6 +116,14 @@ public class DataBookJsonWriter
 					}
 				}
 				wr.endArray();
+			}
+			else if(x instanceof DPlot)
+			{
+				DPlot p = (DPlot)x;
+				
+				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_PLOT);
+				
+				// TODO serialize plot
 			}
 			else 
 			{

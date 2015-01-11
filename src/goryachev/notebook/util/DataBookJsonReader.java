@@ -8,6 +8,7 @@ import goryachev.notebook.DataBook;
 import goryachev.notebook.Schema;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import java.io.Reader;
 
@@ -139,6 +140,7 @@ public class DataBookJsonReader
 		byte[] image = null;
 		String text = null;
 		DTable table = null;
+		DPlot plot = null;
 		
 		beginObject();
 		while(inObject())
@@ -202,6 +204,13 @@ public class DataBookJsonReader
 		if(Schema.RESULT_IMAGE.equals(type))
 		{
 			return ImageTools.read(image);
+		}
+		else if(Schema.RESULT_PLOT.equals(type))
+		{
+			// FIX 
+			plot = new DPlot();
+			
+			return plot;
 		}
 		else if(Schema.RESULT_ERROR.equals(type))
 		{

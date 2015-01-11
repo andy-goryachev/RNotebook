@@ -18,7 +18,7 @@ public class DPlotViewer
 	{
 		this.plot = p;
 		
-		setBackground(Styles.plotViewerBackground);
+		setBackground(Styles.plotViewerBackgroundColor);
 		setPreferredSize(-1, 300);
 	}
 	
@@ -46,10 +46,10 @@ public class DPlotViewer
 		// x axis
 		
 		// plot
-		g.setColor(Styles.plotBackground);
+		g.setColor(Styles.plotBackgroundColor);
 		int gp = 50;
 		g.fillRect(x0 + gp, y0 + gp, wi - gp - gp, he - gp - gp);
-		g.setColor(Styles.plotBorder);
+		g.setColor(Styles.plotGridColor);
 		g.drawRect(x0 + gp, y0 + gp, wi - gp - gp, he - gp - gp);
 	}
 }
