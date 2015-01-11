@@ -5,6 +5,7 @@ package goryachev.notebook.js.classes;
 public class DPlot
 {
 	private String title;
+	private int padding = 10;
 	
 	
 	public DPlot()
@@ -14,7 +15,9 @@ public class DPlot
 	
 	public DPlot copy()
     {
-	    return new DPlot();
+		DPlot p = new DPlot();
+		p.setTitle(title);
+		return p;
     }
 	
 	
@@ -28,6 +31,18 @@ public class DPlot
 	public String getTitle()
 	{
 		return title;
+	}
+	
+	
+	public void setPadding(int x)
+	{
+		padding = x;
+	}
+	
+	
+	public int getPadding()
+	{
+		return padding;
 	}
 	
 	

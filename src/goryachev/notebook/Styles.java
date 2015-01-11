@@ -19,6 +19,7 @@ public class Styles
 	public static final Color nullColor = Color.red;
 	public static final Color plotBackgroundColor = Color.white;
 	public static final Color plotGridColor = new Gray(221);
+	public static final float plotTitleFontSize = 1.5f;
 	public static final Color plotViewerBackgroundColor = new Gray(242);
 	public static final Color resultColor = Colors.eclipseGreen;
 	public static final Color sectionBorderColor = Theme.hoverColor();

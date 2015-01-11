@@ -8,8 +8,8 @@
     },
     {
       "type": "js",
-      "source": "p = new DPlot();\np.setTitle('Plot Title');\np.title('a');\n//p.title = 'b';",
-      "sequence": 124,
+      "source": "p = new DPlot();\np.setTitle('A Plot Example');\np;",
+      "sequence": 152,
       "output": [
         {
           "type": "plot"
@@ -19,7 +19,7 @@
     {
       "type": "js",
       "source": "IO.loadImage('examples/chart 1.jpg');",
-      "sequence": 98,
+      "sequence": 145,
       "output": [
         {
           "type": "image",
