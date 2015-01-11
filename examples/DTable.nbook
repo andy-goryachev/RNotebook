@@ -3,9 +3,13 @@
   "version": 1,
   "cells": [
     {
+      "type": "h1",
+      "source": "DTable Tests"
+    },
+    {
       "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 76,
+      "sequence": 108,
       "output": [
         {
           "type": "table",
@@ -28,7 +32,7 @@
             [
               "sLeela",
               "sTuranga",
-              "s"
+              "n"
             ]
           ]
         }
@@ -37,7 +41,7 @@
     {
       "type": "js",
       "source": "rd = IO.newTableReader();\n//rd.lenient = true;\nrd.firstRowContainsColumnNames = true;\nrd.decimalSeparator = '.';\nrd.setColumnType(2, 'long');\nrd.setColumnType(3, 'int');\nrd.setColumnType(4, 'double');\n\nt = rd.readFile('examples/world population.csv');\nt.setValue(5, 4, 123456789.55678);",
-      "sequence": 78,
+      "sequence": 97,
       "output": [
         {
           "type": "table",
@@ -930,43 +934,71 @@
     },
     {
       "type": "js",
-      "source": "t = new DTable();\nt.addColumn('Type');\nt.addColumn('Value');\n\nt.addRow('String', 'text string with an embedded\\nnew line');\nt.addRow('Integer', Integer.MAX_VALUE);\nt.addRow('Long', Long.MAX_VALUE);\nt.addRow('Float', Float.MAX_VALUE);\nt.addRow('Double', Double.MAX_VALUE);\nt.addRow('BigInteger', new java.math.BigInteger(1234));\nt.addRow('BigDecimal', new java.math.BigDecimal(1234.567));",
-      "sequence": 95,
+      "source": "t = new DTable();\nt.addColumn('Type');\nt.addColumn('Value');\n\nt.addRow('String', 'text string with an embedded\\nnew line');\nt.addRow('Integer', Integer.MAX_VALUE);\nt.addRow('Long', Long.MAX_VALUE);\nt.addRow('Float', Float.MAX_VALUE);\nt.addRow('Double', Double.MAX_VALUE);\nt.addRow('BigInteger', new java.math.BigInteger(1234));\nt.addRow('BigDecimal', new java.math.BigDecimal(1234.567));\nt.addRow(\"null\", null);\nt.addRow(\"Boolean\", true);\nt.addRow(\"Date\", new java.util.Date(), new Date());\nt.addRow(\"Unicode\", \"サロゲート, یونی‌کد, יוניקאד\");",
+      "sequence": 124,
       "output": [
         {
           "type": "table",
           "columns": [
             "Type",
-            "Value"
+            "Value",
+            "C3"
           ],
           "rows": [
             [
               "sString",
-              "stext string with an embedded\nnew line"
+              "stext string with an embedded\nnew line",
+              "n"
             ],
             [
               "sInteger",
-              "d2.147483647E9"
+              "d2.147483647E9",
+              "n"
             ],
             [
               "sLong",
-              "d9.223372036854776E18"
+              "d9.223372036854776E18",
+              "n"
             ],
             [
               "sFloat",
-              "d3.4028234663852886E38"
+              "d3.4028234663852886E38",
+              "n"
             ],
             [
               "sDouble",
-              "d1.7976931348623157E308"
+              "d1.7976931348623157E308",
+              "n"
             ],
             [
               "sBigInteger",
-              "I1234"
+              "I1234",
+              "n"
             ],
             [
               "sBigDecimal",
-              "D1234.5670000000000072759576141834259033203125"
+              "D1234.5670000000000072759576141834259033203125",
+              "n"
+            ],
+            [
+              "snull",
+              "n",
+              "n"
+            ],
+            [
+              "sBoolean",
+              "btrue",
+              "n"
+            ],
+            [
+              "sDate",
+              "a1420942537760",
+              "a1420942537760"
+            ],
+            [
+              "sUnicode",
+              "sサロゲート, یونی‌کد, יוניקאד",
+              "n"
             ]
           ]
         }

@@ -19,9 +19,10 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.RhinoException;
 
 
@@ -63,6 +64,11 @@ public class JsUtil
 	
 	public static File parseFile(Object x)
 	{
+		if(x instanceof File)
+		{
+			return (File)x;
+		}
+		
 		String s = x.toString();
 		if(s.startsWith("~"))
 		{
@@ -288,16 +294,13 @@ public class JsUtil
 	
 	public static final String JSON_BIGINT = "I";
 	public static final String JSON_BIGDECIMAL = "D";
+	public static final String JSON_BOOL = "b";
+	public static final String JSON_DATE = "a";
 	public static final String JSON_DOUBLE = "d";
 	public static final String JSON_INTEGER = "i";
 	public static final String JSON_LONG = "l";
 	public static final String JSON_NULL = "n";
 	public static final String JSON_STRING = "s";
-//	
-//	public static final String JSON_ = "";
-//	public static final String JSON_ = "";
-//	public static final String JSON_ = "";
-	// TODO date, sql date
 	
 	
 	/** encode object for writing to a JSON document */
@@ -307,7 +310,13 @@ public class JsUtil
 		{
 			return JSON_NULL;
 		}
-		else if(x instanceof Double)
+		
+		if(x instanceof IdScriptableObject)
+		{
+			x = decodeIdScriptableObject((IdScriptableObject)x);
+		}
+		
+		if(x instanceof Double)
 		{
 			return JSON_DOUBLE + x;
 		}
@@ -327,6 +336,14 @@ public class JsUtil
 		{
 			return JSON_INTEGER + x;
 		}
+		else if(x instanceof Boolean)
+		{
+			return JSON_BOOL + x;
+		}
+		else if(x instanceof Date)
+		{
+			return JSON_DATE + ((Date)x).getTime();
+		}
 		else
 		{
 			return JSON_STRING + x;
@@ -335,12 +352,13 @@ public class JsUtil
 	
 
 	/** decode object read from a JSON document */
-	public static Object decodeTableCell(String s)
+	public static Object decodeTableCell(String s) throws Exception
 	{
 		if(s == null)
 		{
 			return null;
 		}
+		
 		if(s.startsWith(JSON_DOUBLE))
 		{
 			return Double.parseDouble(s.substring(1));
@@ -361,7 +379,19 @@ public class JsUtil
 		{
 			return Integer.parseInt(s.substring(1));
 		}
-		else if(s.length() > 1)
+		else if(s.equals(JSON_NULL))
+		{
+			return null;
+		}
+		if(s.startsWith(JSON_BOOL))
+		{
+			return Boolean.parseBoolean(s.substring(1));
+		}
+		if(s.startsWith(JSON_DATE))
+		{
+			return new Date(Long.parseLong(s.substring(1)));
+		}
+		else if(s.length() >= 1)
 		{
 			return s.substring(1);
 		}
@@ -369,6 +399,20 @@ public class JsUtil
 		{
 			// fallback
 			return s;
+		}
+	}
+
+
+	public static Object decodeIdScriptableObject(IdScriptableObject val)
+	{
+		String className = val.getClassName();
+		if("Date".equals(className))
+		{
+			return Context.jsToJava(val, Date.class);
+		}
+		else //if("String".equals(className))
+		{
+			return Context.jsToJava(val, String.class);
 		}
 	}
 }

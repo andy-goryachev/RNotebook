@@ -4,19 +4,21 @@ import goryachev.common.ui.CAlignment;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.table.CTableRendererBorder;
-import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
-import goryachev.common.util.TextTools;
 import goryachev.notebook.Styles;
+import goryachev.notebook.js.JsUtil;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IdScriptableObject;
 
 
-// TODO foreground, date/time colors, boolean
+// TODO date/time colors, boolean
 public class DTableRenderer
 	extends DefaultTableCellRenderer
 {
@@ -51,8 +53,6 @@ public class DTableRenderer
 			{
 				mixBackground(48, Color.black);
 				sel = true;
-				// fg = DefaultLookup.getColor(this, ui, "Table.dropCellForeground");
-				// bg = DefaultLookup.getColor(this, ui, "Table.dropCellBackground");
 			}
 
 			if(sel)
@@ -88,18 +88,34 @@ public class DTableRenderer
 			CAlignment alignment;
 			Color fg;
 			
-			if(val instanceof DecoratedCell)
+			if(val instanceof IdScriptableObject)
 			{
-				DecoratedCell c = (DecoratedCell)val;
-				text = c.text;
-				alignment = c.alignment;
-				fg = Theme.textFG();
+				val = JsUtil.decodeIdScriptableObject((IdScriptableObject)val);
 			}
-			else if(val instanceof Number)
+			
+			if(val instanceof Number)
 			{
 				text = Theme.formatNumber(val);
 				alignment = CAlignment.TRAILING;
 				fg = Styles.numberColor;
+			}
+			else if(val == null)
+			{
+				text = "null";
+				alignment = CAlignment.LEADING;
+				fg = Styles.nullColor;
+			}
+			else if(val instanceof Boolean)
+			{
+				text = val.toString();
+				alignment = CAlignment.LEADING;
+				fg = Styles.booleanColor;
+			}
+			else if(val instanceof Date)
+			{
+				text = val.toString();
+				alignment = CAlignment.LEADING;
+				fg = Styles.dateColor;
 			}
 			else
 			{
@@ -111,9 +127,6 @@ public class DTableRenderer
 			setHorizontalAlignment(alignment.getAlignment());
 			setText(text);
 			setForeground(fg);
-			
-			// tooltip
-			//setToolTipText(tooltip);
 		}
 		catch(Exception e)
 		{
@@ -166,41 +179,5 @@ public class DTableRenderer
 		{
 			setBackground(UI.mix(fraction, c, getBackground()));
 		}
-	}
-	
-
-//	protected void paintComponent(Graphics g)
-//	{
-//		if(ui != null)
-//		{
-//			Graphics g2 = g.create();
-//			try
-//			{
-//				if(isOpaque())
-//				{
-//					g.setColor(getBackground());
-//					g.fillRect(0, 0, getWidth(), getHeight());
-//				}
-//				
-//				// custom background
-//				if(handler != null)
-//				{
-//					handler.paintBackground(value, this, g);
-//				}
-//
-//				ui.paint(g, this);
-//			}
-//			finally
-//			{
-//				g2.dispose();
-//			}
-//		}
-//	}
-	
-	
-	public static class DecoratedCell
-	{
-		public String text;
-		public CAlignment alignment;
 	}
 }

@@ -5,9 +5,6 @@ import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.table.CTableRowHeader;
-import goryachev.common.ui.table.ZTable;
-import goryachev.common.ui.table.ZTableRenderer;
-import goryachev.notebook.Styles;
 import goryachev.notebook.js.classes.DTable;
 import java.awt.Dimension;
 import javax.swing.JTable;
@@ -25,7 +22,6 @@ public class DTableViewer
 	{
 		model = new DTableModel(t);
 
-		// TODO alignment, data coloring, proper border
 		table = new JTable(model);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
@@ -41,14 +37,5 @@ public class DTableViewer
 		scroll.setMaximumSize(new Dimension(-1, 300));
 		scroll.getViewport().addMouseListener(h);
 		setCenter(scroll);
-	}
-	
-	
-	// TODO
-	public void decorate(Object x, ZTableRenderer r)
-	{
-		boolean number = (x instanceof Number);
-		r.setHorizontalAlignment(number ? ZTableRenderer.RIGHT : ZTableRenderer.LEFT);
-		r.setForeground(number ? Styles.numberColor : Theme.textFG());
 	}
 }

@@ -2,7 +2,6 @@
 package goryachev.notebook.js.classes;
 import goryachev.common.util.CList;
 import goryachev.common.util.Noobfuscate;
-import goryachev.common.util.SB;
 import java.util.Arrays;
 
 
@@ -51,7 +50,7 @@ public class DTable
 		}
 		else
 		{
-			return columns.size();
+			return Math.max(width, columns.size());
 		}
 	}
 	
@@ -76,14 +75,14 @@ public class DTable
 	
 	public String getColumnName(int ix)
 	{
-		if(columns == null)
+		if(columns != null)
 		{
-			return "C" + (ix + 1);
+			if(ix < columns.size())
+			{
+				return columns.get(ix);
+			}
 		}
-		else
-		{
-			return columns.get(ix);
-		}
+		return "C" + (ix + 1);
 	}
 
 
@@ -102,8 +101,8 @@ public class DTable
 		data.add(Arrays.copyOf(xs, xs.length));
 		return this;
 	}
-
-
+	
+	
 	public Object getValue(int row, int col)
 	{
 		if(row < data.size())
@@ -119,7 +118,7 @@ public class DTable
 		}
 		return null;
 	}
-	
+
 	
 	public Object[] getDataRow(int row)
 	{
@@ -159,30 +158,4 @@ public class DTable
 		
 		return this;
 	}
-	
-	
-	protected String dump()
-	{
-		SB sb = new SB();
-		for(int r=0; r<getRowCount(); r++)
-		{
-			for(int c=0; c<getColumnCount(); c++)
-			{
-				if(c > 0)
-				{
-					sb.a(',');
-				}
-				sb.a(getValue(r, c));
-			}
-			sb.a('\n');
-		}
-		return sb.toString();
-	}
-	
-	
-//	public String toJSON(String x)
-//	{
-//		D.print(x);
-//		return "{ }";
-//	}
 }
