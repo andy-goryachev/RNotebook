@@ -76,7 +76,7 @@ public class Results
 		}
 		else if(x instanceof DTable)
 		{
-			return new DTableViewer((DTable)x);
+			return new DTableViewer((DTable)x, p.handler);
 		}
 		else if(x == null)
 		{

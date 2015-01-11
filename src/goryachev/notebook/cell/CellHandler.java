@@ -43,7 +43,7 @@ public class CellHandler
 		CellPanel p = CellPanel.findParent(c);
 		if(p != null)
 		{
-			NotebookPanel np = NotebookPanel.get(p); 
+			NotebookPanel np = NotebookPanel.find(p); 
 			if(np != null)
 			{
 				np.setActiveCell(p);

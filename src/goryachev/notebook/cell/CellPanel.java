@@ -31,12 +31,15 @@ public abstract class CellPanel
 	
 	//
 	
+	protected final NotebookPanel np; 
 	protected final CellHandler handler;
 	protected final InputTracker editTracker;
 	
 	
-	public CellPanel()
+	public CellPanel(NotebookPanel np)
 	{
+		this.np = np;
+		
 		setLayout(new CellLayout());
 		setOpaque(false);
 		setBorder(new CellBorder());
@@ -56,11 +59,7 @@ public abstract class CellPanel
 	
 	public void setModified()
 	{
-		NotebookPanel p = NotebookPanel.get(this);
-		if(p != null)
-		{
-			p.setModified(true);
-		}
+		np.setModified(true);
 	}
 
 
@@ -150,19 +149,19 @@ public abstract class CellPanel
 	}
 	
 	
-	public static CellPanel create(CellType type, String text, int seq, CList<Object> results)
+	public static CellPanel create(NotebookPanel np, CellType type, String text, int seq, CList<Object> results)
 	{
 		switch(type)
 		{
 		case CODE:
-			return new CodePanel(text, seq, results);
+			return new CodePanel(np, text, seq, results);
 		case H1:
 		case H2:
 		case H3:
-			return new HeadingPanel(text, type);
+			return new HeadingPanel(np, text, type);
 		case TEXT:
 		default:
-			return new TextPanel(text);
+			return new TextPanel(np, text);
 		}
 	}
 	

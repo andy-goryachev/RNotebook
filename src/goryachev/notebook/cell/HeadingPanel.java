@@ -1,6 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
@@ -24,8 +23,10 @@ public class HeadingPanel
 	public final JTextArea textField;
 	
 	
-	public HeadingPanel(String text, CellType t)
+	public HeadingPanel(NotebookPanel np, String text, CellType t)
 	{
+		super(np);
+		
 		this.type = t;
 		
 		int level;
@@ -82,8 +83,6 @@ public class HeadingPanel
 	
 	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
 	{
-		NotebookPanel np = NotebookPanel.get(c);
-		
 		addCellMenus(m, np);
 		
 		if(c == textField)

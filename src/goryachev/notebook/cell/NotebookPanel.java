@@ -90,7 +90,7 @@ public class NotebookPanel
 	}
 	
 
-	public static NotebookPanel get(Component c)
+	public static NotebookPanel find(Component c)
 	{
 		return UI.getAncestorOfClass(NotebookPanel.class, c);
 	}
@@ -158,7 +158,7 @@ public class NotebookPanel
 			for(int i=0; i<sz; i++)
 			{
 				DataBook.Cell c = b.getCell(i);
-				CellPanel p = CellPanel.create(c.type, c.text, c.sequence, c.results);
+				CellPanel p = CellPanel.create(this, c.type, c.text, c.sequence, c.results);
 				panel.add(p);
 				
 				if(first == null)
@@ -461,7 +461,7 @@ public class NotebookPanel
 			if(activeCell != null)
 			{
 				String text = activeCell.getText();
-				CellPanel p = CellPanel.create(t, text, -1, null);
+				CellPanel p = CellPanel.create(this, t, text, -1, null);
 				
 				replace(activeCell, p);
 			}
@@ -480,7 +480,7 @@ public class NotebookPanel
 			}
 		}
 		
-		CellPanel p = CellPanel.create(t, null, -1, null);
+		CellPanel p = CellPanel.create(this, t, null, -1, null);
 			
 		int ix = indexOf(activeCell);
 		if(ix < 0)
@@ -565,8 +565,8 @@ public class NotebookPanel
 		String topText = text.substring(0, pos);
 		String botText = text.substring(pos);
 		
-		CellPanel top = CellPanel.create(t, topText, -1, null);
-		CellPanel bot = CellPanel.create(t, botText, -1, null);
+		CellPanel top = CellPanel.create(this, t, topText, -1, null);
+		CellPanel bot = CellPanel.create(this, t, botText, -1, null);
 		
 		int ix = indexOf(activeCell);
 		panel.remove(activeCell);

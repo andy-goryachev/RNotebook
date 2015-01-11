@@ -33,8 +33,10 @@ public class CodePanel
 	private static CBorder BORDER = new CBorder(2, 4);
 	
 	
-	public CodePanel(String text, int seq, CList<Object> results)
+	public CodePanel(NotebookPanel np, String text, int seq, CList<Object> results)
 	{
+		super(np);
+		
 		textField = new RSyntaxTextArea(text);
 		textField.setFont(Theme.monospacedFont());
 		textField.setBackground(Styles.codeColor);
@@ -122,22 +124,19 @@ public class CodePanel
 		{
 			for(Object rv: results)
 			{
-//				if(rv != null)
+				if(rv instanceof JsError)
 				{
-					if(rv instanceof JsError)
+					error = true;
+				}
+				
+				JComponent c = Results.createViewer(this, rv);
+				if(c != null)
+				{
+					if(cs == null)
 					{
-						error = true;
+						cs = new CList();
 					}
-					
-					JComponent c = Results.createViewer(this, rv);
-					if(c != null)
-					{
-						if(cs == null)
-						{
-							cs = new CList();
-						}
-						cs.add(c);
-					}
+					cs.add(c);
 				}
 			}
 		}
@@ -166,12 +165,8 @@ public class CodePanel
 		
 		UI.validateAndRepaint(this);
 		
-		NotebookPanel np = NotebookPanel.get(this);
-		if(np != null)
-		{
-			np.setModified(true);
-			np.updateActions();
-		}
+		np.setModified(true);
+		np.updateActions();
 	}
 	
 	
@@ -192,8 +187,6 @@ public class CodePanel
 			imgViewer = (JImageViewer)c;
 			run = false;
 		}
-		
-		NotebookPanel np = NotebookPanel.get(c);
 		
 		if(run)
 		{

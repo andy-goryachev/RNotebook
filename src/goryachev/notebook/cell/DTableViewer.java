@@ -21,7 +21,7 @@ public class DTableViewer
 	public final CScrollPane scroll;
 	
 	
-	public DTableViewer(DTable t)
+	public DTableViewer(DTable t, CellHandler h)
 	{
 		model = new DTableModel(t);
 
@@ -32,12 +32,14 @@ public class DTableViewer
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setBackground(Theme.textBG());
 		table.setDefaultRenderer(Object.class, new DTableRenderer());
+		table.addMouseListener(h);
 		UI.resizeToContent(table, 250);
 
 		scroll = new CScrollPane(table);
 		scroll.setRowHeaderView(new CTableRowHeader(table));	
 		scroll.setTrackComponentDimensions(true);
 		scroll.setMaximumSize(new Dimension(-1, 300));
+		scroll.getViewport().addMouseListener(h);
 		setCenter(scroll);
 	}
 	

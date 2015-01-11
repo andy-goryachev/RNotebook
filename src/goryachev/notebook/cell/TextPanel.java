@@ -18,8 +18,10 @@ public class TextPanel
 	public final JTextArea textField;
 	
 	
-	public TextPanel(String text)
+	public TextPanel(NotebookPanel np, String text)
 	{
+		super(np);
+		
 		textField = new JTextArea(text);
 		textField.setFont(Theme.plainFont());
 		textField.setLineWrap(true);
@@ -58,8 +60,6 @@ public class TextPanel
 	
 	protected JPopupMenu createPopupMenu(Component c, JPopupMenu m)
 	{
-		NotebookPanel np = NotebookPanel.get(c);
-		
 		addCellMenus(m, np);
 		
 		if(c == textField)
