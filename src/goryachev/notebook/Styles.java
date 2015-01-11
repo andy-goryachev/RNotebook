@@ -17,6 +17,9 @@ public class Styles
 	public static final Color marginTextColor = Color.lightGray;
 	public static final Color numberColor = new Color(0xa04dbe);
 	public static final Color nullColor = Color.red;
+	public static final Color plotBackground = Color.white;
+	public static final Color plotBorder = new Gray(221);
+	public static final Color plotViewerBackground = new Gray(242);
 	public static final Color resultColor = Colors.eclipseGreen;
 	public static final Color sectionBorderColor = Theme.hoverColor();
 	public static final Color textColor = UI.mix(64, Theme.textBG(), Theme.textFG());

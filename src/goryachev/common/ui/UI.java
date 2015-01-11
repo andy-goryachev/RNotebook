@@ -1782,4 +1782,13 @@ public class UI
 			}
 		}
 	}
+
+
+	public static void scrollRectToVisible(JComponent c)
+    {
+		if(c != null)
+		{
+			c.scrollRectToVisible(new Rectangle(0, 0, c.getWidth(), c.getHeight()));
+		}
+    }
 }

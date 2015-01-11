@@ -11,6 +11,7 @@ import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.icons.NotebookIcons;
+import goryachev.notebook.image.JImageViewer;
 import goryachev.notebook.js.JsError;
 import java.awt.Component;
 import javax.swing.JComponent;

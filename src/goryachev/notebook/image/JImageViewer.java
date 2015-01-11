@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.cell;
+package goryachev.notebook.image;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CExtensionFileFilter;
 import goryachev.common.ui.CPanel;

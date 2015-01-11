@@ -8,6 +8,9 @@ app name
 
 protovis visualization
 	http://mbostock.github.io/protovis/
+	
+jzy3d scientific plotting
+	http://jzy3d.org/
 
 node.js doc
 	http://nodejs.org/api/all.html

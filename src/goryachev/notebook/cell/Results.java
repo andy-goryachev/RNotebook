@@ -1,13 +1,16 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 
-import goryachev.common.ui.ImageTools;
 import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
+import goryachev.notebook.image.JImageViewer;
 import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.js.classes.JImage;
+import goryachev.notebook.plot.DPlotViewer;
+import goryachev.notebook.table.DTableViewer;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
@@ -37,6 +40,10 @@ public class Results
 		else if(x instanceof DTable)
 		{
 			return ((DTable)x).copy();
+		}
+		else if(x instanceof DPlot)
+		{
+			return ((DPlot)x).copy();
 		}
 		else if(x instanceof Throwable)
 		{
@@ -77,6 +84,10 @@ public class Results
 		else if(x instanceof DTable)
 		{
 			return new DTableViewer((DTable)x, p.handler);
+		}
+		else if(x instanceof DPlot)
+		{
+			return new DPlotViewer((DPlot)x, p.handler);
 		}
 		else if(x == null)
 		{

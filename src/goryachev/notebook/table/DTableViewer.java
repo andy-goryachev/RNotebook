@@ -1,10 +1,11 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.cell;
+package goryachev.notebook.table;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.table.CTableRowHeader;
+import goryachev.notebook.cell.CellHandler;
 import goryachev.notebook.js.classes.DTable;
 import java.awt.Dimension;
 import javax.swing.JTable;

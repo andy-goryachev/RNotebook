@@ -1,5 +1,5 @@
 // Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.cell;
+package goryachev.notebook.table;
 import goryachev.common.ui.CAlignment;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;

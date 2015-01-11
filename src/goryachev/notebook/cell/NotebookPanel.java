@@ -666,6 +666,8 @@ public class NotebookPanel
 		
 		UI.validateAndRepaint(this);
 		setModified(true);
+		
+		UI.scrollRectToVisible(activeCell);
 	}
 	
 	
