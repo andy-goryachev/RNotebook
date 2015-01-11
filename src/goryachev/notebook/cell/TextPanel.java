@@ -1,8 +1,9 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CAction;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
+import goryachev.common.ui.UI;
+import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
@@ -28,6 +29,12 @@ public class TextPanel
 		textField.setWrapStyleWord(true);
 		textField.addMouseListener(handler);
 		textField.setForeground(Styles.textColor);
+		//
+		UI.whenFocused(textField, Accelerators.TO_CODE.getKeyStroke(), np.toCodeAction);
+		UI.whenFocused(textField, Accelerators.TO_H1.getKeyStroke(), np.toH1Action);
+		UI.whenFocused(textField, Accelerators.TO_H2.getKeyStroke(), np.toH2Action);
+		UI.whenFocused(textField, Accelerators.TO_H3.getKeyStroke(), np.toH3Action);		
+		UI.whenFocused(textField, Accelerators.TO_TEXT.getKeyStroke(), np.toTextAction);
 		
 		setEditor(textField, false);
 	}

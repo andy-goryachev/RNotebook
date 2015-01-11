@@ -51,6 +51,12 @@ public class CodePanel
 		textField.setAnimateBracketMatching(false);
 		textField.setHighlightCurrentLine(false);
 		//
+		UI.whenFocused(textField, Accelerators.TO_CODE.getKeyStroke(), np.toCodeAction);
+		UI.whenFocused(textField, Accelerators.TO_H1.getKeyStroke(), np.toH1Action);
+		UI.whenFocused(textField, Accelerators.TO_H2.getKeyStroke(), np.toH2Action);
+		UI.whenFocused(textField, Accelerators.TO_H3.getKeyStroke(), np.toH3Action);		
+		UI.whenFocused(textField, Accelerators.TO_TEXT.getKeyStroke(), np.toTextAction);
+		//
 		setEditor(textField, false);
 		
 		inField = new JLabel();

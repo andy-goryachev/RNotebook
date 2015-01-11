@@ -101,10 +101,6 @@ public abstract class CellPanel
 		}
 		
 		editTracker.add(ed);
-		
-		// FIX not yet available
-//		NotebookPanel np = NotebookPanel.get(this);
-//		UI.whenFocused(ed, Accelerators.TO_CODE.getKeyStroke(), np.toCodeAction);
 	}
 
 

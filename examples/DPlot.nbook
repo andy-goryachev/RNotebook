@@ -8,8 +8,8 @@
     },
     {
       "type": "js",
-      "source": "new DPlot();",
-      "sequence": 106,
+      "source": "p = new DPlot();\np.setTitle('Plot Title');\np.title('a');\n//p.title = 'b';",
+      "sequence": 124,
       "output": [
         {
           "type": "plot"

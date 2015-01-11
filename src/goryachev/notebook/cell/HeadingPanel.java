@@ -4,6 +4,7 @@ import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import java.awt.Component;
@@ -52,6 +53,12 @@ public class HeadingPanel
 		textField.setOpaque(false);
 		textField.addMouseListener(handler);
 		textField.setBorder(new CBorder(0, indent, 0, 0));
+		
+		UI.whenFocused(textField, Accelerators.TO_CODE.getKeyStroke(), np.toCodeAction);
+		UI.whenFocused(textField, Accelerators.TO_H1.getKeyStroke(), np.toH1Action);
+		UI.whenFocused(textField, Accelerators.TO_H2.getKeyStroke(), np.toH2Action);
+		UI.whenFocused(textField, Accelerators.TO_H3.getKeyStroke(), np.toH3Action);		
+		UI.whenFocused(textField, Accelerators.TO_TEXT.getKeyStroke(), np.toTextAction);
 		
 		setEditor(textField, true);
 	}
