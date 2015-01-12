@@ -332,7 +332,10 @@ public class NotebookWindow
 	// opens in new window
 	protected void actionOpen()
 	{
-		// TODO check if open
+		if(askToSave())
+		{
+			return;
+		}
 		
 		CFileChooser fc = new CFileChooser(this, KEY_LAST_FILE);
 		fc.setTitle(Menus.Open);
@@ -400,19 +403,6 @@ public class NotebookWindow
 	{
 		// TODO check if current window is blank, open there
 		
-		// TODO perhaps warn the user
-//		if(f != null)
-//		{
-//			for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
-//			{
-//				if(f.equals(w.getFile()))
-//				{
-//					w.toFront();
-//					return;
-//				}
-//			}
-//		}
-		
 		NotebookWindow w = new NotebookWindow();
 		UI.cascade(this, w);
 		w.open();
@@ -428,6 +418,11 @@ public class NotebookWindow
 	
 	protected void openRecentFile(File f)
 	{
+		if(askToSave())
+		{
+			return;
+		}
+		
 		if(f != null)
 		{
 			if(f.exists() && f.isFile())
@@ -441,8 +436,8 @@ public class NotebookWindow
 	}
 	
 	
-	// f may be null
-	protected void openFile(File file)
+	// returns true if the user decided to stay with the current document
+	protected boolean askToSave()
 	{
 		if(isModified())
 		{
@@ -457,14 +452,20 @@ public class NotebookWindow
 				actionSave();
 				break;
 			case 1:
-				return;
+				return true;
 			case 2:
 				break;
 			default:
-				return;
+				return false;
 			}
 		}
-		
+		return false;
+	}
+	
+	
+	// f may be null
+	protected void openFile(File file)
+	{
 		try
 		{
 			CReader rd = (file == null ? null : new CReader(file));

@@ -26,11 +26,17 @@ public class UT
 	
 	public String toString()
 	{
+		return "UT";
+	}
+	
+	
+	public InlineHelp getHelp()
+	{
 		InlineHelp h = new InlineHelp("UT");
-		h.a("provides network-related functions:");
+		h.a("UT provides network-related functions:");
 		//
 		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
-		return h.toString();
+		return h;
 	}
 }

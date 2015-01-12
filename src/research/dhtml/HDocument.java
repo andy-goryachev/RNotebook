@@ -2,7 +2,8 @@
 package research.dhtml;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
-import goryachev.common.util.UserException;
+import goryachev.common.util.CSorter;
+import goryachev.common.util.SB;
 
 
 // idea 1:
@@ -13,7 +14,7 @@ import goryachev.common.util.UserException;
 //   styles: font, colors, borders, padding, margins
 public class HDocument
 {
-	private CList<HSegment> segments = new CList();
+	private CList<HAbstractSegment> segments = new CList();
 	private CMap<String,HStyle> styles = new CMap();
 	private HSegment lastSegment;
 	private HTable lastTable;
@@ -24,43 +25,35 @@ public class HDocument
 	}
 	
 	
-	public HStyle newStyle(String id)
+	public HStyle style(String id)
 	{
-		if(styles.containsKey(id))
+		HStyle s = styles.get(id);
+		if(s == null)
 		{
-			throw new UserException("style already exists: " + id);
+			s = new HStyle(id);
+			styles.put(id, s);
 		}
-		
-		return styles.put(id, new HStyle(id));
+		return s;
 	}
 	
 	
-	public HStyle getStyle(String id)
+	public HStyle getStyle(Object id)
 	{
-		return styles.get(id);
+		return styles.get(id.toString());
 	}
 	
 	
-	public HSegment heading1(Object v)
+	public HSegment heading1(String text)
 	{
-		HSegment s = new HSegment(null, v);
+		HSegment s = new HSegment(HSegmentType.HEADING1, text);
 		return append(s);
 	}
 	
 	
-	public HSegment append(HStyle s, Object v)
+	public HSegment text(Object style, String text)
 	{
-		HSegment seg;
-		if(v instanceof HSegment)
-		{
-			seg = (HSegment)v;
-		}
-		else
-		{
-			seg = new HSegment(s, v);
-		}
-		
-		return append(seg);
+		HStyle s = getStyle(style);
+		return append(new HSegment(HSegmentType.TEXT, s, text));
 	}
 	
 	
@@ -102,7 +95,46 @@ public class HDocument
 	
 	public String toHtml()
 	{
-		// TODO emit head, stylesheet, body
-		return null;
+		SB sb = new SB();
+		sb.a("<html>").nl();
+		emitHtmlHead(sb);
+		emitHtmlBody(sb);
+		sb.a("</html>").nl();
+		return sb.toString();
+	}
+	
+	
+	protected void emitHtmlHead(SB sb)
+	{
+		sb.a("<head>").nl();
+		if(styles.size() > 0)
+		{
+			sb.a("<style>").nl();
+			
+			CList<String> ids = new CList(styles.keySet());
+			CSorter.sort(ids);
+			
+			for(String id: ids)
+			{
+				HStyle st = styles.get(id);
+				st.emitHtml(sb);
+			}
+			
+			sb.a("</style>").nl();
+		}
+		sb.a("</head>").nl();
+	}
+	
+	
+	protected void emitHtmlBody(SB sb)
+	{
+		sb.a("<body>").nl();
+		
+		for(HAbstractSegment seg: segments)
+		{
+			seg.toHtml(sb);
+		}
+		
+		sb.a("</body>").nl();
 	}
 }

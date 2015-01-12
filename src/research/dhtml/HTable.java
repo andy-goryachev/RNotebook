@@ -1,5 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml;
+import goryachev.common.util.SB;
 
 
 public class HTable
@@ -7,5 +8,15 @@ public class HTable
 {
 	public HTable()
 	{
+		super(HSegmentType.TABLE);
+	}
+	
+	
+	protected void toHtml(SB sb)
+	{
+		sb.a("<table>").nl();
+		// header
+		// rows, columns
+		sb.a("<table>").nl();
 	}
 }

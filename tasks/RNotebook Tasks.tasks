@@ -64,13 +64,6 @@
           "created": 1420450735261,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "6933ADB1586AC0CA816DBF963BC50CF91BB37785",
-          "title": "proper sequence on open",
-          "created": 1420451111018,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -109,13 +102,6 @@
       "y": 0,
       "title": "TO DO",
       "tasks": [
-        {
-          "id": "932A5F2BD1CF355C1D5371E33CBBA68298BE440C",
-          "title": "web site",
-          "created": 1420358107868,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "6C31F387C589972D0AC3038F8C05E11E8573A7E7",
           "title": "jump cursor to error line",
@@ -258,13 +244,6 @@
           "created": 1420450153609,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "BD000BB07FC5912C4553D94833CC6851C2F8A195",
-          "title": "IO.newTableReader",
-          "created": 1420709296622,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -395,7 +374,65 @@
       "x": 0,
       "y": 2,
       "title": "JImage",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "63D016ACA25732CEB70C258CF86D5CD501BD9A81",
+          "title": "newPath",
+          "created": 1420937325131,
+          "completed": null,
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": "E1A8DDED0CF7B31DD97B6490756449C3232BE658",
+      "x": 1,
+      "y": 2,
+      "title": "DPlot",
+      "tasks": [
+        {
+          "id": "7090B6C28EE3B93798FAC936C3DAFC9B2190F449",
+          "title": "x axis name",
+          "created": 1421020663369,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "1C45F57F84F2AFFCB100995995371D2FC37752F9",
+          "title": "x axis",
+          "created": 1421020666408,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "577DD56901DB5D072E6BACC309C3E09D4A8B6BB3",
+          "title": "y axis name",
+          "created": 1421020669635,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "1363AE74ED52F57F5A1FA2D8A72F17DB123D7265",
+          "title": "y axis",
+          "created": 1421020672066,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "17E41EF6A1667BD4B71289CB130E26470CDE65FB",
+          "title": "plot type",
+          "created": 1421020675105,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "C01A7700EC217D3A085D9FE2E451D224EB3B8EE4",
+          "title": "plot area",
+          "created": 1421020677490,
+          "completed": null,
+          "description": null
+        }
+      ]
     }
   ],
   "task.history": [
@@ -628,6 +665,34 @@
       "title": "DTableReader",
       "created": 1420790846231,
       "completed": 1420840076950,
+      "description": null
+    },
+    {
+      "id": "932A5F2BD1CF355C1D5371E33CBBA68298BE440C",
+      "title": "web site",
+      "created": 1420358107868,
+      "completed": 1420857472001,
+      "description": null
+    },
+    {
+      "id": "BD000BB07FC5912C4553D94833CC6851C2F8A195",
+      "title": "IO.newTableReader",
+      "created": 1420709296622,
+      "completed": 1420936527222,
+      "description": null
+    },
+    {
+      "id": "6933ADB1586AC0CA816DBF963BC50CF91BB37785",
+      "title": "proper sequence on open",
+      "created": 1420451111018,
+      "completed": 1420942572089,
+      "description": null
+    },
+    {
+      "id": "9C4AD6B6221352FC2E03CBBB4DC3F3AA147F92A1",
+      "title": "should ask to save on open",
+      "created": 1420861486471,
+      "completed": 1421020617110,
       "description": null
     }
   ]

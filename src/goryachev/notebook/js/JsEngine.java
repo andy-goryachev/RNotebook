@@ -94,11 +94,6 @@ public class JsEngine
 					
 					// "line " produces an error message like "line #5"
 					Object rv = cx.evaluateString(scope(cx), script, "line ", 1, null);
-//					if(rv == Context.getUndefinedValue())
-//					{
-//						rv = null;
-//					}
-					
 					display(rv);
 				}
 				finally

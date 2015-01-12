@@ -80,8 +80,14 @@ public class OS
 	
 	public String toString()
 	{
+		return "OS";
+	}
+	
+	
+	public InlineHelp getHelp()
+	{
 		InlineHelp h = new InlineHelp("OS");
-		h.a("provides access to the following system functions:");
+		h.a("OS provides access to the following system functions:");
 		
 		h.a("arch", "returns the OS architecture");
 		h.a("cpuCount", "returns number of processor cores");
@@ -94,6 +100,6 @@ public class OS
 		h.a("usedMem", "returns the amount of memory currently being used");
 		h.a("userName", "returns the user name");
 		h.a("version", "returns the OS version");
-		return h.toString();
+		return h;
 	}
 }

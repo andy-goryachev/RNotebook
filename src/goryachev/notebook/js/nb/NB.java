@@ -19,9 +19,15 @@ public class NB
 	
 	public String toString()
 	{
+		return "NB";
+	}
+	
+	
+	public InlineHelp getHelp()
+	{
 		InlineHelp h = new InlineHelp("NB");
-		h.a("provides operations with the notebook application:");
+		h.a("NB provides operations with the notebook application:");
 		h.a("display(x)", "displays an object in the code output section");
-		return h.toString();
+		return h;
 	}
 }

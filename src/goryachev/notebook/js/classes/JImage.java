@@ -222,7 +222,7 @@ public class JImage
 	}
 	
 	
-	public Object getHelp()
+	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("JImage");
 		h.a("new JImage(width, height)");

@@ -87,11 +87,17 @@ public class NET
 	
 	public String toString()
 	{
+		return "NET";
+	}
+	
+	
+	public InlineHelp getHelp()
+	{
 		InlineHelp h = new InlineHelp("NET");
-		h.a("provides network-related functions:");
+		h.a("NET provides network-related functions:");
 		//
 		h.a("get(url)", "returns content specified by the URL");
 		h.a("inBrowser(url)", "opens link in a browser");
-		return h.toString();
+		return h;
 	}
 }

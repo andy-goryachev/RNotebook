@@ -196,10 +196,22 @@ public class FS
 	}
 	
 	
+	public File tempFile(String prefix, String suffix) throws Exception
+	{
+		return File.createTempFile(prefix, suffix);
+	}
+	
+	
 	public String toString()
 	{
+		return "FS";
+	}
+	
+	
+	public InlineHelp getHelp()
+	{
 		InlineHelp h = new InlineHelp("FS");
-		h.a("provides access to the filesystem:");
+		h.a("FS provides access to the filesystem:");
 		
 		h.a("exists(file)", "tests whether the file exists");
 		h.a("freeSpace, getFreeSpace(path)", "returns the amount of free space");
@@ -209,8 +221,9 @@ public class FS
 		h.a("lastModified(file)", "returns the file timestamp");
 		h.a("ls([path],...)", "lists files");
 		h.a("pwd()", "returns the current directory");
+		h.a("tempFile(prefix, suffix)", "creates a temporary file");
 		h.a("totalSpace, getTotalSpace(path)", "returns the amount of total space");
 		h.a("touch(file)", "updates the timestamp of a file, creating it if necessary");
-		return h.toString();
+		return h;
 	}
 }

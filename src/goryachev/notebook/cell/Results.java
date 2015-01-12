@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-
 import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
 import goryachev.notebook.image.JImageViewer;
@@ -15,6 +14,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Undefined;
 
@@ -52,7 +52,7 @@ public class Results
 		}
 		else if(x instanceof Undefined)
 		{
-			return "undefined";
+			return x;
 		}
 		else if(x != null)
 		{
@@ -88,6 +88,11 @@ public class Results
 		else if(x instanceof DPlot)
 		{
 			return new DPlotViewer((DPlot)x, p.handler);
+		}
+		else if(x == Context.getUndefinedValue())
+		{
+			// do not show undefined value
+			return null;
 		}
 		else if(x == null)
 		{

@@ -4,12 +4,49 @@
   "cells": [
     {
       "type": "js",
-      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\n//d.append(\"May had a little lamb.\");\nd.append('code', 'code\\nsegment');\nd.toHtml();",
-      "sequence": 91,
+      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').useForeground('red');\nd.text('code', 'code\\nsegment');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".html\");\nIO.write(d.toHtml(), f);\nNET.inBrowser(\"file://\" + f);",
+      "sequence": 125,
       "output": [
         {
-          "type": "error",
-          "text": "EvaluatorException: Can't find method research.dhtml.HDocument.append(string,string). (line #4)"
+          "type": "text",
+          "text": "<html>\n<head>\n<style>\n.code { color:#FF0000; }\n</style>\n</head>\n<body>\n<h1>Heading 1</h1>\n<span style='code'>code<br>segment</span>\n</body>\n</html>\n"
+        },
+        {
+          "type": "text",
+          "text": "org.mozilla.javascript.Undefined@57102489"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "FS.help",
+      "sequence": 118,
+      "output": [
+        {
+          "type": "text",
+          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.pwd()                           - returns the current directory\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "IO.help",
+      "sequence": 119,
+      "output": [
+        {
+          "type": "text",
+          "text": "IO provides input/output functionality:\n   IO.loadImage(file)   - loads image file\n   IO.loadTable(file)   - loads table from CSV, XLS, or XLSX file\n   IO.write(text, file) - writes text file"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NET.help",
+      "sequence": 123,
+      "output": [
+        {
+          "type": "text",
+          "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
         }
       ]
     }
