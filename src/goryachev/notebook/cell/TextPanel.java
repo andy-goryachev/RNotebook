@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
+import research.dhtml.HDocument;
 
 
 public class TextPanel
@@ -56,6 +57,12 @@ public class TextPanel
 	public void saveCell(DataBook b)
 	{
 		b.addCell(CellType.TEXT, getText());
+	}
+	
+	
+	public void saveCell(HDocument d)
+	{
+		d.text(ExportHtml.STYLE_TEXT, getText());
 	}
 	
 

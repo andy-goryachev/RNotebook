@@ -50,6 +50,20 @@ public class HDocument
 	}
 	
 	
+	public HSegment heading2(String text)
+	{
+		HSegment s = new HSegment(HSegmentType.HEADING2, text);
+		return append(s);
+	}
+	
+	
+	public HSegment heading3(String text)
+	{
+		HSegment s = new HSegment(HSegmentType.HEADING3, text);
+		return append(s);
+	}
+	
+	
 	public HSegment text(Object style, String text)
 	{
 		HStyle s = getStyle(style);

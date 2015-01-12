@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
+import research.dhtml.HDocument;
 
 
 public class HeadingPanel
@@ -79,6 +80,24 @@ public class HeadingPanel
 	public void saveCell(DataBook b)
 	{
 		b.addCell(type, getText());
+	}
+	
+	
+	public void saveCell(HDocument d)
+	{
+		String s = getText();
+		switch(type)
+		{
+		case H1:
+			d.heading1(s);
+			break;
+		case H2:
+			d.heading2(s);
+			break;
+		case H3:
+			d.heading3(s);
+			break;
+		}
 	}
 	
 	

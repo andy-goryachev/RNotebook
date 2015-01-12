@@ -20,6 +20,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.text.JTextComponent;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import research.dhtml.HDocument;
 
 
 public class CodePanel
@@ -92,6 +93,13 @@ public class CodePanel
 	{
 		CList<Object> rs = (results == null ? null : new CList(results));
 		b.addCell(CellType.CODE, getText(), sequence, rs);
+	}
+	
+	
+	public void saveCell(HDocument d)
+	{
+		// TODO syntax coloring
+		// TODO results
 	}
 	
 	

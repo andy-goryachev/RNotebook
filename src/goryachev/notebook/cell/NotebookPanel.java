@@ -16,6 +16,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
+import research.dhtml.HDocument;
 
 
 public class NotebookPanel
@@ -198,20 +199,6 @@ public class NotebookPanel
 		});
 	}
 
-
-	public DataBook getDataBook()
-	{
-		DataBook b = new DataBook();
-		
-		int sz = getCellCount();
-		for(int i=0; i<sz; i++)
-		{
-			CellPanel p = getCellAt(i);
-			p.saveCell(b);
-		}
-		return b;
-	}
-	
 
 	public void updateActions()
 	{
@@ -687,5 +674,33 @@ public class NotebookPanel
 	public void actionPaste()
 	{
 		// TODO
+	}
+
+
+	public DataBook getDataBook()
+	{
+		DataBook b = new DataBook();
+		int sz = getCellCount();
+		for(int i=0; i<sz; i++)
+		{
+			CellPanel p = getCellAt(i);
+			p.saveCell(b);
+		}
+		return b;
+	}
+	
+
+	public HDocument exportHDocument()
+	{
+		HDocument d = new HDocument();
+		d.style(ExportHtml.STYLE_CODE);
+		
+		int sz = getCellCount();
+		for(int i=0; i<sz; i++)
+		{
+			CellPanel p = getCellAt(i);
+			p.saveCell(d);
+		}
+		return d;
 	}
 }

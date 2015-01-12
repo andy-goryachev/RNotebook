@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
+import research.dhtml.HDocument;
 
 
 public abstract class CellPanel
@@ -24,6 +25,8 @@ public abstract class CellPanel
 	public abstract String getText();
 		
 	public abstract void saveCell(DataBook b);
+	
+	public abstract void saveCell(HDocument d);
 	
 	public abstract CellType getType();
 	

@@ -28,11 +28,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JMenuBar;
+import research.dhtml.HDocument;
 
 
 public class NotebookWindow
 	extends AppFrame
 {
+	public final CAction exportHtmlAction = new CAction() { public void action() { actionExportHtml(); } };
 	public final CAction newAction = new CAction() { public void action() { actionNew(); } };
 	public final CAction openAction = new CAction() { public void action() { actionOpen(); } };
 	public final CAction saveAction = new CAction() { public void action() { actionSave(); } };
@@ -40,6 +42,7 @@ public class NotebookWindow
 	public final NotebookPanel np;
 	protected final RecentFilesOption recentFilesOption;
 	private static final String KEY_LAST_FILE = "last.file";
+	private static final String KEY_LAST_HTML_FILE = "last.html.file";
 	private File file;
 	
 	
@@ -85,7 +88,7 @@ public class NotebookWindow
 		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Export PDF", CAction.TODO));
-		m.add(new CMenuItem("Export HTML", CAction.TODO));
+		m.add(new CMenuItem("Export HTML", exportHtmlAction));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
 		m.addSeparator();
@@ -495,5 +498,38 @@ public class NotebookWindow
 	public static NotebookWindow get(Component c)
 	{
 		return UI.getAncestorOfClass(NotebookWindow.class, c);
+	}
+	
+	
+	protected void actionExportHtml()
+	{
+		try
+		{
+			CFileChooser fc = new CFileChooser(this, KEY_LAST_HTML_FILE);
+			fc.setTitle("Export HTML");
+			fc.setApproveButtonText("Export");
+			fc.setFileFilter(FileFilters.HTML);
+			File f = fc.openFileChooser();
+			if(f != null)
+			{
+				f = CKit.ensureExtension(f, ".html");
+				
+				if(f.exists())
+				{
+					if(!Dialogs.checkFileExistsOverwrite(this, f))
+					{
+						return;
+					}
+				}
+				
+				HDocument d = np.exportHDocument();
+				String s = d.toHtml();
+				CKit.write(f, s);
+			}
+		}
+		catch(Exception e)
+		{
+			Dialogs.err(this, e);
+		}
 	}
 }
