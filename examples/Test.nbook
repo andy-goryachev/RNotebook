@@ -4,16 +4,12 @@
   "cells": [
     {
       "type": "js",
-      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').useForeground('red');\nd.text('code', 'code\\nsegment');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".html\");\nIO.write(d.toHtml(), f);\nNET.inBrowser(\"file://\" + f);",
-      "sequence": 125,
+      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').useForeground('red');\nd.text('code', 'code\\nsegment');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".html\");\nf.deleteOnExit();\nIO.write(d.toHtml(), f);\nNET.inBrowser(\"file://\" + f);",
+      "sequence": 133,
       "output": [
         {
           "type": "text",
           "text": "<html>\n<head>\n<style>\n.code { color:#FF0000; }\n</style>\n</head>\n<body>\n<h1>Heading 1</h1>\n<span style='code'>code<br>segment</span>\n</body>\n</html>\n"
-        },
-        {
-          "type": "text",
-          "text": "org.mozilla.javascript.Undefined@57102489"
         }
       ]
     },
@@ -42,11 +38,33 @@
     {
       "type": "js",
       "source": "NET.help",
-      "sequence": 123,
+      "sequence": 142,
       "output": [
         {
           "type": "text",
           "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "UT.help",
+      "sequence": 145,
+      "output": [
+        {
+          "type": "text",
+          "text": "UT offers helpful utility functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parse(html)                         - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "v = NET.get('http://habrahabr.ru/');\nd = UT.parseHtml(v);\nd.getElementsByTag('title');",
+      "sequence": 148,
+      "output": [
+        {
+          "type": "text",
+          "text": "<title>Лучшие публикации за сутки / Хабрахабр</title>"
         }
       ]
     }

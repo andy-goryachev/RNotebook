@@ -15,6 +15,7 @@ import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import org.mozilla.javascript.Undefined;
 
 
 /** DataBook writer */
@@ -52,7 +53,14 @@ public class DataBookJsonWriter
 				{
 					for(Object r: rs)
 					{
-						writeResult(r);
+						if(r instanceof Undefined)
+						{
+							// do not write
+						}
+						else
+						{
+							writeResult(r);
+						}
 					}
 				}
 				wr.endArray();
@@ -124,6 +132,10 @@ public class DataBookJsonWriter
 				wr.write(Schema.KEY_OUTPUT_TYPE, Schema.RESULT_PLOT);
 				
 				// TODO serialize plot
+			}
+			else if(x instanceof Undefined)
+			{
+				// do not write out
 			}
 			else 
 			{

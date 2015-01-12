@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.zip.GZIPInputStream;
 import javax.imageio.ImageIO;
 
 
@@ -66,8 +67,16 @@ public class NET
 	protected Object readText(HttpURLConnection c) throws Exception
 	{
 		String enc = c.getContentEncoding();
-		Charset cs = JsUtil.parseCharset(enc);
-		return CKit.readString(c.getInputStream(), cs);
+		if("gzip".equalsIgnoreCase(enc))
+		{
+			GZIPInputStream in = new GZIPInputStream(c.getInputStream());
+			return CKit.readString(in, CKit.CHARSET_UTF8);
+		}
+		else
+		{
+			Charset cs = JsUtil.parseCharset(enc);
+			return CKit.readString(c.getInputStream(), cs);
+		}
 	}
 	
 	

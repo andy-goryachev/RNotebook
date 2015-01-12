@@ -3,6 +3,8 @@ package goryachev.notebook.js.ut;
 import goryachev.common.util.HSLColor;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 
 public class UT
@@ -24,6 +26,12 @@ public class UT
 	}
 	
 	
+	public Document parseHtml(Object x)
+	{
+		return Jsoup.parse(x.toString());
+	}
+	
+	
 	public String toString()
 	{
 		return "UT";
@@ -33,9 +41,10 @@ public class UT
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("UT");
-		h.a("UT provides network-related functions:");
+		h.a("UT offers helpful utility functions:");
 		//
 		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
+		h.a("parse(html)", "parse HTML document");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
 		return h;
 	}
