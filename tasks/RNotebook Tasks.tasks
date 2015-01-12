@@ -57,15 +57,7 @@
       "x": 5,
       "y": 0,
       "title": "BUGS",
-      "tasks": [
-        {
-          "id": "575E658C1015346F1236321997526F578959C70A",
-          "title": "jumps when inserting cell at the end of document",
-          "created": 1420450735261,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
@@ -693,6 +685,13 @@
       "title": "should ask to save on open",
       "created": 1420861486471,
       "completed": 1421020617110,
+      "description": null
+    },
+    {
+      "id": "575E658C1015346F1236321997526F578959C70A",
+      "title": "jumps when inserting cell at the end of document",
+      "created": 1420450735261,
+      "completed": 1421026998112,
       "description": null
     }
   ]

@@ -496,6 +496,7 @@ public class NotebookPanel
 		}
 		
 		insert(ix, p);
+		UI.scrollRectToVisible(p);
 		p.focusLater();
 	}
 	
