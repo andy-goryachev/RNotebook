@@ -11,6 +11,7 @@ import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.NotebookWindow;
+import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
 import java.awt.Rectangle;
@@ -693,7 +694,14 @@ public class NotebookPanel
 	public HDocument exportHDocument()
 	{
 		HDocument d = new HDocument();
-		d.style(ExportHtml.STYLE_CODE);
+		
+		d.style(ExportHtml.STYLE_CODE).
+			backgroundColor(Styles.codeColor).
+			fontFamily("Courier New, Monospace");
+		
+		d.style(ExportHtml.STYLE_RESULT).
+			foregroundColor(Styles.resultColor).
+			paddingLeft("100px");
 		
 		int sz = getCellCount();
 		for(int i=0; i<sz; i++)

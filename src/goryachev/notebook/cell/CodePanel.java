@@ -105,11 +105,13 @@ public class CodePanel
 	{
 		// with syntax coloring
 		emitStyledHtml(d, textField);
+		d.nl();
 		
 		// results
 		for(Object r: results)
 		{
 			emitResultHtml(d, r);
+			d.nl();
 		}
 	}
 
@@ -137,14 +139,14 @@ public class CodePanel
 					{
 						// FIX
 						//gen.appendToDocNoFG(t.getLexeme(), f, bg, underline);
-						d.text("code", t.getLexeme());
+						d.text(ExportHtml.STYLE_CODE, t.getLexeme());
 					}
 					else
 					{
 						Color fg = ta.getForegroundForToken(t);
 						// FIX
 						//gen.appendToDoc(t.getLexeme(), f, fg, bg, underline);
-						d.text("code", t.getLexeme());
+						d.text(ExportHtml.STYLE_CODE, t.getLexeme());
 					}
 				}
 			}
