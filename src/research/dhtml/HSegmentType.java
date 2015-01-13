@@ -9,6 +9,7 @@ public enum HSegmentType
 	HEADING3,
 	IMAGE,
 	LINK,
+	NEWLINE,
 	TABLE,
 	TEXT
 }

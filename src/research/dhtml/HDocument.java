@@ -89,6 +89,8 @@ public class HDocument
 	protected void emitHtmlHead(SB sb)
 	{
 		sb.a("<head>").nl();
+		sb.a("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />").nl();
+		
 		if(styles.size() > 0)
 		{
 			sb.a("<style>").nl();

@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml;
 import goryachev.common.util.CList;
+import java.awt.image.BufferedImage;
 
 
 public abstract class HAbstractBlock
@@ -54,6 +55,18 @@ public abstract class HAbstractBlock
 	{
 		HSegment s = new HSegment(document(), HSegmentType.HEADING3, text);
 		return append(s);
+	}
+	
+	
+	public HAbstractBlock nl()
+	{
+		return append(new HSegment(document(), HSegmentType.NEWLINE));
+	}
+	
+	
+	public HAbstractBlock image(BufferedImage im)
+	{
+		return append(new HSegmentImage(document(), im));
 	}
 	
 	

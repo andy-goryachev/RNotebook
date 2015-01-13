@@ -3,7 +3,6 @@ package goryachev.common.ui;
 import goryachev.common.ui.icons.CIcons;
 import goryachev.common.ui.text.LocalImageView;
 import goryachev.common.ui.text.XBoxView;
-import goryachev.common.util.Base64;
 import goryachev.common.util.Log;
 import goryachev.common.util.html.HtmlTools;
 import java.awt.Color;
@@ -98,7 +97,7 @@ public class CHtmlEditorKit
 			}
 			else if(lower.startsWith("data:"))
 			{
-				byte[] b = parseBinaryImage(src);
+				byte[] b = HtmlTools.parseBase64Data(src);
 				if(b != null)
 				{
 					return new ImageIcon(b);
@@ -118,19 +117,6 @@ public class CHtmlEditorKit
 		}
 		
 		return CIcons.TBD;
-	}
-	
-	
-	// src= data:image/png;base64,iVBORw0K...
-	protected byte[] parseBinaryImage(String s) throws Exception
-	{
-		int ix = s.indexOf(',');
-		if(ix >= 0)
-		{
-			s = s.substring(ix+1);
-			return Base64.decode(s);
-		}
-		return null;
 	}
 	
 	

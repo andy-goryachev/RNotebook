@@ -7,13 +7,11 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.fife.ui.rtextarea.RTextArea;
 
 
@@ -41,8 +39,8 @@ import org.fife.ui.rtextarea.RTextArea;
  * @author Robert Futrell
  * @version 1.0
  */
-public class RtfGenerator {
-
+public class RtfGenerator
+{
 	private List<Font> fontList;
 	private List<Color> colorList;
 	private StringBuilder document;
@@ -71,7 +69,8 @@ public class RtfGenerator {
 	/**
 	 * Constructor.
 	 */
-	public RtfGenerator() {
+	public RtfGenerator()
+	{
 		fontList = new ArrayList<Font>(1); // Usually only 1.
 		colorList = new ArrayList<Color>(1); // Usually only 1.
 		document = new StringBuilder();
@@ -84,7 +83,8 @@ public class RtfGenerator {
 	 *
 	 * @see #appendToDoc(String, Font, Color, Color)
 	 */
-	public void appendNewline() {
+	public void appendNewline()
+	{
 		document.append("\\par");
 		document.append('\n'); // Just for ease of reading RTF.
 		lastWasControlWord = false;
@@ -103,7 +103,8 @@ public class RtfGenerator {
 	 *        <code>null</code>, the default background color is used.
 	 * @see #appendNewline()
 	 */
-	public void appendToDoc(String text, Font f, Color fg, Color bg) {
+	public void appendToDoc(String text, Font f, Color fg, Color bg)
+	{
 		appendToDoc(text, f, fg, bg, false);
 	}
 
@@ -119,8 +120,8 @@ public class RtfGenerator {
 	 * @param underline Whether the text should be underlined.
 	 * @see #appendNewline()
 	 */
-	public void appendToDocNoFG(String text, Font f, Color bg,
-							boolean underline) {
+	public void appendToDocNoFG(String text, Font f, Color bg, boolean underline)
+	{
 		appendToDoc(text, f, null, bg, underline, false);
 	}
 
@@ -138,8 +139,8 @@ public class RtfGenerator {
 	 * @param underline Whether the text should be underlined.
 	 * @see #appendNewline()
 	 */
-	public void appendToDoc(String text, Font f, Color fg, Color bg,
-							boolean underline) {
+	public void appendToDoc(String text, Font f, Color fg, Color bg, boolean underline)
+	{
 		appendToDoc(text, f, fg, bg, underline, true);
 	}
 
@@ -159,67 +160,81 @@ public class RtfGenerator {
 	 *        be honored (if it is non-<code>null</code>).
 	 * @see #appendNewline()
 	 */
-	public void appendToDoc(String text, Font f, Color fg, Color bg,
-							boolean underline, boolean setFG) {
-
-		if (text!=null) {
-
+	public void appendToDoc(String text, Font f, Color fg, Color bg, boolean underline, boolean setFG)
+	{
+		if(text != null)
+		{
 			// Set font to use, if different from last addition.
-			int fontIndex = f==null ? 0 : (getFontIndex(fontList, f)+1);
-			if (fontIndex!=lastFontIndex) {
+			int fontIndex = f == null ? 0 : (getFontIndex(fontList, f) + 1);
+			if(fontIndex != lastFontIndex)
+			{
 				document.append("\\f").append(fontIndex);
 				lastFontIndex = fontIndex;
 				lastWasControlWord = true;
 			}
 
 			// Set styles to use.
-			if (f!=null) {
-				int fontSize = fixFontSize(f.getSize2D()*2); // Half points!
-				if (fontSize!=lastFontSize) {
+			if(f != null)
+			{
+				int fontSize = fixFontSize(f.getSize2D() * 2); // Half points!
+				if(fontSize != lastFontSize)
+				{
 					document.append("\\fs").append(fontSize);
 					lastFontSize = fontSize;
 					lastWasControlWord = true;
 				}
-				if (f.isBold()!=lastBold) {
+				if(f.isBold() != lastBold)
+				{
 					document.append(lastBold ? "\\b0" : "\\b");
 					lastBold = !lastBold;
 					lastWasControlWord = true;
 				}
-				if (f.isItalic()!=lastItalic) {
+				if(f.isItalic() != lastItalic)
+				{
 					document.append(lastItalic ? "\\i0" : "\\i");
 					lastItalic = !lastItalic;
 					lastWasControlWord = true;
 				}
 			}
-			else { // No font specified - assume neither bold nor italic.
-				if (lastFontSize!=DEFAULT_FONT_SIZE) {
+			else
+			{ 
+				// No font specified - assume neither bold nor italic.
+				if(lastFontSize != DEFAULT_FONT_SIZE)
+				{
 					document.append("\\fs").append(DEFAULT_FONT_SIZE);
 					lastFontSize = DEFAULT_FONT_SIZE;
 					lastWasControlWord = true;
 				}
-				if (lastBold) {
+				if(lastBold)
+				{
 					document.append("\\b0");
 					lastBold = false;
 					lastWasControlWord = true;
 				}
-				if (lastItalic) {
+				if(lastItalic)
+				{
 					document.append("\\i0");
 					lastItalic = false;
 					lastWasControlWord = true;
 				}
 			}
-			if (underline) {
+			if(underline)
+			{
 				document.append("\\ul");
 				lastWasControlWord = true;
 			}
 
 			// Set the foreground color.
-			if (setFG) {
+			if(setFG)
+			{
 				int fgIndex = 0;
-				if (fg!=null) { // null => fg color index 0
-					fgIndex = getColorIndex(colorList, fg)+1;
+				if(fg != null)
+				{ 
+					// null => fg color index 0
+					fgIndex = getColorIndex(colorList, fg) + 1;
 				}
-				if (fgIndex!=lastFGIndex) {
+				if(fgIndex != lastFGIndex)
+				{
 					document.append("\\cf").append(fgIndex);
 					lastFGIndex = fgIndex;
 					lastWasControlWord = true;
@@ -227,30 +242,32 @@ public class RtfGenerator {
 			}
 
 			// Set the background color.
-			if (bg!=null) {
+			if(bg != null)
+			{
 				int pos = getColorIndex(colorList, bg);
-				document.append("\\highlight").append(pos+1);
+				document.append("\\highlight").append(pos + 1);
 				lastWasControlWord = true;
 			}
 
-			if (lastWasControlWord) {
+			if(lastWasControlWord)
+			{
 				document.append(' '); // Delimiter
 				lastWasControlWord = false;
 			}
 			escapeAndAdd(document, text);
 
 			// Reset everything that was set for this text fragment.
-			if (bg!=null) {
+			if(bg != null)
+			{
 				document.append("\\highlight0");
 				lastWasControlWord = true;
 			}
-			if (underline) {
+			if(underline)
+			{
 				document.append("\\ul0");
 				lastWasControlWord = true;
 			}
-
 		}
-
 	}
 
 
@@ -267,31 +284,35 @@ public class RtfGenerator {
 	 * @param text The text to append (with tab chars substituted).
 	 * @param sb The buffer to append to.
 	 */
-	private final void escapeAndAdd(StringBuilder sb, String text) {
+	private final void escapeAndAdd(StringBuilder sb, String text)
+	{
 		int count = text.length();
-		for (int i=0; i<count; i++) {
+		for(int i = 0; i < count; i++)
+		{
 			char ch = text.charAt(i);
-			switch (ch) {
-				case '\t':
-					// Micro-optimization: for syntax highlighting with
-					// tab indentation, there are often multiple tabs
-					// back-to-back at the start of lines, so don't put
-					// spaces between each "\tab".
+			switch(ch)
+			{
+			case '\t':
+				// Micro-optimization: for syntax highlighting with
+				// tab indentation, there are often multiple tabs
+				// back-to-back at the start of lines, so don't put
+				// spaces between each "\tab".
+				sb.append("\\tab");
+				while((++i < count) && text.charAt(i) == '\t')
+				{
 					sb.append("\\tab");
-					while ((++i<count) && text.charAt(i)=='\t') {
-						sb.append("\\tab");
-					}
-					sb.append(' ');
-					i--; // We read one too far.
-					break;
-				case '\\':
-				case '{':
-				case '}':
-					sb.append('\\').append(ch);
-					break;
-				default:
-					sb.append(ch);
-					break;
+				}
+				sb.append(' ');
+				i--; // We read one too far.
+				break;
+			case '\\':
+			case '{':
+			case '}':
+				sb.append('\\').append(ch);
+				break;
+			default:
+				sb.append(ch);
+				break;
 			}
 		}
 	}
@@ -311,9 +332,12 @@ public class RtfGenerator {
 	 *         This will allow other applications to render fonts the same
 	 *         size as they appear in the Java application.
 	 */
-	private int fixFontSize(float pointSize) {
-		if (screenRes!=72) { // Java2D assumes 72 dpi
-			pointSize = Math.round(pointSize*72f/screenRes);
+	private int fixFontSize(float pointSize)
+	{
+		if(screenRes != 72)
+		{ 
+			// Java2D assumes 72 dpi
+			pointSize = Math.round(pointSize * 72f / screenRes);
 		}
 		return (int)pointSize;
 	}
@@ -327,25 +351,27 @@ public class RtfGenerator {
 	 * @param item The item to get the index of.
 	 * @return The index of the item.
 	 */
-	private static int getColorIndex(List<Color> list, Color item) {
+	private static int getColorIndex(List<Color> list, Color item)
+	{
 		int pos = list.indexOf(item);
-		if (pos==-1) {
+		if(pos == -1)
+		{
 			list.add(item);
-			pos = list.size()-1;
+			pos = list.size() - 1;
 		}
 		return pos;
 	}
 
 
-	private String getColorTableRtf() {
-
+	private String getColorTableRtf()
+	{
 		// Example:
 		// "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green0\\blue255; }"
-
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("{\\colortbl ;");
-		for (Color c : colorList) {
+		for(Color c: colorList)
+		{
 			sb.append("\\red").append(c.getRed());
 			sb.append("\\green").append(c.getGreen());
 			sb.append("\\blue").append(c.getBlue());
@@ -354,7 +380,6 @@ public class RtfGenerator {
 		sb.append("}");
 
 		return sb.toString();
-
 	}
 
 
@@ -370,24 +395,26 @@ public class RtfGenerator {
 	 * @param font The font to get the index of.
 	 * @return The index of the font.
 	 */
-	private static int getFontIndex(List<Font> list, Font font) {
+	private static int getFontIndex(List<Font> list, Font font)
+	{
 		String fontName = font.getFamily();
-		for (int i=0; i<list.size(); i++) {
+		for(int i = 0; i < list.size(); i++)
+		{
 			Font font2 = list.get(i);
-			if (font2.getFamily().equals(fontName)) {
+			if(font2.getFamily().equals(fontName))
+			{
 				return i;
 			}
 		}
 		list.add(font);
-		return list.size()-1;
+		return list.size() - 1;
 	}
 
 
-	private String getFontTableRtf() {
-
+	private String getFontTableRtf()
+	{
 		// Example:
 		// "{\\fonttbl{\\f0\\fmodern\\fcharset0 Courier;}}"
-
 		StringBuilder sb = new StringBuilder();
 
 		// Workaround for text areas using the Java logical font "Monospaced"
@@ -396,19 +423,20 @@ public class RtfGenerator {
 		String monoFamilyName = getMonospacedFontFamily();
 
 		sb.append("{\\fonttbl{\\f0\\fnil\\fcharset0 " + monoFamilyName + ";}");
-		for (int i=0; i<fontList.size(); i++) {
+		for(int i = 0; i < fontList.size(); i++)
+		{
 			Font f = fontList.get(i);
 			String familyName = f.getFamily();
-			if (familyName.equals("Monospaced")) {
+			if(familyName.equals("Monospaced"))
+			{
 				familyName = monoFamilyName;
 			}
-			sb.append("{\\f").append(i+1).append("\\fnil\\fcharset0 ");
+			sb.append("{\\f").append(i + 1).append("\\fnil\\fcharset0 ");
 			sb.append(familyName).append(";}");
 		}
 		sb.append('}');
 
 		return sb.toString();
-
 	}
 
 
@@ -418,9 +446,11 @@ public class RtfGenerator {
 	 *
 	 * @return The monospaced font family to use.
 	 */
-	private static final String getMonospacedFontFamily() {
+	private static final String getMonospacedFontFamily()
+	{
 		String family = RTextArea.getDefaultFont().getFamily();
-		if ("Monospaced".equals(family)) {
+		if("Monospaced".equals(family))
+		{
 			family = "Courier";
 		}
 		return family;
@@ -432,8 +462,8 @@ public class RtfGenerator {
 	 *
 	 * @return The RTF document, as a <code>String</code>.
 	 */
-	public String getRtf() {
-
+	public String getRtf()
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 
@@ -441,9 +471,9 @@ public class RtfGenerator {
 		sb.append("\\rtf1\\ansi\\ansicpg1252");
 		sb.append("\\deff0"); // First font in font table is the default
 		sb.append("\\deflang1033");
-		sb.append("\\viewkind4");		// "Normal" view
+		sb.append("\\viewkind4"); // "Normal" view
 		sb.append("\\uc\\pard\\f0");
-		sb.append("\\fs20");			// Font size in half-points (default 24)
+		sb.append("\\fs20"); // Font size in half-points (default 24)
 		sb.append(getFontTableRtf()).append('\n');
 		sb.append(getColorTableRtf()).append('\n');
 
@@ -454,7 +484,6 @@ public class RtfGenerator {
 
 		//System.err.println("*** " + sb.length());
 		return sb.toString();
-
 	}
 
 
@@ -462,7 +491,8 @@ public class RtfGenerator {
 	 * Resets this generator.  All document information and content is
 	 * cleared.
 	 */
-	public void reset() {
+	public void reset()
+	{
 		fontList.clear();
 		colorList.clear();
 		document.setLength(0);
@@ -474,6 +504,4 @@ public class RtfGenerator {
 		lastFontSize = DEFAULT_FONT_SIZE;
 		screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
 	}
-
-
 }

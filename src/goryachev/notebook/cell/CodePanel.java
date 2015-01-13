@@ -6,6 +6,7 @@ import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
+import goryachev.common.util.Log;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
@@ -13,13 +14,17 @@ import goryachev.notebook.Styles;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.image.JImageViewer;
 import goryachev.notebook.js.JsError;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.text.JTextComponent;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Token;
 import research.dhtml.HDocument;
 
 
@@ -98,11 +103,75 @@ public class CodePanel
 	
 	public void saveCell(HDocument d)
 	{
-		// TODO syntax coloring
-		// TODO results
+		// with syntax coloring
+		emitStyledHtml(d, textField);
+		
+		// results
+		for(Object r: results)
+		{
+			emitResultHtml(d, r);
+		}
+	}
+
+
+	protected void emitStyledHtml(HDocument d, RSyntaxTextArea ta)
+	{
+		int selStart = 0;
+		int selEnd = ta.getDocument().getLength();
+			
+		Token tokenList = ta.getTokenListFor(selStart, selEnd);
+		for(Token t=tokenList; t!=null; t=t.getNextToken())
+		{
+			if(t.isPaintable())
+			{
+				if(t.length() == 1 && t.charAt(0) == '\n')
+				{
+					d.nl();
+				}
+				else
+				{
+					Font f = ta.getFontForTokenType(t.getType());
+					Color bg = ta.getBackgroundForToken(t);
+					boolean underline = ta.getUnderlineForToken(t);
+					if(t.isWhitespace())
+					{
+						// FIX
+						//gen.appendToDocNoFG(t.getLexeme(), f, bg, underline);
+						d.text("code", t.getLexeme());
+					}
+					else
+					{
+						Color fg = ta.getForegroundForToken(t);
+						// FIX
+						//gen.appendToDoc(t.getLexeme(), f, fg, bg, underline);
+						d.text("code", t.getLexeme());
+					}
+				}
+			}
+		}
 	}
 	
 	
+	protected void emitResultHtml(HDocument d, Object r)
+	{
+		if(r instanceof BufferedImage)
+		{
+			try
+			{
+				d.image((BufferedImage)r);
+			}
+			catch(Exception e)
+			{
+				Log.err(e);
+			}
+		}
+		else if(r != null)
+		{
+			d.text(ExportHtml.STYLE_RESULT, r.toString());
+		}
+	}
+
+
 	public String getText()
 	{
 		return textField.getText();

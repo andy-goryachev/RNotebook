@@ -43,6 +43,7 @@ public class HSegment
 		case HEADING1: return "h1";
 		case HEADING2: return "h2";
 		case HEADING3: return "h3";
+		case NEWLINE: return "br";
 		default:       return null;
 		}
 	}
@@ -62,21 +63,29 @@ public class HSegment
 			
 			if(style != null)
 			{
-				sb.a("</div>").nl();
+				sb.a("</div>");
 			}
 		}
 		else
 		{
-			sb.a("<").a(tag);
-
-			if(style != null)
+			if(segment == null)
 			{
-				sb.a(" class='").a(style.id).a("'");
+				sb.a("<").a(tag).a(" />");
 			}
-			
-			sb.a(">");
-			sb.a(HtmlTools.safe(segment));
-			sb.a("</").a(tag).a(">").nl();
+			else
+			{
+				sb.a("<").a(tag);
+	
+				if(style != null)
+				{
+					sb.a(" class='").a(style.id).a("'");
+				}
+				
+				sb.a(">");
+				sb.a(HtmlTools.safe(segment));
+				sb.a("</").a(tag).a(">");
+			}
 		}
+		sb.nl();
 	}
 }

@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-
 import javax.swing.text.BadLocationException;
 import javax.swing.text.GapContent;
 import javax.swing.text.PlainDocument;
@@ -19,13 +18,11 @@ import javax.swing.text.PlainDocument;
  * @author Robert Futrell
  * @version 1.0
  */
-public class RDocument extends PlainDocument {
-
-
-	/**
-	 * Constructor.
-	 */
-	public RDocument() {
+public class RDocument
+    extends PlainDocument
+{
+	public RDocument()
+	{
 		super(new RGapContent());
 	}
 
@@ -37,29 +34,35 @@ public class RDocument extends PlainDocument {
 	 * @return The character.
 	 * @throws BadLocationException If the offset is invalid.
 	 */
-	public char charAt(int offset) throws BadLocationException {
+	public char charAt(int offset) throws BadLocationException
+	{
 		return ((RGapContent)getContent()).charAt(offset);
 	}
+	
+	
+	//
 
 
 	/**
 	 * Document content that provides fast access to individual characters.
 	 */
-	protected static class RGapContent extends GapContent {
-
-		public char charAt(int offset) throws BadLocationException {
-			if (offset<0 || offset>=length()) {
+	protected static class RGapContent
+	    extends GapContent
+	{
+		public char charAt(int offset) throws BadLocationException
+		{
+			if(offset < 0 || offset >= length())
+			{
 				throw new BadLocationException("Invalid offset", offset);
 			}
 			int g0 = getGapStart();
-			char[] array = (char[]) getArray();
-			if (offset<g0) { // below gap
+			char[] array = (char[])getArray();
+			if(offset < g0)
+			{ 
+				// below gap
 				return array[offset];
 			}
 			return array[getGapEnd() + offset - g0]; // above gap
 		}
-
 	}
-
-
 }

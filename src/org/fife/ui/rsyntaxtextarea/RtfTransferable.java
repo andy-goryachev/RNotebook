@@ -7,8 +7,9 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-
-import java.awt.datatransfer.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -24,8 +25,9 @@ import java.io.StringReader;
  * @author Robert Futrell
  * @version 1.0
  */
-class RtfTransferable implements Transferable {
-
+public class RtfTransferable
+    implements Transferable
+{
 	/**
 	 * The RTF data, in bytes (the RTF is 7-bit ascii).
 	 */
@@ -35,9 +37,10 @@ class RtfTransferable implements Transferable {
 	/**
 	 * The "flavors" the text can be returned as.
 	 */
-	private final DataFlavor[] FLAVORS = {
-		new DataFlavor("text/rtf", "RTF"),
-		DataFlavor.stringFlavor,
+	private final DataFlavor[] FLAVORS = 
+	{
+		new DataFlavor("text/rtf", "RTF"), 
+		DataFlavor.stringFlavor, 
 		DataFlavor.plainTextFlavor // deprecated
 	};
 
@@ -47,45 +50,56 @@ class RtfTransferable implements Transferable {
 	 *
 	 * @param data The RTF data.
 	 */
-	public RtfTransferable(byte[] data) {
+	public RtfTransferable(byte[] data)
+	{
 		this.data = data;
 	}
 
 
-	public Object getTransferData(DataFlavor flavor)
-					throws UnsupportedFlavorException, IOException {
-		if (flavor.equals(FLAVORS[0])) { // RTF
-			return new ByteArrayInputStream(data==null ? new byte[0] : data);
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+	{
+		if(flavor.equals(FLAVORS[0]))
+		{ 
+			// RTF
+			return new ByteArrayInputStream(data == null ? new byte[0] : data);
 		}
-		else if (flavor.equals(FLAVORS[1])) { // stringFlavor
-			return data==null ? "" : RtfToText.getPlainText(data);
+		else if(flavor.equals(FLAVORS[1]))
+		{ 
+			// stringFlavor
+			return data == null ? "" : RtfToText.getPlainText(data);
 		}
-		else if (flavor.equals(FLAVORS[2])) { // plainTextFlavor (deprecated)
+		else if(flavor.equals(FLAVORS[2]))
+		{ 
+			// plainTextFlavor (deprecated)
 			String text = ""; // Valid if data==null
-			if (data!=null) {
+			if(data != null)
+			{
 				text = RtfToText.getPlainText(data);
 			}
 			return new StringReader(text);
 		}
-		else {
+		else
+		{
 			throw new UnsupportedFlavorException(flavor);
 		}
 	}
 
 
-	public DataFlavor[] getTransferDataFlavors() {
+	public DataFlavor[] getTransferDataFlavors()
+	{
 		return FLAVORS.clone();
 	}
 
 
-	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for (int i=0; i<FLAVORS.length; i++) {
-			if (flavor.equals(FLAVORS[i])) {
+	public boolean isDataFlavorSupported(DataFlavor flavor)
+	{
+		for(int i=0; i<FLAVORS.length; i++)
+		{
+			if(flavor.equals(FLAVORS[i]))
+			{
 				return true;
 			}
 		}
 		return false;
 	}
-
-
 }

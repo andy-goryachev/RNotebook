@@ -604,7 +604,7 @@ public class RSyntaxTextArea
 		// Create the RTF selection.
 		RtfGenerator gen = new RtfGenerator();
 		Token tokenList = getTokenListFor(selStart, selEnd);
-		for(Token t = tokenList; t != null; t = t.getNextToken())
+		for(Token t=tokenList; t!=null; t=t.getNextToken())
 		{
 			if(t.isPaintable())
 			{
@@ -1655,7 +1655,7 @@ public class RSyntaxTextArea
 	 * @return The first token in the token list.
 	 */
 	@SuppressWarnings("null")
-	private Token getTokenListFor(int startOffs, int endOffs)
+	public Token getTokenListFor(int startOffs, int endOffs)
 	{
 		TokenImpl tokenList = null;
 		TokenImpl lastToken = null;

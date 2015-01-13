@@ -9,6 +9,7 @@ import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import goryachev.notebook.icons.NotebookIcons;
 import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 
@@ -65,6 +66,8 @@ public class RNotebookApp
 
 	protected void initApplication() throws Exception
 	{
+		// disable disk cache
+		ImageIO.setUseCache(false);
 	}
 	
 	
