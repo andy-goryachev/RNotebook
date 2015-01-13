@@ -13,15 +13,22 @@ import goryachev.common.util.SB;
 //   layout types: segment, table
 //   styles: font, colors, borders, padding, margins
 public class HDocument
+	extends HAbstractBlock
 {
-	private CList<HAbstractSegment> segments = new CList();
 	private CMap<String,HStyle> styles = new CMap();
-	private HSegment lastSegment;
+	private HAbstractSegment lastSegment;
 	private HTable lastTable;
 	
 	
 	public HDocument()
 	{
+		super(null);
+	}
+	
+	
+	public HDocument document()
+	{
+		return this;
 	}
 	
 	
@@ -43,43 +50,7 @@ public class HDocument
 	}
 	
 	
-	public HSegment heading1(String text)
-	{
-		HSegment s = new HSegment(HSegmentType.HEADING1, text);
-		return append(s);
-	}
-	
-	
-	public HSegment heading2(String text)
-	{
-		HSegment s = new HSegment(HSegmentType.HEADING2, text);
-		return append(s);
-	}
-	
-	
-	public HSegment heading3(String text)
-	{
-		HSegment s = new HSegment(HSegmentType.HEADING3, text);
-		return append(s);
-	}
-	
-	
-	public HSegment text(Object style, String text)
-	{
-		HStyle s = getStyle(style);
-		return append(new HSegment(HSegmentType.TEXT, s, text));
-	}
-	
-	
-	protected HSegment append(HSegment s)
-	{
-		segments.add(s);
-		setLastSegment(s);
-		return s;
-	}
-	
-	
-	protected void setLastSegment(HSegment s)
+	protected void setLastSegment(HAbstractSegment s)
 	{
 		lastSegment = s;
 		if(s instanceof HTable)
@@ -89,19 +60,13 @@ public class HDocument
 	}
 	
 	
-	public HTable newTable()
-	{
-		return null;
-	}
-	
-	
 	public HTable getLastTable()
 	{
 		return lastTable;
 	}
 	
 	
-	public HSegment getLast()
+	public HAbstractSegment getLast()
 	{
 		return lastSegment;
 	}
@@ -110,11 +75,17 @@ public class HDocument
 	public String toHtml()
 	{
 		SB sb = new SB();
+		toHtml(sb);
+		return sb.toString();
+	}
+	
+	
+	protected void toHtml(SB sb)
+	{
 		sb.a("<html>").nl();
 		emitHtmlHead(sb);
 		emitHtmlBody(sb);
-		sb.a("</html>").nl();
-		return sb.toString();
+		sb.a("</html>").nl();	
 	}
 	
 	
@@ -144,7 +115,7 @@ public class HDocument
 	{
 		sb.a("<body>").nl();
 		
-		for(HAbstractSegment seg: segments)
+		for(HAbstractSegment seg: segments())
 		{
 			seg.toHtml(sb);
 		}

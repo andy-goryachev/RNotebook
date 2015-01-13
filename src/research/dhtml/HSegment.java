@@ -12,23 +12,26 @@ public class HSegment
 	private Object segment;
 	
 	
-	public HSegment(HSegmentType t, HStyle s, Object v)
+	public HSegment(HDocument d, HSegmentType t, HStyle s, Object v)
 	{
+		super(d);
 		this.type = t;
 		this.style = s;
 		this.segment = v;
 	}
 	
 	
-	public HSegment(HSegmentType t, Object v)
+	public HSegment(HDocument d, HSegmentType t, Object v)
 	{
+		super(d);
 		this.type = t;
 		this.segment = v;
 	}
 	
 	
-	public HSegment(HSegmentType t)
+	public HSegment(HDocument d, HSegmentType t)
 	{
+		super(d);
 		this.type = t;
 	}
 	
@@ -40,7 +43,7 @@ public class HSegment
 		case HEADING1: return "h1";
 		case HEADING2: return "h2";
 		case HEADING3: return "h3";
-		default:       return "span";
+		default:       return null;
 		}
 	}
 	
@@ -48,16 +51,32 @@ public class HSegment
 	protected void toHtml(SB sb)
 	{
 		String tag = getHtmlTag();
-		
-		sb.a("<").a(tag);
-
-		if(style != null)
+		if(tag == null)
 		{
-			sb.a(" style='").a(style.id).a("'");
+			if(style != null)
+			{
+				sb.a("<div style='").a(style.id).a("'>");
+			}
+			
+			sb.a(HtmlTools.safe(segment));
+			
+			if(style != null)
+			{
+				sb.a("</div>").nl();
+			}
 		}
-		
-		sb.a(">");
-		sb.a(HtmlTools.safe(segment));
-		sb.a("</").a(tag).a(">").nl();
+		else
+		{
+			sb.a("<").a(tag);
+
+			if(style != null)
+			{
+				sb.a(" style='").a(style.id).a("'");
+			}
+			
+			sb.a(">");
+			sb.a(HtmlTools.safe(segment));
+			sb.a("</").a(tag).a(">").nl();
+		}
 	}
 }

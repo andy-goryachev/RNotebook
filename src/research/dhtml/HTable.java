@@ -6,9 +6,9 @@ import goryachev.common.util.SB;
 public class HTable
 	extends HSegment
 {
-	public HTable()
+	public HTable(HDocument d)
 	{
-		super(HSegmentType.TABLE);
+		super(d, HSegmentType.TABLE);
 	}
 	
 	
