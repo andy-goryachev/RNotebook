@@ -33,6 +33,42 @@ public class HStyle
 	}
 	
 	
+	public HStyle paddingBottom(Object x)
+	{
+		return attr(HAttr.PADDING_BOTTOM, x);
+	}
+	
+	
+	public HStyle paddingLeft(Object x)
+	{
+		return attr(HAttr.PADDING_LEFT, x);
+	}
+	
+	
+	public HStyle paddingRight(Object x)
+	{
+		return attr(HAttr.PADDING_RIGHT, x);
+	}
+	
+	
+	public HStyle paddingTop(Object x)
+	{
+		return attr(HAttr.PADDING_TOP, x);
+	}
+	
+	
+	public HStyle fontFamily(Object x)
+	{
+		return attr(HAttr.FONT_FAMILY, x);
+	}
+	
+	
+	public HStyle fontStyle(Object x)
+	{
+		return attr(HAttr.FONT_STYLE, x);
+	}
+	
+	
 	protected HStyle attr(HAttr a, Object v)
 	{
 		if(attributes.containsKey(a))

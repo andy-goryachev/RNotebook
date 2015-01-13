@@ -55,7 +55,7 @@ public class HSegment
 		{
 			if(style != null)
 			{
-				sb.a("<div style='").a(style.id).a("'>");
+				sb.a("<div class='").a(style.id).a("'>");
 			}
 			
 			sb.a(HtmlTools.safe(segment));
@@ -71,7 +71,7 @@ public class HSegment
 
 			if(style != null)
 			{
-				sb.a(" style='").a(style.id).a("'");
+				sb.a(" class='").a(style.id).a("'");
 			}
 			
 			sb.a(">");
