@@ -6,12 +6,9 @@ import goryachev.common.util.CSorter;
 import goryachev.common.util.SB;
 
 
-// idea 1:
-//   html specific getHead(), getBody(), getLastTable()
-// idea 2:
-//   logical structure only, rendered in html, pdf.
-//   layout types: segment, table
-//   styles: font, colors, borders, padding, margins
+// This class represents a document (which is also a builder)
+// that captures the logical structure of the document.
+// Use toHtml() or toPDF methods to render the document in different formats.
 public class HDocument
 	extends HAbstractBlock
 {

@@ -1,7 +1,8 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml;
+import goryachev.common.util.CMap;
 import goryachev.common.util.SB;
-import goryachev.common.util.html.HtmlTools;
+import goryachev.common.util.UserException;
 import goryachev.notebook.js.JsUtil;
 import java.awt.Color;
 
@@ -9,9 +10,7 @@ import java.awt.Color;
 public class HStyle
 {
 	public final String id;
-	// TODO or use hashmap
-	private Color backgroundColor;
-	private Color foregroundColor;
+	private CMap<HAttr,String> attributes = new CMap();
 	
 	
 	public HStyle(String id)
@@ -20,16 +19,29 @@ public class HStyle
 	}
 	
 	
-	public HStyle backgroundColor(Object c)
+	public HStyle backgroundColor(Object bg)
 	{
-		backgroundColor = JsUtil.parseColor(c);
-		return this;
+		Color c = JsUtil.parseColor(bg);
+		return attr(HAttr.BACKGROUND_COLOR, c);
 	}
 	
 	
-	public HStyle foregroundColor(Object c)
+	public HStyle foregroundColor(Object fg)
 	{
-		foregroundColor = JsUtil.parseColor(c);
+		Color c = JsUtil.parseColor(fg);
+		return attr(HAttr.FOREGROUND_COLOR, c);
+	}
+	
+	
+	protected HStyle attr(HAttr a, Object v)
+	{
+		if(attributes.containsKey(a))
+		{
+			throw new UserException("stylesheet already contains " + a);
+		}
+		
+		String s = a.type.parseValue(v);
+		attributes.put(a, s);
 		return this;
 	}
 
@@ -40,14 +52,11 @@ public class HStyle
 		sb.a(id);
 		sb.a(" {");
 		
-		if(backgroundColor != null)
+		for(HAttr a: attributes.keySet())
 		{
-			sb.a(" background:").a(HtmlTools.color(backgroundColor)).a(";");
-		}
-		
-		if(foregroundColor != null)
-		{
-			sb.a(" color:").a(HtmlTools.color(foregroundColor)).a(";");
+			String v = attributes.get(a);
+			String name = HtmlStyles.getCssName(a);
+			sb.a(" ").a(name).a(":").a(v).a(";");
 		}
 		
 		sb.a(" }").nl();

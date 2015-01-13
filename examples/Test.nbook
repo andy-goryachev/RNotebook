@@ -5,11 +5,11 @@
     {
       "type": "js",
       "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').foregroundColor('red');\nd.style('comment').backgroundColor('#ffffdd');\nd.text('code', 'code\\nsegment');\nd.block('comment').text('line one\\n').text('line two\\n');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".htm\");\nf.deleteOnExit();\nIO.write(d.toHtml(), f);\n//NET.inBrowser(\"file://\" + f);",
-      "sequence": 162,
+      "sequence": 164,
       "output": [
         {
           "type": "text",
-          "text": "<html>\n<head>\n<style>\n.code { color:#FF0000; }\n.comment { }\n</style>\n</head>\n<body>\n<h1>Heading 1</h1>\n<div style='code'>code<br>segment</div>\n<div class='comment'>\nline one<br>line two<br></div>\n</body>\n</html>\n"
+          "text": "<html>\n<head>\n<style>\n.code { color:#FF0000; }\n.comment { background:#FFFFDD; }\n</style>\n</head>\n<body>\n<h1>Heading 1</h1>\n<div style='code'>code<br>segment</div>\n<div class='comment'>\nline one<br>line two<br></div>\n</body>\n</html>\n"
         }
       ]
     },
