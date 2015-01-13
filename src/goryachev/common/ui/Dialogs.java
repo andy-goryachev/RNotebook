@@ -154,7 +154,7 @@ public class Dialogs
 	}
 
 	
-	@Deprecated // use ChoiceDialog
+	@Deprecated // use ChoiceDialog, please
 	public static int choice(Component parent, String title, String message, String[] choices)
 	{
 		final StandardDialog d = constructDialog(parent, CIcons.Question96, title, message);
@@ -320,15 +320,21 @@ public class Dialogs
 	{
 		if(f.exists())
 		{
-			int rv = choice
+			ChoiceDialog d = new ChoiceDialog
 			(
-				parent, 
+				parent,
 				TXT.get("Dialogs.file exists.title", "File Exists"),
-				TXT.get("Dialogs.file exists.message", "File {0} exists.  Do you want to overwrite it?", f),
-				new String[] { Menus.Cancel, Menus.Overwrite }
+				TXT.get("Dialogs.file exists.message", "File {0} exists.  Do you want to overwrite it?", f)
 			);
-			
-			return (rv == 1);
+			d.addButton(Menus.Overwrite, 1, Theme.alternativeButtonHighlight());
+			d.addButton(Menus.Cancel, 0, true);
+			int rv = d.openChoiceDialog();
+			switch(rv)
+			{
+			case 0:
+			case -1:
+				return false;
+			}
 		}
 		return true;
 	}
