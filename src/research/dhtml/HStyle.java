@@ -9,7 +9,9 @@ import java.awt.Color;
 public class HStyle
 {
 	public final String id;
-	private Color foreground;
+	// TODO or use hashmap
+	private Color backgroundColor;
+	private Color foregroundColor;
 	
 	
 	public HStyle(String id)
@@ -18,9 +20,16 @@ public class HStyle
 	}
 	
 	
-	public HStyle useForeground(Object c)
+	public HStyle backgroundColor(Object c)
 	{
-		foreground = JsUtil.parseColor(c);
+		backgroundColor = JsUtil.parseColor(c);
+		return this;
+	}
+	
+	
+	public HStyle foregroundColor(Object c)
+	{
+		foregroundColor = JsUtil.parseColor(c);
 		return this;
 	}
 
@@ -31,9 +40,14 @@ public class HStyle
 		sb.a(id);
 		sb.a(" {");
 		
-		if(foreground != null)
+		if(backgroundColor != null)
 		{
-			sb.a(" color:").a(HtmlTools.color(foreground)).a(";");
+			sb.a(" background:").a(HtmlTools.color(backgroundColor)).a(";");
+		}
+		
+		if(foregroundColor != null)
+		{
+			sb.a(" color:").a(HtmlTools.color(foregroundColor)).a(";");
 		}
 		
 		sb.a(" }").nl();

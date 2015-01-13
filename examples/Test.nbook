@@ -4,8 +4,8 @@
   "cells": [
     {
       "type": "js",
-      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').useForeground('red');\nd.text('code', 'code\\nsegment');\nd.block('comment').text('line one\\n').text('line two\\n');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".htm\");\nf.deleteOnExit();\nIO.write(d.toHtml(), f);\n//NET.inBrowser(\"file://\" + f);",
-      "sequence": 160,
+      "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').foregroundColor('red');\nd.style('comment').backgroundColor('#ffffdd');\nd.text('code', 'code\\nsegment');\nd.block('comment').text('line one\\n').text('line two\\n');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".htm\");\nf.deleteOnExit();\nIO.write(d.toHtml(), f);\n//NET.inBrowser(\"file://\" + f);",
+      "sequence": 162,
       "output": [
         {
           "type": "text",
