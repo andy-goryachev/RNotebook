@@ -208,6 +208,23 @@ public class FS
 	}
 	
 	
+	// sync src, target
+	// newSync() -> src, target, filter, listener, overwrite, includeEmptyDirs, failOnError, verbose? granularity
+	public String sync(Object source, Object target) throws Exception
+	{
+		File src = JsUtil.parseFile(source);
+		File tgt = JsUtil.parseFile(target);
+		
+		FileSyncTool t = new FileSyncTool();
+		t.setSource(src);
+		t.setTarget(tgt);
+		t.setGranularity(2000);
+		t.setIncludeEmptyDirs(true);
+		t.sync();
+		return t.getReport();
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("FS");
