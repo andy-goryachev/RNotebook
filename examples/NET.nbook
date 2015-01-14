@@ -8,12 +8,12 @@
     },
     {
       "type": "js",
-      "source": "NET",
-      "sequence": 127,
+      "source": "NET.help",
+      "sequence": 128,
       "output": [
         {
           "type": "text",
-          "text": "provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
+          "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
         }
       ]
     },

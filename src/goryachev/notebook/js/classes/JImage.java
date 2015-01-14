@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 public class JImage
 {
 	private BufferedImage image;
-	private transient Graphics2D graphics;
+	private transient Graphics2D graphics; // FIX builder
 	
 	
 	public JImage(BufferedImage im)
@@ -56,12 +56,6 @@ public class JImage
 		}
 	}
 	
-	
-	public String getClassName()
-	{
-		return "Image";
-	}
-
 
 	public BufferedImage getBufferedImage()
 	{

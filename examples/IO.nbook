@@ -12,12 +12,12 @@
     },
     {
       "type": "js",
-      "source": "IO",
-      "sequence": 126,
+      "source": "IO.help",
+      "sequence": 128,
       "output": [
         {
           "type": "text",
-          "text": "provides input/output functionality:\n   IO.loadImage(file) - loads image file\n   IO.loadTable(file) - loads table from CSV, XLS, or XLSX file"
+          "text": "IO provides input/output functionality:\n   IO.loadImage(file)   - loads image file\n   IO.loadTable(file)   - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()  - creates a table reader\n   IO.write(text, file) - writes text file"
         }
       ]
     },
@@ -35,7 +35,7 @@
     {
       "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 125,
+      "sequence": 129,
       "output": [
         {
           "type": "table",

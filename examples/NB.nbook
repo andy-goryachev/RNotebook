@@ -8,49 +8,41 @@
     },
     {
       "type": "js",
-      "source": "NB",
-      "sequence": 136,
+      "source": "NB.help",
+      "sequence": 137,
       "output": [
         {
           "type": "text",
-          "text": "provides operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+          "text": "NB provides operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
         }
       ]
     },
     {
       "type": "js",
       "source": "NB.display('text\\nstring');",
-      "sequence": 135,
+      "sequence": 138,
       "output": [
         {
           "type": "text",
           "text": "text\nstring"
-        },
-        {
-          "type": "text",
-          "text": null
         }
       ]
     },
     {
       "type": "js",
       "source": "NB.display(new JImage(100, 10, 'magenta'));",
-      "sequence": 132,
+      "sequence": 139,
       "output": [
         {
           "type": "image",
           "image": "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAKCAIAAADNfmwpAAAAKUlEQVR42u3QMQ0AAAwDoPo33Vnot4cEBaQpoyiQJUuWLFmyFMiS9e0AnFDImnYaXfgAAAAASUVORK5CYII="
-        },
-        {
-          "type": "text",
-          "text": null
         }
       ]
     },
     {
       "type": "js",
       "source": "NB.display(IO.loadTable('examples/small.csv'));",
-      "sequence": 131,
+      "sequence": 140,
       "output": [
         {
           "type": "table",
@@ -61,25 +53,21 @@
           ],
           "rows": [
             [
-              "Hugo",
-              "Farnsworth",
-              ""
+              "sHugo",
+              "sFarnsworth",
+              "s"
             ],
             [
-              "Bender",
-              "Rodrigues",
-              "High"
+              "sBender",
+              "sRodrigues",
+              "sHigh"
             ],
             [
-              "Leela",
-              "Turanga",
-              null
+              "sLeela",
+              "sTuranga",
+              "n"
             ]
           ]
-        },
-        {
-          "type": "text",
-          "text": null
         }
       ]
     }

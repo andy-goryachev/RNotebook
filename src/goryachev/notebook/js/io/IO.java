@@ -82,6 +82,7 @@ public class IO
 		h.a("IO provides input/output functionality:");
 		h.a("loadImage(file)", "loads image file");
 		h.a("loadTable(file)", "loads table from CSV, XLS, or XLSX file");
+		h.a("newTableReader()", "creates a table reader");
 		h.a("write(text, file)", "writes text file");
 		return h;
 	}

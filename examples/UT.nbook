@@ -8,19 +8,19 @@
     },
     {
       "type": "js",
-      "source": "UT",
-      "sequence": 133,
+      "source": "UT.help",
+      "sequence": 134,
       "output": [
         {
           "type": "text",
-          "text": "provides network-related functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
+          "text": "UT offers helpful utility functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parse(html)                         - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },
     {
       "type": "js",
       "source": "// programmatically generate an image\nim = new JImage(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tim.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tim.fillRect(im.width*i/sz, 0, im.width/sz, im.height);\n}",
-      "sequence": 131,
+      "sequence": 137,
       "output": [
         {
           "type": "image",
@@ -31,15 +31,11 @@
     {
       "type": "js",
       "source": "time = OS.time;\nUT.sleep(1234);\nprint(OS.time - time);",
-      "sequence": 132,
+      "sequence": 136,
       "output": [
         {
           "type": "text",
-          "text": "1231"
-        },
-        {
-          "type": "text",
-          "text": null
+          "text": "1234"
         }
       ]
     }

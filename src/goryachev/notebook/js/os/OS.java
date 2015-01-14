@@ -93,7 +93,7 @@ public class OS
 		h.a("cpuCount", "returns number of processor cores");
 		h.a("freeMem", "returns the amount of free memory in the JVM");
 		h.a("hostName", "returns the host name");
-		h.a("maxMem", "returns the maximum amount of memory that the JVM will attempt to use.");
+		h.a("maxMem", "returns the maximum amount of memory that the JVM will attempt to use");
 		h.a("name", "returns the OS name");
 		h.a("time", "current time in milliseconds");
 		h.a("totalMem", "returns the total amount of memory in the JVM");

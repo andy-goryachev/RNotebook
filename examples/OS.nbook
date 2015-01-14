@@ -8,12 +8,12 @@
     },
     {
       "type": "js",
-      "source": "OS",
-      "sequence": 130,
+      "source": "OS.help",
+      "sequence": 132,
       "output": [
         {
           "type": "text",
-          "text": "provides access to the following system functions:\n   OS.arch     - returns the OS architecture\n   OS.cpuCount - returns number of processor cores\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.hostName - returns the host name\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use.\n   OS.name     - returns the OS name\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used\n   OS.userName - returns the user name\n   OS.version  - returns the OS version"
+          "text": "OS provides access to the following system functions:\n   OS.arch     - returns the OS architecture\n   OS.cpuCount - returns number of processor cores\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.hostName - returns the host name\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use\n   OS.name     - returns the OS name\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used\n   OS.userName - returns the user name\n   OS.version  - returns the OS version"
         }
       ]
     },

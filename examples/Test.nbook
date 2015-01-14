@@ -48,14 +48,9 @@
     },
     {
       "type": "js",
-      "source": "UT.help",
-      "sequence": 145,
-      "output": [
-        {
-          "type": "text",
-          "text": "UT offers helpful utility functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parse(html)                         - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
-        }
-      ]
+      "source": "",
+      "sequence": 183,
+      "output": []
     },
     {
       "type": "js",

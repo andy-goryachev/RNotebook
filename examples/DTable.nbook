@@ -8,8 +8,8 @@
     },
     {
       "type": "js",
-      "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 108,
+      "source": "t = IO.loadTable('examples/small.csv')\nNB.display(t);\nprint(t.columnCount);\nprint(t.getColumnName(0));",
+      "sequence": 129,
       "output": [
         {
           "type": "table",
@@ -35,6 +35,10 @@
               "n"
             ]
           ]
+        },
+        {
+          "type": "text",
+          "text": "3\nFirst Name"
         }
       ]
     },
