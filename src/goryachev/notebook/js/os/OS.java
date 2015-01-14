@@ -2,6 +2,7 @@
 package goryachev.notebook.js.os;
 import goryachev.notebook.util.InlineHelp;
 import java.net.InetAddress;
+import org.mozilla.javascript.Scriptable;
 
 
 public class OS
@@ -83,7 +84,7 @@ public class OS
 		return "OS";
 	}
 	
-	
+
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("OS");

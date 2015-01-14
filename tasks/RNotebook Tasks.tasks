@@ -87,13 +87,6 @@
           "description": null
         },
         {
-          "id": "02E9EC915CFC75952C45D5B4BDEFF2B65126AC9E",
-          "title": "api doc",
-          "created": 1421178848187,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "2B6D195EE53763BBDE4A3B6FA2250DFCF33416EB",
           "title": "file sync and backup",
           "created": 1421178853718,
@@ -706,6 +699,13 @@
       "title": "jumps when inserting cell at the end of document",
       "created": 1420450735261,
       "completed": 1421026998112,
+      "description": null
+    },
+    {
+      "id": "02E9EC915CFC75952C45D5B4BDEFF2B65126AC9E",
+      "title": "api doc",
+      "created": 1421178848187,
+      "completed": 1421196734359,
       "description": null
     }
   ]
