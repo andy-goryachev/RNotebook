@@ -23,37 +23,43 @@ public class TestFileSync
 	{
 		//t("test/src", "test/dst", null, null);
 		
-		t("c:/Projects/", "H:/Test.Delete.FileSync", new FileFilter()
-		{
-			public boolean accept(File f)
+		t
+		(
+			"C:/Projects/",
+			"H:/Test.Delete.FileSync", 
+			new FileFilter()
 			{
-				if(f.isDirectory())
+				public boolean accept(File f)
 				{
-					return true;
+					if(f.isDirectory())
+					{
+						return true;
+					}
+					
+					String name = f.getName();
+				    return !TextTools.endsWithIgnoreCase(name, ".class");
 				}
-				
-				String name = f.getName();
-			    return !TextTools.endsWithIgnoreCase(name, ".class");
-			}
-		}, new FileSyncTool.Listener()
-		{
-			public void error(Throwable e)
+			}, 
+			new FileSyncTool.Listener()
 			{
-				e.printStackTrace();
+				public void error(Throwable e)
+				{
+					e.printStackTrace();
+				}
+	
+	
+				public void deleted(File f)
+				{
+					D.print(f);
+				}
+	
+	
+				public void copied(File f)
+				{
+					D.print(f);
+				}
 			}
-
-
-			public void deleted(File f)
-			{
-				D.print(f);
-			}
-
-
-			public void copied(File f)
-			{
-				D.print(f);
-			}
-		});
+		);
 	}
 
 

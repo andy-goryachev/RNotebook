@@ -7,7 +7,6 @@ import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.ContactSupport;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.dialogs.CheckForUpdatesDialog;
-import goryachev.notebook.licenses.OpenSourceLicenses;
 
 
 public class HelpMenu

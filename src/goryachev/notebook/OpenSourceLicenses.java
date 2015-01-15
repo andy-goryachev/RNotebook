@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.licenses;
+package goryachev.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
