@@ -108,7 +108,17 @@ public class FileTools
 		{
 			return true;
 		}
-
+		else if(isSystem(f))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	public static boolean isSystem(File f)
+	{
 		if(f.getName().startsWith("."))
 		{
 			return true;

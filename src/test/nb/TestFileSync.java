@@ -23,17 +23,13 @@ public class TestFileSync
 	{
 		//t("test/src", "test/dst", null, null);
 		
-		t("c:/Projects/RNotebook", "H:/Test.Delete.FileSync", new FileFilter()
+		t("c:/Projects/", "H:/Test.Delete.FileSync", new FileFilter()
 		{
 			public boolean accept(File f)
 			{
 				if(f.isDirectory())
 				{
 					return true;
-				}
-				else if(FileTools.isHiddenOrSystem(f))
-				{
-					return false;
 				}
 				
 				String name = f.getName();

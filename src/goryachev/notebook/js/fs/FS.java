@@ -219,7 +219,6 @@ public class FS
 		t.setSource(src);
 		t.setTarget(tgt);
 		t.setGranularity(2000);
-		t.setIncludeEmptyDirs(true);
 		t.sync();
 		return t.getReport();
 	}

@@ -2,11 +2,9 @@
 package goryachev.notebook.js.fs;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CMap;
-import goryachev.common.util.D;
 import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
-import goryachev.notebook.js.fs.FileSyncTool.Listener;
 import java.io.File;
 import java.io.FileFilter;
 import java.nio.file.Files;
@@ -30,7 +28,6 @@ public class FileSyncTool
 	private File source;
 	private File target;
 	private FileFilter filter;
-	private boolean includeEmptyDirs;
 	private int granularity;
 	private boolean ignoreFailures;
 	private SB warnings;
@@ -69,12 +66,6 @@ public class FileSyncTool
 	public void setGranularity(int ms)
 	{
 		granularity = ms;
-	}
-
-
-	public void setIncludeEmptyDirs(boolean on)
-	{
-		includeEmptyDirs = on;
 	}
 
 
@@ -255,7 +246,7 @@ public class FileSyncTool
 		}
 		
 		// sync the content
-		// TODO filter
+		
 		File[] sfs = (filter == null ? src.listFiles() : src.listFiles(filter));
 		
 		// FIX detect case-sensitivity and insensitivity
