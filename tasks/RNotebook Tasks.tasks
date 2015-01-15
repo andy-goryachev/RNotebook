@@ -107,13 +107,6 @@
           "created": 1420568321460,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "8B0E8F5D8D2F3F6D07101CA1598C3AA58613BC1D",
-          "title": "remove jedit, find out if syntax can be used",
-          "created": 1420774972718,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -713,6 +706,13 @@
       "title": "api doc",
       "created": 1421178848187,
       "completed": 1421196734359,
+      "description": null
+    },
+    {
+      "id": "8B0E8F5D8D2F3F6D07101CA1598C3AA58613BC1D",
+      "title": "remove jedit, find out if syntax can be used",
+      "created": 1420774972718,
+      "completed": 1421278475216,
       "description": null
     }
   ]

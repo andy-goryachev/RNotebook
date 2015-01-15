@@ -1,11 +1,14 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
 import goryachev.common.util.CKit;
-import goryachev.common.util.CUnique;
+import goryachev.common.util.CMap;
 import goryachev.common.util.D;
+import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 
 // https://ant.apache.org/manual/Tasks/sync.html
@@ -108,117 +111,156 @@ public class FileSyncTool
 				throw new UserException("Target is not a directory: " + target);
 			}
 		}
-		else
-		{
-			if(!target.mkdirs())
-			{
-				throw new UserException("Failed to create the target directory: " + target);
-			}
-		}
 		
 		syncPrivate(source, target);
 	}
 
 
-	protected void syncPrivate(File src, File dst)
+	protected void syncPrivate(File src, File dst) throws Exception
 	{
-//		CKit.checkCancelled();
-//		
-//		if(src.isFile())
-//		{
-//			if(dst.exists())
-//			{
-//				if(dst.isFile())
-//				{
-//					long diff = Math.abs(src.lastModified() - dst.lastModified());
-//					if(diff > granularity)
-//					{
-//						// overwrite!
-//						copyFile(src, dst);
-//					}
-//					
-//					// done with the file
-//					return;
-//				}
-//				
-//				delete(dst);
-//				copyFile(src, dst);
-//			}
-//			syncFile(src, dst);
-//		}
-//		else if(src.isDirectory())
-//		{
-//			boolean create;
-//			if(dst.exists())
-//			{
-//				if(!dst.isDirectory())
-//				{
-//					if(dst.delete() == false)
-//					{
-//						warn("unable to delete target " + dst);
-//					}
-//					
-//					create = true;
-//				}
-//				else
-//				{
-//					create = false;
-//				}
-//			}
-//			else
-//			{
-//				create = true;
-//			}
-//			
-//			if(create)
-//			{
-//				if(dst.mkdirs() == false)
-//				{
-//					warn("unable to create target directory " + dst);
-//				}
-//			}
-//			
-//			// sync folders
-//			syncFolders(src, dst);
-//		}
-//		else
-//		{
-//			warn("don't know how to sync " + src);
-//		}
-	}
-	
-	
-	protected void syncFile(File src, File dst)
-	{
+		CKit.checkCancelled();
 		
+		if(src.isFile())
+		{
+			syncFile(src, dst);
+		}
+		else if(src.isDirectory())
+		{
+			syncDirectory(src, dst);
+		}
+		else
+		{
+			warn("don't know how to sync " + src);
+		}
 	}
 	
 	
-//	protected void syncFolders(File src, File dst)
-//	{
-//		// TODO filter
-//		File[] sfs = src.listFiles();
-//		
-//		// FIX detect case-sensitivity and insensitivity
-//		
-//		File[] dfs = dst.listFiles();
-//		CUnique<File> udf = new CUnique(dfs);
-//		
-//		if(sfs != null)
-//		{
-//			for(File sf: sfs)
-//			{
-//				// FIX by name
-//				File tf = udf.remove(sf);
-//				if(tf == null)
-//				{
-//					// create
-//				}
-//				else
-//				{
-//					syncPrivate(sf, tf); 
-//				}
-//			}
-//		}
-//	}
+	protected boolean isUnchanged(File src, File dst)
+	{
+		long diff = Math.abs(src.lastModified() - dst.lastModified());
+		if(diff > granularity)
+		{
+			return false;
+		}
+		
+		if(src.length() != dst.length())
+		{
+			return false;
+		}
+		
+		// TODO also check attributes?
+		
+		return true;
+	}
+	
+	
+	protected void syncFile(File src, File dst) throws Exception
+	{
+		if(dst.exists())
+		{
+			if(dst.isFile())
+			{
+				if(isUnchanged(src, dst))
+				{
+					// no need to change
+					return;
+				}
+			}
+			else
+			{
+				if(!FileTools.deleteRecursively(dst))
+				{
+					warn("unable to delete " + dst);
+					return;
+				}
+			}
+		}
+		
+		// override and copy attributes
+		// FIX does not allow progress listener or interruption
+		try
+		{
+			Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+		}
+		catch(Exception e)
+		{
+			warn("failed to copy file " + src + " to " + dst);
+		}
+	}
+	
+	
+	protected void syncDirectory(File src, File dst) throws Exception
+	{
+		boolean create;
+		if(dst.exists())
+		{
+			if(!dst.isDirectory())
+			{
+				if(!FileTools.deleteRecursively(dst))
+				{
+					warn("unable to delete target " + dst);
+				}
+				
+				create = true;
+			}
+			else
+			{
+				create = false;
+			}
+		}
+		else
+		{
+			create = true;
+		}
+		
+		if(create)
+		{
+			if(!dst.mkdirs())
+			{
+				warn("unable to create target directory " + dst);
+			}
+		}
+		
+		// sync the content
+		// TODO filter
+		File[] sfs = src.listFiles();
+		
+		// FIX detect case-sensitivity and insensitivity
+		
+		File[] dfs = dst.listFiles();
+		CMap<String,File> dFiles = new CMap();
+		if(dfs != null)
+		{
+			for(File f: dfs)
+			{
+				String name = f.getName();
+				dFiles.put(name, f);
+			}
+		}
+		
+		if(sfs != null)
+		{
+			for(File sf: sfs)
+			{
+				String name = sf.getName();
+				File tf = dFiles.remove(name);
+				if(tf == null)
+				{
+					syncPrivate(sf, new File(dst, name));
+				}
+				else
+				{
+					syncPrivate(sf, tf); 
+				}
+			}
+			
+			for(File f: dFiles.values())
+			{
+				if(!FileTools.deleteRecursively(f))
+				{
+					warn("unable to delete destination: " + f);
+				}
+			}
+		}
+	}
 }

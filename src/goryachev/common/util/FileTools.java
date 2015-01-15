@@ -573,13 +573,12 @@ public class FileTools
 	}
 	
 
-	public static void deleteRecursively(File file) throws Exception
+	/** deletes file or folder, recursing into subdirectories when necessary.  returns true if operation succeeded in deleting. */
+	public static boolean deleteRecursively(File file) throws Exception
 	{
-		if(Thread.currentThread().isInterrupted())
-		{
-			throw new InterruptedException();
-		}
+		CKit.checkCancelled();
 		
+		boolean result = true;
 		if(file.exists())
 		{
 			if(file.isDirectory())
@@ -589,13 +588,14 @@ public class FileTools
 				{
 					for(File f: fs)
 					{
-						deleteRecursively(f);
+						result &= deleteRecursively(f);
 					}
 				}
 			}
 
-			file.delete();
+			result &= file.delete();
 		}
+		return result;
 	}
 	
 	
