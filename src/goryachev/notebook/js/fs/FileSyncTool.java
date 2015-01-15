@@ -6,7 +6,9 @@ import goryachev.common.util.D;
 import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
+import goryachev.notebook.js.fs.FileSyncTool.Listener;
 import java.io.File;
+import java.io.FileFilter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -14,12 +16,25 @@ import java.nio.file.StandardCopyOption;
 // https://ant.apache.org/manual/Tasks/sync.html
 public class FileSyncTool
 {
+	public static interface Listener
+	{
+		public void deleted(File f);
+		
+		public void copied(File f);
+		
+		public void error(Throwable e);
+	}
+	
+	//
+	
 	private File source;
 	private File target;
+	private FileFilter filter;
 	private boolean includeEmptyDirs;
 	private int granularity;
 	private boolean ignoreFailures;
 	private SB warnings;
+	private Listener listener;
 	
 	
 	public FileSyncTool()
@@ -39,16 +54,15 @@ public class FileSyncTool
     }
 	
 	
-	public void setFileFilter(Object ff)
+	public void setFileFilter(FileFilter ff)
 	{
-		// TODO
+		filter = ff;
 	}
 	
 	
-	public void setListener(Object li)
+	public void setListener(Listener li)
 	{
-		// TODO
-		D.print(li);
+		listener = li;
 	}
 	
 	
@@ -168,7 +182,14 @@ public class FileSyncTool
 			}
 			else
 			{
-				if(!FileTools.deleteRecursively(dst))
+				if(FileTools.deleteRecursively(dst))
+				{
+					if(listener != null)
+					{
+						listener.deleted(dst);
+					}
+				}
+				else
 				{
 					warn("unable to delete " + dst);
 					return;
@@ -181,6 +202,11 @@ public class FileSyncTool
 		try
 		{
 			Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+			
+			if(listener != null)
+			{
+				listener.copied(dst);
+			}
 		}
 		catch(Exception e)
 		{
@@ -196,7 +222,14 @@ public class FileSyncTool
 		{
 			if(!dst.isDirectory())
 			{
-				if(!FileTools.deleteRecursively(dst))
+				if(FileTools.deleteRecursively(dst))
+				{
+					if(listener != null)
+					{
+						listener.deleted(dst);
+					}
+				}
+				else
 				{
 					warn("unable to delete target " + dst);
 				}
@@ -223,7 +256,7 @@ public class FileSyncTool
 		
 		// sync the content
 		// TODO filter
-		File[] sfs = src.listFiles();
+		File[] sfs = (filter == null ? src.listFiles() : src.listFiles(filter));
 		
 		// FIX detect case-sensitivity and insensitivity
 		
@@ -256,7 +289,14 @@ public class FileSyncTool
 			
 			for(File f: dFiles.values())
 			{
-				if(!FileTools.deleteRecursively(f))
+				if(FileTools.deleteRecursively(f))
+				{
+					if(listener != null)
+					{
+						listener.deleted(f);
+					}
+				}
+				else
 				{
 					warn("unable to delete destination: " + f);
 				}

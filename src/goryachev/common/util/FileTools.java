@@ -58,12 +58,15 @@ public class FileTools
 	{
 		"cvs",
 		".svn",
-		"_svn"
+		"_svn",
+		".git",
+		".TemporaryItems"
 	};
 
 	public static final String[] SYSTEM_FILES =
 	{
-		"thumbs.db"
+		"thumbs.db",
+		".DS_Store"
 	};
 
 	//

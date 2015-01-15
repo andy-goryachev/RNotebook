@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileFilter;
 
 public class CExtensionFileFilter
 	extends FileFilter
+	implements java.io.FileFilter
 {
 	private CList<String> extensions = new CList();
 	private String description;
