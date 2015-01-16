@@ -5,9 +5,9 @@ import goryachev.common.test.Test;
 import goryachev.common.util.D;
 import goryachev.common.util.FileTools;
 import goryachev.common.util.TextTools;
-import goryachev.notebook.js.fs.FileSyncTool;
 import java.io.File;
 import java.io.FileFilter;
+import research.tools.filesync.FileSyncTool;
 
 
 public class TestFileSync

@@ -208,20 +208,21 @@ public class FS
 	}
 	
 	
-	// sync src, target
-	// newSync() -> src, target, filter, listener, overwrite, includeEmptyDirs, failOnError, verbose? granularity
 	public String sync(Object source, Object target) throws Exception
 	{
-		File src = JsUtil.parseFile(source);
-		File tgt = JsUtil.parseFile(target);
-		
-		FileSyncTool t = new FileSyncTool();
-		t.setSource(src);
-		t.setTarget(tgt);
+		JsFileSyncTool t = new JsFileSyncTool();
+		t.setSource(source);
+		t.setTarget(target);
 		t.setGranularity(2000);
 		t.sync();
 		return t.getReport();
 	}
+	
+	
+//	public JsFileSyncTool newSync()
+//	{
+//		return new JsFileSyncTool();
+//	}
 	
 	
 	public InlineHelp getHelp()
@@ -237,6 +238,7 @@ public class FS
 		h.a("lastModified(file)", "returns the file timestamp");
 		h.a("ls([path],...)", "lists files");
 		h.a("pwd()", "returns the current directory");
+		h.a("sync(source, target)", "synchronizes target with the source directory");
 		h.a("tempFile(prefix, suffix)", "creates a temporary file");
 		h.a("totalSpace, getTotalSpace(path)", "returns the amount of total space");
 		h.a("touch(file)", "updates the timestamp of a file, creating it if necessary");
