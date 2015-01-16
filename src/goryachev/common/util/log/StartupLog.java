@@ -43,10 +43,8 @@ public class StartupLog
 		{
 			extractUIDefaults();
 		}
-		catch(Exception e)
-		{
-			// ignore
-		}
+		catch(Throwable ignore)
+		{ }
 		
 		String s = sb.toString();
 		sb = null;
