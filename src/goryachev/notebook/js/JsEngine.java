@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.ui.BackgroundThread;
+import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
@@ -20,8 +21,8 @@ public class JsEngine
 	private AtomicInteger sequence = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
-	private CList<Object> results; // FIX show immediately
-	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
+	protected static final ThreadLocal<JsEngine> engineRef = new ThreadLocal();
+	protected static final ThreadLocal<CodePanel> codePanelRef = new ThreadLocal();
 	
 	
 	public JsEngine(NotebookPanel np)
@@ -62,21 +63,44 @@ public class JsEngine
 	
 	public synchronized void display(Object x)
 	{
-		// FIX show immediately?
+		Object v = Results.copyValue(x);
+		CodePanel p = codePanelRef.get();
+		displayPrivate(p, v);
+	}
+	
+	
+	protected void displayPrivate(final CodePanel p, final Object v)
+	{
+		// make sure to show text logged so far
+		final String text;
 		if(log.isNotEmpty())
 		{
-			results.add(log.getAndClear());
+			text = log.getAndClear();
 		}
-		
-		Object v = Results.copyValue(x);
-		results.add(v);
+		else
+		{
+			text = null;
+		}
+
+		UI.inEDTW(new Runnable()
+		{
+			public void run()
+			{
+				if(text != null)
+				{
+					p.addResult(text);
+				}
+				
+				p.addResult(v);
+			}
+		});
 	}
 	
 	
 	public void execute(final CodePanel p)
 	{
-		p.setRunning();
-		results = new CList();
+		p.clearResult();
+		p.setRunning(true);
 
 		final String script = p.getText();
 
@@ -91,7 +115,8 @@ public class JsEngine
 				
 				try
 				{
-					engine.set(JsEngine.this);
+					engineRef.set(JsEngine.this);
+					codePanelRef.set(p);
 					
 					// "line " produces an error message like "line #5"
 					Object rv = cx.evaluateString(scope(cx), script, "line ", 1, null);
@@ -99,6 +124,7 @@ public class JsEngine
 				}
 				finally
 				{
+					codePanelRef.set(null);
 					Context.exit();
 				}
 			}
@@ -110,7 +136,7 @@ public class JsEngine
 
 			public void onError(Throwable e)
 			{
-				display(e);
+				displayPrivate(p, new JsError(JsUtil.decodeException(e)));
 				finished(p);
 			}
 		};
@@ -123,7 +149,7 @@ public class JsEngine
 		thread = null;
 		
 		int count = sequence.getAndIncrement();  
-		p.setResult(count, results);
+		p.setFinished(count);
 	}
 	
 	
@@ -151,6 +177,6 @@ public class JsEngine
 	
 	public static JsEngine get()
 	{
-		return engine.get();
+		return engineRef.get();
 	}
 }

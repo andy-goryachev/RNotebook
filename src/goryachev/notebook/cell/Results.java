@@ -89,6 +89,11 @@ public class Results
 			String text = ((JsError)x).error;
 			return createTextViewer(p, text, Styles.errorColor);
 		}
+//		else if(x instanceof Throwable)
+//		{
+//			String text = JsUtil.decodeException((Throwable)x);
+//			return createTextViewer(p, text, Styles.errorColor);
+//		}
 		else if(x instanceof DTable)
 		{
 			return new DTableViewer((DTable)x, p.handler);

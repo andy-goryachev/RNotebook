@@ -35,6 +35,8 @@ public class CodePanel
 	public final JLabel inField;
 	public final JLabel marginField;
 	private int sequence;
+	private boolean error;
+	private boolean running;
 	private CList<Object> results;
 	private CList<JComponent> resultComponents;
 	private static CBorder BORDER = new CBorder(2, 4);
@@ -180,11 +182,10 @@ public class CodePanel
 	}
 
 
-	public void setRunning()
+	public void setRunning(boolean on)
 	{
-		setMargin("...", false);
-		
-		// TODO clear results or show animation
+		running = on;
+		updateMargin();
 	}
 	
 	
@@ -203,51 +204,95 @@ public class CodePanel
 			{
 				remove(c);
 			}
+			resultComponents = null;
 		}
 		
-		UI.validateAndRepaint(np);
+		results = null;
+		error = false;
+		updateMargin();
 		
+		UI.validateAndRepaint(np);
 		np.setModified(true);
 		np.updateActions();
+	}
+	
+	
+	protected void updateMargin()
+	{
+		if(running)
+		{
+			setMargin("...", false);
+		}
+		else
+		{
+			setMargin(error ? "ERROR" : "=", error);
+		}
+	}
+	
+	
+	public void setSequence(int seq)
+	{
+		this.sequence = seq;
+		inField.setText("In (" + (seq <= 0 ? "*" : seq) + "):");		
+	}
+	
+	
+	public void setFinished(int seq)
+	{
+		setRunning(false);
+		setSequence(seq);
+		
+		UI.validateAndRepaint(np);
+		np.setModified(true);
+		np.updateActions();
+	}
+	
+	
+	public void addResult(Object v)
+	{
+		addResultPrivate(v);
+		updateMargin();
+		
+		UI.validateAndRepaint(np);
+		np.setModified(true);
+		np.updateActions();
+	}
+	
+	
+	protected void addResultPrivate(Object v)
+	{
+		if(results == null)
+		{
+			results = new CList();
+		}
+		
+		results.add(v);
+		
+		if(v instanceof JsError)
+		{
+			error = true;
+		}
+		
+		JComponent c = Results.createViewer(this, v);
+		if(c != null)
+		{
+			if(resultComponents == null)
+			{
+				resultComponents = new CList();
+			}
+			
+			add(c);
+			resultComponents.add(c);
+		}
 	}
 	
 	
 	public void setResult(int seq, CList<Object> results)
 	{
 		// sequence
-		this.sequence = seq;
-		inField.setText("In (" + (seq <= 0 ? "*" : seq) + "):");
+		setSequence(seq);
 		
 		// results
-		this.results = results;
-		boolean error = false;
-		CList<JComponent> cs = null;
-		
-		if(results != null)
-		{
-			for(Object rv: results)
-			{
-				if(rv instanceof JsError)
-				{
-					error = true;
-				}
-				
-				JComponent c = Results.createViewer(this, rv);
-				if(c != null)
-				{
-					if(cs == null)
-					{
-						cs = new CList();
-					}
-					cs.add(c);
-				}
-			}
-		}
-		
-		// margin
-		setMargin(error ? "ERROR" : "=", error);
-		
-		// components
 		if(resultComponents != null)
 		{
 			for(JComponent c: resultComponents)
@@ -255,19 +300,19 @@ public class CodePanel
 				remove(c);
 			}
 		}
-		
-		resultComponents = cs;
-		
-		if(cs != null)
+
+		if(results != null)
 		{
-			for(JComponent c: cs)
+			for(Object rv: results)
 			{
-				add(c);
+				addResultPrivate(rv);
 			}
 		}
 		
-		UI.validateAndRepaint(np);
+		// margin
+		updateMargin();
 		
+		UI.validateAndRepaint(np);
 		np.setModified(true);
 		np.updateActions();
 	}
