@@ -44,7 +44,7 @@ public class UT
 		h.a("UT offers helpful utility functions:");
 		//
 		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
-		h.a("parse(html)", "parse HTML document");
+		h.a("parseHtml(html)", "parse HTML document");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
 		return h;
 	}

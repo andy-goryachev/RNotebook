@@ -195,6 +195,23 @@ public class CodePanel
 	}
 	
 	
+	public void clearResult()
+	{
+		if(resultComponents != null)
+		{
+			for(JComponent c: resultComponents)
+			{
+				remove(c);
+			}
+		}
+		
+		UI.validateAndRepaint(np);
+		
+		np.setModified(true);
+		np.updateActions();
+	}
+	
+	
 	public void setResult(int seq, CList<Object> results)
 	{
 		// sequence
@@ -249,7 +266,7 @@ public class CodePanel
 			}
 		}
 		
-		UI.validateAndRepaint(this);
+		UI.validateAndRepaint(np);
 		
 		np.setModified(true);
 		np.updateActions();
@@ -280,6 +297,7 @@ public class CodePanel
 			m.add(new CMenuItem(NotebookIcons.Start, "Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
 			//m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 			m.add(new CMenuItem("Run in Debugger", CAction.TODO));
+			m.add(new CMenuItem("Clear Result", np.clearResultsAction));
 		}
 		
 		addCellMenus(m, np);

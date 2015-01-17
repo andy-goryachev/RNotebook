@@ -23,6 +23,7 @@ import research.dhtml.HDocument;
 public class NotebookPanel
 	extends CPanel
 {
+	public final CAction clearResultsAction = new CAction() { public void action() { actionClearResults(); } };
 	public final CAction copyAction = new CAction() { public void action() { actionCopy(); } };
 	public final CAction ctrlEnterAction = new CAction() { public void action() { actionCtrlEnter(); } };
 	public final CAction cutAction = new CAction() { public void action() { actionCut(); } };
@@ -414,6 +415,15 @@ public class NotebookPanel
 		else
 		{
 			actionSelect(1);
+		}
+	}
+	
+	
+	protected void actionClearResults()
+	{
+		if(activeCell instanceof CodePanel)
+		{
+			((CodePanel)activeCell).clearResult();
 		}
 	}
 	

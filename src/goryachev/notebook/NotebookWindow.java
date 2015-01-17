@@ -167,7 +167,7 @@ public class NotebookWindow
 		t.add(new TButton(NotebookIcons.InsertAbove, "Insert Cell Above", true, np.insertCellAboveAction));
 		t.add(new TButton(NotebookIcons.InsertBelow, "Insert Cell Below", true, np.insertCellBelowAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Start, "Run Cell", true, np.runCellAction));
+		t.add(new TButton(NotebookIcons.Start, "Run Cell in Place", true, np.runInPlaceAction));
 		t.add(new TButton(NotebookIcons.Stop, "Interrupt", true, np.interruptAction));
 		t.space();
 		t.add(np.typeField);
@@ -445,21 +445,20 @@ public class NotebookWindow
 		if(isModified())
 		{
 			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
-			d.addButton(Menus.Save, 0, true);
 			d.addButton(Menus.Cancel, 1);
-			d.addButton(Menus.DiscardChanges, 2);
+			d.addButton(Menus.DiscardChanges, 2, Theme.alternativeButtonHighlight());
+			d.addButton(Menus.Save, 0, true);
 			int rv = d.openChoiceDialog();
 			switch(rv)
 			{
 			case 0:
 				actionSave();
 				break;
-			case 1:
-				return true;
 			case 2:
-				break;
-			default:
 				return false;
+			case 1:
+			default:
+				return true;
 			}
 		}
 		return false;

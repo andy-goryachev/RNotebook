@@ -1,0 +1,25 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "h1",
+      "source": "Backup My Files"
+    },
+    {
+      "type": "text",
+      "source": "This script makes a snapshot of the most critical directories to another disk.\nRun this script at the end of each day."
+    },
+    {
+      "type": "js",
+      "source": "// TODO some kind of log component (table?)\n// TODO single operation, ignore errors\nFS.sync('c:/Projects', 'Q:/Backup/Sync.2/Projects');\nFS.sync('c:/A', 'Q:/Backup/Sync.2/A');\nFS.sync('c:/Goryachev', 'Q:/Backup/Sync.2/Goryachev');",
+      "sequence": 3,
+      "output": [
+        {
+          "type": "error",
+          "text": "UserException: failed to copy file c:\\Goryachev\\Storage\\Firefox\\Andy\\parent.lock to Q:\\Backup\\Sync.2\\Goryachev\\Storage\\Firefox\\Andy\\parent.lock"
+        }
+      ]
+    }
+  ]
+}

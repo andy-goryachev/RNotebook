@@ -211,18 +211,20 @@ public class FS
 	public String sync(Object source, Object target) throws Exception
 	{
 		JsFileSyncTool t = new JsFileSyncTool();
+		// FIX add pair
 		t.setSource(source);
 		t.setTarget(target);
 		t.setGranularity(2000);
+		t.setIgnoreFailures(true);
 		t.sync();
 		return t.getReport();
 	}
 	
 	
-//	public JsFileSyncTool newSync()
-//	{
-//		return new JsFileSyncTool();
-//	}
+	public JsFileSyncTool newSync()
+	{
+		return new JsFileSyncTool();
+	}
 	
 	
 	public InlineHelp getHelp()
@@ -237,8 +239,9 @@ public class FS
 		h.a("isHidden(path)", "tests whether the file denoted by this path is a hidden file"); 
 		h.a("lastModified(file)", "returns the file timestamp");
 		h.a("ls([path],...)", "lists files");
+		h.a("newSync()", "returns new file synchronization tool");
 		h.a("pwd()", "returns the current directory");
-		h.a("sync(source, target)", "synchronizes target with the source directory");
+		h.a("sync(source, target)", "synchronizes target with the source directory, ignoring failures");
 		h.a("tempFile(prefix, suffix)", "creates a temporary file");
 		h.a("totalSpace, getTotalSpace(path)", "returns the amount of total space");
 		h.a("touch(file)", "updates the timestamp of a file, creating it if necessary");

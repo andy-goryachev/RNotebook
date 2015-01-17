@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "FS.help",
-      "sequence": 132,
+      "sequence": 134,
       "output": [
         {
           "type": "text",
-          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.pwd()                           - returns the current directory\n   FS.sync(source, target)            - synchronizes target with the source directory\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
+          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.newSync()                       - returns new file synchronization tool\n   FS.pwd()                           - returns the current directory\n   FS.sync(source, target)            - synchronizes target with the source directory, ignoring failures\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
         }
       ]
     },
