@@ -20,7 +20,7 @@ public class JsEngine
 	private AtomicInteger sequence = new AtomicInteger(1);
 	private BackgroundThread thread;
 	private SB log = new SB();
-	private CList<Object> results;
+	private CList<Object> results; // FIX show immediately
 	protected static final ThreadLocal<JsEngine> engine = new ThreadLocal();
 	
 	
@@ -62,6 +62,7 @@ public class JsEngine
 	
 	public synchronized void display(Object x)
 	{
+		// FIX show immediately?
 		if(log.isNotEmpty())
 		{
 			results.add(log.getAndClear());

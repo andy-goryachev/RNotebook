@@ -13,6 +13,7 @@ import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import org.mozilla.javascript.Undefined;
@@ -136,6 +137,10 @@ public class DataBookJsonWriter
 			else if(x instanceof Undefined)
 			{
 				// do not write out
+			}
+			else if(x instanceof Component)
+			{
+				// do not write
 			}
 			else 
 			{

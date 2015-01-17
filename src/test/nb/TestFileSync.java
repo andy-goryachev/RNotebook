@@ -42,21 +42,26 @@ public class TestFileSync
 			}, 
 			new FileSyncTool.Listener()
 			{
-				public void error(Throwable e)
+				public void handleSyncFileError(Throwable e)
 				{
 					e.printStackTrace();
 				}
 	
 	
-				public void deleted(File f)
+				public void handleSyncFileDeleted(File f)
 				{
 					D.print(f);
 				}
 	
 	
-				public void copied(File f)
+				public void handleSyncFileCopied(File f)
 				{
 					D.print(f);
+				}
+	
+	
+				public void handleSyncCurrentSourceFile(File f)
+				{
 				}
 			}
 		);

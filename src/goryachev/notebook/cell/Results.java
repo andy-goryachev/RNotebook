@@ -54,6 +54,10 @@ public class Results
 		{
 			return x;
 		}
+		else if(x instanceof JComponent)
+		{
+			return x;
+		}
 		else if(x != null)
 		{
 			return x.toString();
@@ -70,7 +74,11 @@ public class Results
 	 */
 	public static JComponent createViewer(CodePanel p, Object x)
 	{
-		if(x instanceof BufferedImage)
+		if(x == null)
+		{
+			return createTextViewer(p, "null", Styles.numberColor);
+		}
+		else if(x instanceof BufferedImage)
 		{
 			JImageViewer v = new JImageViewer((BufferedImage)x);
 			v.addMouseListener(p.handler);
@@ -94,9 +102,9 @@ public class Results
 			// do not show undefined value
 			return null;
 		}
-		else if(x == null)
+		else if(x instanceof JComponent)
 		{
-			return createTextViewer(p, "null", Styles.numberColor);
+			return (JComponent)x;
 		}
 		else
 		{

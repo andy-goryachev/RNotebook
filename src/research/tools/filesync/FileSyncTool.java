@@ -16,11 +16,13 @@ public class FileSyncTool
 {
 	public static interface Listener
 	{
-		public void deleted(File f);
+		public void handleSyncCurrentSourceFile(File f);
 		
-		public void copied(File f);
+		public void handleSyncFileDeleted(File f);
 		
-		public void error(Throwable e);
+		public void handleSyncFileCopied(File f);
+		
+		public void handleSyncFileError(Throwable e);
 	}
 	
 	//
@@ -125,6 +127,11 @@ public class FileSyncTool
 	{
 		CKit.checkCancelled();
 		
+		if(listener != null)
+		{
+			listener.handleSyncCurrentSourceFile(src);
+		}
+		
 		if(src.isFile())
 		{
 			syncFile(src, dst);
@@ -177,7 +184,7 @@ public class FileSyncTool
 				{
 					if(listener != null)
 					{
-						listener.deleted(dst);
+						listener.handleSyncFileDeleted(dst);
 					}
 				}
 				else
@@ -196,7 +203,7 @@ public class FileSyncTool
 			
 			if(listener != null)
 			{
-				listener.copied(dst);
+				listener.handleSyncFileCopied(dst);
 			}
 		}
 		catch(Exception e)
@@ -217,7 +224,7 @@ public class FileSyncTool
 				{
 					if(listener != null)
 					{
-						listener.deleted(dst);
+						listener.handleSyncFileDeleted(dst);
 					}
 				}
 				else
@@ -284,7 +291,7 @@ public class FileSyncTool
 				{
 					if(listener != null)
 					{
-						listener.deleted(f);
+						listener.handleSyncFileDeleted(f);
 					}
 				}
 				else

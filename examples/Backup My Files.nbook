@@ -12,13 +12,21 @@
     },
     {
       "type": "js",
-      "source": "// TODO some kind of log component (table?)\n// TODO single operation, ignore errors\nFS.sync('c:/Projects', 'Q:/Backup/Sync.2/Projects');\nFS.sync('c:/A', 'Q:/Backup/Sync.2/A');\nFS.sync('c:/Goryachev', 'Q:/Backup/Sync.2/Goryachev');",
-      "sequence": 3,
+      "source": "// TODO single operation, ignore errors\nFS.sync('c:/Projects', 'Q:/Backup/Sync.2/Projects');\nFS.sync('c:/A', 'Q:/Backup/Sync.2/A');\nFS.sync('c:/Goryachev', 'Q:/Backup/Sync.2/Goryachev');",
+      "sequence": 4,
       "output": [
         {
           "type": "error",
-          "text": "UserException: failed to copy file c:\\Goryachev\\Storage\\Firefox\\Andy\\parent.lock to Q:\\Backup\\Sync.2\\Goryachev\\Storage\\Firefox\\Andy\\parent.lock"
+          "text": "CancelledException"
         }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "s = FS.newSync();\nNB.display(s.gui);\ns.setIgnoreFailures(true);\ns.setSource('c:/Goryachev');\ns.setTarget('Q:/Backup/Sync.2/Goryachev');\ns.sync();",
+      "sequence": 17,
+      "output": [
+        {}
       ]
     }
   ]

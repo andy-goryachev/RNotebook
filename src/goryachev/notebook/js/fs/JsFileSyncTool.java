@@ -1,14 +1,17 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
+import goryachev.common.ui.UI;
 import goryachev.notebook.js.JsUtil;
 import java.io.File;
 import java.io.FileFilter;
+import javax.swing.JComponent;
 import research.tools.filesync.FileSyncTool;
 
 
 public class JsFileSyncTool
 {
 	private FileSyncTool tool;
+	protected FileSyncToolUI ui;
 	
 	
 	public JsFileSyncTool()
@@ -23,6 +26,23 @@ public class JsFileSyncTool
 			tool = new FileSyncTool();
 		}
 		return tool;
+	}
+	
+	
+	public JComponent getGui()
+	{
+		if(ui == null)
+		{
+			UI.inEDTW(new Runnable()
+			{
+				public void run()
+				{
+					ui = new FileSyncToolUI();
+					tool().setListener(ui);
+				}
+			});
+		}
+		return ui;
 	}
 	
 	

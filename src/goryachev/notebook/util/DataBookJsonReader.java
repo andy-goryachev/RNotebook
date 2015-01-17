@@ -122,11 +122,14 @@ public class DataBookJsonReader
 		while(inArray())
 		{
 			Object r = readResult();
-			if(results == null)
+			if(r != null)
 			{
-				results = new CList();
+				if(results == null)
+				{
+					results = new CList();
+				}
+				results.add(r);
 			}
-			results.add(r);
 		}
 		endArray();
 		
@@ -201,7 +204,11 @@ public class DataBookJsonReader
 		endObject();
 		
 		// result
-		if(Schema.RESULT_IMAGE.equals(type))
+		if(type == null)
+		{
+			return null;
+		}
+		else if(Schema.RESULT_IMAGE.equals(type))
 		{
 			return ImageTools.read(image);
 		}

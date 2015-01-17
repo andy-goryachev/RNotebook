@@ -44,6 +44,10 @@ public class JsUtil
 			{
 				return err.getClass().getSimpleName() + ": " + err.getMessage();
 			}
+			else if(e instanceof CancelledException)
+			{
+				return "Interrupted";
+			}
 			else
 			{
 				String msg = e.getMessage();
@@ -56,6 +60,10 @@ public class JsUtil
 					return e.getClass().getSimpleName();
 				}
 			}
+		}
+		else if(err instanceof UserException)
+		{
+			return err.getMessage();
 		}
 		
 		return CKit.stackTrace(err);
