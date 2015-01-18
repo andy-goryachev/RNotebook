@@ -16,9 +16,14 @@ public class FileSyncTool
 {
 	public static interface Listener
 	{
+		/** when sync process starts and ends */
 		public void handleSyncRunning(FileSyncTool parent, boolean on);
 		
-		public void handleSyncFileError(File src, File dst, String err);
+		/** when sync process target directory changes */
+		public void handleSyncTarget(File f);
+		
+		/** when an error is encountered */
+		public void handleSyncWarning(File src, File dst, String err);
 	}
 	
 	//
@@ -48,6 +53,7 @@ public class FileSyncTool
 	private RFileFilter commonFilter;
 	private int granularity;
 	private boolean ignoreFailures;
+	@Deprecated
 	private SB warnings; // FIX kill
 	private Listener listener = createEmptyListener();
 	// info
@@ -80,7 +86,8 @@ public class FileSyncTool
 		return new Listener()
 		{
 			public void handleSyncRunning(FileSyncTool parent, boolean on) { }
-			public void handleSyncFileError(File src, File dst, String err) { }
+			public void handleSyncWarning(File src, File dst, String err) { }
+			public void handleSyncTarget(File f) { }
 		};
 	}
 	
@@ -148,7 +155,7 @@ public class FileSyncTool
 	}
 
 
-	// FIX kill
+	@Deprecated // FIX kill
 	public String getReport()
 	{
 		return warnings == null ? "" : warnings.toString();
@@ -157,7 +164,7 @@ public class FileSyncTool
 	
 	protected void warn(File src, File dst, String msg)
 	{
-		listener.handleSyncFileError(src, dst, msg);
+		listener.handleSyncWarning(src, dst, msg);
 		
 		if(ignoreFailures)
 		{
@@ -257,6 +264,9 @@ public class FileSyncTool
 			{
 				File f = getTargetFor(j);
 				FileFilter filter = getFilterFor(j);
+				
+				listener.handleSyncTarget(f);
+				
 				syncPrivate(j.source, f, filter);
 			}
 		}

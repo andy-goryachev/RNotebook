@@ -57,7 +57,15 @@
       "x": 5,
       "y": 0,
       "title": "BUGS",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "6EB8837127615F03EC8CC9C85D3CBA2A7366ADD5",
+          "title": "bug: asks twice exiting when modified",
+          "created": 1421621870270,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",

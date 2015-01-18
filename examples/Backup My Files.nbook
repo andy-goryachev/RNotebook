@@ -12,8 +12,8 @@
     },
     {
       "type": "js",
-      "source": "var s = FS.newSync();\n\n// backup target location\n//s.setTarget('q:/Backup/Sync.2');\ns.setTarget('h:/Backup/Sync.2');\n\n// source locations\ns.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.addSource(\"c:/A\");\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\ns.setIgnoreFailures(true);\n\n// show ui\nNB.display(s.gui);\n\ns.sync();\n",
-      "sequence": 55,
+      "source": "var s = FS.newSync();\n\n// backup target location\ns.setTarget('q:/Backup/Sync.2');\n//s.setTarget('h:/Backup/Sync.2');\n\n// source locations\ns.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.addSource(\"c:/A\");\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\ns.setIgnoreFailures(true);\n\n// show ui\nNB.display(s.gui);\n\ns.sync();\n",
+      "sequence": 59,
       "output": [
         {}
       ]
