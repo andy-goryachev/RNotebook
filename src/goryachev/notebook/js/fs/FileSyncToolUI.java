@@ -8,16 +8,20 @@ import javax.swing.JLabel;
 import research.tools.filesync.FileSyncTool;
 
 
+// TODO start/stop, timer
 public class FileSyncToolUI
 	extends CPanel
 	implements FileSyncTool.Listener
 {
 	public final JLabel currentFileField;
+	public final JLabel freeSpaceField;
 	
 	
 	public FileSyncToolUI()
 	{
 		currentFileField = new JLabel(" ");
+		
+		freeSpaceField = new JLabel(" ");
 		
 		setLayout
 		(
@@ -46,12 +50,12 @@ public class FileSyncToolUI
 		);
 		
 		int ix = 0;
-		add(0, ix, heading("Sync"));
+		add(0, ix, heading("Sync: needs better UI"));
 		add(1, ix, "Current file:");
 		add(2, ix, 7, ix, currentFileField);
 		ix++;
 		add(1, ix, "Free space on target:");
-		//add(2, ix, 7, ix, currentFileField);
+		add(2, ix, 7, ix, freeSpaceField);
 		ix++;
 		add(2, ix, label("Byte(s)"));
 		add(4, ix, label("File(s)"));
@@ -64,7 +68,7 @@ public class FileSyncToolUI
 		setBorder(10);
 		setBackground(Theme.panelBG());
 	}
-
+	
 
 	public void handleSyncFileDeleted(File f)
 	{
@@ -81,13 +85,18 @@ public class FileSyncToolUI
 	}
 
 
-	public void handleSyncCurrentSourceFile(final File f)
+	public void handleSyncFilePair(final File src, File dst)
 	{
+		// FIX takes too much time
+		final String free = null; //Theme.formatNumber(dst.getFreeSpace());
+		
 		UI.inEDT(new Runnable()
 		{
 			public void run()
 			{
-				currentFileField.setText(f.getAbsolutePath());
+				currentFileField.setText(src.getAbsolutePath());
+				
+				freeSpaceField.setText(free);
 			}
 		});
 	}

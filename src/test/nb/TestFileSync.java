@@ -60,7 +60,7 @@ public class TestFileSync
 				}
 	
 	
-				public void handleSyncCurrentSourceFile(File f)
+				public void handleSyncFilePair(File src, File dst)
 				{
 				}
 			}

@@ -16,7 +16,7 @@ public class FileSyncTool
 {
 	public static interface Listener
 	{
-		public void handleSyncCurrentSourceFile(File f);
+		public void handleSyncFilePair(File src, File dst);
 		
 		public void handleSyncFileDeleted(File f);
 		
@@ -129,7 +129,7 @@ public class FileSyncTool
 		
 		if(listener != null)
 		{
-			listener.handleSyncCurrentSourceFile(src);
+			listener.handleSyncFilePair(src, dst);
 		}
 		
 		if(src.isFile())

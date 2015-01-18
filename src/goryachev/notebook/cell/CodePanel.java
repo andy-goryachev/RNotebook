@@ -37,6 +37,7 @@ public class CodePanel
 	private int sequence;
 	private boolean error;
 	private boolean running;
+	private boolean clear;
 	private CList<Object> results;
 	private CList<JComponent> resultComponents;
 	private static CBorder BORDER = new CBorder(2, 4);
@@ -184,8 +185,21 @@ public class CodePanel
 
 	public void setRunning(boolean on)
 	{
-		running = on;
-		updateMargin();
+		if(running != on)
+		{
+			running = on;
+			
+			if(running)
+			{
+				clear = true;
+			}
+			else
+			{
+				clear = false;
+			}
+			
+			updateMargin();
+		}
 	}
 	
 	
@@ -261,6 +275,12 @@ public class CodePanel
 	
 	protected void addResultPrivate(Object v)
 	{
+		if(clear)
+		{
+			clear = false;
+			clearResult();
+		}
+		
 		if(results == null)
 		{
 			results = new CList();

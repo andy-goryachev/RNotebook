@@ -99,7 +99,6 @@ public class JsEngine
 	
 	public void execute(final CodePanel p)
 	{
-		p.clearResult();
 		p.setRunning(true);
 
 		final String script = p.getText();

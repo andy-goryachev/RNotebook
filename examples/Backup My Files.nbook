@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "// TODO single operation, ignore errors\nFS.sync('c:/Projects', 'Q:/Backup/Sync.2/Projects');\nFS.sync('c:/A', 'Q:/Backup/Sync.2/A');\nFS.sync('c:/Goryachev', 'Q:/Backup/Sync.2/Goryachev');",
-      "sequence": 25,
+      "sequence": 35,
       "output": [
         {
           "type": "error",
@@ -24,8 +24,9 @@
     {
       "type": "js",
       "source": "s = FS.newSync();\nNB.display(s.gui);\ns.setIgnoreFailures(true);\ns.setSource('c:/Goryachev');\ns.setTarget('Q:/Backup/Sync.2/Goryachev');\ns.sync();",
-      "sequence": 26,
+      "sequence": 38,
       "output": [
+        {},
         {
           "type": "error",
           "text": "Interrupted"
@@ -35,7 +36,7 @@
     {
       "type": "js",
       "source": "NB.display(\"text\");\nUT.sleep(10000);",
-      "sequence": 28,
+      "sequence": 39,
       "output": [
         {
           "type": "text",
@@ -43,7 +44,7 @@
         },
         {
           "type": "error",
-          "text": "InterruptedException: sleep interrupted"
+          "text": "Interrupted"
         }
       ]
     }

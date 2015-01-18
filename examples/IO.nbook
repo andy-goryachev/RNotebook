@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "IO.help",
-      "sequence": 129,
+      "sequence": 132,
       "output": [
         {
           "type": "text",
@@ -24,7 +24,7 @@
     {
       "type": "js",
       "source": "IO.loadImage('examples/picture.jpg');",
-      "sequence": 122,
+      "sequence": 133,
       "output": [
         {
           "type": "image",
@@ -35,7 +35,7 @@
     {
       "type": "js",
       "source": "IO.loadTable('examples/small.csv')",
-      "sequence": 129,
+      "sequence": 134,
       "output": [
         {
           "type": "table",

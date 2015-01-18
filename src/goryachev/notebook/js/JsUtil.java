@@ -28,6 +28,7 @@ import org.mozilla.javascript.RhinoException;
 
 public class JsUtil
 {
+	private static final String INTERRUPTED = "Interrupted";
 	private static SvgColorNames colorNames;
 	
 
@@ -35,7 +36,11 @@ public class JsUtil
 	{
 		if(err instanceof CancelledException)
 		{
-			return "Interrupted";
+			return INTERRUPTED;
+		}
+		else if(err instanceof InterruptedException)
+		{
+			return INTERRUPTED;
 		}
 		else if(err instanceof RhinoException)
 		{
@@ -46,7 +51,11 @@ public class JsUtil
 			}
 			else if(e instanceof CancelledException)
 			{
-				return "Interrupted";
+				return INTERRUPTED;
+			}
+			else if(e instanceof InterruptedException)
+			{
+				return INTERRUPTED;
 			}
 			else
 			{
