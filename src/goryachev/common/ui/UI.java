@@ -479,6 +479,8 @@ public class UI
 				EventQueue.invokeAndWait(r);
 			}
 		}
+		catch(InterruptedException ignore)
+		{ }
 		catch(Exception e)
 		{
 			Log.err(e);

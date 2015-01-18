@@ -206,7 +206,14 @@ public class FileSyncTool
 	
 	protected File getTargetFor(Job j)
 	{
-		return (j.target == null ? commonTarget : j.target);
+		if(j.target == null)
+		{
+			return new File(commonTarget, j.source.getName());
+		}
+		else
+		{
+			return j.target;
+		}
 	}
 	
 	

@@ -12,13 +12,10 @@
     },
     {
       "type": "js",
-      "source": "s = FS.newSync();\ns.setIgnoreFailures(true);\n//s.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.setTarget('Q:/Backup/Sync.2/Projects');\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\n// show ui\nNB.display(s.gui);\ns.sync();",
-      "sequence": 52,
+      "source": "var s = FS.newSync();\n\n// backup target location\n//s.setTarget('q:/Backup/Sync.2');\ns.setTarget('h:/Backup/Sync.2');\n\n// source locations\ns.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.addSource(\"c:/A\");\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\ns.setIgnoreFailures(true);\n\n// show ui\nNB.display(s.gui);\n\ns.sync();\n",
+      "sequence": 55,
       "output": [
-        {
-          "type": "error",
-          "text": "UserException: invalid filter spec: -.git/"
-        }
+        {}
       ]
     }
   ]

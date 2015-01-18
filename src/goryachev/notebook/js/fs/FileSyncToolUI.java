@@ -20,8 +20,10 @@ public class FileSyncToolUI
 	public final JLabel deletedField;
 	public final JLabel totalField;
 	public final JLabel freeSpaceField;
+	public final JLabel elapsedField;
 	protected final Timer timer;
 	protected FileSyncTool tool;
+	protected long started;
 	
 	
 	public FileSyncToolUI()
@@ -36,6 +38,8 @@ public class FileSyncToolUI
 		
 		freeSpaceField = new JLabel(" ");
 		
+		elapsedField = new JLabel(" ");
+		
 		timer = new Timer(100, this);
 		
 		setLayout
@@ -48,6 +52,7 @@ public class FileSyncToolUI
 			},
 			new double[]
 			{
+				PREFERRED,
 				PREFERRED,
 				PREFERRED,
 				PREFERRED,
@@ -73,6 +78,9 @@ public class FileSyncToolUI
 		ix++;
 		add(1, ix, "Total files:");
 		add(2, ix, totalField);
+		ix++;
+		add(1, ix, "Elapsed time:");
+		add(2, ix, elapsedField);
 		
 		setBorder(10);
 		setBackground(Theme.panelBG());
@@ -97,6 +105,7 @@ public class FileSyncToolUI
 				if(on)
 				{
 					timer.start();
+					started = System.currentTimeMillis();
 				}
 				else
 				{
@@ -126,6 +135,22 @@ public class FileSyncToolUI
 		totalField.setText(Theme.formatNumber(d.totalFiles));
 		
 		Long free = (d.currentTarget == null ? null : d.currentTarget.getFreeSpace());
-		freeSpaceField.setText(Theme.formatNumber(free));
+		if(free != null)
+		{
+			if(free == 0)
+			{
+				free = 0L;
+			}
+			freeSpaceField.setText(Theme.formatNumber(free));
+		}
+		
+		if(started <= 0)
+		{
+			elapsedField.setText(null);
+		}
+		else
+		{
+			elapsedField.setText(Theme.formatTimePeriod2(System.currentTimeMillis() - started));
+		}
 	}
 }
