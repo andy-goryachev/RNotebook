@@ -211,9 +211,7 @@ public class FS
 	public String sync(Object source, Object target) throws Exception
 	{
 		JsFileSyncTool t = new JsFileSyncTool();
-		// FIX add pair
-		t.setSource(source);
-		t.setTarget(target);
+		t.addJob(source, target);
 		t.setGranularity(2000);
 		t.setIgnoreFailures(true);
 		t.sync();

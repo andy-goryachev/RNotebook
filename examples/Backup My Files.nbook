@@ -12,35 +12,12 @@
     },
     {
       "type": "js",
-      "source": "// TODO single operation, ignore errors\nFS.sync('c:/Projects', 'Q:/Backup/Sync.2/Projects');\nFS.sync('c:/A', 'Q:/Backup/Sync.2/A');\nFS.sync('c:/Goryachev', 'Q:/Backup/Sync.2/Goryachev');",
-      "sequence": 35,
+      "source": "s = FS.newSync();\ns.setIgnoreFailures(true);\n//s.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.setTarget('Q:/Backup/Sync.2/Projects');\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\n// show ui\nNB.display(s.gui);\ns.sync();",
+      "sequence": 52,
       "output": [
         {
           "type": "error",
-          "text": "Interrupted"
-        }
-      ]
-    },
-    {
-      "type": "js",
-      "source": "s = FS.newSync();\n// bring up UI\nNB.display(s.gui);\ns.setIgnoreFailures(true);\n//s.setSource('c:/Goryachev');\ns.setSource(\"c:/Projects\");\n//s.setTarget('Q:/Backup/Sync.2/Goryachev');\ns.setTarget('Q:/Backup/Sync.2/Projects');\n// TODO filter\ns.sync();",
-      "sequence": 41,
-      "output": [
-        {}
-      ]
-    },
-    {
-      "type": "js",
-      "source": "NB.display(\"text\");\nUT.sleep(10000);\nOS.time",
-      "sequence": 46,
-      "output": [
-        {
-          "type": "text",
-          "text": "text"
-        },
-        {
-          "type": "text",
-          "text": "1421558273181"
+          "text": "UserException: invalid filter spec: -.git/"
         }
       ]
     }

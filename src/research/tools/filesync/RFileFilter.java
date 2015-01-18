@@ -1,10 +1,13 @@
-// Copyright (c)2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package research.tools.filesync;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.D;
 import goryachev.common.util.Log;
 import goryachev.common.util.SB;
+import goryachev.common.util.UserException;
+import java.io.File;
+import java.io.FileFilter;
 
 
 public class RFileFilter
@@ -105,12 +108,26 @@ public class RFileFilter
 		return ps;
 	}
 	
+	
+	public static RFileFilter parse(String spec) throws Exception
+	{
+		if(CKit.isNotBlank(spec))
+		{
+			Object[] ss = CKit.split(spec, "\n");
+			return parse(ss);
+		}
+		else
+		{
+			return new RFileFilter();
+		}
+	}
+	
 
 	/**
 	 * filter Specification Format:
 	 *    + or -
 	 *    single space
-	 *    / for relative paths
+	 *    / for paths relative to root
 	 *    name, path, wildcard
 	 *    trailing / for directories
 	 *    newline
@@ -119,54 +136,52 @@ public class RFileFilter
 	 *    -hidden
 	 *    -system
 	 */
-	public static RFileFilter parse(String spec) throws Exception
+	public static RFileFilter parse(Object[] ss) throws Exception
 	{
 		RFileFilter f = new RFileFilter();
 		
-		if(CKit.isNotBlank(spec))
+		// TODO replace \\ with /
+		
+		for(Object x: ss)
 		{
-			String[] ss = CKit.split(spec, "\n");
-			for(String s: ss)
+			String s = x.toString().trim();
+			if(CKit.isNotBlank(s))
 			{
-				s = s.trim();
-				if(CKit.isNotBlank(s))
+				if(s.startsWith(TOKEN_IGNORE_HIDDEN_FILES))
 				{
-					if(s.startsWith(TOKEN_IGNORE_HIDDEN_FILES))
+					f.setIgnoreHiddenFiles(true);
+				}
+				else if(s.startsWith(TOKEN_IGNORE_SYSTEM_FILES))
+				{
+					f.setIgnoreSystemFiles(true);
+				}
+				else if(s.startsWith(TOKEN_EXCLUDE))
+				{
+					RFilterPattern p = RFilterPattern.parse(s.substring(TOKEN_EXCLUDE.length()));
+					if(p != null)
 					{
-						f.setIgnoreHiddenFiles(true);
-					}
-					else if(s.startsWith(TOKEN_IGNORE_SYSTEM_FILES))
-					{
-						f.setIgnoreSystemFiles(true);
-					}
-					else if(s.startsWith(TOKEN_EXCLUDE))
-					{
-						RFilterPattern p = RFilterPattern.parse(s.substring(TOKEN_EXCLUDE.length()));
-						if(p != null)
+						if(f.excludePatterns == null)
 						{
-							if(f.excludePatterns == null)
-							{
-								f.excludePatterns = new CList();
-							}
-							f.excludePatterns.add(p);
+							f.excludePatterns = new CList();
 						}
+						f.excludePatterns.add(p);
 					}
-					else if(s.startsWith(TOKEN_INCLUDE))
+				}
+				else if(s.startsWith(TOKEN_INCLUDE))
+				{
+					RFilterPattern p = RFilterPattern.parse(s.substring(TOKEN_INCLUDE.length()));
+					if(p != null)
 					{
-						RFilterPattern p = RFilterPattern.parse(s.substring(TOKEN_INCLUDE.length()));
-						if(p != null)
+						if(f.includePatterns == null)
 						{
-							if(f.includePatterns == null)
-							{
-								f.includePatterns = new CList();
-							}
-							f.includePatterns.add(p);
+							f.includePatterns = new CList();
 						}
+						f.includePatterns.add(p);
 					}
-					else
-					{
-						Log.err("invalid filter spec: " + s);
-					}
+				}
+				else
+				{
+					throw new UserException("invalid filter spec: " + s);
 				}
 			}
 		}
@@ -399,5 +414,21 @@ public class RFileFilter
 		// allow
 		triggeredRule = null;
 		return true;
+	}
+	
+	
+	public FileFilter getFilter(final File root)
+	{
+		return new FileFilter()
+		{
+			public boolean accept(File f)
+			{
+				String pathToRoot = CKit.pathToRoot(root, f);
+				String name = f.getName();
+				boolean dir = f.isDirectory();
+				boolean hidden = f.isHidden();
+			    return RFileFilter.this.accept(pathToRoot, name, dir, hidden);
+			}
+		};
 	}
 }

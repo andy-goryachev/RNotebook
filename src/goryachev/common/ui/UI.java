@@ -486,6 +486,19 @@ public class UI
 	}
 	
 	
+	public static void inEDTW2(Runnable r) throws Exception
+	{
+		if(EventQueue.isDispatchThread())
+		{
+			r.run();
+		}
+		else
+		{
+			EventQueue.invokeAndWait(r);
+		}
+	}
+	
+	
 	public static void inIdleEDT(Runnable r)
 	{
 		try

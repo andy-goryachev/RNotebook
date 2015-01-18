@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
+import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.RhinoException;
+import research.tools.filesync.RFileFilter;
 
 
 public class JsUtil
@@ -430,6 +432,24 @@ public class JsUtil
 		else //if("String".equals(className))
 		{
 			return Context.jsToJava(val, String.class);
+		}
+	}
+	
+	
+	public static RFileFilter parseRFileFilter(Object x) throws Exception
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof NativeArray)
+		{
+			Object[] a = ((NativeArray)x).toArray();
+			return RFileFilter.parse(a);
+		}
+		else
+		{
+			return RFileFilter.parse(x.toString());
 		}
 	}
 }

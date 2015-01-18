@@ -3,11 +3,11 @@ package test.nb;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;
 import goryachev.common.util.D;
-import goryachev.common.util.FileTools;
 import goryachev.common.util.TextTools;
 import java.io.File;
 import java.io.FileFilter;
 import research.tools.filesync.FileSyncTool;
+import research.tools.filesync.RFileFilter;
 
 
 public class TestFileSync
@@ -26,20 +26,21 @@ public class TestFileSync
 		t
 		(
 			"C:/Projects/",
-			"H:/Test.Delete.FileSync", 
-			new FileFilter()
-			{
-				public boolean accept(File f)
-				{
-					if(f.isDirectory())
-					{
-						return true;
-					}
-					
-					String name = f.getName();
-				    return !TextTools.endsWithIgnoreCase(name, ".class");
-				}
-			}, 
+			"H:/Test.Delete.FileSync",
+			RFileFilter.parse("-*.class"),
+//			new FileFilter()
+//			{
+//				public boolean accept(File f)
+//				{
+//					if(f.isDirectory())
+//					{
+//						return true;
+//					}
+//					
+//					String name = f.getName();
+//				    return !TextTools.endsWithIgnoreCase(name, ".class");
+//				}
+//			}, 
 			null
 //			new FileSyncTool.Listener()
 //			{
@@ -64,11 +65,10 @@ public class TestFileSync
 	}
 
 
-	public void t(String src, String dst, FileFilter ff, FileSyncTool.Listener li) throws Exception
+	public void t(String src, String dst, RFileFilter ff, FileSyncTool.Listener li) throws Exception
 	{
 		FileSyncTool t = new FileSyncTool();
-		t.setSource(new File(src));
-		t.setTarget(new File(dst));
+		t.addJob(new File(src), new File(dst));
 		t.setFileFilter(ff);
 		t.setListener(li);
 		//t.setIgnoreFailures(true);

@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.tools.filesync;
 import goryachev.common.util.CKit;
+import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
@@ -33,9 +34,18 @@ public class FileSyncTool
 	
 	//
 	
-	private File source;
-	private File target;
-	private FileFilter filter;
+	protected static class Job
+	{
+		public File source;
+		public File target;
+		public RFileFilter filter;
+	}
+	
+	//
+	
+	private CList<Job> jobs = new CList();
+	private File commonTarget;
+	private RFileFilter commonFilter;
 	private int granularity;
 	private boolean ignoreFailures;
 	private SB warnings; // FIX kill
@@ -86,21 +96,43 @@ public class FileSyncTool
 	}
 	
 	
-	public void setSource(File f)
-    {
-		source = f;
-    }
+	public void addSource(File source)
+	{
+		addJob(source, null, null);
+	}
+	
+	
+	public void addSource(File source, RFileFilter filter)
+	{
+		addJob(source, null, filter);
+	}
+	
+	
+	public void addJob(File source, File target)
+	{
+		addJob(source, target, null);
+	}
+	
+	
+	public void addJob(File source, File target, RFileFilter filter)
+	{
+		Job j = new Job();
+		j.source = source;
+		j.target = target;
+		j.filter = filter;
+		jobs.add(j);
+	}
 
 	
 	public void setTarget(File f)
     {
-		target = f;
+		commonTarget = f;
     }
 	
 	
-	public void setFileFilter(FileFilter ff)
+	public void setFileFilter(RFileFilter ff)
 	{
-		filter = ff;
+		commonFilter = ff;
 	}
 	
 	
@@ -160,7 +192,7 @@ public class FileSyncTool
 					}
 				}
 			}
-
+			
 			boolean rv = file.delete();
 			result &= rv;
 			if(rv)
@@ -170,32 +202,56 @@ public class FileSyncTool
 		}
 		return result;
 	}
+	
+	
+	protected File getTargetFor(Job j)
+	{
+		return (j.target == null ? commonTarget : j.target);
+	}
+	
+	
+	protected FileFilter getFilterFor(Job j)
+	{
+		RFileFilter f = (j.filter == null ? commonFilter : j.filter);
+		return f.getFilter(j.source);
+	}
 
 
 	public void sync() throws Exception
 	{
-		if(source == null)
+		if(jobs.size() == 0)
 		{
-			throw new UserException("Please set the source directory");
-		}
-		else if(target == null)
-		{
-			throw new UserException("Please set the target directory");
+			throw new UserException("No source directories.");
 		}
 		
-		if(target.exists())
+		for(Job j: jobs)
 		{
-			if(!target.isDirectory())
+			File f = getTargetFor(j);
+			if(f == null)
 			{
-				throw new UserException("Target is not a directory: " + target);
+				throw new UserException("No target is specified for " + j.source);
+			}
+			
+			if(f.exists())
+			{
+				if(!f.isDirectory())
+				{
+					throw new UserException("Target is not a directory: " + f);
+				}
 			}
 		}
+		
 		
 		// sync
 		listener.handleSyncRunning(this, true);		
 		try
 		{
-			syncPrivate(source, target);
+			for(Job j: jobs)
+			{
+				File f = getTargetFor(j);
+				FileFilter filter = getFilterFor(j);
+				syncPrivate(j.source, f, filter);
+			}
 		}
 		finally
 		{
@@ -204,20 +260,20 @@ public class FileSyncTool
 	}
 
 
-	protected void syncPrivate(File src, File dst) throws Exception
+	protected void syncPrivate(File src, File dst, FileFilter filter) throws Exception
 	{
-		CKit.checkCancelled();
-		
 		currentFile = src;
 		currentTarget = dst;
-		
+
+		CKit.checkCancelled();
+				
 		if(src.isFile())
 		{
 			syncFile(src, dst);
 		}
 		else if(src.isDirectory())
 		{
-			syncDirectory(src, dst);
+			syncDirectory(src, dst, filter);
 		}
 		else
 		{
@@ -282,7 +338,7 @@ public class FileSyncTool
 	}
 	
 	
-	protected void syncDirectory(File src, File dst) throws Exception
+	protected void syncDirectory(File src, File dst, FileFilter filter) throws Exception
 	{
 		boolean create;
 		if(dst.exists())
@@ -321,13 +377,13 @@ public class FileSyncTool
 		// FIX detect case-sensitivity and insensitivity
 		
 		File[] dfs = dst.listFiles();
-		CMap<String,File> dFiles = new CMap();
+		CMap<String,File> toBeDeleted = new CMap();
 		if(dfs != null)
 		{
 			for(File f: dfs)
 			{
 				String name = f.getName();
-				dFiles.put(name, f);
+				toBeDeleted.put(name, f);
 			}
 		}
 		
@@ -336,18 +392,21 @@ public class FileSyncTool
 			for(File sf: sfs)
 			{
 				String name = sf.getName();
-				File tf = dFiles.remove(name);
+				File tf = toBeDeleted.remove(name);
 				if(tf == null)
 				{
-					syncPrivate(sf, new File(dst, name));
+					syncPrivate(sf, new File(dst, name), filter);
 				}
 				else
 				{
-					syncPrivate(sf, tf); 
+					syncPrivate(sf, tf, filter); 
 				}
 			}
 			
-			for(File f: dFiles.values())
+			currentFile = src;
+			currentTarget = dst;
+			
+			for(File f: toBeDeleted.values())
 			{
 				if(!deleteRecursively(f))
 				{

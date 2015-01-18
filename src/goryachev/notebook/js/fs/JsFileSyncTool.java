@@ -3,9 +3,9 @@ package goryachev.notebook.js.fs;
 import goryachev.common.ui.UI;
 import goryachev.notebook.js.JsUtil;
 import java.io.File;
-import java.io.FileFilter;
 import javax.swing.JComponent;
 import research.tools.filesync.FileSyncTool;
+import research.tools.filesync.RFileFilter;
 
 
 public class JsFileSyncTool
@@ -46,12 +46,37 @@ public class JsFileSyncTool
 	}
 	
 	
-	public void setSource(Object file)
-    {
+	public void addSource(Object file)
+	{
 		File f = JsUtil.parseFile(file);
-		tool().setSource(f);
-    }
-
+		tool().addSource(f);
+	}
+	
+	
+	public void addSource(Object source, Object filter) throws Exception
+	{
+		File src = JsUtil.parseFile(source);
+		RFileFilter f = JsUtil.parseRFileFilter(filter);
+		tool().addSource(src, f);
+	}
+	
+	
+	public void addJob(Object source, Object target)
+	{
+		File src = JsUtil.parseFile(source);
+		File dst = JsUtil.parseFile(target);
+		tool().addJob(src, dst);
+	}
+	
+	
+	public void addJob(Object source, Object target, Object filter) throws Exception
+	{
+		File src = JsUtil.parseFile(source);
+		File dst = JsUtil.parseFile(target);
+		RFileFilter f = JsUtil.parseRFileFilter(filter);
+		tool().addJob(src, dst, f);
+	}
+	
 	
 	public void setTarget(Object file)
     {
@@ -60,18 +85,9 @@ public class JsFileSyncTool
     }
 	
 	
-	public void setFileFilter(Object filter)
+	public void setFilter(Object filter) throws Exception
 	{
-		FileFilter ff;
-		if(filter instanceof FileFilter)
-		{
-			ff = (FileFilter)filter;
-		}
-		else
-		{
-			ff = JsFileFilter.parse(filter.toString());
-		}
-		
+		RFileFilter ff = JsUtil.parseRFileFilter(filter);
 		tool().setFileFilter(ff);
 	}
 
