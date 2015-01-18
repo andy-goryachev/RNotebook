@@ -221,7 +221,7 @@ public class NotebookPanel
 			}
 		}
 		
-		ctrlEnterAction.setEnabled(cell);
+		ctrlEnterAction.setEnabled(cell && !running);
 		deleteCellAction.setEnabled(cell);
 		insertCellAboveAction.setEnabled(cell);
 		interruptAction.setEnabled(running);

@@ -23,28 +23,24 @@
     },
     {
       "type": "js",
-      "source": "s = FS.newSync();\nNB.display(s.gui);\ns.setIgnoreFailures(true);\ns.setSource('c:/Goryachev');\ns.setTarget('Q:/Backup/Sync.2/Goryachev');\ns.sync();",
-      "sequence": 38,
+      "source": "s = FS.newSync();\n// bring up UI\nNB.display(s.gui);\ns.setIgnoreFailures(true);\n//s.setSource('c:/Goryachev');\ns.setSource(\"c:/Projects\");\n//s.setTarget('Q:/Backup/Sync.2/Goryachev');\ns.setTarget('Q:/Backup/Sync.2/Projects');\n// TODO filter\ns.sync();",
+      "sequence": 41,
       "output": [
-        {},
-        {
-          "type": "error",
-          "text": "Interrupted"
-        }
+        {}
       ]
     },
     {
       "type": "js",
-      "source": "NB.display(\"text\");\nUT.sleep(10000);",
-      "sequence": 39,
+      "source": "NB.display(\"text\");\nUT.sleep(10000);\nOS.time",
+      "sequence": 46,
       "output": [
         {
           "type": "text",
           "text": "text"
         },
         {
-          "type": "error",
-          "text": "Interrupted"
+          "type": "text",
+          "text": "1421558273181"
         }
       ]
     }

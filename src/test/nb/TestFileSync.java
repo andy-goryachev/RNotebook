@@ -40,30 +40,26 @@ public class TestFileSync
 				    return !TextTools.endsWithIgnoreCase(name, ".class");
 				}
 			}, 
-			new FileSyncTool.Listener()
-			{
-				public void handleSyncFileError(Throwable e)
-				{
-					e.printStackTrace();
-				}
-	
-	
-				public void handleSyncFileDeleted(File f)
-				{
-					D.print(f);
-				}
-	
-	
-				public void handleSyncFileCopied(File f)
-				{
-					D.print(f);
-				}
-	
-	
-				public void handleSyncFilePair(File src, File dst)
-				{
-				}
-			}
+			null
+//			new FileSyncTool.Listener()
+//			{
+//				public void handleSyncFileError(Throwable e)
+//				{
+//					e.printStackTrace();
+//				}
+//	
+//	
+//				public void handleSyncFileDeleted(File f)
+//				{
+//					D.print(f);
+//				}
+//	
+//	
+//				public void handleSyncFileCopied(File f)
+//				{
+//					D.print(f);
+//				}
+//			}
 		);
 	}
 

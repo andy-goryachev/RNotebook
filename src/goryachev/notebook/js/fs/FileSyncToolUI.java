@@ -3,36 +3,46 @@ package goryachev.notebook.js.fs;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 import research.tools.filesync.FileSyncTool;
 
 
-// TODO start/stop, timer
 public class FileSyncToolUI
 	extends CPanel
-	implements FileSyncTool.Listener
+	implements FileSyncTool.Listener, ActionListener
 {
 	public final JLabel currentFileField;
+	public final JLabel copiedField;
+	public final JLabel deletedField;
+	public final JLabel totalField;
 	public final JLabel freeSpaceField;
+	protected final Timer timer;
+	protected FileSyncTool tool;
 	
 	
 	public FileSyncToolUI()
 	{
 		currentFileField = new JLabel(" ");
 		
+		copiedField = new JLabel(" ");
+		
+		deletedField = new JLabel(" ");
+		
+		totalField = new JLabel(" ");
+		
 		freeSpaceField = new JLabel(" ");
+		
+		timer = new Timer(100, this);
 		
 		setLayout
 		(
 			new double[]
 			{
 				100,
-				PREFERRED,
-				PREFERRED,
-				10,
-				PREFERRED,
-				10,
 				PREFERRED,
 				FILL
 			},
@@ -43,61 +53,79 @@ public class FileSyncToolUI
 				PREFERRED,
 				PREFERRED,
 				PREFERRED,
-				PREFERRED,
-				PREFERRED,
 			},
-			10, 5
+			10, 2
 		);
 		
 		int ix = 0;
-		add(0, ix, heading("Sync: needs better UI"));
+		add(0, ix, heading("Sync"));
 		add(1, ix, "Current file:");
-		add(2, ix, 7, ix, currentFileField);
+		add(2, ix, currentFileField);
 		ix++;
-		add(1, ix, "Free space on target:");
-		add(2, ix, 7, ix, freeSpaceField);
-		ix++;
-		add(2, ix, label("Byte(s)"));
-		add(4, ix, label("File(s)"));
-		add(6, ix, label("Folders(s)"));
+		add(1, ix, "Free space:");
+		add(2, ix, freeSpaceField);
 		ix++;
 		add(1, ix, "Copied:");
+		add(2, ix, copiedField);
 		ix++;
 		add(1, ix, "Deleted:");
+		add(2, ix, deletedField);
+		ix++;
+		add(1, ix, "Total files:");
+		add(2, ix, totalField);
 		
 		setBorder(10);
 		setBackground(Theme.panelBG());
 	}
 	
 
-	public void handleSyncFileDeleted(File f)
+	public void handleSyncFileError(File src, File dst, String err)
 	{
 	}
 
 
-	public void handleSyncFileCopied(File f)
+	public void handleSyncRunning(final FileSyncTool tool, final boolean on)
 	{
-	}
-
-
-	public void handleSyncFileError(Throwable e)
-	{
-	}
-
-
-	public void handleSyncFilePair(final File src, File dst)
-	{
-		// FIX takes too much time
-		final String free = null; //Theme.formatNumber(dst.getFreeSpace());
-		
-		UI.inEDT(new Runnable()
+		UI.inEDTW(new Runnable()
 		{
 			public void run()
 			{
-				currentFileField.setText(src.getAbsolutePath());
+				timer.stop();
 				
-				freeSpaceField.setText(free);
+				FileSyncToolUI.this.tool = tool;
+				
+				if(on)
+				{
+					timer.start();
+				}
+				else
+				{
+					currentFileField.setText(null);
+				}
 			}
 		});
+	}
+
+
+	// timer event
+	public void actionPerformed(ActionEvent ev)
+	{
+		if(tool != null)
+		{
+			FileSyncTool.Info info = tool.getInfo();
+			update(info);
+		}
+	}
+	
+	
+	protected void update(FileSyncTool.Info d)
+	{
+		currentFileField.setText(d.currentFile == null ? null : d.currentFile.getAbsolutePath());
+		copiedField.setText(Theme.formatNumber(d.copiedFiles));
+		deletedField.setText(Theme.formatNumber(d.deletedFiles));
+		totalField.setText(Theme.formatNumber(d.totalFiles));
+		
+		Long free = (d.currentTarget == null ? null : d.currentTarget.getFreeSpace());
+		freeSpaceField.setText(Theme.formatNumber(free));
 	}
 }

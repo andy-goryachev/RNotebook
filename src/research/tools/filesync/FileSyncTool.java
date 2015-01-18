@@ -2,7 +2,6 @@
 package research.tools.filesync;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CMap;
-import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
 import java.io.File;
@@ -16,13 +15,20 @@ public class FileSyncTool
 {
 	public static interface Listener
 	{
-		public void handleSyncFilePair(File src, File dst);
+		public void handleSyncRunning(FileSyncTool parent, boolean on);
 		
-		public void handleSyncFileDeleted(File f);
-		
-		public void handleSyncFileCopied(File f);
-		
-		public void handleSyncFileError(Throwable e);
+		public void handleSyncFileError(File src, File dst, String err);
+	}
+	
+	//
+	
+	public static class Info
+	{
+		public File currentFile;
+		public File currentTarget;
+		public int copiedFiles;
+		public int deletedFiles;
+		public int totalFiles;
 	}
 	
 	//
@@ -32,12 +38,51 @@ public class FileSyncTool
 	private FileFilter filter;
 	private int granularity;
 	private boolean ignoreFailures;
-	private SB warnings;
-	private Listener listener;
+	private SB warnings; // FIX kill
+	private Listener listener = createEmptyListener();
+	// info
+	private volatile File currentFile;
+	private volatile File currentTarget;
+	private volatile int copiedFiles;
+	private volatile int deletedFiles;
+	private volatile int totalFiles;
 	
 	
 	public FileSyncTool()
 	{
+	}
+	
+	
+	public Info getInfo()
+	{
+		Info d = new Info();
+		d.currentFile = currentFile;
+		d.currentTarget = currentTarget;
+		d.copiedFiles = copiedFiles;
+		d.deletedFiles = deletedFiles;
+		d.totalFiles = totalFiles;
+		return d;
+	}
+	
+	
+	protected Listener createEmptyListener()
+	{
+		return new Listener()
+		{
+			public void handleSyncRunning(FileSyncTool parent, boolean on) { }
+			public void handleSyncFileError(File src, File dst, String err) { }
+		};
+	}
+	
+	
+	public void setListener(Listener li)
+	{
+		if(li == null)
+		{
+			li = createEmptyListener();
+		}
+		
+		listener = li;
 	}
 	
 	
@@ -59,12 +104,6 @@ public class FileSyncTool
 	}
 	
 	
-	public void setListener(Listener li)
-	{
-		listener = li;
-	}
-	
-	
 	public void setGranularity(int ms)
 	{
 		granularity = ms;
@@ -77,14 +116,17 @@ public class FileSyncTool
 	}
 
 
+	// FIX kill
 	public String getReport()
 	{
 		return warnings == null ? "" : warnings.toString();
 	}
 	
 	
-	protected void warn(String msg)
+	protected void warn(File src, File dst, String msg)
 	{
+		listener.handleSyncFileError(src, dst, msg);
+		
 		if(ignoreFailures)
 		{
 			if(warnings == null)
@@ -97,6 +139,36 @@ public class FileSyncTool
 		{
 			throw new UserException(msg);
 		}
+	}
+	
+	
+	protected boolean deleteRecursively(File file) throws Exception
+	{
+		CKit.checkCancelled();
+		
+		boolean result = true;
+		if(file.exists())
+		{
+			if(file.isDirectory())
+			{
+				File[] fs = file.listFiles();
+				if(fs != null)
+				{
+					for(File f: fs)
+					{
+						result &= deleteRecursively(f);
+					}
+				}
+			}
+
+			boolean rv = file.delete();
+			result &= rv;
+			if(rv)
+			{
+				deletedFiles++;
+			}
+		}
+		return result;
 	}
 
 
@@ -119,7 +191,16 @@ public class FileSyncTool
 			}
 		}
 		
-		syncPrivate(source, target);
+		// sync
+		listener.handleSyncRunning(this, true);		
+		try
+		{
+			syncPrivate(source, target);
+		}
+		finally
+		{
+			listener.handleSyncRunning(this, false);
+		}
 	}
 
 
@@ -127,10 +208,8 @@ public class FileSyncTool
 	{
 		CKit.checkCancelled();
 		
-		if(listener != null)
-		{
-			listener.handleSyncFilePair(src, dst);
-		}
+		currentFile = src;
+		currentTarget = dst;
 		
 		if(src.isFile())
 		{
@@ -142,7 +221,7 @@ public class FileSyncTool
 		}
 		else
 		{
-			warn("don't know how to sync " + src);
+			warn(src, dst, "don't know how to sync " + src);
 		}
 	}
 	
@@ -160,8 +239,6 @@ public class FileSyncTool
 			return false;
 		}
 		
-		// TODO also check attributes?
-		
 		return true;
 	}
 	
@@ -172,6 +249,8 @@ public class FileSyncTool
 		{
 			if(dst.isFile())
 			{
+				totalFiles++;
+				
 				if(isUnchanged(src, dst))
 				{
 					// no need to change
@@ -180,35 +259,25 @@ public class FileSyncTool
 			}
 			else
 			{
-				if(FileTools.deleteRecursively(dst))
+				if(!deleteRecursively(dst))
 				{
-					if(listener != null)
-					{
-						listener.handleSyncFileDeleted(dst);
-					}
-				}
-				else
-				{
-					warn("unable to delete " + dst);
+					warn(src, dst, "unable to delete " + dst);
 					return;
 				}
 			}
 		}
 		
-		// override and copy attributes
-		// FIX does not allow progress listener or interruption
 		try
 		{
+			// override and copy attributes
+			// FIX does not allow progress listener or interruption
+			// FIX only 8k buffer
 			Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
-			
-			if(listener != null)
-			{
-				listener.handleSyncFileCopied(dst);
-			}
+			copiedFiles++;
 		}
 		catch(Exception e)
 		{
-			warn("failed to copy file " + src + " to " + dst);
+			warn(src, dst, "failed to copy file " + src + " to " + dst);
 		}
 	}
 	
@@ -220,16 +289,9 @@ public class FileSyncTool
 		{
 			if(!dst.isDirectory())
 			{
-				if(FileTools.deleteRecursively(dst))
+				if(!deleteRecursively(dst))
 				{
-					if(listener != null)
-					{
-						listener.handleSyncFileDeleted(dst);
-					}
-				}
-				else
-				{
-					warn("unable to delete target " + dst);
+					warn(src, dst, "unable to delete target " + dst);
 				}
 				
 				create = true;
@@ -248,7 +310,7 @@ public class FileSyncTool
 		{
 			if(!dst.mkdirs())
 			{
-				warn("unable to create target directory " + dst);
+				warn(src, dst, "unable to create target directory " + dst);
 			}
 		}
 		
@@ -287,16 +349,9 @@ public class FileSyncTool
 			
 			for(File f: dFiles.values())
 			{
-				if(FileTools.deleteRecursively(f))
+				if(!deleteRecursively(f))
 				{
-					if(listener != null)
-					{
-						listener.handleSyncFileDeleted(f);
-					}
-				}
-				else
-				{
-					warn("unable to delete destination: " + f);
+					warn(src, dst, "unable to delete destination: " + f);
 				}
 			}
 		}
