@@ -44,6 +44,7 @@ public class NotebookWindow
 	private static final String KEY_LAST_FILE = "last.file";
 	private static final String KEY_LAST_HTML_FILE = "last.html.file";
 	private File file;
+	private boolean askedToSave;
 	
 	
 	public NotebookWindow()
@@ -179,26 +180,31 @@ public class NotebookWindow
 	{
 		// TODO check if running
 		
-		if(isModified())
+		if(askToSave())
 		{
-			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
-			d.addButton(Menus.DiscardChanges, 2);
-			d.addButton(Menus.Cancel, 1);
-			d.addButton(Menus.Save, 0, true);
-			int rv = d.openChoiceDialog();
-			switch(rv)
-			{
-			case 0:
-				actionSave();
-				break;
-			case 1:
-				return false;
-			case 2:
-				break;
-			default:
-				return false;
-			}
+			return false;
 		}
+		
+//		if(isModified())
+//		{
+//			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
+//			d.addButton(Menus.DiscardChanges, 2);
+//			d.addButton(Menus.Cancel, 1);
+//			d.addButton(Menus.Save, 0, true);
+//			int rv = d.openChoiceDialog();
+//			switch(rv)
+//			{
+//			case 0:
+//				actionSave();
+//				break;
+//			case 1:
+//				return false;
+//			case 2:
+//				break;
+//			default:
+//				return false;
+//			}
+//		}
 		
 		return true;
 	}
@@ -249,6 +255,7 @@ public class NotebookWindow
 	
 	public void setModified(boolean on)
 	{
+		askedToSave = false;
 		if(np.setModified(false))
 		{
 			updateActions();
@@ -304,6 +311,12 @@ public class NotebookWindow
 				}
 				else
 				{
+					// avoid popping up dialog the second time
+					if(w.askedToSave)
+					{
+						continue;
+					}
+					
 					ChoiceDialog d = new ChoiceDialog(w, "File Modified", TXT.get("MainWindow.save on exit.file exists", "{0} has been modified.  Save changes?", w.getFileName()));
 					d.addButton(Menus.Cancel, 3);
 					d.addButton(Menus.DiscardChanges, 2);
@@ -439,11 +452,13 @@ public class NotebookWindow
 	}
 	
 	
-	// returns true if the user decided to stay with the current document
+	/** returns true if the user decided to stay with the current document */
 	protected boolean askToSave()
 	{
 		if(isModified())
 		{
+			askedToSave = true;
+			
 			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
 			d.addButton(Menus.Cancel, 1);
 			d.addButton(Menus.DiscardChanges, 2, Theme.alternativeButtonHighlight());

@@ -99,12 +99,6 @@ public class RNotebookApp
 		return true;
 	}
 
-
-//	public void openMainWindow()
-//	{
-//		new NotebookWindow().open();
-//	}
-	
 	
 	public void openMainWindow() throws Exception
 	{

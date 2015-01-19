@@ -57,15 +57,7 @@
       "x": 5,
       "y": 0,
       "title": "BUGS",
-      "tasks": [
-        {
-          "id": "6EB8837127615F03EC8CC9C85D3CBA2A7366ADD5",
-          "title": "bug: asks twice exiting when modified",
-          "created": 1421621870270,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "2185D8DE6F8036A9589833AAC0C7A3C1D3235A27",
@@ -163,13 +155,6 @@
           "id": "5ECFF3D2863F5219F09EE5575C53DFA1FF7715CC",
           "title": "FS.delete/rmdir",
           "created": 1420448990743,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "925E200783CDF3B7FF5D84325F3A9807F2E5DBB7",
-          "title": "FS.sync",
-          "created": 1420449094885,
           "completed": null,
           "description": null
         },
@@ -735,6 +720,20 @@
       "title": "execution blinks",
       "created": 1421541035455,
       "completed": 1421545355171,
+      "description": null
+    },
+    {
+      "id": "6EB8837127615F03EC8CC9C85D3CBA2A7366ADD5",
+      "title": "bug: asks twice exiting when modified",
+      "created": 1421621870270,
+      "completed": 1421632058199,
+      "description": null
+    },
+    {
+      "id": "925E200783CDF3B7FF5D84325F3A9807F2E5DBB7",
+      "title": "FS.sync",
+      "created": 1420449094885,
+      "completed": 1421632068284,
       "description": null
     }
   ]
