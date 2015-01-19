@@ -130,8 +130,8 @@ public class FileSyncToolUI
 				else
 				{
 					currentFileField.setText(null);
-					// TODO warn if ignore errors, error otherwise
-					statusField.setIcon(errors == 0 ? CIcons.Success96 : CIcons.Error96);
+					boolean ignore = tool.isIgnoreFailures();
+					statusField.setIcon(errors == 0 ? CIcons.Success96 : ignore ? CIcons.Warning96 : CIcons.Error96);
 				}
 			}
 		});

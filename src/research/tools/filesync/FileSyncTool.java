@@ -3,7 +3,6 @@ package research.tools.filesync;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
-import goryachev.common.util.SB;
 import goryachev.common.util.UserException;
 import java.io.File;
 import java.io.FileFilter;
@@ -53,8 +52,6 @@ public class FileSyncTool
 	private RFileFilter commonFilter;
 	private int granularity;
 	private boolean ignoreFailures;
-	@Deprecated
-	private SB warnings; // FIX kill
 	private Listener listener = createEmptyListener();
 	// info
 	private volatile File currentFile;
@@ -147,34 +144,31 @@ public class FileSyncTool
 	{
 		granularity = ms;
 	}
+	
+	
+	public int getGranularity()
+	{
+		return granularity;
+	}
 
 
 	public void setIgnoreFailures(boolean on)
 	{
 		ignoreFailures = on;
 	}
-
-
-	@Deprecated // FIX kill
-	public String getReport()
-	{
-		return warnings == null ? "" : warnings.toString();
-	}
 	
+	
+	public boolean isIgnoreFailures()
+	{
+		return ignoreFailures;
+	}
+
 	
 	protected void warn(File src, File dst, String msg)
 	{
 		listener.handleSyncWarning(src, dst, msg);
 		
-		if(ignoreFailures)
-		{
-			if(warnings == null)
-			{
-				warnings = new SB();
-			}
-			warnings.a(msg).nl();
-		}
-		else
+		if(!ignoreFailures)
 		{
 			throw new UserException(msg);
 		}

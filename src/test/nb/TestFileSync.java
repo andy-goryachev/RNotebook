@@ -2,10 +2,7 @@
 package test.nb;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;
-import goryachev.common.util.D;
-import goryachev.common.util.TextTools;
 import java.io.File;
-import java.io.FileFilter;
 import research.tools.filesync.FileSyncTool;
 import research.tools.filesync.RFileFilter;
 
@@ -73,6 +70,6 @@ public class TestFileSync
 		t.setListener(li);
 		//t.setIgnoreFailures(true);
 		t.sync();
-		D.print(t.getReport());
+		//D.print(t.getReport());
 	}
 }

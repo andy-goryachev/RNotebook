@@ -6,6 +6,7 @@ import goryachev.common.util.SB;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
 import java.io.File;
+import research.tools.filesync.FileSyncTool;
 
 
 public class FS
@@ -209,13 +210,27 @@ public class FS
 	
 	
 	public String sync(Object source, Object target) throws Exception
-	{
+	{		
 		JsFileSyncTool t = new JsFileSyncTool();
 		t.addJob(source, target);
 		t.setGranularity(2000);
 		t.setIgnoreFailures(true);
+		
+		final SB sb = new SB();
+		t.setListener(new FileSyncTool.Listener()
+		{
+			public void handleSyncWarning(File src, File dst, String err)
+			{
+				sb.a(err).nl();
+			}
+
+			public void handleSyncTarget(File f) { }
+			public void handleSyncRunning(FileSyncTool parent, boolean on) { }
+		});
+		
 		t.sync();
-		return t.getReport();
+		
+		return sb.toString();
 	}
 	
 	

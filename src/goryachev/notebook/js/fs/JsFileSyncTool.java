@@ -29,6 +29,12 @@ public class JsFileSyncTool
 	}
 	
 	
+	protected void setListener(FileSyncTool.Listener li)
+	{
+		tool().setListener(li);
+	}
+	
+	
 	public JComponent getGui()
 	{
 		if(ui == null)
@@ -101,12 +107,6 @@ public class JsFileSyncTool
 	public void setIgnoreFailures(boolean on)
 	{
 		tool().setIgnoreFailures(on);
-	}
-
-
-	public String getReport()
-	{
-		return tool().getReport();
 	}
 
 
