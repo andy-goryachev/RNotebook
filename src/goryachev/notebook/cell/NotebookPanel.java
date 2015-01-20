@@ -8,7 +8,6 @@ import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
-import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.NotebookWindow;
 import goryachev.notebook.Styles;

@@ -5,69 +5,49 @@ import goryachev.common.ui.BasePanel;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CButton;
+import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CScrollPane;
+import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
-import goryachev.common.ui.text.CDocumentFilter;
-import goryachev.common.util.TXT;
-import java.awt.event.KeyEvent;
-import javax.swing.JLabel;
+import goryachev.common.ui.Theme;
+import goryachev.common.util.CKit;
+import goryachev.common.util.UserException;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 
 
 /** Allows to enter almost all key strokes, except for Tab and Modifier keys. */
 public class StorageEntryDialog
 	extends BaseDialog
 {
-	public final CAction clearAction = new CAction() { public void action() { actionClear(); } };
 	public final CAction cancelAction = new CAction() { public void action() { actionCancel(); } };
 	public final CAction okAction = new CAction() { public void action() { actionCommit(); } };
 	public final JTextField keyField;
-	public final JLabel warningLabel;
-	protected final StorageEntry entry;
-	protected final StorageTableModel model;
-	protected CDocumentFilter documentFilter;
-	protected String current;
-	protected String selected;
+	public final JTextArea valueField;
+	public final CScrollPane scroll;
+	private StorageEntry entry;
 	
 
 	protected StorageEntryDialog(StorageEditor parent, StorageEntry en)
 	{
-		super(parent, "KeyEditorDialog", true);
-		setTitle(TXT.get("KeyEditorDialog.title", "Modify Key"));
+		super(parent, "StorageEntryDialog", true);
+		setTitle(en == null ? "Add Key" : "Modify " + en.getKey());
 		setMinimumSize(350, 180);
-		setSize(350, 180);
+		setSize(700, 500);
 
-		this.model = parent.model;
-		this.entry = en;
+		keyField = new JTextField();
 		
-		keyField = new JTextField()
-		{
-			protected void processKeyEvent(KeyEvent ev)
-			{
-				super.processKeyEvent(ev);
-			}
-		};
+		valueField = new JTextArea();
+		valueField.setFont(Theme.monospacedFont());
+		valueField.setLineWrap(true);
+		valueField.setWrapStyleWord(true);
 		
-		documentFilter = new CDocumentFilter(false);
-		documentFilter.attachTo(keyField);
-//		keyField.addKeyListener(new KeyAdapter()
-//		{
-//			public void keyPressed(KeyEvent ev)
-//			{
-//				KeyStroke k = getKeyStroke(ev.getKeyCode(), ev.getModifiersEx());
-//				if(k != null)
-//				{
-//					setKeyStroke(k);
-//					ev.consume();
-//				}
-//			}
-//		});
-		
-		warningLabel = new JLabel();
+		scroll = new CScrollPane(valueField, false);
+		scroll.setBorder(Theme.BORDER_FIELD);
 		
 		CPanel p = new CPanel();
-		p.setBorder(new CBorder(10));
+		p.setBorder(new CBorder(10, 10, 0, 10));
 		p.setLayout
 		(
 			new double[]
@@ -78,112 +58,66 @@ public class StorageEntryDialog
 			new double[]
 			{
 				CPanel.PREFERRED,
-				CPanel.PREFERRED,
 				CPanel.FILL
 			},
 			10, 5
 		);
 
 		int ix = 0;
-		p.add(1, ix, p.info(TXT.get("KeyEditorDialog.info.select new key for FUNCTION", "Type new key for {0}.", entry.getKey())));
-		ix++;
-		p.add(0, ix, p.label(TXT.get("KeyEditorDialog.label.new key", "New key:")));
+		p.add(0, ix, p.label("Key:"));
 		p.add(1, ix, keyField);
 		ix++;
-		p.add(1, ix, warningLabel);
+		p.add(0, ix, p.labelTopAligned("Value:"));
+		p.add(1, ix, scroll);
 		
 		BasePanel bp = new BasePanel();
 		bp.setCenter(p);
 		bp.buttons().add(new CButton(Menus.Cancel, cancelAction));
-		bp.buttons().add(new CButton(TXT.get("KeyEditorDialog.clear keystroke", "Clear"), clearAction));
 		bp.buttons().add(new CButton(Menus.OK, okAction, true));
 		
 		setCenter(bp);
 		
-//		setKeyStroke(en.getKey());
-	}
-	
-	
-	protected KeyStroke getKeyStroke(int code, int mods)
-	{
-		// filter keys that should not be there
-		switch(code)
-		{
-		case 0:
-		case KeyEvent.VK_CONTROL:
-		case KeyEvent.VK_SHIFT:
-		case KeyEvent.VK_ALT:
-		case KeyEvent.VK_NUM_LOCK:
-		case KeyEvent.VK_WINDOWS:
-		case KeyEvent.VK_CONTEXT_MENU:
-		case KeyEvent.VK_ALT_GRAPH:
-			return null;
-		}
-		
-		return KeyStroke.getKeyStroke(code, mods);
-	}
-
-
-	protected void onKeyEvent(KeyEvent ev)
-	{
-//		KeyStroke k = KeyStroke.getKeyStroke(ev.getKeyCode(), ev.getModifiersEx());
-//		setKeyStroke(k);
-		
-		ev.consume();
+		this.entry = en;
+		// TODO set entry
 	}
 	
 
-	public static String open(StorageEditor parent, StorageEntry en)
+	public static StorageEntry open(StorageEditor parent, StorageEntry en)
 	{
 		StorageEntryDialog d = new StorageEntryDialog(parent, en);		
 		d.open();
-		return d.selected;
-	}
-	
-	
-//	protected void setKeyStroke(KeyStroke k)
-//	{
-//		documentFilter.setAllowChanges(true);
-//		
-//		if(k == null)
-//		{
-//			keyField.setText(null);
-//		}
-//		else
-//		{
-//			keyField.setText(KeyNames.getKeyName(k));
-//		}
-//		
-//		documentFilter.setAllowChanges(false);
-//		
-//		current = k;
-//		
-//		updateWarning();
-//	}
-	
-	
-	protected void updateWarning()
-	{
-		// TODO think about it
-//		KeyBindingEntry en = model.findByKeyStroke(current);
-//		if(en == entry)
-//		{
-//			en = null;
-//		}
-//		warningLabel.setText(en == null ? null : en.accelerator.getFullName()); 
-	}
-	
-	
-	protected void actionClear()
-	{
-//		setKeyStroke(null);
+		return d.entry;
 	}
 	
 	
 	protected void actionCommit()
 	{
-		selected = current;
-		close();
+		try
+		{
+			String k = keyField.getText();
+			if(CKit.isBlank(k))
+			{
+				throw new UserException("Please enter a valid key.");
+			}
+			// TODO check if already exists only if entry==null
+			
+			String v = valueField.getText();
+			
+			if(entry == null)
+			{
+				entry = new StorageEntry(k, v);
+			}
+			else
+			{
+				entry.setValue(v);
+			}
+			
+			close();
+		}
+		catch(Exception e)
+		{
+			Dialogs.err(this, e);
+		}
 	}
 	
 	

@@ -5,7 +5,6 @@ import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
-import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.icons.NotebookIcons;
 import java.awt.Component;

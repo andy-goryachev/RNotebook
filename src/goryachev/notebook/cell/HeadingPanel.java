@@ -5,7 +5,6 @@ import goryachev.common.ui.CMenuItem;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
-import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import java.awt.Component;
 import javax.swing.JPopupMenu;

@@ -9,6 +9,7 @@ import goryachev.common.ui.CPopupMenu;
 import goryachev.common.ui.CPopupMenuController;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.CToolBar;
+import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -29,13 +30,12 @@ public class StorageEditor
 	implements OptionEditorInterface
 {
 	public final CAction addAction = new CAction() { public void action() { actionAdd(); } };
-	public final CAction clearAction = new CAction() { public void action() { actionClear(); } }; // FIX delete
+	public final CAction deleteAction = new CAction() { public void action() { actionDelete(); } };
 	public final CAction modifyAction = new CAction() { public void action() { actionModify(); } };
 	public final StorageTableModel model;
 	public final ZTable table;
 	public final ZFilterLogic filter;
 	public final CTableSelector selector;
-	// TODO current, updateActions()
 	
 	
 	public StorageEditor()
@@ -86,10 +86,10 @@ public class StorageEditor
 	public JPopupMenu createTablePopupMenu()
 	{
 		CPopupMenu m = new CPopupMenu();
-		m.add(new CMenuItem("Add", addAction));
-		m.add(new CMenuItem("Modify", modifyAction));
+		m.add(new CMenuItem(Menus.Add, addAction));
+		m.add(new CMenuItem(Menus.Modify, modifyAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Clear", clearAction));
+		m.add(new CMenuItem(Menus.Delete, deleteAction));
 		return m;
 	}
 	
@@ -97,7 +97,7 @@ public class StorageEditor
 	protected void onSelectionChange()
 	{
 		StorageEntry x = getSelectedEntry();
-		show(x);
+		setEntry(x);
 	}
 	
 	
@@ -111,7 +111,7 @@ public class StorageEditor
 	{
 		load();
 		
-		show(null);
+		setEntry(null);
 	}
 
 
@@ -136,10 +136,10 @@ public class StorageEditor
 	private JComponent createToolbar()
 	{
 		CToolBar t = Theme.toolbar();
-		t.add(new CButton("Add", addAction));
-		t.add(new CButton("Modify", modifyAction));
+		t.add(new CButton(Menus.Add, addAction));
+		t.add(new CButton(Menus.Modify, modifyAction));
 		t.space();
-		t.add(new CButton("Clear", clearAction));
+		t.add(new CButton(Menus.Delete, deleteAction));
 		t.fill();
 		t.add(200, filter.getComponent());
 		return t;
@@ -148,6 +148,7 @@ public class StorageEditor
 
 	public void load()
 	{
+		// TODO
 		CList<StorageEntry> list = new CList();
 //		for(Accelerator a: Accelerator.getAccelerators())
 //		{
@@ -158,9 +159,21 @@ public class StorageEditor
 	}
 
 
-	protected void show(StorageEntry en)
+	public void commit()
+    {
+		// TODO
+		for(StorageEntry en: model.getItems())
+		{
+//			en.commit();
+		}
+    }
+	
+
+	protected void setEntry(StorageEntry se)
 	{
-		modifyAction.setEnabled(en != null);
+		boolean en = (se != null);
+		deleteAction.setEnabled(en);
+		modifyAction.setEnabled(en);
 	}
 	
 	
@@ -169,23 +182,22 @@ public class StorageEditor
 		StorageEntry en = getSelectedEntry();
 		if(en != null)
 		{
-			String k = StorageEntryDialog.open(this, en);
-			if(k != null)
-			{
-				//en.setKey(k);
-				model.refreshAll();
-			}
+			StorageEntryDialog.open(this, en);
+			model.refreshAll();
 		}
 	}
 	
 	
-	protected void actionClear()
+	protected void actionDelete()
 	{
 		StorageEntry en = getSelectedEntry();
 		if(en != null)
 		{
-			en.setValue(null);
-			model.refreshAll();
+			if(Dialogs.confirm2(this, "Delete", "Delete key " + en.getKey() + "?", "Delete"))
+			{
+				model.removeItem(en);
+				model.refreshAll();
+			}
 		}
 	}
 	
@@ -202,15 +214,6 @@ public class StorageEditor
 	    return false;
     }
 
-
-	public void commit()
-    {
-		for(StorageEntry en: model.getItems())
-		{
-//			en.commit();
-		}
-    }
-	
 	
 	public String getSearchString()
 	{
@@ -226,6 +229,10 @@ public class StorageEditor
 	
 	protected void actionAdd()
 	{
-		// TODO
+		StorageEntry en = StorageEntryDialog.open(this, null);
+		if(en != null)
+		{
+			model.addItem(en);
+		}
 	}
 }

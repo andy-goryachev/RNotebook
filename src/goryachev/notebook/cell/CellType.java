@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook;
+package goryachev.notebook.cell;
 import goryachev.common.util.TXT;
+import goryachev.notebook.Schema;
 
 
 public enum CellType 

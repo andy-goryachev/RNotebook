@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.util.CList;
+import goryachev.notebook.cell.CellType;
 
 
 public class DataBook

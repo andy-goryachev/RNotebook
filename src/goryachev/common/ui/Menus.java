@@ -7,6 +7,7 @@ public class Menus
 {
 	// a
 	public static final String About = TXT.get("Menus.about this program", "About");
+	public static final String Add = TXT.get("Menus.add/create an item", "Add");
 	public static final String Appearance = TXT.get("Menus.appearance options", "Appearance");
 	// b
 	public static final String Back = TXT.get("Menus.go back", "Back");
@@ -67,6 +68,7 @@ public class Menus
 	public static final String License = TXT.get("Menus.license", "License");
 	public static final String Loading = TXT.get("Menus.loading", "Loading...");
 	// m
+	public static final String Modify = TXT.get("Menus.movify an item", "Modify");
 	public static final String MoveDown = TXT.get("Menus.move down (verb)", "Move Down");
 	public static final String MoveLeft = TXT.get("Menus.move left (verb)", "Move Left");
 	public static final String MoveRight = TXT.get("Menus.move right (verb)", "Move Right");

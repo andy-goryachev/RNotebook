@@ -8,7 +8,6 @@ import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.Log;
 import goryachev.notebook.Accelerators;
-import goryachev.notebook.CellType;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.icons.NotebookIcons;
