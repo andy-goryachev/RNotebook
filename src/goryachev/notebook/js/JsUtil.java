@@ -452,4 +452,18 @@ public class JsUtil
 			return RFileFilter.parse(x.toString());
 		}
 	}
+
+
+	public static String[] parseStringArray(Object[] arg)
+	{
+		int sz = arg.length;
+		String[] ss = new String[sz];
+		for(int i=0; i<sz; i++)
+		{
+			Object v = arg[i];
+			String s = Parsers.parseString(v);
+			ss[i] = s;
+		}
+		return ss;
+	}
 }

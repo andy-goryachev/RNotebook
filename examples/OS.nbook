@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "OS.help",
-      "sequence": 132,
+      "sequence": 134,
       "output": [
         {
           "type": "text",
-          "text": "OS provides access to the following system functions:\n   OS.arch     - returns the OS architecture\n   OS.cpuCount - returns number of processor cores\n   OS.freeMem  - returns the amount of free memory in the JVM\n   OS.hostName - returns the host name\n   OS.maxMem   - returns the maximum amount of memory that the JVM will attempt to use\n   OS.name     - returns the OS name\n   OS.time     - current time in milliseconds\n   OS.totalMem - returns the total amount of memory in the JVM\n   OS.usedMem  - returns the amount of memory currently being used\n   OS.userName - returns the user name\n   OS.version  - returns the OS version"
+          "text": "OS provides access to the following system functions:\n   OS.arch                    - returns the OS architecture\n   OS.cpuCount                - returns number of processor cores\n   OS.exec(cmd, [arg], ...)   - executes an external executable waiting for it to finish\n   OS.freeMem                 - returns the amount of free memory in the JVM\n   OS.hostName                - returns the host name\n   OS.launch(cmd, [arg], ...) - executes an external executable without waiting for it to finish\n   OS.maxMem                  - returns the maximum amount of memory that the JVM will attempt to use\n   OS.name                    - returns the OS name\n   OS.time                    - current time in milliseconds\n   OS.totalMem                - returns the total amount of memory in the JVM\n   OS.usedMem                 - returns the amount of memory currently being used\n   OS.userName                - returns the user name\n   OS.version                 - returns the OS version"
         }
       ]
     },
@@ -41,6 +41,17 @@
     },
     {
       "type": "js",
+      "source": "OS.exec('notepad.exe', '-help');",
+      "sequence": 136,
+      "output": [
+        {
+          "type": "text",
+          "text": "0"
+        }
+      ]
+    },
+    {
+      "type": "js",
       "source": "OS.freeMem",
       "sequence": 6,
       "output": [
@@ -60,6 +71,12 @@
           "text": "DELL7500"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "OS.launch('notepad.exe');",
+      "sequence": 137,
+      "output": []
     },
     {
       "type": "js",
