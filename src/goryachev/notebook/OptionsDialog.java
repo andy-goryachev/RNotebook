@@ -12,6 +12,7 @@ import goryachev.common.ui.options.edit.NumberFormatOptionEditor;
 import goryachev.common.ui.options.edit.TimeFormatOptionEditor;
 import goryachev.common.ui.theme.ThemeOptions;
 import goryachev.common.util.TXT;
+import goryachev.notebook.storage.StorageEditor;
 import java.awt.Component;
 
 
@@ -41,9 +42,9 @@ public class OptionsDialog
 		b.end();
 		
 		// secure storage
-		b.addChild("Secure Storage");
+		b.addChild("Key-Value Storage");
 		{
-			//b.addOption(new BooleanOptionEditor(Options.weekStartsMonday, "Week starts Monday"));
+			b.addOption(new StorageEditor());
 		}
 		b.end();
 		
