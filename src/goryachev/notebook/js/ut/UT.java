@@ -1,6 +1,8 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.ut;
+import goryachev.common.util.Base64;
 import goryachev.common.util.HSLColor;
+import goryachev.common.util.Hex;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
 import org.jsoup.Jsoup;
@@ -38,11 +40,39 @@ public class UT
 	}
 	
 	
+	public String encodeBase64(byte[] b)
+	{
+		return Base64.encode(b);
+	}
+	
+	
+	public byte[] decodeBase64(String s) throws Exception
+	{
+		return Base64.decode(s.trim());
+	}
+	
+	
+	public String encodeHex(byte[] b)
+	{
+		return Hex.toHexString(b);
+	}
+	
+	
+	public byte[] decodeHex(String s) throws Exception
+	{
+		return Hex.parseByteArray(s.trim());
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("UT");
 		h.a("UT offers helpful utility functions:");
 		//
+		h.a("decodeBase64(string)", "decodes Base64-encoded string");
+		h.a("encodeBase64(bytes)", "encodes a byte array using Base64");
+		h.a("decodeHex(string)", "decodes a hexadecimal string");
+		h.a("encodeHex(bytes)", "encodes a byte array into a hexadecimal string");
 		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
 		h.a("parseHtml(html)", "parse HTML document");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");

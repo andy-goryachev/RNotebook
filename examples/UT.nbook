@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "UT.help",
-      "sequence": 139,
+      "sequence": 149,
       "output": [
         {
           "type": "text",
-          "text": "UT offers helpful utility functions:\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parseHtml(html)                     - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
+          "text": "UT offers helpful utility functions:\n   UT.decodeBase64(string)                - decodes Base64-encoded string\n   UT.decodeHex(string)                   - decodes a hexadecimal string\n   UT.encodeBase64(bytes)                 - encodes a byte array using Base64\n   UT.encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parseHtml(html)                     - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },
@@ -36,6 +36,17 @@
         {
           "type": "text",
           "text": "1234"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "b = UT.decodeHex(\"CAFEBABE000102030405060708FF\");\nb64 = UT.encodeBase64(b);\nprint(b64);\nprint(UT.decodeBase64(b64));\nprint(UT.encodeHex(b));",
+      "sequence": 146,
+      "output": [
+        {
+          "type": "text",
+          "text": "yv66vgABAgMEBQYHCP8=\n[B@41daa600\nCAFEBABE000102030405060708FF"
         }
       ]
     }

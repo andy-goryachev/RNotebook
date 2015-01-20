@@ -9,7 +9,7 @@
     {
       "type": "js",
       "source": "FS.help",
-      "sequence": 134,
+      "sequence": 135,
       "output": [
         {
           "type": "text",
@@ -163,13 +163,7 @@
     {
       "type": "js",
       "source": "FS.touch(\"test/test.file\");",
-      "sequence": 129,
-      "output": [
-        {
-          "type": "text",
-          "text": null
-        }
-      ]
+      "sequence": 129
     }
   ]
 }
