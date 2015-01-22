@@ -174,13 +174,6 @@
           "description": null
         },
         {
-          "id": "9C367194118D7B119862C9D888AFBF550C88D4F0",
-          "title": "NB.getValue,setValue",
-          "created": 1420449339875,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "FFE7E276A12386EABC209014F865DA719BCFF927",
           "title": "NB.describe",
           "created": 1420450554757,
@@ -740,6 +733,13 @@
       "title": "OS.exec/launch",
       "created": 1420449356390,
       "completed": 1421720699560,
+      "description": null
+    },
+    {
+      "id": "9C367194118D7B119862C9D888AFBF550C88D4F0",
+      "title": "NB.getValue,setValue",
+      "created": 1420449339875,
+      "completed": 1421968689233,
       "description": null
     }
   ]

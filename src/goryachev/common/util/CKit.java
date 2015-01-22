@@ -1834,6 +1834,23 @@ public class CKit
 	}
 	
 	
+	public static void writeProperties(Properties p, File f) throws Exception
+	{
+		if(p != null)
+		{
+			FileOutputStream out = new FileOutputStream(f);
+			try
+			{
+				p.store(out, null);
+			}
+			finally
+			{
+				close(out);
+			}
+		}
+	}
+	
+	
 	/** returns row count for itemCount and specified number of columns */
 	public static int rowCount(int itemCount, int cols)
 	{

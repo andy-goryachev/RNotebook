@@ -8,6 +8,8 @@ import goryachev.common.util.CList;
 import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import goryachev.notebook.icons.NotebookIcons;
+import goryachev.notebook.js.nb.NEmbeddedStorage;
+import goryachev.notebook.storage.EmbeddedStorage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -22,6 +24,8 @@ public class RNotebookApp
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);
 	public static final int REMINDER_COUNT = 60;
+	public static final String EMBEDDED_STORAGE_FILE = "storage.dat";
+	private static NEmbeddedStorage storage;
 	
 	
 	public RNotebookApp()
@@ -89,6 +93,8 @@ public class RNotebookApp
 	
 	public boolean exiting()
 	{
+		// TODO save storage
+		
 		storeOpenWindows();
 		
 		if(NotebookWindow.askToSaveAllOnExit() == false)
@@ -149,5 +155,16 @@ public class RNotebookApp
 		{
 			ThankYouDialog.openDialog(lastWindow);
 		}
+	}
+
+
+	public synchronized static EmbeddedStorage getStorage()
+	{
+		if(storage == null)
+		{
+			File f = new File(getSettingsDirectory(), EMBEDDED_STORAGE_FILE);
+			storage = new NEmbeddedStorage(f);
+		}
+		return storage;
 	}
 }

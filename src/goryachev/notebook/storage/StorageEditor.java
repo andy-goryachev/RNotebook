@@ -32,14 +32,17 @@ public class StorageEditor
 	public final CAction addAction = new CAction() { public void action() { actionAdd(); } };
 	public final CAction deleteAction = new CAction() { public void action() { actionDelete(); } };
 	public final CAction modifyAction = new CAction() { public void action() { actionModify(); } };
+	public final EmbeddedStorage storage;
 	public final StorageTableModel model;
 	public final ZTable table;
 	public final ZFilterLogic filter;
 	public final CTableSelector selector;
 	
 	
-	public StorageEditor()
+	public StorageEditor(EmbeddedStorage st)
 	{
+		this.storage = st;
+		
 		model = new StorageTableModel();
 		
 		table = new ZTable(model);
@@ -148,12 +151,13 @@ public class StorageEditor
 
 	public void load()
 	{
-		// TODO
 		CList<StorageEntry> list = new CList();
-//		for(Accelerator a: Accelerator.getAccelerators())
-//		{
-//			list.add(new StorageEntry(a, a.get()));
-//		}
+		
+		for(String k: storage.getKeys())
+		{
+			String v = storage.getValue(k);
+			list.add(new StorageEntry(k, v));
+		}
 
 		model.replaceAll(list);
 	}
@@ -161,10 +165,12 @@ public class StorageEditor
 
 	public void commit()
     {
-		// TODO
 		for(StorageEntry en: model.getItems())
 		{
-//			en.commit();
+			if(en.isModified())
+			{
+				storage.setValue(en.getKey(), en.getValue());
+			}
 		}
     }
 	

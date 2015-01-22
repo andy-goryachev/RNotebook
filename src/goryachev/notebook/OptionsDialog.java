@@ -44,7 +44,7 @@ public class OptionsDialog
 		// secure storage
 		b.addChild("Key-Value Storage");
 		{
-			b.addOption(new StorageEditor());
+			b.addOption(new StorageEditor(RNotebookApp.getStorage()));
 		}
 		b.end();
 		

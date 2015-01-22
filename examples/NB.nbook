@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "NB.help",
-      "sequence": 137,
+      "sequence": 144,
       "output": [
         {
           "type": "text",
-          "text": "NB provides operations with the notebook application:\n   NB.display(x) - displays an object in the code output section"
+          "text": "NB provides operations with the notebook application:\n   NB.NB.display(x)         - displays an object in the code output section\n   NB.NB.getValue(key)      - returns a string value from the notebook storage\n   NB.NB.setValue(key, val) - stores a string value in the notebook storage"
         }
       ]
     },
@@ -31,7 +31,7 @@
     {
       "type": "js",
       "source": "NB.display(new JImage(100, 10, 'magenta'));",
-      "sequence": 139,
+      "sequence": 145,
       "output": [
         {
           "type": "image",
@@ -68,6 +68,22 @@
               "n"
             ]
           ]
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "NB.setValue('key', 'value');",
+      "sequence": 141
+    },
+    {
+      "type": "js",
+      "source": "v = NB.getValue('key');\nprint(v);",
+      "sequence": 143,
+      "output": [
+        {
+          "type": "text",
+          "text": "value"
         }
       ]
     }
