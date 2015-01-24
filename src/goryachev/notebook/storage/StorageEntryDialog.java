@@ -5,7 +5,6 @@ import goryachev.common.ui.BasePanel;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CButton;
-import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Dialogs;
@@ -26,13 +25,15 @@ public class StorageEntryDialog
 	public final JTextField keyField;
 	public final JTextArea valueField;
 	public final CScrollPane scroll;
+	private final EmbeddedStorage storage;
 	private StorageEntry entry;
 	
 
-	protected StorageEntryDialog(StorageEditor parent, StorageEntry en)
+	protected StorageEntryDialog(StorageEditor parent, EmbeddedStorage st, StorageEntry en)
 	{
 		super(parent, "StorageEntryDialog", true);
-		setTitle(en == null ? "Add Key" : "Modify " + en.getKey());
+		this.storage = st;
+		
 		setMinimumSize(350, 180);
 		setSize(700, 500);
 
@@ -73,20 +74,46 @@ public class StorageEntryDialog
 		BasePanel bp = new BasePanel();
 		bp.setCenter(p);
 		bp.buttons().add(new CButton(Menus.Cancel, cancelAction));
-		bp.buttons().add(new CButton(Menus.OK, okAction, true));
+		bp.buttons().add(new CButton(Menus.Save, okAction, true));
 		
 		setCenter(bp);
 		
+		setEntry(en);
+	}
+	
+	
+	protected void setEntry(StorageEntry en)
+	{
 		this.entry = en;
-		// TODO set entry
+
+		if(en == null)
+		{
+			setTitle("Add Value");
+		}
+		else
+		{
+			keyField.setText(en.getKey());
+			keyField.setEditable(false);
+			
+			valueField.setText(en.getValue());
+			valueField.setCaretPosition(0);
+			
+			setTitle("Modify Value" + en.getKey());
+		}
 	}
 	
 
-	public static StorageEntry open(StorageEditor parent, StorageEntry en)
+	public static StorageEntry open(StorageEditor parent, EmbeddedStorage st, StorageEntry en)
 	{
-		StorageEntryDialog d = new StorageEntryDialog(parent, en);		
+		StorageEntryDialog d = new StorageEntryDialog(parent, st, en);		
 		d.open();
 		return d.entry;
+	}
+	
+	
+	protected boolean isDuplicateKey(String k)
+	{
+		return storage.getKeys().contains(k);
 	}
 	
 	
@@ -99,18 +126,19 @@ public class StorageEntryDialog
 			{
 				throw new UserException("Please enter a valid key.");
 			}
-			// TODO check if already exists only if entry==null
+			
+			if(isDuplicateKey(k))
+			{
+				throw new UserException("Duplicate key: " + k);
+			}
 			
 			String v = valueField.getText();
 			
 			if(entry == null)
 			{
-				entry = new StorageEntry(k, v);
+				entry = new StorageEntry(k, null);
 			}
-			else
-			{
-				entry.setValue(v);
-			}
+			entry.setValue(v);
 			
 			close();
 		}

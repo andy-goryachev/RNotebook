@@ -38,6 +38,6 @@ public class StorageEntry
 	
 	public boolean isModified()
 	{
-		return CKit.notEquals(key, original);
+		return CKit.notEquals(original, value);
 	}
 }

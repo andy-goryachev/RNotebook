@@ -52,7 +52,7 @@ public class StorageEditor
 		
 		filter = new ZFilterLogic(table);
 		
-		selector = new CTableSelector(table)
+		selector = new CTableSelector(table, true, false, true)
 		{
 			public void tableSelectionChangeDetected()
             {
@@ -178,7 +178,9 @@ public class StorageEditor
 	protected void setEntry(StorageEntry se)
 	{
 		boolean en = (se != null);
-		deleteAction.setEnabled(en);
+		boolean has = selector.isNotEmpty();
+		
+		deleteAction.setEnabled(has);
 		modifyAction.setEnabled(en);
 	}
 	
@@ -188,7 +190,7 @@ public class StorageEditor
 		StorageEntry en = getSelectedEntry();
 		if(en != null)
 		{
-			StorageEntryDialog.open(this, en);
+			StorageEntryDialog.open(this, storage, en);
 			model.refreshAll();
 		}
 	}
@@ -196,14 +198,14 @@ public class StorageEditor
 	
 	protected void actionDelete()
 	{
-		StorageEntry en = getSelectedEntry();
-		if(en != null)
+		CList<StorageEntry> sel = model.getSelectedEntries(selector);
+		if(Dialogs.confirm2(this, "Delete", "The values will be deleted.  Are you sure?", "Delete"))
 		{
-			if(Dialogs.confirm2(this, "Delete", "Delete key " + en.getKey() + "?", "Delete"))
+			for(StorageEntry en: sel)
 			{
 				model.removeItem(en);
-				model.refreshAll();
 			}
+			model.refreshAll();
 		}
 	}
 	
@@ -235,7 +237,7 @@ public class StorageEditor
 	
 	protected void actionAdd()
 	{
-		StorageEntry en = StorageEntryDialog.open(this, null);
+		StorageEntry en = StorageEntryDialog.open(this, storage, null);
 		if(en != null)
 		{
 			model.addItem(en);

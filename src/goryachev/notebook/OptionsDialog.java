@@ -48,13 +48,6 @@ public class OptionsDialog
 		}
 		b.end();
 		
-		// connectors
-		b.addChild("Connectors");
-		{
-			//b.addOption(new BooleanOptionEditor(Options.weekStartsMonday, "Week starts Monday"));
-		}
-		b.end();
-		
 		// keys
 		b.addChild(Menus.Keys);
 		{
