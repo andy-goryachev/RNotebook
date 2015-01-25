@@ -12,7 +12,6 @@ public class CFieldBorder
 	extends AbstractBorder
 {
 	private boolean drawLine;
-//	private static Color shadow = new Color(0,0,0,58);
 
 
 	public CFieldBorder(boolean drawLine)
