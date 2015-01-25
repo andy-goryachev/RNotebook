@@ -13,7 +13,7 @@
     {
       "type": "js",
       "source": "im = new JImage(100, 40);",
-      "sequence": 24,
+      "sequence": 34,
       "output": [
         {
           "type": "image",

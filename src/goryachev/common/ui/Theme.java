@@ -356,15 +356,15 @@ public class Theme
 	{
 		return ThemeOptions.focusColor.get();
 	}
-	
+
 
 	/** darker than panel packground */
 	public static Color lineColor()
 	{
 		return ThemeOptions.lineColor.get();
 	}
-	
-	
+
+
 	public static Color linkColor()
 	{
 		return ThemeOptions.linkColor.get();
