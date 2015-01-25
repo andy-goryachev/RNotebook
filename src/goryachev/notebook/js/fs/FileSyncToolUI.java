@@ -1,9 +1,11 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
 import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.icons.CIcons;
+import goryachev.common.ui.table.ZTable;
 import goryachev.common.util.D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ public class FileSyncToolUI
 	extends CPanel
 	implements FileSyncTool.Listener, ActionListener
 {
+	public static final int REFRESH_PERIOD = 100;
 	public final JLabel currentFileField;
 	public final JLabel copiedField;
 	public final JLabel deletedField;
@@ -25,11 +28,15 @@ public class FileSyncToolUI
 	public final JLabel elapsedField;
 	public final JLabel statusField;
 	public final JLabel errorField;
+	public final SyncErrorModel model;
+	public final ZTable table;
+	public final CScrollPane scroll;
 	protected final Timer timer;
 	protected FileSyncTool tool;
 	protected long started;
 	protected int errors;
 	protected volatile File target;
+
 	
 	
 	public FileSyncToolUI()
@@ -46,13 +53,24 @@ public class FileSyncToolUI
 		
 		elapsedField = new JLabel(" ");
 		
-		timer = new Timer(100, this);
+		timer = new Timer(REFRESH_PERIOD, this);
 		
 		statusField = new JLabel();
 		
 		errorField = new JLabel(" ");
 		
-		setLayout
+		model = new SyncErrorModel();
+		
+		table = new ZTable(model);
+		
+		scroll = new CScrollPane(table, false);
+		scroll.setTrackComponentDimensions(true);
+		scroll.setBorder(Theme.lineBorder()); // TODO too dark
+		
+		CPanel p = new CPanel();
+		p.setBorder(10);
+		p.setBackground(Theme.panelBG());
+		p.setLayout
 		(
 			new double[]
 			{
@@ -74,38 +92,51 @@ public class FileSyncToolUI
 		);
 		
 		int ix = 0;
-		add(0, ix, heading("Sync"));
-		add(1, ix, "Current file:");
-		add(2, ix, currentFileField);
+		p.add(0, ix, heading("Sync"));
+		p.add(1, ix, "Current file:");
+		p.add(2, ix, currentFileField);
 		ix++;
-		add(0, ix, 0, ix+5, statusField);
-		add(1, ix, "Free space:");
-		add(2, ix, freeSpaceField);
+		p.add(0, ix, 0, ix+5, statusField);
+		p.add(1, ix, "Free space:");
+		p.add(2, ix, freeSpaceField);
 		ix++;
-		add(1, ix, "Copied:");
-		add(2, ix, copiedField);
+		p.add(1, ix, "Copied:");
+		p.add(2, ix, copiedField);
 		ix++;
-		add(1, ix, "Deleted:");
-		add(2, ix, deletedField);
+		p.add(1, ix, "Deleted:");
+		p.add(2, ix, deletedField);
 		ix++;
-		add(1, ix, "Total files:");
-		add(2, ix, totalField);
+		p.add(1, ix, "Total files:");
+		p.add(2, ix, totalField);
 		ix++;
-		add(1, ix, "Elapsed time:");
-		add(2, ix, elapsedField);
+		p.add(1, ix, "Elapsed time:");
+		p.add(2, ix, elapsedField);
 		ix++;
-		add(1, ix, "Errors:");
-		add(2, ix, errorField);
+		p.add(1, ix, "Errors:");
+		p.add(2, ix, errorField);
 		
-		setBorder(10);
-		setBackground(Theme.panelBG());
+		setNorth(p);
+		setCenter(scroll);		
 	}
 	
 
 	public void handleSyncWarning(File src, File dst, String err)
 	{
-		errors++;
-		errorField.setText(Theme.formatNumber(errors));
+		final SyncErrorModel.Entry en = new SyncErrorModel.Entry();
+		en.error = err;
+		en.src = src;
+		en.dst = dst;
+		
+		UI.inEDTW(new Runnable()
+		{
+			public void run()
+			{
+				errors++;
+				errorField.setText(Theme.formatNumber(errors));
+
+				model.addItem(en);
+			}
+		});
 		
 		D.print(err); // FIX
 	}

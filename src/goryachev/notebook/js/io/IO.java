@@ -9,6 +9,7 @@ import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.charset.Charset;
 
 
 public class IO
@@ -64,9 +65,31 @@ public class IO
 	}
 	
 	
-	public void write(Object v, File f) throws Exception
+	public void writeText(Object text, File f) throws Exception
 	{
-		CKit.write(f, v.toString());
+		CKit.write(f, text.toString());
+	}
+	
+	
+	public void writeText(Object text, String encoding, File f) throws Exception
+	{
+		Charset cs = Charset.forName(encoding);
+		CKit.write(f, text.toString(), cs);
+	}
+	
+	
+	public String readText(Object file) throws Exception
+	{
+		File f = JsUtil.parseFile(file);
+		return CKit.readString(f);
+	}
+	
+	
+	public String readText(Object file, String encoding) throws Exception
+	{
+		File f = JsUtil.parseFile(file);
+		Charset cs = Charset.forName(encoding);
+		return CKit.readString(f, cs);
 	}
 	
 	
@@ -83,7 +106,10 @@ public class IO
 		h.a("loadImage(file)", "loads image file");
 		h.a("loadTable(file)", "loads table from CSV, XLS, or XLSX file");
 		h.a("newTableReader()", "creates a table reader");
-		h.a("write(text, file)", "writes text file");
+		h.a("readText(file)", "reads text from a UTF-8 file");
+		h.a("readText(file, encoding)", "reads text from a file with specified encoding");
+		h.a("writeText(text, file)", "writes text file using UTF-8");
+		h.a("writeText(text, encoding, file)", "writes text to file using the specified encoding");
 		return h;
 	}
 }
