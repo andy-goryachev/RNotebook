@@ -1,5 +1,5 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image;
+package research.image;
 import goryachev.common.ui.UI;
 import goryachev.common.util.CException;
 import goryachev.common.util.CList;
@@ -11,10 +11,6 @@ import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
 import goryachev.common.util.img.jhlabs.EmbossFilter;
 import goryachev.common.util.img.jhlabs.GaussianFilter;
-import goryachev.notebook.js.image.filters.CrispMaskFilter;
-import goryachev.notebook.js.image.filters.InverseMaskFilter;
-import goryachev.notebook.js.image.filters.MaskFilter;
-import goryachev.notebook.js.image.filters.MultiplyAlphaFilter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -22,8 +18,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.image.BufferedImage;
+import research.image.filters.CrispMaskFilter;
+import research.image.filters.InverseMaskFilter;
+import research.image.filters.MaskFilter;
+import research.image.filters.MultiplyAlphaFilter;
 
 
+@Deprecated
 public class ImTools
 {
 	private static SvgColorNames svgColorNames;
@@ -341,7 +342,16 @@ public class ImTools
 	}
 	
 	
-	public static void fill(BufferedImage im, Shape s, Color c, BasicStroke stroke)
+	public static void fill(BufferedImage im, Shape s, Color c)
+	{
+		Graphics2D g = graphics(im);
+		g.setColor(c);
+		g.fill(s);
+		g.dispose();
+	}	
+	
+	
+	public static void draw(BufferedImage im, Shape s, Color c, BasicStroke stroke)
 	{
 		Graphics2D g = graphics(im);
 		g.setColor(c);

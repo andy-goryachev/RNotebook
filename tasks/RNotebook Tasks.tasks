@@ -45,7 +45,7 @@
         },
         {
           "id": "F8305802D65197C499BEC6A5741008FE91E662F7",
-          "title": "byte buffer",
+          "title": "elastic byte buffer",
           "created": 1420840109774,
           "completed": null,
           "description": null
@@ -181,20 +181,6 @@
       "y": 1,
       "title": "IO",
       "tasks": [
-        {
-          "id": "446B174E57231E193FA0E670832E12822B7F0669",
-          "title": "IO.newWriter",
-          "created": 1420449168465,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "DF7AD6166986DAED116D30597E84260D986B478D",
-          "title": "IO.newReader",
-          "created": 1420449173824,
-          "completed": null,
-          "description": null
-        },
         {
           "id": "5F09D26BE8B3A5437FD86BBE597D4BABD87C4851",
           "title": "IO.compress/decompress",

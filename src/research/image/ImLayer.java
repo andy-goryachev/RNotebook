@@ -1,6 +1,6 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image;
-import goryachev.common.ui.ImageTools;
+package research.image;
+import goryachev.common.ui.UI;
 import goryachev.common.util.img.jhlabs.GaussianFilter;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,61 +15,72 @@ import java.awt.image.BufferedImage;
 
 public class ImLayer
 {
-	private BufferedImage buffer;
+	private BufferedImage image;
 	
 	
-	public ImLayer(int w, int h)
+	public ImLayer(int w, int h, boolean alpha)
 	{
-		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(w, h, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
 	}
 	
 	
 	protected ImLayer(BufferedImage im)
 	{
-		buffer = im;
+		image = im;
 	}
 	
 	
 	public ImLayer copy()
 	{
-		BufferedImage im = ImTools.copy(buffer);
+		BufferedImage im = ImTools.copy(image);
 		return new ImLayer(im);
 	}
 	
 	
-	protected Graphics2D graphics()
+	protected Graphics2D gr()
 	{
-		return buffer.createGraphics(); 
+		Graphics2D g = image.createGraphics();
+		UI.setAntiAliasingAndQuality(g);
+		return g;
 	}
 	
 	
 	public int getWidth()
 	{
-		return buffer.getWidth();
+		return image.getWidth();
 	}
 	
 	
 	public int getHeight()
 	{
-		return buffer.getHeight();
+		return image.getHeight();
 	}
 	
 	
-	public void fill(Shape s, Color c, BasicStroke stroke)
+	public void fill(Shape s, Color c)
 	{
-		ImTools.fill(buffer, s, c, stroke);
+		Graphics2D g = gr();
+		try
+		{
+			g.setColor(c);
+			g.fill(s);
+		}
+		finally
+		{
+			g.dispose();
+		}
 	}
 	
 	
 	public void fill(Color c)
 	{
-		ImTools.fill(buffer, c);
+		ImTools.fill(image, c);
 	}
 	
 	
 	public void draw(Shape s, Color c, BasicStroke stroke, double offsetx, double offsety)
 	{
-		Graphics2D g = ImTools.graphics(buffer);
+		Graphics2D g = ImTools.graphics(image);
 		try
 		{
 			g.setColor(c);
@@ -87,7 +98,7 @@ public class ImLayer
 	public void drawText(int x, int y, String text, Font f, Color c)
 	{
 		// TODO perhaps should use a text pane to handle html formatting and/or newlines
-		Graphics2D g = ImTools.graphics(buffer);
+		Graphics2D g = ImTools.graphics(image);
 		try
 		{
 			g.setColor(c);
@@ -192,7 +203,7 @@ public class ImLayer
 	
 	public void drawImage(Image im, double offsetx, double offsety)
 	{
-		Graphics2D g = graphics();
+		Graphics2D g = gr();
 		g.translate(offsetx, offsety);
 		g.drawImage(im, 0, 0, null);
 		g.dispose();
@@ -201,50 +212,50 @@ public class ImLayer
 
 	public BufferedImage getImage()
 	{
-		return buffer;
+		return image;
 	}
 	
 	
 	public void blur(float radius)
 	{
-		buffer = new GaussianFilter(radius).filter(buffer, null);
+		image = new GaussianFilter(radius).filter(image, null);
 	}
 	
 
 	public void innerShadow(Color color, float depth, float dx, float dy)
 	{
-		BufferedImage shadow = ImTools.innerShadowEffect(buffer, color, depth, dx, dy);
-		buffer = ImTools.paintOver(buffer, shadow);
+		BufferedImage shadow = ImTools.innerShadowEffect(image, color, depth, dx, dy);
+		image = ImTools.paintOver(image, shadow);
 	}
 	
 	
 	public void dropShadow(int intensity, float radius, float dx, float dy)
 	{
-		BufferedImage shadow = ImTools.dropShadowEffect(buffer, intensity, radius, dx, dy);
-		buffer = ImTools.paintOver(shadow, buffer);
+		BufferedImage shadow = ImTools.dropShadowEffect(image, intensity, radius, dx, dy);
+		image = ImTools.paintOver(shadow, image);
 	}
 	
 
 	public void outerShadow(Color color, float depth, float dx, float dy)
 	{
-		buffer = ImTools.outerShadow(buffer, color, depth, dx, dy);
+		image = ImTools.outerShadow(image, color, depth, dx, dy);
 	}
 	
 	
 	public void androidEffect(Color c)
 	{
-		buffer = ImTools.androidEffect(buffer, c);
+		image = ImTools.androidEffect(image, c);
 	}
 	
 	
 	public void androidEffectImage()
 	{
-		buffer = ImTools.androidEffectImage(buffer);
+		image = ImTools.androidEffectImage(image);
 	}
 	
 	
 	public void punchEffect()
 	{
-		buffer = ImTools.punchEffect(buffer);
+		image = ImTools.punchEffect(image);
 	}
 }

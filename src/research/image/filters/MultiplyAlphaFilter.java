@@ -1,5 +1,5 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image.filters;
+package research.image.filters;
 import goryachev.common.util.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;

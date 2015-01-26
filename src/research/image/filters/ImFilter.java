@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image.filters;
-import goryachev.notebook.js.image.ImTools;
+package research.image.filters;
 import java.awt.image.BufferedImage;
+import research.image.ImTools;
 
 
 public abstract class ImFilter

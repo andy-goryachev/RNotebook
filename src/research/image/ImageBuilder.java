@@ -1,13 +1,8 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image;
-import goryachev.common.ui.ImageScaler;
-import goryachev.common.ui.ImageTools;
-import goryachev.common.ui.UI;
+package research.image;
 import goryachev.common.util.CMap;
 import goryachev.common.util.UserException;
-import goryachev.common.util.img.jhlabs.InvertFilter;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -15,25 +10,24 @@ import java.awt.image.BufferedImage;
 /** this class encapsulates all the tools for image manipulation */
 public class ImageBuilder
 {
-	private BufferedImage image;
+	private int width;
+	private int height;
+	private boolean hasAlpha;
+	
 	private Color color;
 	private double xpos;
 	private double ypos;
 	private double angle;
-	private transient Graphics2D graphics;
 	private CMap<String,Object> objects;
 	private ImPath currentPath;
+	private ImLayer currentLayer;
 
-	
-	public ImageBuilder(BufferedImage im)
-	{
-		image = im;
-	}
-	
 	
 	public ImageBuilder(int width, int height, boolean alpha)
 	{
-		image = new BufferedImage(width, height, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+		this.width = width;
+		this.height = height;
+		this.hasAlpha = alpha;
 	}
 	
 	
@@ -45,11 +39,6 @@ public class ImageBuilder
 	
 	protected void commit()
 	{
-		if(graphics != null)
-		{
-			graphics.dispose();
-			graphics = null;
-		}
 	}
 	
 	
@@ -63,81 +52,87 @@ public class ImageBuilder
 	}
 	
 	
-	protected Graphics2D gr()
-	{
-		if(graphics == null)
-		{
-			graphics = image.createGraphics();
-			
-			UI.setAntiAliasingAndQuality(graphics);
-			
-			// FIX ? or before each painting?
-			if(color != null)
-			{
-				graphics.setColor(color);
-			}
-		}
-		return graphics;
-	}
+//	protected Graphics2D gr()
+//	{
+//		if(graphics == null)
+//		{
+//			graphics = image.createGraphics();
+//			
+//			UI.setAntiAliasingAndQuality(graphics);
+//			
+//			// FIX ? or before each painting?
+//			if(color != null)
+//			{
+//				graphics.setColor(color);
+//			}
+//		}
+//		return graphics;
+//	}
 	
 	
 	public BufferedImage getBufferedImage()
 	{
+		// TODO
 		commit();
-		return image;
+		return layer().getImage();
 	}
 	
 	
 	public int getWidth()
 	{
-		return image.getWidth();
+		return width;
 	}
 	
 
 	public int getHeight()
 	{
-		return image.getHeight();
+		return height;
 	}
 	
 	
 	public boolean hasAlpha()
 	{
-		return image.getColorModel().hasAlpha();
+		return hasAlpha;
 	}
 	
 	
-	public void invert()
-	{
-		commit();
-		
-		image = new InvertFilter().filter(image, null);
-	}
-	
-	
-	public void scale(double factor)
-	{
-		commit();
-		
-		int w = (int)Math.round(getWidth() * factor);
-		int h = (int)Math.round(getHeight() * factor);
-		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
-	}
+//	public void invert()
+//	{
+//		commit();
+//		
+//		image = new InvertFilter().filter(image, null);
+//	}
+//	
+//	
+//	public void scale(double factor)
+//	{
+//		commit();
+//		
+//		int w = (int)Math.round(getWidth() * factor);
+//		int h = (int)Math.round(getHeight() * factor);
+//		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
+//	}
 
 
 	public void setColor(Color c)
     {
 		color = c;
-		
-		if(graphics != null)
-		{
-			graphics.setColor(c);
-		}
     }
 	
 	
-	public void fill(double x, double y, double w, double h)
+	public Color getColor()
 	{
-		gr().fill(new Rectangle2D.Double(x, y, w, h));
+		if(color == null)
+		{
+			return Color.black;
+		}
+		return color;
+	}
+	
+	
+	public void fillRect(double x, double y, double w, double h)
+	{
+		layer().fill(new Rectangle2D.Double(x, y, w, h), getColor());
 	}
 	
 	
@@ -211,8 +206,44 @@ public class ImageBuilder
 	}
 	
 	
+	protected ImPath path()
+	{
+		if(currentPath == null)
+		{
+			path("current.path");
+		}
+		return currentPath;
+	}
+	
+	
 	public void layer(String name)
 	{
-		// TODO create layer
+		ImLayer la;
+		Object v = objects().get(name);
+		if(v instanceof ImLayer)
+		{
+			la = (ImLayer)v;
+		}
+		else if(v != null)
+		{
+			throw new UserException("Existing object is not a layer: " + name);
+		}
+		else
+		{
+			la = new ImLayer(width, height, hasAlpha);
+			objects().put(name, la);
+		}
+		
+		currentLayer = la;
+	}
+	
+	
+	protected ImLayer layer()
+	{
+		if(currentLayer == null)
+		{
+			layer("base.layer");
+		}
+		return currentLayer;
 	}
 }

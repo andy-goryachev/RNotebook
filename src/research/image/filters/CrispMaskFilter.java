@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image.filters;
+package research.image.filters;
 import java.awt.image.BufferedImage;
 
 

@@ -1,29 +1,31 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
+import goryachev.common.ui.ImageScaler;
 import goryachev.common.ui.ImageTools;
+import goryachev.common.util.CKit;
 import goryachev.common.util.Noobfuscate;
 import goryachev.notebook.js.JsUtil;
-import goryachev.notebook.js.image.ImageBuilder;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
 @Noobfuscate
 public class JImage
 {
-	private final ImageBuilder builder;
+	private BufferedImage image;
 	
 	
 	public JImage(BufferedImage im)
 	{
-		builder = new ImageBuilder(im);
+		this.image = im;
 	}
 	
 	
 	public JImage(int width, int height)
 	{
-		builder = new ImageBuilder(width, height, false);
+		this(width, height, false);
 	}
 	
 	
@@ -32,33 +34,41 @@ public class JImage
 		if(arg instanceof Boolean)
 		{
 			boolean alpha = Boolean.TRUE.equals(arg);
-			builder = new ImageBuilder(width, height, alpha);
+			image = new BufferedImage(width, height, alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
 		}
 		else
 		{
 			Color c = JsUtil.parseColor(arg);
-			builder = new ImageBuilder(width, height, false);
-			builder.setColor(c);
-			builder.fill(0, 0, width, height);
+			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = image.createGraphics();
+			try
+			{
+				g.setColor(c);
+				g.fillRect(0, 0, width, height);
+			}
+			finally
+			{
+				g.dispose();
+			}
 		}
 	}
 	
 
 	public BufferedImage getBufferedImage()
 	{
-		return ImageTools.copyImageRGB(builder.getBufferedImage());
+		return ImageTools.copyImageRGB(image);
 	}
 
 
 	public int getWidth()
 	{
-		return builder.getWidth();
+		return image.getWidth();
 	}
 	
 
 	public int getHeight()
 	{
-		return builder.getHeight();
+		return image.getHeight();
 	}
 	
 	
@@ -68,109 +78,18 @@ public class JImage
 	}
 	
 	
-	public JImage invert()
-	{
-		builder.invert();
-		return this;
-	}
-	
-	
 	public JImage copy()
 	{
-		return new JImage(getBufferedImage());
+		BufferedImage im = ImageTools.copyImageRGB(image);
+		return new JImage(im);
 	}
 	
 	
 	public JImage scale(double factor)
 	{
-		builder.scale(factor);
-		return this;
-	}
-	
-	
-	public JImage setColor(Object color)
-	{
-		Color c = JsUtil.parseColor(color);
-		builder.setColor(c);
-		return this;
-	}
-	
-	
-	public JImage setColor(double r, double g, double b)
-	{
-		Color c = JsUtil.parseColor(r, g, b, null);
-		builder.setColor(c);
-		return this;
-	}
-	
-	
-	public JImage setColor(double r, double g, double b, double a)
-	{
-		Color c = JsUtil.parseColor(r, g, b, a);
-		builder.setColor(c);
-		return this;
-	}
-	
-	
-	public JImage setStroke()
-	{
-		builder.setStroke();
-		return this;
-	}
-	
-	
-	public JImage moveTo(double x, double y)
-	{
-		builder.moveTo(x, y);
-		return this;
-	}
-	
-	
-	public JImage lineTo(double x, double y)
-	{
-		builder.lineTo(x, y);
-		return this;
-	}
-	
-	
-	public JImage setDirection(double degrees)
-	{
-		builder.setDirection(degrees);
-		return this;
-	}
-	
-	
-	public JImage line(double length)
-	{
-		builder.line(length);
-		return this;
-	}
-	
-	
-	public JImage turn(double degrees)
-	{
-		builder.turn(degrees);
-		return this;
-	}
-	
-	
-	public JImage mark()
-	{
-		builder.mark();
-		return this;
-	}
-	
-	
-	public JImage lineToMark()
-	{
-		builder.lineToMark();
-		return this;
-	}
-	
-	
-	public JImage fillRect(double x, double y, double w, double h)
-	{
-		builder.fill(x, y, w, h);
+		int w = CKit.round(getWidth() * factor);
+		int h = CKit.round(getHeight() * factor);
+		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
 		return this;
 	}
 	
@@ -184,12 +103,7 @@ public class JImage
 		//
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
 		h.a("height", "returns image height");
-		h.a("invert()", "inverts RGB channels");
 		h.a("scale(factor)", "scales the image");
-		h.a("setColor(name)", "sets the painting color by name");
-		h.a("setColor(red,green,blue)", "sets the painting color by RGB values");
-		h.a("setColor(red,green,blue,alpha)", "sets the painting color by RGB with alpha");
-		h.a("setColor(name)", "sets the current color");
 		h.a("width", "returns image width");
 		return h;
 	}

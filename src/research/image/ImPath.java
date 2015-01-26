@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.image;
+package research.image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;

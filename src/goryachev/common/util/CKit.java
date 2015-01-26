@@ -1869,7 +1869,7 @@ public class CKit
 	}
 
 
-	/** comcatenates two arrays */
+	/** concatenates two byte arrays */
 	public static byte[] concat(byte[] a, byte[] b)
 	{
 		byte[] r = new byte[a.length + b.length];
@@ -1890,5 +1890,12 @@ public class CKit
 		{
 			return s.getBytes(CHARSET_UTF8);
 		}
+	}
+	
+	
+	/** alias to Math.round(), returns int */
+	public static int round(double x)
+	{
+		return (int)Math.round(x);
 	}
 }
