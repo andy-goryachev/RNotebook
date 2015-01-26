@@ -3,6 +3,8 @@ package goryachev.notebook.js.image;
 import goryachev.common.ui.ImageScaler;
 import goryachev.common.ui.ImageTools;
 import goryachev.common.ui.UI;
+import goryachev.common.util.CMap;
+import goryachev.common.util.UserException;
 import goryachev.common.util.img.jhlabs.InvertFilter;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -15,7 +17,12 @@ public class ImageBuilder
 {
 	private BufferedImage image;
 	private Color color;
+	private double xpos;
+	private double ypos;
+	private double angle;
 	private transient Graphics2D graphics;
+	private CMap<String,Object> objects;
+	private ImPath currentPath;
 
 	
 	public ImageBuilder(BufferedImage im)
@@ -36,13 +43,23 @@ public class ImageBuilder
 	}
 	
 	
-	public void commit()
+	protected void commit()
 	{
 		if(graphics != null)
 		{
 			graphics.dispose();
 			graphics = null;
 		}
+	}
+	
+	
+	protected CMap<String,Object> objects()
+	{
+		if(objects == null)
+		{
+			objects = new CMap();
+		}
+		return objects;
 	}
 	
 	
@@ -92,6 +109,7 @@ public class ImageBuilder
 	public void invert()
 	{
 		commit();
+		
 		image = new InvertFilter().filter(image, null);
 	}
 	
@@ -168,5 +186,33 @@ public class ImageBuilder
 	public void lineToMark()
 	{
 		// TODO
+	}
+	
+	
+	public void path(String name)
+	{
+		ImPath p;
+		Object v = objects().get(name);
+		if(v instanceof ImPath)
+		{
+			p = (ImPath)v;
+		}
+		else if(v != null)
+		{
+			throw new UserException("Existing object is not a path: " + name);
+		}
+		else
+		{
+			p = new ImPath();
+			objects().put(name, p);
+		}
+		
+		currentPath = p;
+	}
+	
+	
+	public void layer(String name)
+	{
+		// TODO create layer
 	}
 }

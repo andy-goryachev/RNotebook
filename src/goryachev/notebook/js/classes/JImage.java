@@ -62,12 +62,6 @@ public class JImage
 	}
 	
 	
-//	protected boolean hasAlpha()
-//	{
-//		return image.getColorModel().hasAlpha();
-//	}
-	
-	
 	public String toString()
 	{
 		return "JImage(" + getWidth() + "x" + getHeight() + ")";
