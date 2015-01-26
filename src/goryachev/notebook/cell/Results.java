@@ -8,6 +8,7 @@ import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.js.classes.JImage;
+import goryachev.notebook.js.classes.JImageBuilder;
 import goryachev.notebook.plot.DPlotViewer;
 import goryachev.notebook.table.DTableViewer;
 import java.awt.Color;
@@ -36,6 +37,10 @@ public class Results
 		if(x instanceof JImage)
 		{
 			return ((JImage)x).getBufferedImage();
+		}
+		else if(x instanceof JImageBuilder)
+		{
+			return ((JImageBuilder)x).getImage().getBufferedImage();
 		}
 		else if(x instanceof DTable)
 		{
@@ -89,11 +94,6 @@ public class Results
 			String text = ((JsError)x).error;
 			return createTextViewer(p, text, Styles.errorColor);
 		}
-//		else if(x instanceof Throwable)
-//		{
-//			String text = JsUtil.decodeException((Throwable)x);
-//			return createTextViewer(p, text, Styles.errorColor);
-//		}
 		else if(x instanceof DTable)
 		{
 			return new DTableViewer((DTable)x, p.handler);

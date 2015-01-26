@@ -20,8 +20,8 @@
     },
     {
       "type": "js",
-      "source": "// programmatically generate an image\nim = new JImage(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tim.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tim.fillRect(im.width*i/sz, 0, im.width/sz, im.height);\n}",
-      "sequence": 126,
+      "source": "// programmatically generate an image\nb = new JImageBuilder(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tb.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tb.fillRect(b.width*i/sz, 0, b.width/sz, b.height);\n}\nb.image;",
+      "sequence": 142,
       "output": [
         {
           "type": "image",
@@ -35,36 +35,41 @@
     },
     {
       "type": "js",
-      "source": "t = new DTable('First Name','Last Name', 'Born');\nt.addRow([ 'Albert', 'Einstein', new Integer(1879) ]);\nt.addRow([ 'Niels', 'Bohr', new Integer(1885) ]);\nt.addRow([ 'Richard', 'Feynman', new Integer(1918) ]);\nt.addRow([ 'Sean', 'Carroll', new Integer(1966) ]);",
-      "sequence": 127,
+      "source": "t = new DTable('First Name','Last Name', 'Born');\nt.addRow([ 'Albert', 'Einstein', new Integer(1879) ]);\nt.addRow([ 'Niels', 'Bohr', new Integer(1885) ]);\nt.addRow([ 'Richard', 'Feynman', new Integer(1918) ]);\nt.addRow([ 'Sean', 'Carroll', new Integer(1966), '**' ]);\n",
+      "sequence": 141,
       "output": [
         {
           "type": "table",
           "columns": [
             "First Name",
             "Last Name",
-            "Born"
+            "Born",
+            "C4"
           ],
           "rows": [
             [
               "sAlbert",
               "sEinstein",
-              "i1879"
+              "i1879",
+              "n"
             ],
             [
               "sNiels",
               "sBohr",
-              "i1885"
+              "i1885",
+              "n"
             ],
             [
               "sRichard",
               "sFeynman",
-              "i1918"
+              "i1918",
+              "n"
             ],
             [
               "sSean",
               "sCarroll",
-              "i1966"
+              "i1966",
+              "s**"
             ]
           ]
         }
@@ -77,7 +82,7 @@
     {
       "type": "js",
       "source": "FS.help",
-      "sequence": 128,
+      "sequence": 132,
       "output": [
         {
           "type": "text",
@@ -87,16 +92,16 @@
     },
     {
       "type": "h2",
-      "source": "Connectors"
+      "source": "Network"
     },
     {
       "type": "js",
-      "source": "%oracle MyServer\nselect * from ORDERS",
-      "sequence": 126,
+      "source": "NET.get('http://goryachev.com/img/download-64.png');",
+      "sequence": 138,
       "output": [
         {
-          "type": "error",
-          "text": "EvaluatorException: syntax error (line #1)"
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAECElEQVR42u1aTU/UUBS9LTMwTAf5GgQUBkQ+XJqYmJjoD3ClRt2YuDMuiBuNO/0fJsatrnTFVoOICszghh2B+EXcaDSCunAj3ran8Chtp4PO6+vwXnMgTDu8nvNu37v39BHppptu0toiXaMKPeffK87vebrOn2YYTQyTYQAN1qYpR2/oAxPfDMBHukfDfFULIwsxGkyEcPIuKrTGVx1gWBCigUSww94jusTYYNjHT/ztnZuiW3x1F6PQWCK4z7xL0iO/KYjgnXtJc3x1P0Sw8DiYjRABK1skgw7v3By956uHGL2MdiEKUt2MGgUYYRxGFOSxQhjpFqBCq7EEeM0TJdEoY5BRxGOw7wQYY5QYPcI8sG8FKGgBtABaAC2AFkALkF4BDCeXr10AOx0+yGhjNAs+QSry/vM7DI9ZulKTAPdpkr8zTwv0ln/O0jO6iijIqG2Y2IZHhW86quavJkC4V5ACwyQO+b0KoLxhYoe9aHisg9iGz/CII0DU9584/qGCholoeKz7yP32kYgSYAnXi8evNBgm1ep9UYQwAYLIp8YwiYoAvwhBRxR5MQJe8Nqw0zBpVcEvMOgVXYwMY1GEWj8XH58HdFNFw8RwbqJM72KJEPfwk5+nT9zPMVUFaOJ0p5Mfhc//RQQ/+TJ9p0t0hvuZYBxlDKjmGZrOhDTJI1P+RxGCyJ+ikxh9O00exkrQwcip4hqbWJIsTlyP8E1/2ZMIfvIV+iGQHxdGv4hcoFmV9wYGRiLnZGsnuJpboK81ibB75NfpNp0D+Qk8+yVhCcyplhIbiIK8E54XeMTiirB7wvsmjLxHfgih34k+lHxrZAoidAaKEJYHxCPvZYDKlsgGbqwZN+qKsEh/tggu+8gv+2qBeOSVfmm6W4TjPHPHqfhu0Nm0k68WCeHktye88bSTDxeBqI+m6fEO4k9pShj1MSx1pbSTDxOhA8vYABKaEYz2KIgP41wvBEs1+SAR8ljDi040uFXdIDCAUS/imnwjkPeLkEUCU0A0dIGwjW581oYyN1WbpYwYMEEoCyOjFSFeACx8JhqfZsz/nYgLtL3fz7XAV6WhTDPJ7S+M3u8nGwnY5eqQT8AuD9vvJ/tIbH9h1H6/JESQbpdXs79lH9LtclUjQJJdbjhLj4pzwCO6I7jF3fVyi1372156VFoFJNrlov29pgz5y3QalaSULbYmJpgDztJjz772BGTD3twgCzOcCz6kuwHmSZ/PMK2b8WlB6X507JW1Y5Ixir7tezgkPP91M0w9+7sFSUcXlh6vrC1JxiD67gP5NpKwb0AUwULIeWVtj2QU0Xe7kAVKeVVmCKVtDpOO5StvZcBC37kk/AOxxs8AWcnIBJTEyhoi9YRuuumm257bX+k5CFe4f87FAAAAAElFTkSuQmCC"
         }
       ]
     }

@@ -3,6 +3,7 @@ package goryachev.notebook.js.classes;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import research.image.ImageBuilder;
 
 
@@ -21,6 +22,13 @@ public class JImageBuilder
 	public JImageBuilder(int width, int height)
 	{
 		this(width, height, false); 
+	}
+	
+	
+	public JImageBuilder(Object x)
+	{
+		BufferedImage im = JsUtil.parseImage(x);
+		builder = new ImageBuilder(im);
 	}
 	
 	
@@ -73,12 +81,20 @@ public class JImageBuilder
 	}
 	
 	
+	public JImageBuilder blur(float radius)
+	{
+		builder.blur(radius);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("JImageBuilder");
 		h.a("new JImageBuilder(width, height)");
 		h.a("new JImageBuilder(width, height, alpha)");
 		//
+		h.a("blur(radius)", "apply Gaussian blur to the current layer");
 		h.a("image", "returns the resulting JImage");
 		h.a("height", "returns image height");
 		//h.a("scale(factor)", "scales the image");

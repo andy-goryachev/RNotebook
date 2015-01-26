@@ -510,4 +510,27 @@ public class JsUtil
 			throw new UserException("can't convert to byte: " + x);
 		}
 	}
+
+
+	public static BufferedImage parseImage(Object x)
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof BufferedImage)
+		{
+			return (BufferedImage)x;
+		}
+		else if(x instanceof JImage)
+		{
+			return ((JImage)x).getBufferedImage();
+		}
+		else if(x instanceof Image)
+		{
+			return ImageTools.copyImageRGB((Image)x);	
+		}
+		
+		throw new UserException("Not an image: " + x.getClass());
+	}
 }

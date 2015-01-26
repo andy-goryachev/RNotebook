@@ -3,13 +3,20 @@ package research.image;
 import goryachev.common.util.CMap;
 import goryachev.common.util.UserException;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 
 /** this class encapsulates all the tools for image manipulation */
+// TODO unclear:
+// - how to show multiple layers?
 public class ImageBuilder
 {
+	public static final String BASE_LAYER = "base.layer";
+	public static final String CURRENT_PATH = "current.path";
+	
 	private int width;
 	private int height;
 	private boolean hasAlpha;
@@ -37,8 +44,12 @@ public class ImageBuilder
 	}
 	
 	
-	protected void commit()
+	public ImageBuilder(BufferedImage im)
 	{
+		this.width = im.getWidth();
+		this.height = im.getHeight();
+		this.hasAlpha = im.getColorModel().hasAlpha();
+		layer().setImage(im);
 	}
 	
 	
@@ -52,29 +63,91 @@ public class ImageBuilder
 	}
 	
 	
-//	protected Graphics2D gr()
-//	{
-//		if(graphics == null)
-//		{
-//			graphics = image.createGraphics();
-//			
-//			UI.setAntiAliasingAndQuality(graphics);
-//			
-//			// FIX ? or before each painting?
-//			if(color != null)
-//			{
-//				graphics.setColor(color);
-//			}
-//		}
-//		return graphics;
-//	}
+	protected Shape shape(String name)
+	{
+		Object x = objects.get(name);
+		if(x == null)
+		{
+			throw new UserException("Not found: " + name);
+		}
+		else if(x instanceof Shape)
+		{
+			return (Shape)x;
+		}
+		throw new UserException("Object is not a Shape: " + x.getClass());
+	}
+	
+	
+	public ImPath path(String name)
+	{
+		ImPath p;
+		Object v = objects().get(name);
+		if(v instanceof ImPath)
+		{
+			p = (ImPath)v;
+		}
+		else if(v != null)
+		{
+			throw new UserException("Existing object is not a path: " + name);
+		}
+		else
+		{
+			p = new ImPath();
+			objects().put(name, p);
+		}
+		
+		currentPath = p;
+		return p;
+	}
+	
+	
+	protected ImPath path()
+	{
+		if(currentPath == null)
+		{
+			path(CURRENT_PATH);
+		}
+		return currentPath;
+	}
+	
+	
+	public ImLayer layer(String name)
+	{
+		ImLayer la;
+		Object v = objects().get(name);
+		if(v instanceof ImLayer)
+		{
+			la = (ImLayer)v;
+		}
+		else if(v != null)
+		{
+			throw new UserException("Existing object is not a layer: " + name);
+		}
+		else
+		{
+			la = new ImLayer(width, height, hasAlpha);
+			objects().put(name, la);
+		}
+		
+		currentLayer = la;
+		return la;
+	}
+	
+	
+	protected ImLayer layer()
+	{
+		if(currentLayer == null)
+		{
+			layer(BASE_LAYER);
+		}
+		return currentLayer;
+	}
 	
 	
 	public BufferedImage getBufferedImage()
 	{
-		// TODO
-		commit();
-		return layer().getImage();
+		// TODO combine all layers?
+		return layer(BASE_LAYER).getImage();
 	}
 	
 	
@@ -96,14 +169,12 @@ public class ImageBuilder
 	}
 	
 	
-//	public void invert()
-//	{
-//		commit();
-//		
-//		image = new InvertFilter().filter(image, null);
-//	}
-//	
-//	
+	public void invert()
+	{
+		layer().invert();
+	}
+	
+	
 //	public void scale(double factor)
 //	{
 //		commit();
@@ -133,6 +204,13 @@ public class ImageBuilder
 	public void fillRect(double x, double y, double w, double h)
 	{
 		layer().fill(new Rectangle2D.Double(x, y, w, h), getColor());
+	}
+	
+	
+	public void fill(String name)
+	{
+		Shape s = shape(name);
+		layer().fill(s, getColor());
 	}
 	
 	
@@ -184,66 +262,14 @@ public class ImageBuilder
 	}
 	
 	
-	public void path(String name)
+	public void blur(float radius)
 	{
-		ImPath p;
-		Object v = objects().get(name);
-		if(v instanceof ImPath)
-		{
-			p = (ImPath)v;
-		}
-		else if(v != null)
-		{
-			throw new UserException("Existing object is not a path: " + name);
-		}
-		else
-		{
-			p = new ImPath();
-			objects().put(name, p);
-		}
-		
-		currentPath = p;
+		layer().blur(radius);
 	}
 	
 	
-	protected ImPath path()
+	public void setImage(Image im)
 	{
-		if(currentPath == null)
-		{
-			path("current.path");
-		}
-		return currentPath;
-	}
-	
-	
-	public void layer(String name)
-	{
-		ImLayer la;
-		Object v = objects().get(name);
-		if(v instanceof ImLayer)
-		{
-			la = (ImLayer)v;
-		}
-		else if(v != null)
-		{
-			throw new UserException("Existing object is not a layer: " + name);
-		}
-		else
-		{
-			la = new ImLayer(width, height, hasAlpha);
-			objects().put(name, la);
-		}
-		
-		currentLayer = la;
-	}
-	
-	
-	protected ImLayer layer()
-	{
-		if(currentLayer == null)
-		{
-			layer("base.layer");
-		}
-		return currentLayer;
+		layer().setImage(im);
 	}
 }

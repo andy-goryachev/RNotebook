@@ -1,12 +1,14 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image;
-import goryachev.common.ui.UI;
+import goryachev.common.ui.ImageTools;
 import goryachev.common.util.img.jhlabs.GaussianFilter;
+import goryachev.common.util.img.jhlabs.InvertFilter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
@@ -37,10 +39,23 @@ public class ImLayer
 	}
 	
 	
+	public void setImage(Image im)
+	{
+		image = ImageTools.copyImageRGB(im);
+	}
+	
+	
 	protected Graphics2D gr()
 	{
-		Graphics2D g = image.createGraphics();
-		UI.setAntiAliasingAndQuality(g);
+		Graphics2D g = image.createGraphics();		
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		return g;
 	}
 	
@@ -257,5 +272,11 @@ public class ImLayer
 	public void punchEffect()
 	{
 		image = ImTools.punchEffect(image);
+	}
+	
+	
+	public void invert()
+	{
+		image = new InvertFilter().filter(image, null);
 	}
 }
