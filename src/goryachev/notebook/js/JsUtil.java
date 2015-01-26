@@ -466,4 +466,48 @@ public class JsUtil
 		}
 		return ss;
 	}
+
+
+	public static byte[] parseByteArray(Object x)
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof byte[])
+		{
+			return (byte[])x;
+		}
+		else if(x instanceof NativeArray)
+		{
+			NativeArray a = (NativeArray)x;
+			int sz = a.size();
+			byte[] b = new byte[sz];
+			
+			for(int i=0; i<sz; i++)
+			{
+				Object v = a.get(i);
+				b[i] = parseByte(v);
+			}
+			
+			return b;
+		}
+		else
+		{
+			throw new UserException("can't convert to byte array: " + x.getClass());
+		}
+	}
+	
+	
+	public static byte parseByte(Object x)
+	{
+		if(x instanceof Number)
+		{
+			return ((Number)x).byteValue();
+		}
+		else
+		{
+			throw new UserException("can't convert to byte: " + x);
+		}
+	}
 }

@@ -93,6 +93,22 @@ public class IO
 	}
 	
 	
+	// TODO or elastic byte array?
+	public byte[] readBytes(Object file) throws Exception
+	{
+		File f = JsUtil.parseFile(file);
+		return CKit.readBytes(f);
+	}
+	
+	
+	public void writeBytes(Object x, Object file) throws Exception
+	{
+		byte[] b = JsUtil.parseByteArray(x);
+		File f = JsUtil.parseFile(file);
+		CKit.write(b, f);
+	}
+	
+	
 	public String toString()
 	{
 		return "IO";
@@ -106,6 +122,8 @@ public class IO
 		h.a("loadImage(file)", "loads image file");
 		h.a("loadTable(file)", "loads table from CSV, XLS, or XLSX file");
 		h.a("newTableReader()", "creates a table reader");
+		h.a("readBytes(file)", "reads byte array from a file");
+		h.a("writeBytes(bytes,file)", "writes byte array to a file");
 		h.a("readText(file)", "reads text from a UTF-8 file");
 		h.a("readText(file, encoding)", "reads text from a file with specified encoding");
 		h.a("writeText(text, file)", "writes text file using UTF-8");

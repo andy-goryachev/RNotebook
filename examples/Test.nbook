@@ -9,46 +9,28 @@
     {
       "type": "js",
       "source": "d = new Packages.research.dhtml.HDocument();\nd.heading1(\"Heading 1\");\nd.style('code').\n\tfontFamily('Courier New, Lucida Console, Monospace').\n\t//fontStyle('italic').\n\tforegroundColor('red').\n\tpaddingLeft(\"100px\");\nd.style('comment').\n\tbackgroundColor('#ffffdd').\n\tpaddingLeft('200px');\nd.text('code', 'code\\nsegment');\nd.block('comment').text('line one\\n').nl().text('line two\\n');\nprint(d.toHtml());\nf = FS.tempFile(\"HDocument\", \".htm\");\nf.deleteOnExit();\nIO.write(d.toHtml(), f);\n//NET.inBrowser(\"file://\" + f);",
-      "sequence": 201,
-      "output": [
-        {
-          "type": "text",
-          "text": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<style>\n.code { padding-left:100px; color:#FF0000; font-family:Courier New, Lucida Console, Monospace; }\n.comment { padding-left:200px; background:#FFFFDD; }\n</style>\n</head>\n<body>\n<h1>Heading 1</h1>\n<div class='code'>code<br>segment</div>\n<div class='comment'>\nline one<br>\n<br />\nline two<br>\n</div>\n</body>\n</html>\n"
-        }
-      ]
+      "sequence": 201
     },
     {
       "type": "js",
       "source": "FS.help",
-      "sequence": 118,
-      "output": [
-        {
-          "type": "text",
-          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.pwd()                           - returns the current directory\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
-        }
-      ]
+      "sequence": 118
     },
     {
       "type": "js",
       "source": "IO.help",
-      "sequence": 215,
+      "sequence": 221,
       "output": [
         {
           "type": "text",
-          "text": "IO provides input/output functionality:\n   IO.loadImage(file)                 - loads image file\n   IO.loadTable(file)                 - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()                - creates a table reader\n   IO.readText(file)                  - reads text from a UTF-8 file\n   IO.readText(file, encoding)        - reads text from a file with specified encoding\n   IO.writeText(text, encoding, file) - writes text to file using the specified encoding\n   IO.writeText(text, file)           - writes text file using UTF-8"
+          "text": "IO provides input/output functionality:\n   IO.loadImage(file)                 - loads image file\n   IO.loadTable(file)                 - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()                - creates a table reader\n   IO.readBytes(file)                 - reads byte array from a file\n   IO.readText(file)                  - reads text from a UTF-8 file\n   IO.readText(file, encoding)        - reads text from a file with specified encoding\n   IO.writeBytes(bytes,file)          - writes byte array to a file\n   IO.writeText(text, encoding, file) - writes text to file using the specified encoding\n   IO.writeText(text, file)           - writes text file using UTF-8"
         }
       ]
     },
     {
       "type": "js",
       "source": "NET.help",
-      "sequence": 214,
-      "output": [
-        {
-          "type": "text",
-          "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
-        }
-      ]
+      "sequence": 214
     },
     {
       "type": "js",
@@ -75,13 +57,24 @@
     {
       "type": "js",
       "source": "s = NET.get('http://sfbay.craigslist.org/sfc/sof/4845747945.html');\nprint(new java.lang.String(UT.decodeHex(s)));",
-      "sequence": 211,
+      "sequence": 211
+    },
+    {
+      "type": "js",
+      "source": "b = IO.readBytes('examples/small.csv');\nNB.display(b);\nIO.writeBytes(b, 'examples/small2.csv');",
+      "sequence": 220,
       "output": [
         {
           "type": "text",
-          "text": "�쮭��������ά�����V���Ф��\u0006v�\u0016B\u0007��R\u0006f�V�B\u0007F��2\u0006�W76\u0016vR�\u0000ХF��2\u0006�\u0007\u0006�'GV�G�\u0006�2\u0006f�\"\u0004\u001e���������V���Ф��\u0006v�\u0016B\u0007��R\u0006f�V�B\u0007F��2\u0006�W76\u0016vR�\u0000ХF��2\u0006�\u0007\u0006�'GV�G�\u0006�2\u0006f�\"\u0004\u001e���쮮���������ά����HEtyE�����\u000eʫ�����ڮ���[���,�˭@_������̥B�\u0003\u001b�ʝg��J_���)�����|̢\u0017�J�\u0019�തQ�^I�\u001b����������������*�������������ν�ܫʮ��ܠ�������������H\n����������ܪ�������ܪ����\u001a���ܭ���������\u0000\u000bܡ\u0002O�쫽�����������쫱��ܭ�ʮ������ܫޭ�έ���ެڪ�����ʾ����ܼ����������˺����̬�����������������뮬�����Ϯ������̮�����������������������ܬ�����ʽ�����ꬮ��HEtyE�������:���B�������HEtyE��쯪��گ����(�HEtyE���\u001a��\u001a��諭���������?���ݭ������ \u0015\u0001\u0013\u00148\u0005\b\u0000 \u0015\u0001\u0013#�������ھ�fN�ʺͫ�ھ�e\n��ھݫ��eJ����ʪ���߮������ʪ�ܫ��\f�ܪܫ��ͽHello\r\nIm glad you found this message. \r\nThis opportunity is for American citizens only.   \r\nAtlas Scientific is looking for two fulltime embedded systems engineers. This is no ordinary 8-5 job. So if you are looking for something like that I suggest you look elsewhere. However if you are looking for something life changing   this is it. We play a high stakes game and this place is a tough room. Im not going to bullshit you here. We find VERY few people who can keep up with us. Most self-destruct under the pressure. Inventing stuff is hard to do.   \r\n\r\nYou will be writing firmware and inventing new sensors for robots. This is a place where you can let your engineering creativity shine. We have a lab with well over a million dollars worth of tools and you will have unlimited access to all of them. We have BIG plans and want two new people to help us get there.\r\nIn the process we will make you rich. Im not talking about spiritually rich. I mean bank account rich.\r\n\r\nHere is what we are looking for.\r\n\r\nMUST be willing to move to NYC. There is no working from home.\r\nYou must not be afraid to fail.\r\nYour need to be a MASTER programmer. The more you know the better.\r\nShould have a general knowledge of tools and machines. The more you know the better.\r\nYou need to know embedded systems. The more you know the better.\r\n    \r\nHere is what we are offering.\r\n\r\nMove to New York City to be in the forefront of the robotics industry. Get paid to tinker all day long. Be part of a great team. Have patents filed that name you as an inventor. Get a real shot at actually becoming rich.     \r\n\r\nRelocation pay\r\nHelp with finding a place to live.\r\nBreakfast and lunch are provided to you free of charge\r\nUnlimited snacks free of charge\r\nFree parking \r\nWork clothes provided\r\nHealth insurance\r\nYour starting pay will be low: forty thousand dollar a year\r\nBut you will be given stock equity in Atlas Scientific          \r\nWork hours 10 am to 7pm      \r\n \r\nSo there it is. Do not wait. Send your resume to info@atlas-scientific.com. We are waiting for you.������ܬ�ܬ�������ԄWG�\\����\u0001P\u00111C�P�\u0002\u0001P\u001128�����\u0001P\u00111T\u0010��\u0002\u0001P\u00113A쯮�����HEtyE�/с\"\u001d���v�L������ʾ���ޚԄWG�Z�����ʾ����ʫ����ʾ�ʾ�����\u0001Z��ʪʾʮ��������ʫ����ޮ����۬����ʫ�˪�ʫ���ʫ�����ڭ�����ڭ�����ꬬ���HEtyE�̮�̨�O�I��\u000f�F\u000f�\fË^�������ή������̺�̪�\u001a)�\u001f���A�\b^ԧ}\u0017\rν����̬�����'�����J{�\u0017�̽"
+          "text": "[B@129a01cb"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "IO.writeBytes([ 1,2,3, 257 ], 'examples/small3.bin');",
+      "sequence": 226,
+      "output": []
     }
   ]
 }
