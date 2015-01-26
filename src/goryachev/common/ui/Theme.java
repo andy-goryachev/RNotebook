@@ -361,6 +361,8 @@ public class Theme
 	/** darker than panel packground */
 	public static Color lineColor()
 	{
+//		Color c = UI.mix(48, Color.black, panelBG());
+//		return c;
 		return ThemeOptions.lineColor.get();
 	}
 

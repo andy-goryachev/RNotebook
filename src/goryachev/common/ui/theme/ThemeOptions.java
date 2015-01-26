@@ -20,7 +20,7 @@ public class ThemeOptions
 	public static final ColorOption fieldFG = new ColorOption("ui.theme.color.field.fg", 0x595959); // ColorTools.mix(0.65f, textFG(), textBG());
 	public static final ColorOption focusColor = new ColorOption("ui.theme.color.focus", 90, 90, 90);
 	public static final ColorOption hoverColor = new ColorOption("ui.theme.color.hover", 253, 178, 84);
-	public static final ColorOption lineColor = new ColorOption("ui.theme.color.line", 0xc6c2bb);
+	public static final ColorOption lineColor = new ColorOption("ui.theme.color.line", 0xaca8a2);
 	public static final ColorOption linkColor = new ColorOption("ui.theme.color.link", 0, 102, 0);
 	public static final ColorOption panelBG = new ColorOption("ui.theme.color.panel.bg", 212, 208, 200);
 	public static final ColorOption selectionColor = new ColorOption("ui.theme.color.selection", Color.yellow);
