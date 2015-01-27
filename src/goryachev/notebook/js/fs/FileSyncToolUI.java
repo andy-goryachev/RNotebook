@@ -6,7 +6,7 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.icons.CIcons;
 import goryachev.common.ui.table.ZTable;
-import goryachev.common.util.D;
+import goryachev.common.util.CKit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -65,10 +65,10 @@ public class FileSyncToolUI
 		
 		scroll = new CScrollPane(table, false);
 		scroll.setTrackComponentDimensions(true);
-		scroll.setBorder(Theme.lineBorder()); // TODO too dark
+		scroll.setBorder(Theme.lineBorder());
 		
 		CPanel p = new CPanel();
-		p.setBorder(10);
+		p.setBorder(5, 10);
 		p.setBackground(Theme.panelBG());
 		p.setLayout
 		(
@@ -100,7 +100,7 @@ public class FileSyncToolUI
 		p.add(1, ix, "Free space:");
 		p.add(2, ix, freeSpaceField);
 		ix++;
-		p.add(1, ix, "Copied:");
+		p.add(1, ix, "Updated:");
 		p.add(2, ix, copiedField);
 		ix++;
 		p.add(1, ix, "Deleted:");
@@ -137,13 +137,13 @@ public class FileSyncToolUI
 				model.addItem(en);
 			}
 		});
-		
-		D.print(err); // FIX
 	}
 
 
 	public void handleSyncRunning(final FileSyncTool tool, final boolean on)
 	{
+		final boolean cancelled = CKit.isCancelled();
+		
 		UI.inEDTW(new Runnable()
 		{
 			public void run()
@@ -162,7 +162,7 @@ public class FileSyncToolUI
 				{
 					currentFileField.setText(null);
 					boolean ignore = tool.isIgnoreFailures();
-					statusField.setIcon(errors == 0 ? CIcons.Success96 : ignore ? CIcons.Warning96 : CIcons.Error96);
+					statusField.setIcon(errors == 0 ? (cancelled ? CIcons.Cancelled96 : CIcons.Success96) : ignore ? CIcons.Warning96 : CIcons.Error96);
 				}
 			}
 		});

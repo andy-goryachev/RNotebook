@@ -12,13 +12,14 @@
     },
     {
       "type": "js",
-      "source": "var s = FS.newSync();\n\n// backup target location\n//s.setTarget('q:/Backup/Sync.2');\ns.setTarget('h:/Backup/Sync.2');\n\n// source locations\ns.addSource('c:/Goryachev');\ns.addSource(\"c:/Projects\");\ns.addSource(\"c:/A\");\ns.setFilter([ \"- .git/\", \"- *.class\" ]);\ns.setIgnoreFailures(true);\n\n// show ui\nNB.display(s.gui);\n\ns.sync();\n",
-      "sequence": 73,
+      "source": "// backup target locations\nlocations = \n[\n\t'h:/Backup/Sync',\n\t'q:/Backup/Sync',\n];\n\nfor(i in locations)\n{\n\tloc = locations[i];\n\n\ts = FS.newSync();\n\ts.setTarget(loc);\n\n\t// source locations\n\ts.addSource('c:/Goryachev');\n\ts.addSource(\"c:/Projects\");\n\ts.addSource(\"c:/A\");\n\t\n\ts.setFilter\n\t([\n\t\t\"- .git/\",\n\t\t\"- *.class\", \n\t\t\"- *.lock\", \n\t\t\"- CVS/\",\n\t\t\"- /build/\",      // fails\n\t\t\"- /out/\",        // fails\n\t\t\"- /user.home*/\"  // fails\n\t]);\n\ts.setIgnoreFailures(true);\n\t\n\t// show ui\n\tNB.display(s.gui);\n\t\n\ts.sync();\n}\n\nprint(\"Done.\");",
+      "sequence": 85,
       "output": [
         {},
+        {},
         {
-          "type": "error",
-          "text": "Interrupted"
+          "type": "text",
+          "text": "Done."
         }
       ]
     }

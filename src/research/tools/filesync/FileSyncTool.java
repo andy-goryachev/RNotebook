@@ -249,7 +249,6 @@ public class FileSyncTool
 			}
 		}
 		
-		
 		// sync
 		listener.handleSyncRunning(this, true);		
 		try
