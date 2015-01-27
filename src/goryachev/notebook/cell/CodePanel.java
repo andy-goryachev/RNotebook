@@ -220,6 +220,8 @@ public class CodePanel
 			resultComponents = null;
 		}
 		
+		setSequence(-1);
+		
 		results = null;
 		error = false;
 		updateMargin();

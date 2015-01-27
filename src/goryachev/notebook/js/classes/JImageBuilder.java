@@ -2,6 +2,7 @@
 package goryachev.notebook.js.classes;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import research.image.ImageBuilder;
@@ -88,6 +89,28 @@ public class JImageBuilder
 	}
 	
 	
+	public JImageBuilder setStroke(Object ... a)
+	{
+		BasicStroke s = JsUtil.parseStroke(a);
+		builder.setStroke(s);
+		return this;
+	}
+	
+	
+	public JImageBuilder path(String name)
+	{
+		builder.path(name);
+		return this;
+	}
+	
+	
+	public JImageBuilder layer(String name)
+	{
+		builder.layer(name);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("JImageBuilder");
@@ -97,6 +120,8 @@ public class JImageBuilder
 		h.a("blur(radius)", "apply Gaussian blur to the current layer");
 		h.a("image", "returns the resulting JImage");
 		h.a("height", "returns image height");
+		h.a("layer(name)", "identify current layer");
+		h.a("path(name)", "identify current path");
 		//h.a("scale(factor)", "scales the image");
 		h.a("setColor(name)", "sets current color");
 		h.a("setColor(red, green, blue)", "sets current color by RGB values");

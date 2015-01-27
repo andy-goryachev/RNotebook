@@ -7,9 +7,11 @@ import goryachev.common.util.CancelledException;
 import goryachev.common.util.Hex;
 import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
+import goryachev.common.util.SB;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
 import goryachev.notebook.js.classes.JImage;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -32,6 +34,8 @@ public class JsUtil
 {
 	private static final String INTERRUPTED = "Interrupted";
 	private static SvgColorNames colorNames;
+	private static Object[] strokeCaps;
+	private static Object[] strokeJoins;
 	
 
 	public static String decodeException(Throwable err)
@@ -533,4 +537,157 @@ public class JsUtil
 		
 		throw new UserException("Not an image: " + x.getClass());
 	}
+	
+	
+	public static float parseFloat(Object x)
+	{
+		if(x instanceof Number)
+		{
+			return ((Number)x).floatValue();
+		}
+		
+		try
+		{
+			return Float.parseFloat(x.toString());
+		}
+		catch(Exception e)
+		{
+			throw new UserException("not a number: " + x);
+		}
+	}
+	
+	
+	private static int lookup(String tag, Object[] lookup, Object v)
+	{
+		String val = v.toString();
+		
+		for(int i=0; i<lookup.length; i++)
+		{
+			String k = (String)lookup[i++];
+			if(k.equalsIgnoreCase(val))
+			{
+				return (Integer)lookup[i];
+			}
+		}
+		
+		SB sb = new SB();
+		sb.a("Unknown ").a(tag).a(". Valid values are:");
+		
+		boolean comma = false;
+		for(int i=0; i<lookup.length; i++)
+		{
+			if(comma)
+			{
+				sb.a(',');
+			}
+			else
+			{
+				comma = true;
+				sb.sp();
+			}
+			
+			String k = (String)lookup[i++];
+			sb.a(k);
+		}
+		
+		sb.a(".");
+		
+		throw new UserException(sb.toString());
+	}
+	
+	
+	public static float[] parseFloatArray(Object x)
+	{
+		if(x == null)
+		{
+			return null;
+		}
+		else if(x instanceof float[])
+		{
+			return (float[])x;
+		}
+		else if(x instanceof NativeArray)
+		{
+			NativeArray a = (NativeArray)x;
+			int sz = a.size();
+			float[] f = new float[sz];
+			
+			for(int i=0; i<sz; i++)
+			{
+				f[i] = parseFloat(a.get(i));
+			}
+			
+			return f;
+		}
+		
+		throw new UserException("Not an array of numbers: " + x.getClass());
+	}
+
+
+	public static BasicStroke parseStroke(Object[] a)
+    {
+		int len = a.length;
+		float w = -1;
+		int cap = BasicStroke.CAP_SQUARE;
+		int join = BasicStroke.JOIN_MITER;
+		float miterlimit = 10.0f;
+        float dash[] = null;
+        float phase = 0.0f;
+		
+		if((len == 0) || (len > 6))
+		{
+			throw new UserException("Please specify stroke: width, cap, join, miterlimit, dash[], dashPhase");
+		}
+		else
+		{
+			w = parseFloat(a[0]);
+		}
+		
+		if(len > 1)
+		{
+			if(strokeCaps == null)
+			{
+				strokeCaps = new Object[] 
+				{
+					"BUTT",   BasicStroke.CAP_BUTT,
+					"ROUND",  BasicStroke.CAP_ROUND,
+					"SQUARE", BasicStroke.CAP_SQUARE
+				};
+			}
+			
+			cap = lookup("cap", strokeCaps, a[1]);
+		}
+		
+		if(len > 2)
+		{
+			if(strokeJoins == null)
+			{
+				strokeJoins = new Object[]
+				{
+					"MITER", BasicStroke.JOIN_MITER,
+					"ROUND", BasicStroke.JOIN_ROUND,
+					"BEVEL", BasicStroke.JOIN_BEVEL
+				};
+			}
+			
+			join = lookup("join", strokeJoins, a[2]);
+		}
+		
+		if(len > 3)
+		{
+			miterlimit = parseFloat(a[3]);
+		}
+		
+		if(len > 4)
+		{
+			dash = parseFloatArray(a[4]);
+		}
+		
+		if(len > 5)
+		{
+			phase = parseFloat(a[5]);
+		}
+		
+		return new BasicStroke(w, cap, join, miterlimit, dash, phase);
+    }
 }

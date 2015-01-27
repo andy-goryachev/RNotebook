@@ -1,13 +1,6 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image;
 import goryachev.common.ui.UI;
-import goryachev.common.util.CException;
-import goryachev.common.util.CList;
-import goryachev.common.util.CLookup;
-import goryachev.common.util.CSorter;
-import goryachev.common.util.Parsers;
-import goryachev.common.util.SB;
-import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
 import goryachev.common.util.img.jhlabs.EmbossFilter;
 import goryachev.common.util.img.jhlabs.GaussianFilter;
@@ -24,41 +17,8 @@ import research.image.filters.MaskFilter;
 import research.image.filters.MultiplyAlphaFilter;
 
 
-@Deprecated // TODO merge with ImageTools
 public class ImTools
 {
-	private static SvgColorNames svgColorNames;
-	private static final CLookup strokeCaps = new CLookup
-	(
-		"butt",   BasicStroke.CAP_BUTT,
-		"round",  BasicStroke.CAP_ROUND,
-		"square", BasicStroke.CAP_SQUARE
-	);
-	private static final CLookup strokeJoins = new CLookup
-	(
-		"miter", BasicStroke.JOIN_MITER,
-		"round", BasicStroke.JOIN_ROUND,
-		"bevel", BasicStroke.JOIN_BEVEL
-	);
-	private static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
-	
-	
-	public static Color parseColor(String name)
-	{
-		if(svgColorNames == null)
-		{
-			svgColorNames = new SvgColorNames();
-		}
-		
-		Color c = svgColorNames.lookupColor(name);
-		if(c == null)
-		{
-			throw err("unknown color name: " + name);
-		}
-		return c;
-	}
-	
-	
 	public static UserException err(String msg)
 	{
 		return new UserException(msg);
@@ -68,71 +28,6 @@ public class ImTools
 	public static double toRadians(double angle)
 	{
 		return Math.PI * angle / 180;
-	}
-	
-	
-	public static String list(CLookup d)
-	{
-		CList<String> a = new CList();
-		for(Object x: d.toArray())
-		{
-			if(x instanceof String)
-			{
-				a.add((String)x);
-			}
-		}
-		
-		CSorter.sort(a);
-
-		SB sb = new SB();
-		for(String s: a)
-		{
-			if(sb.length() > 0)
-			{
-				sb.a(", ");
-			}
-			sb.a(s);
-		}
-		return sb.toString();
-	}
-
-
-	public static Integer parseStrokeCap(String name)
-	{
-		Integer cap = Parsers.parseInteger(strokeCaps.lookup(name));
-		if(cap == null)
-		{
-			throw err("unknown stroke cap: " + name + ". accepted values: " + list(strokeCaps)); 
-		}
-		return cap;
-	}
-	
-	
-	public static Integer parseStrokeJoin(String name)
-	{
-		Integer join = (Integer)strokeJoins.lookup(name);
-		if(join == null)
-		{
-			throw err("unknown stroke join: " + name + ". accepted values: " + list(strokeJoins)); 
-		}
-		return join;
-	}
-
-
-	public static Object clone(Object x) throws Exception
-	{
-		if(x instanceof ImLayer)
-		{
-			return ((ImLayer)x).copy();
-		}
-		else if(x instanceof BufferedImage)
-		{
-			return copy((BufferedImage)x);
-		}
-		else
-		{
-			throw new CException("unable to clone: " + x.getClass().getSimpleName()); 
-		}
 	}
 	
 	

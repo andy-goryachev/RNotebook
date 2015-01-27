@@ -2,6 +2,7 @@
 package research.image;
 import goryachev.common.util.CMap;
 import goryachev.common.util.UserException;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
@@ -22,6 +23,7 @@ public class ImageBuilder
 	private boolean hasAlpha;
 	
 	private Color color;
+	private BasicStroke stroke;
 	private double xpos;
 	private double ypos;
 	private double angle;
@@ -214,9 +216,9 @@ public class ImageBuilder
 	}
 	
 	
-	public void setStroke()
+	public void setStroke(BasicStroke stroke)
 	{
-		// TODO
+		this.stroke = stroke;
 	}
 	
 	
