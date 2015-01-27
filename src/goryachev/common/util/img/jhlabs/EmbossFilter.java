@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package goryachev.common.util.img.jhlabs;
+import goryachev.common.util.CKit;
 import java.awt.Rectangle;
 
 
@@ -117,11 +118,13 @@ public class EmbossFilter
 
 		for(int y = 0; y < height; y++,bumpIndex += bumpMapWidth)
 		{
+			CKit.checkCancelled();
+			
 			int s1 = bumpIndex;
 			int s2 = s1 + bumpMapWidth;
 			int s3 = s2 + bumpMapWidth;
 
-			for(int x = 0; x < width; x++,s1++,s2++,s3++)
+			for(int x=0; x<width; x++,s1++,s2++,s3++)
 			{
 				if(y != 0 && y < height - 2 && x != 0 && x < width - 2)
 				{

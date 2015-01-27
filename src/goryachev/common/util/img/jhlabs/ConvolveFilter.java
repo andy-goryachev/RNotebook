@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package goryachev.common.util.img.jhlabs;
+import goryachev.common.util.CKit;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
@@ -318,11 +319,16 @@ public class ConvolveFilter
 		int rows2 = rows / 2;
 		int cols2 = cols / 2;
 
-		for(int y = 0; y < height; y++)
+		for(int y=0; y<height; y++)
 		{
-			for(int x = 0; x < width; x++)
+			CKit.checkCancelled();
+			
+			for(int x=0; x<width; x++)
 			{
-				float r = 0, g = 0, b = 0, a = 0;
+				float r = 0;
+				float g = 0;
+				float b = 0;
+				float a = 0;
 
 				for(int row = -rows2; row <= rows2; row++)
 				{
@@ -344,11 +350,11 @@ public class ConvolveFilter
 					{
 						continue;
 					}
+					
 					int moffset = cols * (row + rows2) + cols2;
 					for(int col = -cols2; col <= cols2; col++)
 					{
 						float f = matrix[moffset + col];
-
 						if(f != 0)
 						{
 							int ix = x + col;
@@ -367,6 +373,7 @@ public class ConvolveFilter
 									continue;
 								}
 							}
+							
 							int rgb = inPixels[ioffset + ix];
 							a += f * ((rgb >> 24) & 0xff);
 							r += f * ((rgb >> 16) & 0xff);
@@ -375,6 +382,7 @@ public class ConvolveFilter
 						}
 					}
 				}
+				
 				int ia = alpha ? PixelUtils.clamp((int)(a + 0.5)) : 0xff;
 				int ir = PixelUtils.clamp((int)(r + 0.5));
 				int ig = PixelUtils.clamp((int)(g + 0.5));
@@ -402,17 +410,18 @@ public class ConvolveFilter
 		int cols = kernel.getWidth();
 		int cols2 = cols / 2;
 
-		for(int y = 0; y < height; y++)
+		for(int y=0; y<height; y++)
 		{
+			CKit.checkCancelled();
+			
 			int ioffset = y * width;
-			for(int x = 0; x < width; x++)
+			for(int x=0; x<width; x++)
 			{
 				float r = 0, g = 0, b = 0, a = 0;
 				int moffset = cols2;
 				for(int col = -cols2; col <= cols2; col++)
 				{
 					float f = matrix[moffset + col];
-
 					if(f != 0)
 					{
 						int ix = x + col;
@@ -438,6 +447,7 @@ public class ConvolveFilter
 								ix = (x + width) % width;
 							}
 						}
+						
 						int rgb = inPixels[ioffset + ix];
 						a += f * ((rgb >> 24) & 0xff);
 						r += f * ((rgb >> 16) & 0xff);
@@ -445,6 +455,7 @@ public class ConvolveFilter
 						b += f * (rgb & 0xff);
 					}
 				}
+				
 				int ia = alpha ? PixelUtils.clamp((int)(a + 0.5)) : 0xff;
 				int ir = PixelUtils.clamp((int)(r + 0.5));
 				int ig = PixelUtils.clamp((int)(g + 0.5));
@@ -472,11 +483,16 @@ public class ConvolveFilter
 		int rows = kernel.getHeight();
 		int rows2 = rows / 2;
 
-		for(int y = 0; y < height; y++)
+		for(int y=0; y<height; y++)
 		{
-			for(int x = 0; x < width; x++)
+			CKit.checkCancelled();
+			
+			for(int x=0; x<width; x++)
 			{
-				float r = 0, g = 0, b = 0, a = 0;
+				float r = 0;
+				float g = 0;
+				float b = 0;
+				float a = 0;
 
 				for(int row = -rows2; row <= rows2; row++)
 				{
@@ -518,7 +534,6 @@ public class ConvolveFilter
 					}
 
 					float f = matrix[row + rows2];
-
 					if(f != 0)
 					{
 						int rgb = inPixels[ioffset + x];
@@ -528,6 +543,7 @@ public class ConvolveFilter
 						b += f * (rgb & 0xff);
 					}
 				}
+				
 				int ia = alpha ? PixelUtils.clamp((int)(a + 0.5)) : 0xff;
 				int ir = PixelUtils.clamp((int)(r + 0.5));
 				int ig = PixelUtils.clamp((int)(g + 0.5));

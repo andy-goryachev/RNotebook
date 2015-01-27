@@ -16,7 +16,25 @@
     },
     {
       "type": "js",
-      "source": "// programmatically generate an image\nb = new JImageBuilder(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tb.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tb.fillRect(b.width*i/sz, 0, b.width/sz, b.height);\n}"
+      "source": "// programmatically generate an image\nb = new JImageBuilder(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tb.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tb.fillRect(b.width*i/sz, 0, b.width/sz, b.height);\n}",
+      "sequence": 167,
+      "output": [
+        {
+          "type": "image",
+          "image": "iVBORw0KGgoAAAANSUhEUgAAAfQAAAAeCAIAAABVHHuNAAABa0lEQVR42u3UkZKCUQCA0ctxHMe7HMdxnMdxnMdxHMd5HMdx/77B5ztzZs4znDGNURZplbbpkM7plp7pU95TeaRrOqV92qTfNE9jmqVlWqddOqZLuqdX+pbXVO7pko5pl9ZpmWZlPspP2qR9OqVreqR3msYnPdMtndMhbdMqLcKQu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nL/r7n/AXZOcr5AXZxvAAAAAElFTkSuQmCC"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "new JImageBuilder(100, 100).help",
+      "sequence": 169,
+      "output": [
+        {
+          "type": "text",
+          "text": "new JImageBuilder(width, height)\nnew JImageBuilder(width, height, alpha)\n   .blur(radius)                      - apply Gaussian blur to the current layer\n   .height                            - returns image height\n   .image                             - returns the resulting JImage\n   .layer(name)                       - identify current layer\n   .path(name)                        - identify current path\n   .setColor(name)                    - sets current color\n   .setColor(red, green, blue)        - sets current color by RGB values\n   .setColor(red, green, blue, alpha) - sets current color by RGB with alpha\n   .width                             - returns image width"
+        }
+      ]
     },
     {
       "type": "js",

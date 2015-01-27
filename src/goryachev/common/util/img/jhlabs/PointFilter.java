@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package goryachev.common.util.img.jhlabs;
+import goryachev.common.util.CKit;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
@@ -50,6 +51,8 @@ public abstract class PointFilter
 		int[] inPixels = new int[width];
 		for(int y=0; y<height; y++)
 		{
+			CKit.checkCancelled();
+			
 			// We try to avoid calling getRGB on images as it causes them to become unmanaged, 
 			// causing horrible performance problems.
 			if(type == BufferedImage.TYPE_INT_ARGB)

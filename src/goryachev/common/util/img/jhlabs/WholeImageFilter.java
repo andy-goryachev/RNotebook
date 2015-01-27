@@ -28,6 +28,18 @@ public abstract class WholeImageFilter
 	extends AbstractBufferedImageOp
 {
 	/**
+	 * Actually filter the pixels.
+	 * @param width the image width
+	 * @param height the image height
+	 * @param inPixels the image pixels
+	 * @param transformedSpace the output bounds
+	 * @return the output pixels
+	 */
+	protected abstract int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace);
+	
+	//
+	
+	/**
 	 * The output image bounds.
 	 */
 	protected Rectangle transformedSpace;
@@ -79,15 +91,4 @@ public abstract class WholeImageFilter
 	protected void transformSpace(Rectangle rect)
 	{
 	}
-
-
-	/**
-	 * Actually filter the pixels.
-	 * @param width the image width
-	 * @param height the image height
-	 * @param inPixels the image pixels
-	 * @param transformedSpace the output bounds
-	 * @return the output pixels
-	 */
-	protected abstract int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace);
 }

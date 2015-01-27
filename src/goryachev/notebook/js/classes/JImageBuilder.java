@@ -113,7 +113,7 @@ public class JImageBuilder
 	
 	public InlineHelp getHelp()
 	{
-		InlineHelp h = new InlineHelp("JImageBuilder");
+		InlineHelp h = new InlineHelp("");
 		h.a("new JImageBuilder(width, height)");
 		h.a("new JImageBuilder(width, height, alpha)");
 		//

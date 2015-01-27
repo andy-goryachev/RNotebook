@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package goryachev.common.util.img.jhlabs;
+import goryachev.common.util.CKit;
 import java.awt.image.BufferedImage;
 
 
@@ -105,9 +106,11 @@ public class UnsharpFilter
 		float a = 4 * amount;
 
 		int index = 0;
-		for(int y = 0; y < height; y++)
+		for(int y=0; y<height; y++)
 		{
-			for(int x = 0; x < width; x++)
+			CKit.checkCancelled();
+			
+			for(int x=0; x<width; x++)
 			{
 				int rgb1 = outPixels[index];
 				int r1 = (rgb1 >> 16) & 0xff;

@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package goryachev.common.util.img.jhlabs;
+import goryachev.common.util.CKit;
 import java.awt.image.BufferedImage;
 import java.awt.image.Kernel;
 
@@ -122,8 +123,10 @@ public class GaussianFilter
 		int cols = kernel.getWidth();
 		int cols2 = cols / 2;
 
-		for(int y = 0; y < height; y++)
+		for(int y=0; y<height; y++)
 		{
+			CKit.checkCancelled();
+			
 			int index = y;
 			int ioffset = y * width;
 			for(int x = 0; x < width; x++)
@@ -133,29 +136,38 @@ public class GaussianFilter
 				for(int col = -cols2; col <= cols2; col++)
 				{
 					float f = matrix[moffset + col];
-
 					if(f != 0)
 					{
 						int ix = x + col;
 						if(ix < 0)
 						{
 							if(edgeAction == CLAMP_EDGES)
+							{
 								ix = 0;
+							}
 							else if(edgeAction == WRAP_EDGES)
+							{
 								ix = (x + width) % width;
+							}
 						}
 						else if(ix >= width)
 						{
 							if(edgeAction == CLAMP_EDGES)
+							{
 								ix = width - 1;
+							}
 							else if(edgeAction == WRAP_EDGES)
+							{
 								ix = (x + width) % width;
+							}
 						}
+						
 						int rgb = inPixels[ioffset + ix];
 						int pa = (rgb >> 24) & 0xff;
 						int pr = (rgb >> 16) & 0xff;
 						int pg = (rgb >> 8) & 0xff;
 						int pb = rgb & 0xff;
+						
 						if(premultiply)
 						{
 							float a255 = pa * (1.0f / 255.0f);
@@ -163,12 +175,14 @@ public class GaussianFilter
 							pg *= a255;
 							pb *= a255;
 						}
+						
 						a += f * pa;
 						r += f * pr;
 						g += f * pg;
 						b += f * pb;
 					}
 				}
+				
 				if(unpremultiply && a != 0 && a != 255)
 				{
 					float f = 255.0f / a;
@@ -176,6 +190,7 @@ public class GaussianFilter
 					g *= f;
 					b *= f;
 				}
+				
 				int ia = alpha ? PixelUtils.clamp((int)(a + 0.5)) : 0xff;
 				int ir = PixelUtils.clamp((int)(r + 0.5));
 				int ig = PixelUtils.clamp((int)(g + 0.5));
@@ -204,18 +219,27 @@ public class GaussianFilter
 		float radius2 = radius * radius;
 		float total = 0;
 		int index = 0;
+		
 		for(int row = -r; row <= r; row++)
 		{
 			float distance = row * row;
 			if(distance > radius2)
+			{
 				matrix[index] = 0;
+			}
 			else
+			{
 				matrix[index] = (float)Math.exp(-(distance) / sigma22) / sqrtSigmaPi2;
+			}
+			
 			total += matrix[index];
 			index++;
 		}
+		
 		for(int i = 0; i < rows; i++)
+		{
 			matrix[i] /= total;
+		}
 
 		return new Kernel(rows, 1, matrix);
 	}
