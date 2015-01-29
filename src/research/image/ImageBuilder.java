@@ -209,9 +209,9 @@ public class ImageBuilder
 	}
 	
 	
-	public void fill(String name)
+	public void fill(String pathName)
 	{
-		Shape s = shape(name);
+		Shape s = shape(pathName);
 		layer().fill(s, getColor());
 	}
 	

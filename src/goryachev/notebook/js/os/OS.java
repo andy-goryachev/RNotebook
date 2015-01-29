@@ -107,7 +107,7 @@ public class OS
 		//
 		h.a("arch", "returns the OS architecture");
 		h.a("cpuCount", "returns number of processor cores");
-		h.a("exec(cmd, [arg], ...)", "executes an external executable waiting for it to finish");
+		h.a("exec(cmd, [arg], ...)", "executes an external executable, wait for it to finish");
 		h.a("freeMem", "returns the amount of free memory in the JVM");
 		h.a("hostName", "returns the host name");
 		h.a("launch(cmd, [arg], ...)", "executes an external executable without waiting for it to finish");

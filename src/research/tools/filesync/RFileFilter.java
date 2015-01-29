@@ -427,6 +427,7 @@ public class RFileFilter
 				String name = f.getName();
 				boolean dir = f.isDirectory();
 				boolean hidden = f.isHidden();
+				
 			    return RFileFilter.this.accept(pathToRoot, name, dir, hidden);
 			}
 		};

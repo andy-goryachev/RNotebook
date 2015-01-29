@@ -301,16 +301,8 @@
       "id": "B7FF3D52CF2DD25F73005BB894532B6A83A66A0A",
       "x": 0,
       "y": 2,
-      "title": "JImage",
-      "tasks": [
-        {
-          "id": "63D016ACA25732CEB70C258CF86D5CD501BD9A81",
-          "title": "newPath",
-          "created": 1420937325131,
-          "completed": null,
-          "description": null
-        }
-      ]
+      "title": "JImageBuilder",
+      "tasks": []
     },
     {
       "id": "E1A8DDED0CF7B31DD97B6490756449C3232BE658",
@@ -726,6 +718,13 @@
       "title": "IO.writeText",
       "created": 1420449183887,
       "completed": 1422139010594,
+      "description": null
+    },
+    {
+      "id": "63D016ACA25732CEB70C258CF86D5CD501BD9A81",
+      "title": "newPath",
+      "created": 1420937325131,
+      "completed": 1422349466548,
       "description": null
     }
   ]
