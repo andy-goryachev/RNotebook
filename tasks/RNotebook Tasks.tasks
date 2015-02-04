@@ -157,13 +157,6 @@
           "created": 1420451862126,
           "completed": null,
           "description": null
-        },
-        {
-          "id": "967008971698218F8C35A7234A0731516319B7F9",
-          "title": "FS.newScanner",
-          "created": 1422951112953,
-          "completed": null,
-          "description": null
         }
       ]
     },
@@ -739,6 +732,13 @@
       "title": "newPath",
       "created": 1420937325131,
       "completed": 1422349466548,
+      "description": null
+    },
+    {
+      "id": "967008971698218F8C35A7234A0731516319B7F9",
+      "title": "FS.newScanner",
+      "created": 1422951112953,
+      "completed": 1423011872615,
       "description": null
     }
   ]

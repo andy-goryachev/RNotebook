@@ -94,6 +94,13 @@ public class JImage
 	}
 	
 	
+	public JImage reduce(int width, int height)
+	{
+		image = ImageTools.scaleImage(image, width, height);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("JImage");
@@ -103,6 +110,7 @@ public class JImage
 		//
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
 		h.a("height", "returns image height");
+		h.a("reduce(width, height)", "resizes the image to the specified size, only if larger");
 		h.a("scale(factor)", "scales the image");
 		h.a("width", "returns image width");
 		return h;
