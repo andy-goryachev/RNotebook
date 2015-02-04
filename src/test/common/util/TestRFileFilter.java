@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package test.nb;
+package test.common.util;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;
 import goryachev.common.util.CKit;
@@ -10,13 +10,32 @@ import java.io.File;
 
 public class TestRFileFilter
 {
+	public static final boolean F = false;
+	public static final boolean T = true;
+
+	
 	public static void main(String args[])
 	{
 		TF.run();
 	}
-
-
+	
+	
 	@Test
+	public void test2() throws Exception
+	{
+		RFileFilter f = RFileFilter.parse(new Object[]
+		{
+			"- *",
+			"+ /src/goryachev/io/*.java"
+		});
+		
+		// FIX leading slash
+		t(T, f, "src/goryachev/io/BitReader.java");
+		t(F, f, "src/goryachev/common/test/After.java");
+	}
+
+
+//	@Test
 	public void test() throws Exception
 	{
 		RFileFilter f = RFileFilter.parse(new Object[]
@@ -25,8 +44,6 @@ public class TestRFileFilter
 			"- /out/"
 		});
 		
-		boolean F = false;
-		boolean T = true;
 		
 //		t(T, f, "src");
 //		t(F, f, "user.home");

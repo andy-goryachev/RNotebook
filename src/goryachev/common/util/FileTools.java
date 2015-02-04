@@ -676,7 +676,6 @@ public class FileTools
 			// loop whilst tokens and text left to process
 			while(wcsIdx < wcs.length)
 			{
-
 				if(wcs[wcsIdx].equals("?"))
 				{
 					// ? so move to next text char
@@ -692,11 +691,11 @@ public class FileTools
 				{
 					// set any chars status
 					anyChars = true;
+					
 					if(wcsIdx == wcs.length - 1)
 					{
 						textIdx = filename.length();
 					}
-
 				}
 				else
 				{
@@ -710,6 +709,7 @@ public class FileTools
 							// token not found
 							break;
 						}
+						
 						int repeat = checkIndexOf(filename, textIdx + 1, wcs[wcsIdx], caseSensitive);
 						if(repeat >= 0)
 						{
@@ -754,7 +754,6 @@ public class FileTools
 	{
 		// used by wildcardMatch
 		// package level so a unit test may run on this
-
 		if(text.indexOf('?') == -1 && text.indexOf('*') == -1)
 		{
 			return new String[]
@@ -766,7 +765,7 @@ public class FileTools
 		char[] array = text.toCharArray();
 		ArrayList<String> list = new ArrayList<String>();
 		StringBuilder buffer = new StringBuilder();
-		for(int i = 0; i < array.length; i++)
+		for(int i=0; i<array.length; i++)
 		{
 			if(array[i] == '?' || array[i] == '*')
 			{
@@ -775,6 +774,7 @@ public class FileTools
 					list.add(buffer.toString());
 					buffer.setLength(0);
 				}
+				
 				if(array[i] == '?')
 				{
 					list.add("?");
@@ -789,6 +789,7 @@ public class FileTools
 				buffer.append(array[i]);
 			}
 		}
+		
 		if(buffer.length() != 0)
 		{
 			list.add(buffer.toString());
@@ -804,7 +805,7 @@ public class FileTools
 		int endIndex = str.length() - search.length();
 		if(endIndex >= strStartIndex)
 		{
-			for(int i = strStartIndex; i <= endIndex; i++)
+			for(int i=strStartIndex; i<=endIndex; i++)
 			{
 				if(checkRegionMatches(str, i, search, caseSensitive))
 				{

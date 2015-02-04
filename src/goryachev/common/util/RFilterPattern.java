@@ -34,6 +34,7 @@ public class RFilterPattern
 		if(s.startsWith("/"))
 		{
 			relative = true;
+			s = s.substring(1);
 		}
 		
 		if(s.endsWith("/"))
