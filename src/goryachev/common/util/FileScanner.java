@@ -1,19 +1,26 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.File;
+import java.io.FileFilter;
 
 
-// TODO filter
-// TODO multi-core
 public abstract class FileScanner
 {
 	protected abstract void processFile(File f) throws Exception;
 	
 	//
 	
-	private CList<File> files = new CList();
-	private CMap<File,Object> scanned;
+	protected static class ScanEntry
+	{
+		public File folder;
+		public RFileFilter filter;
+	}
+	
+	//
+	
+	private CList<ScanEntry> folders = new CList();
 	private boolean sort;
+	private RFileFilter defaultFilter;
 	
 	
 	public FileScanner()
@@ -21,40 +28,61 @@ public abstract class FileScanner
 	}
 	
 	
-	public void addFolder(String filename)
-	{
-		addFolder(new File(filename));
-	}
-	
-	
-	public void setSort(boolean on)
+	public void setSortingEnabled(boolean on)
 	{
 		sort = on;
 	}
 	
 	
-	public void addFolder(File f)
+	public void setFileFilter(RFileFilter f)
 	{
-		files.add(f);
+		defaultFilter = f;
+	}
+	
+	
+	public void setFileFilterSpec(String spec) throws Exception
+	{
+		defaultFilter = RFileFilter.parse(spec);
+	}
+	
+	
+	public void addFolder(File folder)
+	{
+		addFolder(folder, null);
+	}
+	
+	
+	public void addFolder(File folder, RFileFilter filter)
+	{
+		ScanEntry en = new ScanEntry();
+		en.folder = folder;
+		en.filter = filter;
+		folders.add(en);
+	}
+	
+	
+	public void addFolder(String filename)
+	{
+		File f = new File(filename);
+		addFolder(f);
 	}
 	
 	
 	public void scan() throws Exception
 	{
-		scanned = new CMap();
-		for(File folder: files)
+		for(ScanEntry en: folders)
 		{
-			scanFile(folder);
+			RFileFilter f = (en.filter == null ? defaultFilter : en.filter);
+			FileFilter ff = f.getFilter(en.folder);
+			
+			scanFile(en.folder, ff);
 		}
 	}
 	
 	
-	protected void scanFile(File file) throws Exception
+	protected void scanFile(File file, FileFilter filter) throws Exception
 	{
-		if(scanned.put(file, null) != null)
-		{
-			return;
-		}
+		CKit.checkCancelled();
 		
 		if(file.isFile())
 		{
@@ -62,7 +90,7 @@ public abstract class FileScanner
 		}
 		else if(file.isDirectory())
 		{
-			File[] fs = file.listFiles();
+			File[] fs = (filter == null ? file.listFiles() : file.listFiles(filter));
 			if(fs != null)
 			{
 				if(sort)
@@ -71,6 +99,7 @@ public abstract class FileScanner
 					{
 						public int compare(File a, File b)
 						{
+							CKit.checkCancelled();
 							return compareText(a.getName(), b.getName());
 						}
 					}.sort(fs);
@@ -78,7 +107,7 @@ public abstract class FileScanner
 				
 				for(File f: fs)
 				{
-					scanFile(f);
+					scanFile(f, filter);
 				}
 			}
 		}

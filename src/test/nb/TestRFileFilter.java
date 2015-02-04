@@ -4,8 +4,8 @@ import goryachev.common.test.TF;
 import goryachev.common.test.Test;
 import goryachev.common.util.CKit;
 import goryachev.common.util.D;
+import goryachev.common.util.RFileFilter;
 import java.io.File;
-import research.tools.filesync.RFileFilter;
 
 
 public class TestRFileFilter

@@ -3,6 +3,7 @@ package research.tools.filesync;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
+import goryachev.common.util.RFileFilter;
 import goryachev.common.util.UserException;
 import java.io.File;
 import java.io.FileFilter;

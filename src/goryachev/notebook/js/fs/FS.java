@@ -4,6 +4,8 @@ import goryachev.common.util.CSorter;
 import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.classes.JsFileScanner;
+import goryachev.notebook.js.classes.JsFileSyncTool;
 import goryachev.notebook.util.InlineHelp;
 import java.io.File;
 import research.tools.filesync.FileSyncTool;
@@ -217,6 +219,7 @@ public class FS
 		t.setIgnoreFailures(true);
 		
 		final SB sb = new SB();
+		
 		t.setListener(new FileSyncTool.Listener()
 		{
 			public void handleSyncWarning(File src, File dst, String err)
@@ -240,6 +243,12 @@ public class FS
 	}
 	
 	
+	public JsFileScanner newFileScanner()
+	{
+		return new JsFileScanner();
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("FS");
@@ -252,7 +261,8 @@ public class FS
 		h.a("isHidden(path)", "tests whether the file denoted by this path is a hidden file"); 
 		h.a("lastModified(file)", "returns the file timestamp");
 		h.a("ls([path],...)", "lists files");
-		h.a("newSync()", "returns new file synchronization tool");
+		h.a("newFileScanner()", "returns a new file scanner tool");
+		h.a("newSync()", "returns a new file synchronization tool");
 		h.a("pwd()", "returns the current directory");
 		h.a("sync(source, target)", "synchronizes target with the source directory, ignoring failures");
 		h.a("tempFile(prefix, suffix)", "creates a temporary file");

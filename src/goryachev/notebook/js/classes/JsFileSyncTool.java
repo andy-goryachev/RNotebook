@@ -1,13 +1,16 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.notebook.js.fs;
+package goryachev.notebook.js.classes;
 import goryachev.common.ui.UI;
+import goryachev.common.util.Noobfuscate;
+import goryachev.common.util.RFileFilter;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.js.fs.FileSyncToolUI;
 import java.io.File;
 import javax.swing.JComponent;
 import research.tools.filesync.FileSyncTool;
-import research.tools.filesync.RFileFilter;
 
 
+@Noobfuscate
 public class JsFileSyncTool
 {
 	private FileSyncTool tool;
@@ -29,7 +32,8 @@ public class JsFileSyncTool
 	}
 	
 	
-	protected void setListener(FileSyncTool.Listener li)
+	// should be protected, but being called by FS
+	public void setListener(FileSyncTool.Listener li)
 	{
 		tool().setListener(li);
 	}

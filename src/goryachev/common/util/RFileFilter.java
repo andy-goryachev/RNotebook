@@ -1,11 +1,5 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
-package research.tools.filesync;
-import goryachev.common.util.CKit;
-import goryachev.common.util.CList;
-import goryachev.common.util.D;
-import goryachev.common.util.Log;
-import goryachev.common.util.SB;
-import goryachev.common.util.UserException;
+package goryachev.common.util;
 import java.io.File;
 import java.io.FileFilter;
 
@@ -357,20 +351,6 @@ public class RFileFilter
 		return isMatchFound(includePatterns, pathToRoot, filename, dir);
 	}
 	
-	
-	// FIX
-	public boolean accept2(String pathToRoot, String filename, boolean dir, boolean hidden)
-	{
-		if(".gitignore".equals(filename))
-		{
-			D.print();
-		}
-		
-		boolean rv = accept2(pathToRoot, filename, dir, hidden);
-		D.print(pathToRoot, filename, dir, hidden, "->", rv);
-		return rv;
-	}
-
 	
 	public boolean accept(String pathToRoot, String filename, boolean dir, boolean hidden)
 	{

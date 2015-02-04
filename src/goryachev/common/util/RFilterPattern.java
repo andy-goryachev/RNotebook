@@ -1,9 +1,5 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
-package research.tools.filesync;
-import goryachev.common.util.CKit;
-import goryachev.common.util.FileTools;
-import goryachev.common.util.TextTools;
-import goryachev.common.util.UserException;
+package goryachev.common.util;
 
 
 // patterns are case insensitive.
@@ -85,7 +81,7 @@ public class RFilterPattern
 	protected boolean matchPath(String pathToRoot, String filename)
 	{
 		String fn = pathToRoot + "/" + filename;
-		
+
 		if(wildcard)
 		{
 			// TODO case-sensitive

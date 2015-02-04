@@ -2,9 +2,9 @@
 package test.nb;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;
+import goryachev.common.util.RFileFilter;
 import java.io.File;
 import research.tools.filesync.FileSyncTool;
-import research.tools.filesync.RFileFilter;
 
 
 public class TestFileSync

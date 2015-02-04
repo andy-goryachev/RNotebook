@@ -14,18 +14,17 @@
     {
       "type": "js",
       "source": "FS.help",
-      "sequence": 118
-    },
-    {
-      "type": "js",
-      "source": "IO.help",
-      "sequence": 221,
+      "sequence": 228,
       "output": [
         {
           "type": "text",
-          "text": "IO provides input/output functionality:\n   IO.loadImage(file)                 - loads image file\n   IO.loadTable(file)                 - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()                - creates a table reader\n   IO.readBytes(file)                 - reads byte array from a file\n   IO.readText(file)                  - reads text from a UTF-8 file\n   IO.readText(file, encoding)        - reads text from a file with specified encoding\n   IO.writeBytes(bytes,file)          - writes byte array to a file\n   IO.writeText(text, encoding, file) - writes text to file using the specified encoding\n   IO.writeText(text, file)           - writes text file using UTF-8"
+          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.newFileScanner()                - returns a new file scanner tool\n   FS.newSync()                       - returns a new file synchronization tool\n   FS.pwd()                           - returns the current directory\n   FS.sync(source, target)            - synchronizes target with the source directory, ignoring failures\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "IO.help"
     },
     {
       "type": "js",
@@ -73,8 +72,18 @@
     {
       "type": "js",
       "source": "IO.writeBytes([ 1,2,3, 257 ], 'examples/small3.bin');",
-      "sequence": 226,
-      "output": []
+      "sequence": 229
+    },
+    {
+      "type": "js",
+      "source": "sc = FS.newFileScanner();\n\n// FIX fails here\nsc.addFolder('src', '- *\\n+ /goryachev/common/io/*.java');\n\nsc.addFolder('src/goryachev/common/io', '- *\\n+ *.java');\nsc.setHandler(function(f)\n{\n\tprint(f);\n});\nsc.scan();",
+      "sequence": 246,
+      "output": [
+        {
+          "type": "text",
+          "text": "src\\goryachev\\common\\io\\BitReader.java null\nsrc\\goryachev\\common\\io\\BitStream.java null\nsrc\\goryachev\\common\\io\\BitStreamCommon.java null\nsrc\\goryachev\\common\\io\\BitStreamReader.java null\nsrc\\goryachev\\common\\io\\BitStreamWriter.java null\nsrc\\goryachev\\common\\io\\BitWriter.java null\nsrc\\goryachev\\common\\io\\BufferedFile.java null\nsrc\\goryachev\\common\\io\\CByteArrayInputStream.java null\nsrc\\goryachev\\common\\io\\CommaDelimitedParser.java null\nsrc\\goryachev\\common\\io\\CReader.java null\nsrc\\goryachev\\common\\io\\CSVParser.java null\nsrc\\goryachev\\common\\io\\CSVReader.java null\nsrc\\goryachev\\common\\io\\CSVWriter.java null\nsrc\\goryachev\\common\\io\\CWriter.java null\nsrc\\goryachev\\common\\io\\DContainer.java null\nsrc\\goryachev\\common\\io\\DReader.java null\nsrc\\goryachev\\common\\io\\DWriter.java null\nsrc\\goryachev\\common\\io\\DWriterBytes.java null\nsrc\\goryachev\\common\\io\\IBitStream.java null\nsrc\\goryachev\\common\\io\\LimitingInputStream.java null\nsrc\\goryachev\\common\\io\\PersistenceHandler.java null\nsrc\\goryachev\\common\\io\\Persister.java null\nsrc\\goryachev\\common\\io\\PersisterStreamCache.java null\nsrc\\goryachev\\common\\io\\PersisterStreamRef.java null\nsrc\\goryachev\\common\\io\\PositionTrackingInputStream.java null\nsrc\\goryachev\\common\\io\\PRecord.java null\nsrc\\goryachev\\common\\io\\PrimitiveHandler.java null\nsrc\\goryachev\\common\\io\\PrimitiveInput.java null\nsrc\\goryachev\\common\\io\\PrimitiveInputStream.java null\nsrc\\goryachev\\common\\io\\PrimitiveListInput.java null\nsrc\\goryachev\\common\\io\\PrimitiveListOutput.java null\nsrc\\goryachev\\common\\io\\PrimitiveOutput.java null\nsrc\\goryachev\\common\\io\\PrimitiveOutputStream.java null\nsrc\\goryachev\\common\\io\\PStreamable.java null\nsrc\\goryachev\\common\\io\\PTools.java null\nsrc\\goryachev\\common\\io\\RandomAccessByteBuffer.java null\nsrc\\goryachev\\common\\io\\RandomAccessFileOutputStreamWrapper.java null\nsrc\\goryachev\\common\\io\\StreamingInput.java null\nsrc\\goryachev\\common\\io\\StreamingOutput.java null\nsrc\\goryachev\\common\\io\\WebReader.java null"
+        }
+      ]
     }
   ]
 }

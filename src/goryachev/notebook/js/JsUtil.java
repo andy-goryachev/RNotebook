@@ -7,6 +7,7 @@ import goryachev.common.util.CancelledException;
 import goryachev.common.util.Hex;
 import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
+import goryachev.common.util.RFileFilter;
 import goryachev.common.util.SB;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
@@ -27,7 +28,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.RhinoException;
-import research.tools.filesync.RFileFilter;
 
 
 public class JsUtil

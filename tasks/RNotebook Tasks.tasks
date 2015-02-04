@@ -49,6 +49,13 @@
           "created": 1420840109774,
           "completed": null,
           "description": null
+        },
+        {
+          "id": "CFED51382947C3E180E9986DFC91819374AE3D21",
+          "title": "built-in help system with compile time verification",
+          "created": 1423005761075,
+          "completed": null,
+          "description": null
         }
       ]
     },
@@ -148,6 +155,13 @@
           "id": "3614CB73D4C8900211BACDE7DE969722EECF390B",
           "title": "FS.cd",
           "created": 1420451862126,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "967008971698218F8C35A7234A0731516319B7F9",
+          "title": "FS.newScanner",
+          "created": 1422951112953,
           "completed": null,
           "description": null
         }
