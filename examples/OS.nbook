@@ -75,8 +75,7 @@
     {
       "type": "js",
       "source": "OS.launch('notepad.exe');",
-      "sequence": 137,
-      "output": []
+      "sequence": 137
     },
     {
       "type": "js",
@@ -152,6 +151,17 @@
         {
           "type": "text",
           "text": "5.2"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "j = System.getProperty('java.home') + \"/bin/java\";\nOS.exec(j, '-cp', 'out', 'test.nb.TestExec');",
+      "sequence": 150,
+      "output": [
+        {
+          "type": "text",
+          "text": "stdout: System.out\r\n\n\nstderr: System.err\r\n"
         }
       ]
     }

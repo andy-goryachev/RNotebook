@@ -88,15 +88,23 @@ public class OS
 	public void launch(Object ... args) throws Exception
 	{
 		String[] cmd = JsUtil.parseStringArray(args);
-		Runtime.getRuntime().exec(cmd);
+		Process p = Runtime.getRuntime().exec(cmd);
+		
+		// consume stdout, stderr
+		new ProcessMonitor(p, false).start();
 	}
 	
 	
-	public int exec(Object ... args) throws Exception
+	public Object exec(Object ... args) throws Exception
 	{
 		String[] cmd = JsUtil.parseStringArray(args);
 		Process p = Runtime.getRuntime().exec(cmd);
-		return p.waitFor();
+
+		// capture stdout, stderr
+		ProcessMonitor m = new ProcessMonitor(p, true);
+		m.start();
+		p.waitFor();
+		return m;
 	}
 	
 
