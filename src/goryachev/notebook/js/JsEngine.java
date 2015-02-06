@@ -19,7 +19,7 @@ public class JsEngine
 	protected ScriptableObject scope;
 	protected GlobalScope globalScope;
 	private AtomicInteger sequence = new AtomicInteger(1);
-	private BackgroundThread thread;
+	private volatile JsThread thread;
 	private SB log = new SB();
 	protected static final ThreadLocal<JsEngine> engineRef = new ThreadLocal();
 	protected static final ThreadLocal<CodePanel> codePanelRef = new ThreadLocal();
@@ -117,7 +117,7 @@ public class JsEngine
 
 		final String script = p.getText();
 
-		thread = new BackgroundThread("js")
+		thread = new JsThread()
 		{
 			public void process() throws Throwable
 			{
@@ -139,6 +139,8 @@ public class JsEngine
 				{
 					codePanelRef.set(null);
 					Context.exit();
+					
+					executeOnFinishCallbacks();
 				}
 			}
 			
@@ -154,6 +156,16 @@ public class JsEngine
 			}
 		};
 		thread.start();
+	}
+	
+
+	public void addOnFinishCallback(Runnable r)
+	{
+		JsThread t = thread;
+		if(t != null)
+		{
+			t.addOnFinishCallback(r);
+		}
 	}
 	
 	

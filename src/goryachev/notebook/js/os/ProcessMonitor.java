@@ -1,15 +1,13 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.os;
-
-import goryachev.common.util.CKit;
+import goryachev.notebook.js.JsThread;
 
 
 public class ProcessMonitor
 {
-	private final Process process;
+	public final Process process;
 	public final ProcessMonitorThread stdout;
 	public final ProcessMonitorThread stderr;
-	private Thread caller;
 	protected volatile boolean running = true;
 	
 	
@@ -18,7 +16,16 @@ public class ProcessMonitor
 		process = p;
 		stdout = new ProcessMonitorThread(this, "stdout", capture, p.getInputStream());
 		stderr = new ProcessMonitorThread(this, "stderr", capture, p.getErrorStream());
-		this.caller = Thread.currentThread();
+
+		// make sure to destroy the process on interruption
+		JsThread t = (JsThread)Thread.currentThread();
+		t.addOnFinishCallback(new Runnable()
+		{
+			public void run()
+			{
+				process.destroy();
+			}
+		});
 	}
 	
 	
@@ -45,8 +52,7 @@ public class ProcessMonitor
 	
 	public boolean isRunning()
 	{
-		// FIX incorrect: need to start another thread to poll the status
-		return running && !CKit.isCancelled(caller);
+		return running;
 	}
 	
 	
