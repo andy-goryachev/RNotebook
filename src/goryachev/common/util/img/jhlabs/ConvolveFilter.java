@@ -49,7 +49,7 @@ public class ConvolveFilter
 	/**
 	 * The convolution kernel.
 	 */
-	protected Kernel kernel = null;
+	protected Kernel kernel;
 
 	/**
 	 * Whether to convolve alpha.
@@ -57,7 +57,7 @@ public class ConvolveFilter
 	protected boolean alpha = true;
 
 	/**
-	 * Whether to promultiply the alpha before convolving.
+	 * Whether to premultiply the alpha before convolving.
 	 */
 	protected boolean premultiplyAlpha = true;
 
@@ -214,7 +214,9 @@ public class ConvolveFilter
 		{
 			ImageMath.premultiply(inPixels, 0, inPixels.length);
 		}
+		
 		convolve(kernel, inPixels, outPixels, width, height, alpha, edgeAction);
+		
 		if(premultiplyAlpha)
 		{
 			ImageMath.unpremultiply(outPixels, 0, outPixels.length);

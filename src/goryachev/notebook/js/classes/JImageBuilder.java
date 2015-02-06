@@ -118,11 +118,11 @@ public class JImageBuilder
 		h.a("new JImageBuilder(width, height, alpha)");
 		//
 		h.a("blur(radius)", "apply Gaussian blur to the current layer");
-		h.a("image", "returns the resulting JImage");
+		h.a("fillRect(x, y, width, height)", "fill rectangle with the current color");
 		h.a("height", "returns image height");
+		h.a("image", "returns the resulting JImage");
 		h.a("layer(name)", "identify current layer");
 		h.a("path(name)", "identify current path");
-		//h.a("scale(factor)", "scales the image");
 		h.a("setColor(name)", "sets current color");
 		h.a("setColor(red, green, blue)", "sets current color by RGB values");
 		h.a("setColor(red, green, blue, alpha)", "sets current color by RGB with alpha");

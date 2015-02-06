@@ -220,7 +220,7 @@ public class GaussianFilter
 		float total = 0;
 		int index = 0;
 		
-		for(int row = -r; row <= r; row++)
+		for(int row=-r; row<=r; row++)
 		{
 			float distance = row * row;
 			if(distance > radius2)
@@ -236,7 +236,7 @@ public class GaussianFilter
 			index++;
 		}
 		
-		for(int i = 0; i < rows; i++)
+		for(int i=0; i<rows; i++)
 		{
 			matrix[i] /= total;
 		}

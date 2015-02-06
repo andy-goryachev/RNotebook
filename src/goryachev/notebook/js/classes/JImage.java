@@ -5,8 +5,10 @@ import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.SepiaFilter;
+import goryachev.common.util.img.jhlabs.BlurFilter;
 import goryachev.common.util.img.jhlabs.GammaFilter;
 import goryachev.common.util.img.jhlabs.GrayscaleFilter;
+import goryachev.common.util.img.jhlabs.SharpenFilter;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
@@ -125,6 +127,26 @@ public class JImage
 	}
 	
 	
+	public JImage sharpen()
+	{
+		SharpenFilter f = new SharpenFilter();
+		f.setPremultiplyAlpha(ImageTools.hasAlpha(image));
+		
+		image = f.filter(image, null);
+		return this;
+	}
+	
+	
+	public JImage blur()
+	{
+		BlurFilter f = new BlurFilter();
+		f.setPremultiplyAlpha(ImageTools.hasAlpha(image));
+
+		image = f.filter(image, null);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");
@@ -132,13 +154,15 @@ public class JImage
 		h.a("new JImage(width, height, alpha)");
 		h.a("new JImage(width, height, color)");
 		//
+		h.a("blur()", "blur the image");
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
 		h.a("gamma(x)", "adjusts image gamma value");
 		h.a("grayscale()", "convert to grayscale");
 		h.a("height", "returns image height");
 		h.a("reduce(width, height)", "resizes the image to the specified size, only if larger");
-		h.a("sepia()", "apply sepia filter");
 		h.a("scale(factor)", "scales the image");
+		h.a("sepia()", "apply sepia filter");
+		h.a("sharpen()", "sharpen the image");
 		h.a("width", "returns image width");
 		return h;
 	}

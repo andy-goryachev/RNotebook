@@ -28,11 +28,11 @@
     {
       "type": "js",
       "source": "new JImageBuilder(100, 100).help",
-      "sequence": 169,
+      "sequence": 194,
       "output": [
         {
           "type": "text",
-          "text": "new JImageBuilder(width, height)\nnew JImageBuilder(width, height, alpha)\n   .blur(radius)                      - apply Gaussian blur to the current layer\n   .height                            - returns image height\n   .image                             - returns the resulting JImage\n   .layer(name)                       - identify current layer\n   .path(name)                        - identify current path\n   .setColor(name)                    - sets current color\n   .setColor(red, green, blue)        - sets current color by RGB values\n   .setColor(red, green, blue, alpha) - sets current color by RGB with alpha\n   .width                             - returns image width"
+          "text": "new JImageBuilder(width, height)\nnew JImageBuilder(width, height, alpha)\n   .blur(radius)                      - apply Gaussian blur to the current layer\n   .fillRect(x, y, width, height)     - fill rectangle with the current color\n   .height                            - returns image height\n   .image                             - returns the resulting JImage\n   .layer(name)                       - identify current layer\n   .path(name)                        - identify current path\n   .setColor(name)                    - sets current color\n   .setColor(red, green, blue)        - sets current color by RGB values\n   .setColor(red, green, blue, alpha) - sets current color by RGB with alpha\n   .width                             - returns image width"
         }
       ]
     },

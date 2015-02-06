@@ -382,15 +382,8 @@
           "description": null
         },
         {
-          "id": "C40978BE9B405B6B74BD7B70092D4860AC6701E3",
-          "title": "JImage.sharpen",
-          "created": 1423078188236,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "6C3F5F16DA48E03356D8A461D58C6728B445C010",
-          "title": "JImage.crop or resize with crop",
+          "title": "JImage.crop",
           "created": 1423078214781,
           "completed": null,
           "description": null
@@ -803,6 +796,20 @@
       "title": "JImage.gamma",
       "created": 1423078179909,
       "completed": 1423253882752,
+      "description": null
+    },
+    {
+      "id": "C95B8FAA3D1E89FF81677A7C3E17B0A57EF12130",
+      "title": "JImage.blur",
+      "created": 1423255617723,
+      "completed": 1423255621994,
+      "description": null
+    },
+    {
+      "id": "C40978BE9B405B6B74BD7B70092D4860AC6701E3",
+      "title": "JImage.sharpen",
+      "created": 1423078188236,
+      "completed": 1423255621994,
       "description": null
     }
   ]
