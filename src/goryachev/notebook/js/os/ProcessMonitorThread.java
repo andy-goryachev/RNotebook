@@ -3,6 +3,7 @@ package goryachev.notebook.js.os;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.JsError;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -63,5 +64,15 @@ public class ProcessMonitorThread
 	public String getBuffer()
 	{
 		return buffer.toString();
+	}
+	
+	
+	public JsError getError()
+	{
+		if(buffer.length() > 0)
+		{
+			return new JsError(buffer.toString());
+		}
+		return null;
 	}
 }

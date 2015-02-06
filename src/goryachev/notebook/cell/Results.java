@@ -9,6 +9,7 @@ import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.js.classes.JImage;
 import goryachev.notebook.js.classes.JImageBuilder;
+import goryachev.notebook.js.os.ProcessMonitor;
 import goryachev.notebook.plot.DPlotViewer;
 import goryachev.notebook.table.DTableViewer;
 import java.awt.Color;
@@ -62,6 +63,15 @@ public class Results
 		else if(x instanceof JComponent)
 		{
 			return x;
+		}
+		else if(x instanceof ProcessMonitor)
+		{
+			ProcessMonitor m = (ProcessMonitor)x;
+			return new Object[]
+			{
+				m.stdout.getBuffer(),
+				m.stderr.getError()
+			};
 		}
 		else if(x != null)
 		{

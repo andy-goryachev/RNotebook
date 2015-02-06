@@ -1,12 +1,14 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.os;
 
+import goryachev.common.util.CKit;
+
 
 public class ProcessMonitor
 {
 	private final Process process;
-	private final ProcessMonitorThread stdout;
-	private final ProcessMonitorThread stderr;
+	public final ProcessMonitorThread stdout;
+	public final ProcessMonitorThread stderr;
 	private Thread caller;
 	protected volatile boolean running = true;
 	
@@ -29,13 +31,22 @@ public class ProcessMonitor
 	
 	public void setRunning(boolean on)
 	{
-		running = on;
+		if(running != on)
+		{
+			if(!on)
+			{
+				process.destroy();
+			}
+			
+			running = on;
+		}
 	}
 	
 	
 	public boolean isRunning()
 	{
-		return running;
+		// FIX incorrect: need to start another thread to poll the status
+		return running && !CKit.isCancelled(caller);
 	}
 	
 	

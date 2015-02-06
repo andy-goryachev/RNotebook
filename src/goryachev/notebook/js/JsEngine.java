@@ -65,7 +65,21 @@ public class JsEngine
 	{
 		Object v = Results.copyValue(x);
 		CodePanel p = codePanelRef.get();
-		displayPrivate(p, v);
+		
+		if(v instanceof Object[])
+		{
+			for(Object item: (Object[])v)
+			{
+				if(item != null)
+				{
+					displayPrivate(p, item);
+				}
+			}
+		}
+		else
+		{
+			displayPrivate(p, v);
+		}
 	}
 	
 	

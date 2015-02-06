@@ -8,5 +8,8 @@ public class TestExec
 	{
 		System.out.println("System.out");
 		System.err.println("System.err");
+		
+		System.out.println("started");
+		for(;;);
 	}
 }

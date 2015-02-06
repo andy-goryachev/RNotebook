@@ -1437,7 +1437,12 @@ public class CKit
 	
 	public static boolean isCancelled()
 	{
-		Thread t = Thread.currentThread();
+		return isCancelled(Thread.currentThread());
+	}
+	
+	
+	public static boolean isCancelled(Thread t)
+	{
 		if(t instanceof CancellableThread)
 		{
 			return ((CancellableThread)t).isCancelled();

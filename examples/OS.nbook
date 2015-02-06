@@ -157,11 +157,11 @@
     {
       "type": "js",
       "source": "j = System.getProperty('java.home') + \"/bin/java\";\nOS.exec(j, '-cp', 'out', 'test.nb.TestExec');",
-      "sequence": 150,
+      "sequence": 160,
       "output": [
         {
           "type": "text",
-          "text": "stdout: System.out\r\n\n\nstderr: System.err\r\n"
+          "text": ""
         }
       ]
     }
