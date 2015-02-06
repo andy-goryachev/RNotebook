@@ -107,6 +107,24 @@ public class JImage
 	}
 	
 	
+	public JImage resize(int width, int height, boolean trim)
+	{
+		ImageScaler sc = new ImageScaler();
+		sc.setSize(width, height);
+		if(trim)
+		{
+			sc.setScaleModeTrim();
+		}
+		else
+		{
+			sc.setScaleModeShrink();
+		}
+		
+		image = sc.scaleImage(image);
+		return this;
+	}
+	
+	
 	public JImage sepia()
 	{
 		image = new SepiaFilter().filter(image, null);
@@ -183,6 +201,7 @@ public class JImage
 		h.a("grayscale()", "convert to grayscale");
 		h.a("height", "returns image height");
 		h.a("reduce(width, height)", "resizes the image to the specified size, only if larger");
+		h.a("resize(width, height, trim)", "resize image, optionally trimming excess");
 		h.a("scale(factor)", "scales the image");
 		h.a("sepia()", "apply sepia filter");
 		h.a("sharpen()", "sharpen the image");

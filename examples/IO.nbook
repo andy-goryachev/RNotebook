@@ -13,11 +13,11 @@
     {
       "type": "js",
       "source": "IO.help",
-      "sequence": 132,
+      "sequence": 135,
       "output": [
         {
           "type": "text",
-          "text": "IO provides input/output functionality:\n   IO.loadImage(file)   - loads image file\n   IO.loadTable(file)   - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()  - creates a table reader\n   IO.write(text, file) - writes text file"
+          "text": "IO provides input/output functionality:\n   IO.loadImage(file)                 - loads image file\n   IO.loadTable(file)                 - loads table from CSV, XLS, or XLSX file\n   IO.newTableReader()                - creates a table reader\n   IO.readBytes(file)                 - reads byte array from a file\n   IO.readText(file)                  - reads text from a UTF-8 file\n   IO.readText(file, encoding)        - reads text from a file with specified encoding\n   IO.writeBytes(bytes,file)          - writes byte array to a file\n   IO.writeText(text, encoding, file) - writes text to file using the specified encoding\n   IO.writeText(text, file)           - writes text file using UTF-8"
         }
       ]
     },

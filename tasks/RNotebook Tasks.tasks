@@ -368,30 +368,16 @@
       "title": "JImage",
       "tasks": [
         {
-          "id": "E6A64C45ED092AE8211F2000305B25A284CB2A71",
-          "title": "JImage.brightness",
-          "created": 1423078171394,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "FECEB51CF026E81379DBD48D476D3415F091C5C9",
-          "title": "JImage.contrast",
-          "created": 1423078175175,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "6C3F5F16DA48E03356D8A461D58C6728B445C010",
-          "title": "JImage.crop",
-          "created": 1423078214781,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "7B8616AC65BFC8111F4AB739BBE383ACF32AC83B",
           "title": "JImage.rotate",
           "created": 1423078238530,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "30C1A414B0F7761FE55925EFCF535152B64B441F",
+          "title": "JImage.flip",
+          "created": 1423260473261,
           "completed": null,
           "description": null
         }
@@ -810,6 +796,27 @@
       "title": "JImage.sharpen",
       "created": 1423078188236,
       "completed": 1423255621994,
+      "description": null
+    },
+    {
+      "id": "FECEB51CF026E81379DBD48D476D3415F091C5C9",
+      "title": "JImage.contrast",
+      "created": 1423078175175,
+      "completed": 1423256669435,
+      "description": null
+    },
+    {
+      "id": "E6A64C45ED092AE8211F2000305B25A284CB2A71",
+      "title": "JImage.brightness",
+      "created": 1423078171394,
+      "completed": 1423256669435,
+      "description": null
+    },
+    {
+      "id": "6C3F5F16DA48E03356D8A461D58C6728B445C010",
+      "title": "JImage.resize(w,h,trim)",
+      "created": 1423078214781,
+      "completed": 1423260476284,
       "description": null
     }
   ]

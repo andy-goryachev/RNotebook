@@ -175,6 +175,8 @@ public class JsEngine
 		
 		int count = sequence.getAndIncrement();  
 		p.setFinished(count);
+		
+		//UI.scrollRectToVisible(p);
 	}
 	
 	
