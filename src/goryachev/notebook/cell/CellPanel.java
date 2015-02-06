@@ -169,11 +169,11 @@ public abstract class CellPanel
 		UI.separator(m);
 		m.add(new CMenuItem("Delete", np.deleteCellAction));
 		UI.separator(m);
+		m.add(new CMenuItem(NotebookIcons.MoveUp, "Move Cell Up", np.moveCellUpAction));
+		m.add(new CMenuItem(NotebookIcons.MoveDown, "Move Cell down", np.moveCellDownAction));
+		UI.separator(m);
 		m.add(new CMenuItem("Split Cell", np.splitCellAction));
 		m.add(new CMenuItem("Merge Cell Above", np.mergeCellAboveAction));
 		m.add(new CMenuItem("Merge Cell Below", np.mergeCellBelowAction));
-		UI.separator(m);
-		m.add(new CMenuItem(NotebookIcons.MoveUp, "Move Cell Up", np.moveCellUpAction));
-		m.add(new CMenuItem(NotebookIcons.MoveDown, "Move Cell down", np.moveCellDownAction));
 	}
 }

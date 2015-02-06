@@ -6,6 +6,7 @@ import goryachev.common.util.CKit;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.SepiaFilter;
 import goryachev.common.util.img.jhlabs.BlurFilter;
+import goryachev.common.util.img.jhlabs.ContrastFilter;
 import goryachev.common.util.img.jhlabs.GammaFilter;
 import goryachev.common.util.img.jhlabs.GrayscaleFilter;
 import goryachev.common.util.img.jhlabs.SharpenFilter;
@@ -147,6 +148,26 @@ public class JImage
 	}
 	
 	
+	public JImage brightness(float v)
+	{
+		ContrastFilter f = new ContrastFilter();
+		f.setBrightness(v);
+
+		image = f.filter(image, null);
+		return this;
+	}
+	
+	
+	public JImage contrast(float v)
+	{
+		ContrastFilter f = new ContrastFilter();
+		f.setContrast(v);
+
+		image = f.filter(image, null);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");
@@ -155,7 +176,9 @@ public class JImage
 		h.a("new JImage(width, height, color)");
 		//
 		h.a("blur()", "blur the image");
+		h.a("brightness(factor)", "adjust image brightness");
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
+		h.a("contrast(factor)", "adjust image contrast");
 		h.a("gamma(x)", "adjusts image gamma value");
 		h.a("grayscale()", "convert to grayscale");
 		h.a("height", "returns image height");
