@@ -382,13 +382,6 @@
           "description": null
         },
         {
-          "id": "171BE080B7B934093FC129DC95F9E949C110FCEF",
-          "title": "JImage.gamma",
-          "created": 1423078179909,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "C40978BE9B405B6B74BD7B70092D4860AC6701E3",
           "title": "JImage.sharpen",
           "created": 1423078188236,
@@ -406,13 +399,6 @@
           "id": "7B8616AC65BFC8111F4AB739BBE383ACF32AC83B",
           "title": "JImage.rotate",
           "created": 1423078238530,
-          "completed": null,
-          "description": null
-        },
-        {
-          "id": "AD04EE2B7231336B7DEAFF1516FE5BF1CF75F017",
-          "title": "JImage.grayscale",
-          "created": 1423202610162,
           "completed": null,
           "description": null
         }
@@ -803,6 +789,20 @@
       "title": "JImage.sepia",
       "created": 1423078156801,
       "completed": 1423203280500,
+      "description": null
+    },
+    {
+      "id": "AD04EE2B7231336B7DEAFF1516FE5BF1CF75F017",
+      "title": "JImage.grayscale",
+      "created": 1423202610162,
+      "completed": 1423206069007,
+      "description": null
+    },
+    {
+      "id": "171BE080B7B934093FC129DC95F9E949C110FCEF",
+      "title": "JImage.gamma",
+      "created": 1423078179909,
+      "completed": 1423253882752,
       "description": null
     }
   ]
