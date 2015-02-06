@@ -5,6 +5,7 @@ import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Noobfuscate;
 import goryachev.common.util.img.SepiaFilter;
+import goryachev.common.util.img.jhlabs.GrayscaleFilter;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
@@ -109,6 +110,13 @@ public class JImage
 	}
 	
 	
+	public JImage grayscale()
+	{
+		image = new GrayscaleFilter().filter(image, null);
+		return this;
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("JImage");
@@ -117,6 +125,7 @@ public class JImage
 		h.a("new JImage(width, height, color)");
 		//
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
+		h.a("grayscale()", "convert to grayscale");
 		h.a("height", "returns image height");
 		h.a("reduce(width, height)", "resizes the image to the specified size, only if larger");
 		h.a("sepia()", "apply sepia filter");
