@@ -368,13 +368,6 @@
       "title": "JImage",
       "tasks": [
         {
-          "id": "902576EE98386AC5C018CF32770841EADCAD3A6F",
-          "title": "JImage.sepia",
-          "created": 1423078156801,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "E6A64C45ED092AE8211F2000305B25A284CB2A71",
           "title": "JImage.brightness",
           "created": 1423078171394,
@@ -413,6 +406,13 @@
           "id": "7B8616AC65BFC8111F4AB739BBE383ACF32AC83B",
           "title": "JImage.rotate",
           "created": 1423078238530,
+          "completed": null,
+          "description": null
+        },
+        {
+          "id": "AD04EE2B7231336B7DEAFF1516FE5BF1CF75F017",
+          "title": "JImage.grayscale",
+          "created": 1423202610162,
           "completed": null,
           "description": null
         }
@@ -796,6 +796,13 @@
       "title": "FS.newScanner",
       "created": 1422951112953,
       "completed": 1423011872615,
+      "description": null
+    },
+    {
+      "id": "902576EE98386AC5C018CF32770841EADCAD3A6F",
+      "title": "JImage.sepia",
+      "created": 1423078156801,
+      "completed": 1423203280500,
       "description": null
     }
   ]
