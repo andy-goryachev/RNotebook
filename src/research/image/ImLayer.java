@@ -93,14 +93,13 @@ public class ImLayer
 	}
 	
 	
-	public void draw(Shape s, Color c, BasicStroke stroke, double offsetx, double offsety)
+	public void draw(Shape s, Color c, BasicStroke stroke)
 	{
-		Graphics2D g = ImTools.graphics(image);
+		Graphics2D g = gr();
 		try
 		{
 			g.setColor(c);
 			g.setStroke(stroke);
-			g.translate(offsetx, offsety);
 			g.draw(s);
 		}
 		finally
@@ -113,7 +112,7 @@ public class ImLayer
 	public void drawText(int x, int y, String text, Font f, Color c)
 	{
 		// TODO perhaps should use a text pane to handle html formatting and/or newlines
-		Graphics2D g = ImTools.graphics(image);
+		Graphics2D g = gr();
 		try
 		{
 			g.setColor(c);

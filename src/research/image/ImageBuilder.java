@@ -17,6 +17,7 @@ public class ImageBuilder
 {
 	public static final String BASE_LAYER = "base.layer";
 	public static final String CURRENT_PATH = "current.path";
+	private static final BasicStroke BASIC_STROKE = new BasicStroke(1);
 	
 	private int width;
 	private int height;
@@ -37,6 +38,15 @@ public class ImageBuilder
 		this.width = width;
 		this.height = height;
 		this.hasAlpha = alpha;
+	}
+	
+	
+	public ImageBuilder(int width, int height, Color bg)
+	{
+		this.width = width;
+		this.height = height;
+		
+		layer().fill(new Rectangle2D.Double(0, 0, width, height), bg);
 	}
 	
 	
@@ -76,6 +86,11 @@ public class ImageBuilder
 		{
 			return (Shape)x;
 		}
+		else if(x instanceof ImPath)
+		{
+			return ((ImPath)x).getPath();
+		}
+		
 		throw new UserException("Object is not a Shape: " + x.getClass());
 	}
 	
@@ -209,9 +224,22 @@ public class ImageBuilder
 	}
 	
 	
-	public void fill(String pathName)
+	public void draw(Shape s)
 	{
-		Shape s = shape(pathName);
+		layer().draw(s, getColor(), getStroke());
+	}
+	
+	
+	public void draw(String name)
+	{
+		Shape s = shape(name);
+		draw(s);
+	}
+	
+	
+	public void fill(String name)
+	{
+		Shape s = shape(name);
 		layer().fill(s, getColor());
 	}
 	
@@ -222,25 +250,56 @@ public class ImageBuilder
 	}
 	
 	
-	public void moveTo(double x, double y)
+	public BasicStroke getStroke()
 	{
-		// TODO
+		if(stroke == null)
+		{
+			return BASIC_STROKE;
+		}
+		return stroke;
 	}
 	
 	
+	public void closePath()
+	{
+		path().closePath();
+	}
+	
+	
+	public void move(double dx, double dy)
+	{
+		path().move(dx, dy);
+	}
+	
+	
+	public void moveTo(double x, double y)
+	{
+		path().moveTo(x, y);
+	}
+	
+	
+	/** adds a line segnent to the current path, from the current position along the current direction */
+	public void line(double length)
+	{
+		path().line(length);
+	}
+	
+	
+	/** adds a line segment to the current path, relative to the current position */
+	public void line(double x, double y)
+	{
+		path().line(x, y);
+	}
+	
+	
+	/** adds a line segment to the current path using absolute coordinates */
 	public void lineTo(double x, double y)
 	{
-		// TODO
+		path().lineTo(x, y);
 	}
 	
 	
 	public void setDirection(double degrees)
-	{
-		// TODO
-	}
-	
-	
-	public void line(double length)
 	{
 		// TODO
 	}

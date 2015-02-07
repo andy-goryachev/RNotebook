@@ -8,6 +8,7 @@ import goryachev.common.util.img.SepiaFilter;
 import goryachev.common.util.img.jhlabs.BlurFilter;
 import goryachev.common.util.img.jhlabs.ContrastFilter;
 import goryachev.common.util.img.jhlabs.GammaFilter;
+import goryachev.common.util.img.jhlabs.GaussianFilter;
 import goryachev.common.util.img.jhlabs.GrayscaleFilter;
 import goryachev.common.util.img.jhlabs.SharpenFilter;
 import goryachev.notebook.js.JsUtil;
@@ -166,6 +167,13 @@ public class JImage
 	}
 	
 	
+	public JImage blur(float radius)
+	{
+		image = new GaussianFilter(radius).filter(image, null);
+		return this;
+	}
+	
+	
 	public JImage brightness(float v)
 	{
 		ContrastFilter f = new ContrastFilter();
@@ -193,19 +201,20 @@ public class JImage
 		h.a("new JImage(width, height, alpha)");
 		h.a("new JImage(width, height, color)");
 		//
-		h.a("blur()", "blur the image");
-		h.a("brightness(factor)", "adjust image brightness");
+		h.a("blur()", "blurs the image");
+		h.a("blur(radius)", "applies Gaussian blur to the image");
+		h.a("brightness(factor)", "adjusts the image brightness");
 		h.a("bufferedImage", "returns a copy of underlying BufferedImage object");
-		h.a("contrast(factor)", "adjust image contrast");
-		h.a("gamma(x)", "adjusts image gamma value");
-		h.a("grayscale()", "convert to grayscale");
-		h.a("height", "returns image height");
+		h.a("contrast(factor)", "adjusts the image contrast");
+		h.a("gamma(x)", "adjusts the image gamma value");
+		h.a("grayscale()", "converts the image to grayscale");
+		h.a("height", "returns the image height");
 		h.a("reduce(width, height)", "resizes the image to the specified size, only if larger");
-		h.a("resize(width, height, trim)", "resize image, optionally trimming excess");
+		h.a("resize(width, height, trim)", "resizes the image, with optionally trimming");
 		h.a("scale(factor)", "scales the image");
-		h.a("sepia()", "apply sepia filter");
-		h.a("sharpen()", "sharpen the image");
-		h.a("width", "returns image width");
+		h.a("sepia()", "applies sepia filter");
+		h.a("sharpen()", "sharpens the image");
+		h.a("width", "returns the image width");
 		return h;
 	}
 }

@@ -19,21 +19,53 @@ public class ImPath
 	}
 	
 	
+	// returns current point
+	protected Point2D point()
+	{
+		return path.getCurrentPoint();
+	}
+	
+	
+	// returns current direction angle
+	protected double direction()
+	{
+		return 0; // FIX
+	}
+	
+	
+	public void move(double dx, double dy)
+	{
+		Point2D p = point();
+		path.moveTo(p.getX() + dx, p.getY() + dy);
+	}
+	
+	
 	public void moveTo(double x, double y)
 	{
 		path.moveTo(x, y);
 	}
 	
 	
+	/** adds a line segment from the current point using absolute coordinates */
 	public void lineTo(double x, double y)
 	{
 		path.lineTo(x, y);
 	}
 	
 	
-	public void lineRel(double dx, double dy)
+	/* adds a line segment from the current point following the current direction */
+	public void line(double len)
 	{
-		Point2D p = path.getCurrentPoint();
+		Point2D p = point();
+		double a = direction();
+		
+		path.lineTo(p.getX() + len * Math.cos(a), p.getY() + len * Math.sin(a));
+	}
+	
+	
+	public void line(double dx, double dy)
+	{
+		Point2D p = point();
 		path.lineTo(p.getX() + dx, p.getY() + dy);
 	}
 
@@ -52,7 +84,7 @@ public class ImPath
 	
 	public void quadRel(double dx1, double dy1, double dx2, double dy2)
 	{
-		Point2D p = path.getCurrentPoint();
+		Point2D p = point();
 		
 		double x1 = p.getX() + dx1;
 		double y1 = p.getY() + dy1;

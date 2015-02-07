@@ -309,7 +309,15 @@
       "x": 0,
       "y": 2,
       "title": "JImageBuilder",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "7EAC4AD4504D1ECA91751D1D83BBD555C09D38E4",
+          "title": "JImageBuilder.line(len)",
+          "created": 1423267356599,
+          "completed": null,
+          "description": null
+        }
+      ]
     },
     {
       "id": "E1A8DDED0CF7B31DD97B6490756449C3232BE658",
@@ -817,6 +825,20 @@
       "title": "JImage.resize(w,h,trim)",
       "created": 1423078214781,
       "completed": 1423260476284,
+      "description": null
+    },
+    {
+      "id": "7AD278CC05C907EDB3C8A6BF7169B3230FB3DB2F",
+      "title": "JImageBuilder.line(dx, dy)",
+      "created": 1423267347949,
+      "completed": 1423267565467,
+      "description": null
+    },
+    {
+      "id": "7D69C61AC1FA7A7B1428F7A4D49AF744AF2AD658",
+      "title": "JImageBuilder.lineTo(x, y)",
+      "created": 1423267337803,
+      "completed": 1423267565467,
       "description": null
     }
   ]
