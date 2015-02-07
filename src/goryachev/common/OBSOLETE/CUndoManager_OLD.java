@@ -1,5 +1,8 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.ui;
+package goryachev.common.OBSOLETE;
+import goryachev.common.ui.CAction;
+import goryachev.common.ui.Menus;
+import goryachev.common.ui.UI;
 import goryachev.common.util.Log;
 import java.awt.Component;
 import java.awt.Container;
@@ -15,6 +18,7 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 
+@Deprecated // see CUndoManager
 public class CUndoManager_OLD
 	extends UndoManager
 {

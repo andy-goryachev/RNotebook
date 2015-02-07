@@ -1,5 +1,13 @@
 // Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.ui;
+package goryachev.common.OBSOLETE;
+import goryachev.common.ui.Application;
+import goryachev.common.ui.CAction;
+import goryachev.common.ui.CExtensionFileFilter;
+import goryachev.common.ui.CMenu;
+import goryachev.common.ui.CMenuItem;
+import goryachev.common.ui.Dialogs;
+import goryachev.common.ui.GlobalSettings;
+import goryachev.common.ui.Menus;
 import goryachev.common.ui.dialogs.CFileChooser;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;

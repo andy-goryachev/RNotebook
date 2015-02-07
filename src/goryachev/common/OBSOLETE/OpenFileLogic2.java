@@ -1,5 +1,10 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.ui;
+package goryachev.common.OBSOLETE;
+import goryachev.common.ui.Application;
+import goryachev.common.ui.CAction;
+import goryachev.common.ui.CMenu;
+import goryachev.common.ui.Dialogs;
+import goryachev.common.ui.GlobalSettings;
 import goryachev.common.ui.dialogs.CFileChooser;
 import goryachev.common.ui.options.RecentFilesOption;
 import goryachev.common.util.CKit;
@@ -11,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 
+@Deprecated
 public abstract class OpenFileLogic2
 {
 	public abstract void delegateStoreFile(File f) throws Exception;
