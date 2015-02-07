@@ -262,6 +262,7 @@ public class ImLayer
 	}
 	
 	
+	// what is it?
 	public void androidEffectImage()
 	{
 		image = ImTools.androidEffectImage(image);

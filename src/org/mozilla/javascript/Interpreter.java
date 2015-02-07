@@ -2146,7 +2146,9 @@ public final class Interpreter
 			// finally when it needs to propagate exception or from
 			// explicit throw
 			if(throwable == null)
+			{
 				Kit.codeBug();
+			}
 
 			// Exception type
 			final int EX_CATCH_STATE = 2; // Can execute JS catch

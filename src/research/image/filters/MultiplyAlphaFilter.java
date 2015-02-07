@@ -1,5 +1,6 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image.filters;
+import goryachev.common.util.CKit;
 import goryachev.common.util.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
@@ -50,6 +51,8 @@ public class MultiplyAlphaFilter
 
 		for(int iy=0; iy<h; iy++)
 		{
+			CKit.checkCancelled();
+			
 			rgb = src.getPixels(x, y, w, 1, rgb);
 			maskRGB = mask.getPixels(x, y, w, 1, maskRGB);
 

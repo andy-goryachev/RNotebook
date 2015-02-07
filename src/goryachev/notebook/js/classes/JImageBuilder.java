@@ -175,6 +175,12 @@ public class JImageBuilder
 	}
 	
 	
+	public void androidEffect()
+	{
+		builder.androidEffect();
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");

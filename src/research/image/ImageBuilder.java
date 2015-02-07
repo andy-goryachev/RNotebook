@@ -333,4 +333,10 @@ public class ImageBuilder
 	{
 		layer().setImage(im);
 	}
+	
+	
+	public void androidEffect()
+	{
+		layer().androidEffect(getColor());
+	}
 }
