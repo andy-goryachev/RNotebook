@@ -28,7 +28,7 @@
     {
       "type": "js",
       "source": "im = NET.get('http://goryachev.com/pic.jpg');\nim.reduce(60, 60)\nNB.display(im);\nNB.display(im.copy().brightness(0.5))\nNB.display(im.copy().contrast(0.5))\nNB.display(im.copy().blur())\nNB.display(im.copy().blur(8))\nNB.display(im.copy().sharpen())\nNB.display(im.copy().sepia())\nNB.display(im.copy().grayscale())\nNB.display(im.copy().gamma(0.5))\nNB.display(im.copy().gamma(5.0))",
-      "sequence": 234,
+      "sequence": 237,
       "output": [
         {
           "type": "image",
