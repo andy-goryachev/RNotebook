@@ -47,6 +47,7 @@ public class ImLayer
 	
 	protected Graphics2D gr()
 	{
+		// TODO perhaps these should depend on settings
 		Graphics2D g = image.createGraphics();		
 		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -218,9 +219,15 @@ public class ImLayer
 	public void drawImage(Image im, double offsetx, double offsety)
 	{
 		Graphics2D g = gr();
-		g.translate(offsetx, offsety);
-		g.drawImage(im, 0, 0, null);
-		g.dispose();
+		try
+		{
+			g.translate(offsetx, offsety);
+			g.drawImage(im, 0, 0, null);
+		}
+		finally
+		{
+			g.dispose();
+		}
 	}
 
 

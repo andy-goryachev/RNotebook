@@ -3,7 +3,7 @@ package goryachev.notebook.cell;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
 import goryachev.common.ui.CPanel;
-import goryachev.common.ui.Dialogs;
+import goryachev.common.ui.ChoiceDialog;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -534,18 +534,10 @@ public class NotebookPanel
 	
 	protected void actionRestartEngine()
 	{
-		int ch = Dialogs.choice
-		(
-			this, 
-			"Restart Engine", 
-			"Do you want to restart the script engine?\nYou will lose all variables defined in it",
-			new String[]
-			{
-				"Continue Running",
-				"Restart",
-			}
-		);
-		
+		ChoiceDialog d = new ChoiceDialog(this, "Restart Engine", "Do you want to restart the script engine?\nYou will lose all variables defined in it");
+		d.addButton("Restart", 1, Theme.alternativeButtonHighlight());
+		d.addButton("Continue Running", 0);
+		int ch = d.openChoiceDialog();		
 		if(ch == 1)
 		{
 			engine = new JsEngine(this);

@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 /** this class encapsulates all the tools for image manipulation */
 // TODO unclear:
 // - how to show multiple layers?
+// imPath: rotation, translation, graphics properties (antialiasing, etc)
 public class ImageBuilder
 {
 	public static final String BASE_LAYER = "base.layer";
@@ -25,9 +26,6 @@ public class ImageBuilder
 	
 	private Color color;
 	private BasicStroke stroke;
-	private double xpos;
-	private double ypos;
-	private double angle;
 	private CMap<String,Object> objects;
 	private ImPath currentPath;
 	private ImLayer currentLayer;
