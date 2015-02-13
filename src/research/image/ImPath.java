@@ -11,6 +11,7 @@ public class ImPath
 	implements Serializable
 {
 	protected Path2D.Double path = new Path2D.Double();
+	protected AffineTransform transform;
 
 
 	public ImPath()
@@ -66,7 +67,14 @@ public class ImPath
 	public void line(double dx, double dy)
 	{
 		Point2D p = point();
-		path.lineTo(p.getX() + dx, p.getY() + dy);
+		if(p == null)
+		{
+			path.moveTo(dx, dy);
+		}
+		else
+		{
+			path.lineTo(p.getX() + dx, p.getY() + dy);
+		}
 	}
 
 
@@ -102,30 +110,6 @@ public class ImPath
 	}
 	
 	
-	public void translate(double dx, double dy)
-	{
-		AffineTransform t = new AffineTransform();
-		t.translate(dx, dy);
-		path.transform(t);
-	}
-
-
-	public void rotate(double x, double y, double angle)
-	{
-		AffineTransform t = new AffineTransform();
-		t.rotate(angle, x, y);
-		path.transform(t);
-	}
-	
-	
-	public void scale(double scale)
-	{
-		AffineTransform t = new AffineTransform();
-		t.scale(scale, scale);
-		path.transform(t);
-	}
-	
-	
 	public void setWindingRule(int r)
 	{
 		path.setWindingRule(r);
@@ -135,5 +119,46 @@ public class ImPath
 	public Path2D.Double getPath()
 	{
 		return path;
+	}
+	
+	
+	public void setTransform(AffineTransform t)
+	{
+		transform = t;
+	}
+	
+	
+	public AffineTransform getTransform()
+	{
+		return transform;
+	}
+	
+	
+	protected AffineTransform transform()
+	{
+		if(transform == null)
+		{
+			transform = new AffineTransform();
+		}
+		return transform;
+	}
+	
+	
+	public void translate(double dx, double dy)
+	{
+		transform().translate(dx, dy);
+	}
+
+
+	public void rotate(double x, double y, double angle)
+	{
+		double a = -ImTools.degreesToRadians(angle);
+		transform().rotate(a, x, y);
+	}
+	
+	
+	public void scale(double scale)
+	{
+		transform.scale(scale, scale);
 	}
 }

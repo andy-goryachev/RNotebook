@@ -1,5 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.image;
+import goryachev.common.util.CKit;
 import goryachev.common.util.CMap;
 import goryachev.common.util.UserException;
 import java.awt.BasicStroke;
@@ -13,7 +14,8 @@ import java.awt.image.BufferedImage;
 /** this class encapsulates all the tools for image manipulation */
 // TODO unclear:
 // - how to show multiple layers?
-// imPath: rotation, translation, graphics properties (antialiasing, etc)
+// imPath: rotation, translation
+// imLayer: graphics properties (antialiasing, etc)
 public class ImageBuilder
 {
 	public static final String BASE_LAYER = "base.layer";
@@ -44,7 +46,7 @@ public class ImageBuilder
 		this.width = width;
 		this.height = height;
 		
-		layer().fill(new Rectangle2D.Double(0, 0, width, height), bg);
+		layer().fill(new Rectangle2D.Double(0, 0, width, height), bg, null);
 	}
 	
 	
@@ -73,24 +75,24 @@ public class ImageBuilder
 	}
 	
 	
-	protected Shape shape(String name)
-	{
-		Object x = objects.get(name);
-		if(x == null)
-		{
-			throw new UserException("Not found: " + name);
-		}
-		else if(x instanceof Shape)
-		{
-			return (Shape)x;
-		}
-		else if(x instanceof ImPath)
-		{
-			return ((ImPath)x).getPath();
-		}
-		
-		throw new UserException("Object is not a Shape: " + x.getClass());
-	}
+//	protected Shape shape(String name)
+//	{
+//		Object x = objects.get(name);
+//		if(x == null)
+//		{
+//			throw new UserException("Not found: " + name);
+//		}
+//		else if(x instanceof Shape)
+//		{
+//			return (Shape)x;
+//		}
+//		else if(x instanceof ImPath)
+//		{
+//			return ((ImPath)x).getPath();
+//		}
+//		
+//		throw new UserException("Object is not a Shape: " + x.getClass());
+//	}
 	
 	
 	public ImPath path(String name)
@@ -218,33 +220,70 @@ public class ImageBuilder
 	
 	public void fillRect(double x, double y, double w, double h)
 	{
-		layer().fill(new Rectangle2D.Double(x, y, w, h), getColor());
+		layer().fill(new Rectangle2D.Double(x, y, w, h), getColor(), null);
 	}
 	
 	
 	public void draw(Shape s)
 	{
-		layer().draw(s, getColor(), getStroke());
+		layer().draw(s, getColor(), getStroke(), null);
 	}
 	
 	
 	public void draw(String name)
 	{
-		Shape s = shape(name);
-		draw(s);
+		Object x = objects.get(name);
+		if(x instanceof ImPath)
+		{
+			ImPath p = (ImPath)x;
+			layer().draw(p.getPath(), getColor(), getStroke(), p.getTransform());
+		}
+		else if(x instanceof Shape)
+		{
+			draw((Shape)x);
+		}
+		else
+		{
+			throw new UserException("Can't draw " + CKit.className(x));
+		}
 	}
 	
 	
 	public void fill(String name)
 	{
-		Shape s = shape(name);
-		layer().fill(s, getColor());
+		Object x = objects.get(name);
+		if(x instanceof ImPath)
+		{
+			ImPath p = (ImPath)x;
+			layer().fill(p.getPath(), getColor(), p.getTransform());
+		}
+		else if(x instanceof Shape)
+		{
+			layer().fill((Shape)x, getColor(), null);
+		}
+		else
+		{
+			throw new UserException("Can't fill " + CKit.className(x));
+		}
 	}
 	
 	
 	public void setStroke(BasicStroke stroke)
 	{
 		this.stroke = stroke;
+	}
+	
+	
+	public void setStrokeWidth(float w)
+	{
+		if(stroke == null)
+		{
+			stroke = new BasicStroke(w);
+		}
+		else
+		{
+			stroke = new BasicStroke(w, stroke.getEndCap(), stroke.getLineJoin(), stroke.getMiterLimit(), stroke.getDashArray(), stroke.getDashPhase());
+		}
 	}
 	
 	
@@ -283,7 +322,10 @@ public class ImageBuilder
 	}
 	
 	
-	/** adds a line segment to the current path, relative to the current position */
+	/** 
+	 * adds a line segment to the current path, relative to the current position.
+	 * sets current position on first call 
+	 */
 	public void line(double x, double y)
 	{
 		path().line(x, y);
@@ -336,5 +378,17 @@ public class ImageBuilder
 	public void androidEffect()
 	{
 		layer().androidEffect(getColor());
+	}
+	
+	
+	public void translate(double dx, double dy)
+	{
+		path().translate(dx, dy);
+	}
+	
+	
+	public void rotate(double x, double y, double angle)
+	{
+		path().rotate(x, y, angle);
 	}
 }

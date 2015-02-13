@@ -119,6 +119,13 @@ public class JImageBuilder
 	}
 	
 	
+	public JImageBuilder setStrokeWidth(float width)
+	{
+		builder.setStrokeWidth(width);
+		return this;
+	}
+	
+	
 	public JImageBuilder path(String name)
 	{
 		builder.path(name);
@@ -181,6 +188,18 @@ public class JImageBuilder
 	}
 	
 	
+	public void translate(double dx, double dy)
+	{
+		builder.translate(dx, dy);
+	}
+	
+	
+	public void rotate(double x, double y, double angle)
+	{
+		builder.rotate(x, y, angle);
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");
@@ -200,9 +219,11 @@ public class JImageBuilder
 		h.a("move(dx, dy)", "move the current point using relative coordinates");
 		h.a("moveTo(x, y)", "move the current point to new absolute coordinates");
 		h.a("path(name)", "sets the current path");
+		h.a("rotate(x, y, angle)", "rotates the current path");
 		h.a("setColor(name)", "sets the current color");
 		h.a("setColor(red, green, blue)", "sets the current color by RGB values");
 		h.a("setColor(red, green, blue, alpha)", "sets the current color by RGB with alpha");
+		h.a("translate(dx, dy)", "translates the current path");
 		h.a("width", "returns the image width");
 		return h;
 	}

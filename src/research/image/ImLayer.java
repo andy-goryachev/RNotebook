@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
@@ -48,15 +49,18 @@ public class ImLayer
 	protected Graphics2D gr()
 	{
 		// TODO perhaps these should depend on settings
-		Graphics2D g = image.createGraphics();		
+		Graphics2D g = image.createGraphics();
+		// quality
 		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		// anti aliasing
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		// fractional metrics
+		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 		return g;
 	}
 	
@@ -73,12 +77,16 @@ public class ImLayer
 	}
 	
 	
-	public void fill(Shape s, Color c)
+	public void fill(Shape s, Color c, AffineTransform t)
 	{
 		Graphics2D g = gr();
 		try
 		{
 			g.setColor(c);
+			if(t != null)
+			{
+				g.setTransform(t);
+			}
 			g.fill(s);
 		}
 		finally
@@ -94,13 +102,17 @@ public class ImLayer
 	}
 	
 	
-	public void draw(Shape s, Color c, BasicStroke stroke)
+	public void draw(Shape s, Color c, BasicStroke stroke, AffineTransform t)
 	{
 		Graphics2D g = gr();
 		try
 		{
 			g.setColor(c);
 			g.setStroke(stroke);
+			if(t != null)
+			{
+				g.setTransform(t);
+			}
 			g.draw(s);
 		}
 		finally
@@ -131,7 +143,7 @@ public class ImLayer
 	
 	public void polygon(Path2D.Double p, int corners, float xcenter, float ycenter, float radius, float angle)
 	{
-		double a0 = ImTools.toRadians(angle);
+		double a0 = ImTools.degreesToRadians(angle);
 		
 		p.setWindingRule(0);
 		
@@ -157,7 +169,7 @@ public class ImLayer
 
 	public void star(Path2D.Double p, int spikes, double xcenter, double ycenter, double majorRadius, double minorRadius, double angle)
 	{
-		double a0 = -ImTools.toRadians(angle);
+		double a0 = -ImTools.degreesToRadians(angle);
 		
 		int steps = spikes * 2;
 		boolean moveTo = true;
@@ -189,7 +201,7 @@ public class ImLayer
 	{
 		p.setWindingRule(PathIterator.WIND_NON_ZERO); // produces solid star, while WIND_EVEN_ODD results in a star with a hole
 		
-		double a0 = -ImTools.toRadians(angle);
+		double a0 = -ImTools.degreesToRadians(angle);
 		
 		boolean moveTo = true;
 		int sz = spikes + 1;

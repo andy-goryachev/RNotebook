@@ -25,9 +25,9 @@ public class ImTools
 	}
 	
 
-	public static double toRadians(double angle)
+	public static double degreesToRadians(double degrees)
 	{
-		return Math.PI * angle / 180;
+		return Math.PI * degrees / 180;
 	}
 	
 	
@@ -262,8 +262,8 @@ public class ImTools
 		
 		EmbossFilter f = new EmbossFilter();
 		f.setBumpHeight(height);
-		f.setAzimuth((float)ImTools.toRadians(azimuth));
-		f.setElevation((float)ImTools.toRadians(elevation));
+		f.setAzimuth((float)ImTools.degreesToRadians(azimuth));
+		f.setElevation((float)ImTools.degreesToRadians(elevation));
 		return f.filter(src, null);
 	}
 	

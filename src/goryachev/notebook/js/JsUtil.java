@@ -50,10 +50,11 @@ public class JsUtil
 		}
 		else if(err instanceof RhinoException)
 		{
+			RhinoException re = (RhinoException)err;
 			Throwable e = err.getCause();
 			if(e == null)
 			{
-				return err.getClass().getSimpleName() + ": " + err.getMessage();
+				return err.getMessage();
 			}
 			else if(e instanceof CancelledException)
 			{
@@ -68,11 +69,11 @@ public class JsUtil
 				String msg = e.getMessage();
 				if(CKit.isNotBlank(msg))
 				{
-					return e.getClass().getSimpleName() + ": " + msg;
+					return e.getClass().getSimpleName() + ": " + msg + " on line " + re.lineNumber();
 				}
 				else
 				{
-					return e.getClass().getSimpleName();
+					return e.getClass().getSimpleName() + " on line " + re.lineNumber();
 				}
 			}
 		}
