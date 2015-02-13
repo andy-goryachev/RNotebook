@@ -200,6 +200,12 @@ public class JImageBuilder
 	}
 	
 	
+	public void turn(double angle)
+	{
+		builder.turn(angle);
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");

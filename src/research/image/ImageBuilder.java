@@ -341,13 +341,13 @@ public class ImageBuilder
 	
 	public void setDirection(double degrees)
 	{
-		// TODO
+		path().setDirection(degrees);
 	}
 	
 	
 	public void turn(double degrees)
 	{
-		// TODO
+		path().turn(degrees);
 	}
 	
 	

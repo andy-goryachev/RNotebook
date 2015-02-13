@@ -69,11 +69,11 @@ public class JsUtil
 				String msg = e.getMessage();
 				if(CKit.isNotBlank(msg))
 				{
-					return e.getClass().getSimpleName() + ": " + msg + " on line " + re.lineNumber();
+					return e.getClass().getSimpleName() + ": " + msg + " (line #" + re.lineNumber() + ")";
 				}
 				else
 				{
-					return e.getClass().getSimpleName() + " on line " + re.lineNumber();
+					return e.getClass().getSimpleName() + " (line #" + re.lineNumber() + ")";
 				}
 			}
 		}
