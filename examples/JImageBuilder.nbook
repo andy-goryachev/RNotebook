@@ -8,7 +8,7 @@
     },
     {
       "type": "text",
-      "source": "This notebook contains tests JImageBuilder class."
+      "source": "This notebook contains tests for JImageBuilder class."
     },
     {
       "type": "js",
@@ -20,7 +20,7 @@
     },
     {
       "type": "js",
-      "source": "b = new JImageBuilder(700, 400, '#333333');\nb.setColor('yellow');\nb.setStrokeWidth(1.5);\nb.path('b');\nb.moveTo(200, 300);\nb.line(200);\nb.turn(90);\nb.line(200);\nb.turn(90);\nb.line(300);\nb.turn(90);\nb.closePath();\nb.draw('b');",
+      "source": "b = new JImageBuilder(700, 400, '#333333');\nb.setColor('yellow');\nb.setStrokeWidth(1.5);\nb.path('a');\nb.moveTo(200, 300);\nb.line(200);\nb.turn(90);\nb.line(200);\nb.turn(90);\nb.line(300);\nb.turn(90);\nb.closePath();\nb.draw('a');",
       "sequence": 277,
       "output": [
         {

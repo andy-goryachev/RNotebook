@@ -10,6 +10,7 @@ import goryachev.notebook.util.InlineHelp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.charset.Charset;
+import javax.imageio.ImageIO;
 
 
 public class IO
@@ -115,6 +116,13 @@ public class IO
 	}
 	
 	
+	public void writeImage(Object image, String name) throws Exception
+	{
+		BufferedImage im = JsUtil.parseImage(image);
+		ImageTools.write(im, new File(name));
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("IO");
@@ -126,6 +134,7 @@ public class IO
 		h.a("writeBytes(bytes,file)", "writes byte array to a file");
 		h.a("readText(file)", "reads text from a UTF-8 file");
 		h.a("readText(file, encoding)", "reads text from a file with specified encoding");
+		h.a("writeImage(image, file)", "writes image to file");
 		h.a("writeText(text, file)", "writes text file using UTF-8");
 		h.a("writeText(text, encoding, file)", "writes text to file using the specified encoding");
 		return h;
