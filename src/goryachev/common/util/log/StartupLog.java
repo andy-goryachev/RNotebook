@@ -26,9 +26,22 @@ import javax.swing.border.Border;
 
 public class StartupLog
 {
+	private boolean ui;
 	private SB sb;
 	private String indent = "\t";
 	private DecimalFormat numberFormat = new DecimalFormat("#,##0.##");
+	
+	
+	public StartupLog(boolean ui)
+	{
+		this.ui = ui;
+	}
+	
+	
+	public StartupLog()
+	{
+		this(true);
+	}
 	
 	
 	public String getSystemInfo()
@@ -39,16 +52,17 @@ public class StartupLog
 		extractEnvironment();
 		extractSystemProperties();
 		
-		try
+		if(ui)
 		{
-			extractUIDefaults();
+			try
+			{
+				extractUIDefaults();
+			}
+			catch(Throwable ignore)
+			{ }
 		}
-		catch(Throwable ignore)
-		{ }
 		
-		String s = sb.toString();
-		sb = null;
-		return s;
+		return sb.getAndClear();
 	}
 	
 	

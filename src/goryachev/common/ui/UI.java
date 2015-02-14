@@ -865,10 +865,9 @@ public class UI
 
 		if(memoryBar)
 		{
-			CMemoryBar b = new CMemoryBar();
-			b.setPreferredSize(new Dimension(75, -1));
-			p.add(b);
+			p.add(new CMemoryBar());
 		}
+		
 		p.fill();
 		p.copyright();
 		return p;
