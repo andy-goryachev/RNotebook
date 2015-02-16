@@ -3,8 +3,11 @@ package goryachev.notebook.js.ut;
 import goryachev.common.util.Base64;
 import goryachev.common.util.HSLColor;
 import goryachev.common.util.Hex;
+import goryachev.notebook.util.DigestTools;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
+import java.io.File;
+import java.security.MessageDigest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -64,11 +67,30 @@ public class UT
 	}
 	
 	
+	public String computeDigest(String name, Object x) throws Exception
+	{
+		MessageDigest d = MessageDigest.getInstance(name);
+		
+		if(x instanceof byte[])
+		{
+			byte[] b = (byte[])x;
+			return DigestTools.compute(d, b);
+		}
+		else
+		{
+			String filename = x.toString();
+			File f = new File(filename);
+			return DigestTools.compute(d, f);
+		}
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
-		InlineHelp h = new InlineHelp("UT");
+		InlineHelp h = new InlineHelp("");
 		h.a("UT offers helpful utility functions:");
 		//
+		h.a("computeDigest(algorithm, x)", "computes digest of a byte[] or a file");
 		h.a("decodeBase64(string)", "decodes Base64-encoded string");
 		h.a("encodeBase64(bytes)", "encodes a byte array using Base64");
 		h.a("decodeHex(string)", "decodes a hexadecimal string");

@@ -9,22 +9,11 @@
     {
       "type": "js",
       "source": "UT.help",
-      "sequence": 149,
+      "sequence": 152,
       "output": [
         {
           "type": "text",
-          "text": "UT offers helpful utility functions:\n   UT.decodeBase64(string)                - decodes Base64-encoded string\n   UT.decodeHex(string)                   - decodes a hexadecimal string\n   UT.encodeBase64(bytes)                 - encodes a byte array using Base64\n   UT.encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   UT.hslColor(hue,saturation,luminocity) - create color from HSL values\n   UT.parseHtml(html)                     - parse HTML document\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
-        }
-      ]
-    },
-    {
-      "type": "js",
-      "source": "// programmatically generate an image\nim = new JImage(500, 30);\nsz = 50;\nfor(i=0; i<sz; i++)\n{\n\tim.setColor(UT.hslColor(i/sz, 1.0, 0.5));\n\tim.fillRect(im.width*i/sz, 0, im.width/sz, im.height);\n}",
-      "sequence": 137,
-      "output": [
-        {
-          "type": "image",
-          "image": "iVBORw0KGgoAAAANSUhEUgAAAfQAAAAeCAIAAABVHHuNAAABa0lEQVR42u3UkZKCUQCA0ctxHMe7HMdxnMdxnMdxHMd5HMdx/77B5ztzZs4znDGNURZplbbpkM7plp7pU95TeaRrOqV92qTfNE9jmqVlWqddOqZLuqdX+pbXVO7pko5pl9ZpmWZlPspP2qR9OqVreqR3msYnPdMtndMhbdMqLcKQu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nKXu9zlLne5y13ucpe73OUud7nLXe5yl7vc5S53uctd7nL/r7n/AXZOcr5AXZxvAAAAAElFTkSuQmCC"
+          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte[] or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - create color from HSL values\n   .parseHtml(html)                     - parse HTML document\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },
@@ -42,11 +31,22 @@
     {
       "type": "js",
       "source": "b = UT.decodeHex(\"CAFEBABE000102030405060708FF\");\nb64 = UT.encodeBase64(b);\nprint(b64);\nprint(UT.decodeBase64(b64));\nprint(UT.encodeHex(b));",
-      "sequence": 146,
+      "sequence": 153,
       "output": [
         {
           "type": "text",
-          "text": "yv66vgABAgMEBQYHCP8=\n[B@41daa600\nCAFEBABE000102030405060708FF"
+          "text": "yv66vgABAgMEBQYHCP8=\n[B@36ec9d26\nCAFEBABE000102030405060708FF"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "//UT.computeDigest('md5', 'h:/ubuntu-14.04.1-desktop-i386.iso');\nUT.computeDigest('md5', 'h:/ubuntu-14.04.1-desktop-amd64.iso');",
+      "sequence": 153,
+      "output": [
+        {
+          "type": "text",
+          "text": "119CB63B48C9A18F31F417F09655EFBD"
         }
       ]
     }

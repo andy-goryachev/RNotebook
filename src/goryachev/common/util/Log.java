@@ -1,6 +1,7 @@
 // Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import goryachev.common.util.log.ConsoleLogWriter;
+import goryachev.common.util.log.ErrorLogWriter;
 import goryachev.common.util.log.FileLogWriter;
 import goryachev.common.util.log.LogEntry;
 import goryachev.common.util.log.LogWriter;
@@ -9,13 +10,26 @@ import java.io.File;
 
 
 /**
- * Global Logging subsystem.
+ * Global logging subsystem.
  */
 public class Log
 {
 	private static final CMap<String,CLog> channels = new CMap();
 	private static final CMap<String,LogWriter> writers = new CMap();
-	private static volatile CLog errorChannel = getLog(null);
+	private static volatile CLog errorChannel = initErrorChannel();
+	
+	
+	private Log()
+	{
+	}
+	
+	
+	private static CLog initErrorChannel()
+	{
+		CLog ch = getLog(null);
+		ch.addWriter(ErrorLogWriter.instance);
+		return ch;
+	}
 	
 	
 	public static void err(Throwable e)
@@ -284,5 +298,17 @@ public class Log
 		{
 			err(e);
 		}
+	}
+	
+	
+	public static void addErrorChannelMonitor(ErrorLogWriter.Monitor m)
+	{
+		ErrorLogWriter.instance.addMonitor(m);
+	}
+	
+	
+	public static void removeErrorChannelMonitor(ErrorLogWriter.Monitor m)
+	{
+		ErrorLogWriter.instance.removeMonitor(m);
 	}
 }
