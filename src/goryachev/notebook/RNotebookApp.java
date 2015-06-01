@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
 public class RNotebookApp
 	extends Application
 {
-	public static final String VERSION = "0.04.10RC";
+	public static final String VERSION = "0.04.11";
 	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
 	public static final String WEB_SITE = "http://goryachev.com/products/rnotebook";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
