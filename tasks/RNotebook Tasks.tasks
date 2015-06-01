@@ -232,13 +232,6 @@
           "description": null
         },
         {
-          "id": "2441038BC0D6C2E522F255F9CF6C18ADEB2BEE8A",
-          "title": "UT.computeSHA256",
-          "created": 1420448929742,
-          "completed": null,
-          "description": null
-        },
-        {
           "id": "7B5F3296B83F3299FFC80C04DAC41624D26911C2",
           "title": "UT.isBlank",
           "created": 1420449521019,
@@ -839,6 +832,13 @@
       "title": "JImageBuilder.lineTo(x, y)",
       "created": 1423267337803,
       "completed": 1423267565467,
+      "description": null
+    },
+    {
+      "id": "2441038BC0D6C2E522F255F9CF6C18ADEB2BEE8A",
+      "title": "UT.computeSHA256",
+      "created": 1420448929742,
+      "completed": 1424126144404,
       "description": null
     }
   ]

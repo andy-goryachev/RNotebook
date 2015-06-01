@@ -73,6 +73,11 @@ public abstract class FileScanner
 		for(ScanEntry en: folders)
 		{
 			RFileFilter f = (en.filter == null ? defaultFilter : en.filter);
+			if(f == null)
+			{
+				f = new RFileFilter();
+			}
+			
 			FileFilter ff = f.getFilter(en.folder);
 			
 			scanFile(en.folder, ff);

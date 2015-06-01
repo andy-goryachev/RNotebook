@@ -49,6 +49,17 @@
           "text": "119CB63B48C9A18F31F417F09655EFBD"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "b = new java.lang.String('goryachev.com').getBytes('utf-8');\nUT.computeDigest('md5', b);",
+      "sequence": 160,
+      "output": [
+        {
+          "type": "text",
+          "text": "1314F8B8382A325318F60A61644FF24E"
+        }
+      ]
     }
   ]
 }
