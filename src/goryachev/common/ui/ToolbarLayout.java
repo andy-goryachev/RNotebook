@@ -40,7 +40,7 @@ import java.awt.LayoutManager;
  * 
  */
 public class ToolbarLayout
-    implements LayoutManager
+	implements LayoutManager
 {
 	public static final int LEFT = 0;
 	public static final int CENTER = 1;

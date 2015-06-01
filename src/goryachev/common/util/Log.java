@@ -5,7 +5,7 @@ import goryachev.common.util.log.ErrorLogWriter;
 import goryachev.common.util.log.FileLogWriter;
 import goryachev.common.util.log.LogEntry;
 import goryachev.common.util.log.LogWriter;
-import goryachev.common.util.log.StartupLog;
+import goryachev.common.util.platform.SysInfo;
 import java.io.File;
 
 
@@ -160,7 +160,7 @@ public class Log
 				p.mkdirs();
 			}
 			
-			StartupLog s = new StartupLog();
+			SysInfo s = new SysInfo();
 			// TODO logger errors?
 			CKit.write(f, s.getSystemInfo());
 		}

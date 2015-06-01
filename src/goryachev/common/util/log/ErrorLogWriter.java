@@ -5,7 +5,7 @@ import goryachev.common.util.ILogWriter;
 
 
 public class ErrorLogWriter
-    implements ILogWriter
+	implements ILogWriter
 {
 	public interface Monitor
 	{

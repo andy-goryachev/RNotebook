@@ -303,20 +303,20 @@ public class TextLineNumberComponent
 		
 		if(isCurrentLine(rowStartOffset))
 		{
-			Color c = Color.lightGray; //Theme.selectionColor();
+			Color c = Color.lightGray;
 			if(color == null)
 			{
 				color = c;
 			}
 			else
 			{
-				color = UI.mix(127, color, c);
+				color = UI.mix(color, 0.5, c);
 			}
 		}
 		
 		if(color != null)
 		{
-			color = UI.mix(127, color, getBackground()); 
+			color = UI.mix(color, 0.5, getBackground()); 
 		}
 		
 		return color;

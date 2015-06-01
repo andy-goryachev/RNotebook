@@ -6,11 +6,10 @@ import java.awt.Rectangle;
 import javax.swing.JScrollBar;
 import javax.swing.JViewport;
 import javax.swing.Scrollable;
-import javax.swing.plaf.ScrollBarUI;
 
 
 public class CScrollBar
-    extends JScrollBar
+	extends JScrollBar
 {
 	private static int scrollLineCount = 3;
 	public final CScrollPane scroll;
@@ -26,10 +25,10 @@ public class CScrollBar
 	}
 	
 	
-	public void setUI(ScrollBarUI ui)
-	{
-		super.setUI(new CScrollBarUI());
-	}
+//	public void setUI(ScrollBarUI ui)
+//	{
+//		super.setUI(new CScrollBarUI());
+//	}
 
 
 	public void setUnitIncrement(int unitIncrement)

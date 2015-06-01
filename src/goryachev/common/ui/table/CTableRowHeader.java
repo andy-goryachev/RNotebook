@@ -20,8 +20,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 public class CTableRowHeader
-    extends JPanel 
-    implements ListSelectionListener
+	extends JPanel 
+	implements ListSelectionListener
 {
 	private JTable table;
 	private Color highlight;
@@ -175,8 +175,8 @@ public class CTableRowHeader
 
 
 	public void valueChanged(ListSelectionEvent e)
-    {
+	{
 		// TODO only old/new rows
 		repaint();
-    }
+	}
 }

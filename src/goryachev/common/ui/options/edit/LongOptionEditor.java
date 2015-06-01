@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 
 public class LongOptionEditor
-    extends OptionEditor<Long>
+	extends OptionEditor<Long>
 {
 	public final JTextField editor = new JTextField();
 

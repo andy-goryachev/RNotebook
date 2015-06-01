@@ -189,7 +189,7 @@ public class Theme
 		defs.put("Tree.selectionBackground", c);
 		
 		// inactive color
-		c = UI.mix(127, textFG(), textBG());
+		c = UI.mix(textFG(), 0.5, textBG());
 		defs.put("TextField.inactiveForeground", c);
 		
 		if(CPlatform.isMac())
@@ -706,5 +706,13 @@ public class Theme
 	public static Icon waitIcon(int size)
 	{
 		return new SpinningGearIcon(size);
+	}
+	
+	
+	/** minimum button width in button panels */
+	public static int minimumButtonWidth()
+	{
+		// TODO depends on font size
+		return 70;
 	}
 }

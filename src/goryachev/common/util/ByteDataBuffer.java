@@ -100,19 +100,19 @@ public class ByteDataBuffer
 		d |= read();
 		return d;
 	}
-	
-	
-    public long readLong() throws Exception
+
+
+	public long readLong() throws Exception
 	{
-    	long d;
-    	d  = ((long)read() << 56);
-    	d |= ((long)read() << 48);
-    	d |= ((long)read() << 40);
-    	d |= ((long)read() << 32);
-    	d |= ((long)read() << 24);
-    	d |= ((long)read() << 16);
-    	d |= ((long)read() << 8);
-    	d |= read();
+		long d;
+		d = ((long)read() << 56);
+		d |= ((long)read() << 48);
+		d |= ((long)read() << 40);
+		d |= ((long)read() << 32);
+		d |= ((long)read() << 24);
+		d |= ((long)read() << 16);
+		d |= ((long)read() << 8);
+		d |= read();
 		return d;
 	}
 
@@ -128,8 +128,8 @@ public class ByteDataBuffer
 		return Double.longBitsToDouble(readLong());
 	}
 
-	
-    public void read(byte b[]) throws Exception
+
+	public void read(byte b[]) throws Exception
 	{
 		read(b, 0, b.length);
 	}
@@ -202,20 +202,20 @@ public class ByteDataBuffer
 	public void writeChar(int d) throws Exception
 	{
 		prepareFor(2);
-        writeUnsigned(d >> 8);
-        writeUnsigned(d);
-        updateSize();
+		writeUnsigned(d >> 8);
+		writeUnsigned(d);
+		updateSize();
 	}
 
 
 	public void writeShort(int d) throws Exception
 	{
 		prepareFor(2);
-        writeUnsigned(d >> 8);
-        writeUnsigned(d);
-        updateSize();
+		writeUnsigned(d >> 8);
+		writeUnsigned(d);
+		updateSize();
 	}
-	
+
 
 	public void writeInt(int d) throws Exception
 	{

@@ -8,7 +8,7 @@ import java.math.BigInteger;
 
 
 public class PrimitiveListInput
-    implements PrimitiveInput
+	implements PrimitiveInput
 {
 	private CList<Object> list;
 	private int pos;

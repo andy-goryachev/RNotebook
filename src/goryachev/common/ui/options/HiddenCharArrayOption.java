@@ -10,7 +10,7 @@ import java.util.Collection;
 
 /** an option to store obfuscated char[] string */
 public class HiddenCharArrayOption
-    extends COption<char[]>
+	extends COption<char[]>
 {
 	public HiddenCharArrayOption(String key, CSettings options, Collection<COption<?>> list)
 	{

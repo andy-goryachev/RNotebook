@@ -1,10 +1,8 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.wizard;
 import goryachev.common.ui.Appearance;
-import goryachev.common.ui.BasePanel;
-import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.InfoField;
 import goryachev.common.ui.theme.AssignMnemonic;
 import goryachev.common.util.CKit;
@@ -13,7 +11,6 @@ import goryachev.common.util.CList;
 import goryachev.common.util.CLookup;
 import goryachev.common.util.CSorter;
 import goryachev.common.util.HasPrompts;
-import goryachev.common.util.SB;
 import goryachev.common.util.TXT;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -22,19 +19,21 @@ import javax.swing.JLabel;
 
 
 public class LanguagePage
-    extends BasePanel
-    implements HasPrompts
+	extends CPanel3
+	implements HasPrompts
 {
 	public final JLabel logoField;
 	public final CComboBox languageField;
-	protected boolean handleEvents = true;
 	public final JLabel selectLanguageLabel;
 	public final InfoField infoField;
+	protected boolean handleEvents = true;
 	protected CLookup languages = new CLookup();
 	
 	
 	public LanguagePage()
 	{
+		super(false);
+
 		setName("LanguagePage");
 		
 		logoField = new JLabel();
@@ -50,32 +49,18 @@ public class LanguagePage
 			}
 		});
 		
-		CPanel p = new CPanel();
-		p.setBorder(new CBorder(20));
-		p.setLayout
+		addColumns
 		(
-			new double[]
-			{
-				CPanel.PREFERRED,
-				CPanel.FILL
-			},
-			new double[]
-			{
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-			},
-			10, 20
+			CPanel3.PREFERRED,
+			CPanel3.FILL
 		);
-		int ix = 0;
-		p.add(0, ix, logoField);
-		ix++;
-		p.add(0, ix, 1, ix, infoField);
-		ix++;
-		p.add(0, ix, selectLanguageLabel = label(""));
-		p.add(1, ix, languageField);
-		
-		setCenter(p);
+
+		row(1, logoField);
+		nextRow();
+		row(0, 2, infoField);
+		nextRow();
+		row(0, selectLanguageLabel = label(" "));
+		row(1, languageField);
 		
 		languageField.setSelectedItem(Appearance.getLanguage().getLocalName());
 		TXT.registerListener(this);

@@ -1,7 +1,7 @@
 // Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.ui.theme.AssignMnemonic;
-import goryachev.common.ui.theme.ButtonPanelLayout;
+import goryachev.common.ui.theme.CButtonPanelLayout3;
+import goryachev.common.util.Rex;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
@@ -14,81 +14,75 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
 
-public class CButtonPanel
+// TODO
+// - check default button in dialog/frame
+// - right-align buttons if no FILL and no PERCENT
+public class CButtonPanel3
 	extends JPanel
 {
+	public static final int DEFAULT_GAP = 10;
 	private JButton defaultButton;
 	
 	
-	public CButtonPanel()
+	public CButtonPanel3()
 	{
-		super(new ButtonPanelLayout());
+		this(DEFAULT_GAP, true);
 	}
 	
 	
-	// compatibility constructor
-	public CButtonPanel(int gap, JButton ... bs)
+	public CButtonPanel3(int gap)
 	{
-		this();
-		getButtonPanelLayout().setGap(gap);
-		
-		for(JButton b: bs)
-		{
-			addButton(b);
-		}
+		this(gap, true);
 	}
 	
 	
-	public CButtonPanel(int gap)
+	public CButtonPanel3(int gap, boolean opaque)
 	{
-		this();
-		getButtonPanelLayout().setGap(gap);
+		super(new CButtonPanelLayout3(gap));
+		setOpaque(opaque);
+		setMinimumButtonSize(Theme.minimumButtonWidth());
 	}
 	
 	
-	// compatibility constructor
-	public CButtonPanel(int gap, Action ... as)
+	public void setBorder()
 	{
-		this();
-		getButtonPanelLayout().setGap(gap);
-		
-		for(Action a: as)
-		{
-			addButton(a);
-		}
+		setBorder(Theme.BORDER_10);
 	}
 	
 	
-	// compatibility constructor
-	public CButtonPanel(JButton ... bs)
+	public void setBorder(int sp)
 	{
-		this();
-		
-		for(JButton b: bs)
-		{
-			addButton(b);
-		}
+		setBorder(new CBorder(sp));
+	}
+
+	
+	public void setBorder(int ver, int hor)
+	{
+		setBorder(new CBorder(ver, hor));
+	}
+
+	
+	public void setMinimumButtonSize(int w)
+	{
+		buttonPanelLayout().setMinButtonSize(w);
 	}
 	
 	
-	public void addNotify()
+	protected CButtonPanelLayout3 buttonPanelLayout()
 	{
-		AssignMnemonic.assign(this);
-		super.addNotify();
-	}
-	
-	
-	protected ButtonPanelLayout getButtonPanelLayout()
-	{
-		return (ButtonPanelLayout)getLayout();
+		return (CButtonPanelLayout3)getLayout();
 	}
 	
 	
 	public void setLayout(LayoutManager m)
 	{
-		if(m instanceof ButtonPanelLayout)
+		if(m instanceof CButtonPanelLayout3)
 		{
 			super.setLayout(m);
+		}
+		else
+		{
+			throw new Rex();
 		}
 	}
 	
@@ -154,17 +148,33 @@ public class CButtonPanel
 	public JButton addButton(JButton b)
 	{
 		add(b);
+		
+		// TODO or simply find the last component?
 		defaultButton = b;
+		invalidate();
+		
 		return b;
 	}
-	
-	
-	public void addSpace()
+
+
+	public void fill()
 	{
-		// TODO
+		buttonPanelLayout().addSpace(CButtonPanelLayout3.FILL);
 	}
-	
-	
+
+
+	public void space(int pixels)
+	{
+		buttonPanelLayout().addSpace(pixels);
+	}
+
+
+	public void space(float percent)
+	{
+		buttonPanelLayout().addSpace(percent);
+	}
+
+
 	public void registerDefaultButton(JFrame f)
 	{
 		registerDefaultButton(f.getRootPane());
@@ -200,7 +210,7 @@ public class CButtonPanel
 	
 	public JButton getLastButton()
 	{
-		for(int i=getComponentCount() - 1; i>=0; --i)
+		for(int i=getComponentCount()-1; i>=0; --i)
 		{
 			Component c = getComponent(i);
 			if(c instanceof JButton)
@@ -236,8 +246,8 @@ public class CButtonPanel
 				JButton b = (JButton)c;
 				if(b.getAction() == a)
 				{
-					 b.setEnabled(on);
-					 return;
+					b.setEnabled(on);
+					return;
 				}
 			}
 		}

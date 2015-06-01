@@ -11,7 +11,6 @@ public class CSettings
 	{
 		public String getProperty(String key) { return null; }
 		public void setProperty(String key, String value) { }
-		public void removeProperty(String key) { }
 		public CList<String> getPropertyNames() { return new CList(0); }
 		public void save() throws Exception { }
 	};
@@ -103,23 +102,37 @@ public class CSettings
 	}
 	
 	
-	public boolean getBoolean(String key, boolean defaultValue)
+	public Boolean getBoolean(String key)
 	{
 		String s = getProperty(key);
 		if(s == null)
+		{
+			return null;
+		}
+		else
+		{
+			return Parsers.parseBoolean(s);
+		}
+	}
+	
+	
+	public boolean getBool(String key, boolean defaultValue)
+	{
+		Boolean b = getBoolean(key);
+		if(b == null)
 		{
 			return defaultValue;
 		}
 		else
 		{
-			return "true".equalsIgnoreCase(s);
+			return b.booleanValue();
 		}
 	}
 	
 	
-	public boolean getBoolean(String key)
+	public boolean getBool(String key)
 	{
-		return getBoolean(key, false);
+		return Boolean.TRUE.equals(getBoolean(key));
 	}
 	
 	

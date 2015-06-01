@@ -5,12 +5,11 @@ import goryachev.common.ui.table.ZModel;
 import goryachev.common.ui.table.ZTable;
 import goryachev.common.util.CList;
 import java.awt.Component;
-import javax.swing.JPopupMenu;
 
 
 /** Base class for table-detail kind of panels */
 public abstract class TableDetailViewPanel<T>
-	extends CPanel
+	extends CPanel3
 {
 	protected abstract void onTableSelectionChanged();
 	
@@ -25,8 +24,8 @@ public abstract class TableDetailViewPanel<T>
 	public final CScrollPane scroll;
 	public final CTableSelector selector;
 	public final CSplitPane split;
-	public final CPanel tablePanel;
-	public final CPanel detailPanel;
+	public final CPanel3 tablePanel;
+	public final CPanel3 detailPanel;
 
 
 	public TableDetailViewPanel(String name, ZModel<T> m)
@@ -61,12 +60,12 @@ public abstract class TableDetailViewPanel<T>
 //			}
 //		};
 
-		tablePanel = new CPanel();
+		tablePanel = new CPanel3();
 		tablePanel.setCenter(scroll);
 		
 		// detail
 		
-		detailPanel = new CPanel();
+		detailPanel = new CPanel3();
 		detailPanel.setName("detail");
 		detailPanel.setBackground(Theme.textBG());
 		

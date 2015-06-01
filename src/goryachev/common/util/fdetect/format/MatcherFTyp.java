@@ -9,7 +9,7 @@ import goryachev.common.util.fdetect.FileType;
 // 00 00 00 nn 66 74 79 70 33 67 70
 // 00 00 00 nn 66 74 79 70 33 67 32 - (nn=0x18) 3G2
 public class MatcherFTyp
-    extends FFMatcher
+	extends FFMatcher
 {
 	private byte[] sig = bytes("000000");
 	private byte[] prefix3GP = bytes("667479703367");

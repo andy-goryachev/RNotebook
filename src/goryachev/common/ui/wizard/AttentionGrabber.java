@@ -52,8 +52,8 @@ public class AttentionGrabber
 		}
 		else
 		{
-			double mix = count / maxCount;
-			Color bg = UI.mix(mix, oldBG, Color.red);
+			float mix = count / (float)maxCount;
+			Color bg = UI.mix(Color.red, mix, oldBG);
 			target.setBackground(bg);
 		}
 	}

@@ -14,7 +14,6 @@ import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 
 
@@ -60,11 +59,11 @@ public class DTableRenderer
 				Color bg = isBackgroundSet() ? getBackground() : t.getBackground();
 				if(focus)
 				{
-					setBackground(UI.mix(selectedFocusedMix, t.getSelectionBackground(), bg));
+					setBackground(UI.mix(bg, selectedFocusedMix, t.getSelectionBackground()));
 				}
 				else
 				{
-					setBackground(UI.mix(selectedMix, t.getSelectionBackground(), bg));
+					setBackground(UI.mix(bg, selectedMix, t.getSelectionBackground()));
 				}
 			}
 			else
@@ -168,7 +167,7 @@ public class DTableRenderer
 	{
 		if(c != null)
 		{
-			setForeground(UI.mix(fraction, c, getForeground()));
+			setForeground(UI.mix(getForeground(), fraction, c));
 		}
 	}
 	
@@ -177,7 +176,7 @@ public class DTableRenderer
 	{
 		if(c != null)
 		{
-			setBackground(UI.mix(fraction, c, getBackground()));
+			setBackground(UI.mix(getBackground(), fraction, c));
 		}
 	}
 }

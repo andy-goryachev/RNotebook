@@ -3,7 +3,7 @@ package goryachev.common.util;
 
 
 public class CFileLockedException
-    extends Exception
+	extends Exception
 {
 	public CFileLockedException()
 	{

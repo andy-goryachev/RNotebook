@@ -1,6 +1,6 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.theme;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import java.awt.Component;
@@ -33,7 +33,7 @@ public class CPopupWindow
 		this.parent = invoker;
 		this.component = popupComponent;
 		
-		CPanel pp = new CPanel();
+		CPanel3 pp = new CPanel3();
 		// TODO subtle raised border
 		pp.setBorder(Theme.lineBorder());
 		pp.setCenter(popupComponent);

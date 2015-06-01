@@ -1,11 +1,10 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.storage;
-import goryachev.common.ui.BaseDialog;
-import goryachev.common.ui.BasePanel;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CButton;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CDialog;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
@@ -18,7 +17,7 @@ import javax.swing.JTextField;
 
 /** Allows to enter almost all key strokes, except for Tab and Modifier keys. */
 public class StorageEntryDialog
-	extends BaseDialog
+	extends CDialog
 {
 	public final CAction cancelAction = new CAction() { public void action() { actionCancel(); } };
 	public final CAction okAction = new CAction() { public void action() { actionCommit(); } };
@@ -47,36 +46,22 @@ public class StorageEntryDialog
 		scroll = new CScrollPane(valueField, false);
 		scroll.setBorder(Theme.BORDER_FIELD);
 		
-		CPanel p = new CPanel();
+		CPanel3 p = panel();
+		p.setGaps(10, 5);
 		p.setBorder(new CBorder(10, 10, 0, 10));
-		p.setLayout
+		p.addColumns
 		(
-			new double[]
-			{
-				CPanel.PREFERRED,
-				CPanel.FILL
-			},
-			new double[]
-			{
-				CPanel.PREFERRED,
-				CPanel.FILL
-			},
-			10, 5
+			CPanel3.PREFERRED,
+			CPanel3.FILL
 		);
-
-		int ix = 0;
-		p.add(0, ix, p.label("Key:"));
-		p.add(1, ix, keyField);
-		ix++;
-		p.add(0, ix, p.labelTopAligned("Value:"));
-		p.add(1, ix, scroll);
+		p.row(0, p.label("Key:"));
+		p.row(1, keyField);
+		p.nextFillRow();
+		p.row(0, p.labelTopAligned("Value:"));
+		p.row(1, scroll);
 		
-		BasePanel bp = new BasePanel();
-		bp.setCenter(p);
-		bp.buttons().add(new CButton(Menus.Cancel, cancelAction));
-		bp.buttons().add(new CButton(Menus.Save, okAction, true));
-		
-		setCenter(bp);
+		p.buttonPanel().add(new CButton(Menus.Cancel, cancelAction));
+		p.buttonPanel().add(new CButton(Menus.Save, okAction, true));
 		
 		setEntry(en);
 	}

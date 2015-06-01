@@ -1,8 +1,6 @@
 package org.jsoup.parser;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Entities;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

@@ -5,7 +5,7 @@ import goryachev.common.util.fdetect.FileType;
 
 
 public class MatcherZip
-    extends FFMatcher
+	extends FFMatcher
 {
 	private byte[] prefix = bytes("504B");
 	

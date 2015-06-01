@@ -4,7 +4,7 @@ import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CButton;
 import goryachev.common.ui.CMenuItem;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.CPopupMenu;
 import goryachev.common.ui.CPopupMenuController;
 import goryachev.common.ui.CScrollPane;
@@ -26,7 +26,7 @@ import javax.swing.JScrollPane;
 
 
 public class StorageEditor
-	extends CPanel
+	extends CPanel3
 	implements OptionEditorInterface
 {
 	public final CAction addAction = new CAction() { public void action() { actionAdd(); } };
@@ -199,7 +199,7 @@ public class StorageEditor
 	protected void actionDelete()
 	{
 		CList<StorageEntry> sel = model.getSelectedEntries(selector);
-		if(Dialogs.confirm2(this, "Delete", "The values will be deleted.  Are you sure?", "Delete"))
+		if(Dialogs.confirm(this, "Delete", "The values will be deleted.  Are you sure?", "Delete"))
 		{
 			for(StorageEntry en: sel)
 			{

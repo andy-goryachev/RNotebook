@@ -5,7 +5,7 @@ import java.util.Collection;
 
 
 public class CharArrayOption
-    extends COption<char[]>
+	extends COption<char[]>
 {
 	private char[] defaultValue;
 

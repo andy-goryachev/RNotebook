@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
@@ -299,11 +300,11 @@ public class AppFrame
 
 
 	public static AppFrame getAppFrame(Component c)
-    {
-	    return UI.getAncestorOfClass(AppFrame.class, c);
-    }
-	
-	
+	{
+		return UI.getAncestorOfClass(AppFrame.class, c);
+	}
+
+
 	public void setFixedSize(int w, int h)
 	{
 		Dimension d = new Dimension(w, h);
@@ -366,5 +367,11 @@ public class AppFrame
 				((AppFrame)w).close();
 			}
 		}
+	}
+	
+	
+	public void setCloseOnEscape()
+	{
+		UI.whenAncestorOfFocusedComponent(this, KeyEvent.VK_ESCAPE, closeAction);
 	}
 }

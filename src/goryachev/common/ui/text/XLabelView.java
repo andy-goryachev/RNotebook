@@ -2,7 +2,6 @@
 package goryachev.common.ui.text;
 import java.awt.Container;
 import java.text.BreakIterator;
-import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.GlyphView;
 import javax.swing.text.LabelView;
@@ -15,7 +14,7 @@ import javax.swing.text.View;
 // http://bugs.sun.com/view_bug.do?bug_id=6539700
 // This class and XParagprahView seem to fix the problem
 public class XLabelView
-    extends LabelView
+	extends LabelView
 {
 	public XLabelView(Element elem)
 	{
@@ -75,7 +74,7 @@ public class XLabelView
 
 	protected int getBreakSpot(int p0, int p1)
 	{
-		Document doc = getDocument();
+//		Document doc = getDocument();
 //		if(doc != null && Boolean.TRUE.equals(doc.getProperty(AbstractDocument.MultiByteProperty)))
 //		{
 //			return getBreakSpotUseBreakIterator(p0, p1);

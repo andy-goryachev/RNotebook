@@ -20,7 +20,7 @@ public class DWriterBytes
 
 
 	private ByteArrayOutputStream getByteArrayOutputStream()
-    {
-	    return (ByteArrayOutputStream)out;
-    }
+	{
+		return (ByteArrayOutputStream)out;
+	}
 }

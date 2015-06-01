@@ -281,13 +281,7 @@ public class Parsers
 	}
 	
 	
-	public static boolean parseBool(Object x)
-	{
-		return parseBool(x, false);
-	}
-	
-	
-	public static boolean parseBool(Object x, boolean defaultValue)
+	public static Boolean parseBoolean(Object x)
 	{
 		if(x instanceof Boolean)
 		{
@@ -296,10 +290,29 @@ public class Parsers
 		else if(x != null)
 		{
 			String s = x.toString();
-			return "true".equalsIgnoreCase(s) || "y".equalsIgnoreCase(s);
+			return "true".equalsIgnoreCase(s) || "y".equalsIgnoreCase(s) || "1".equals(s);
 		}
-
-		return defaultValue;
+		return null;
+	}
+	
+	
+	public static boolean parseBool(Object x, boolean defaultValue)
+	{
+		Boolean v = parseBoolean(x);
+		if(v == null)
+		{
+			return defaultValue;
+		}
+		else
+		{
+			return v.booleanValue();
+		}
+	}
+	
+	
+	public static boolean parseBool(Object x)
+	{
+		return parseBool(x, false);
 	}
 	
 	
@@ -326,6 +339,19 @@ public class Parsers
 		{
 			Log.err(e);
 		}
+		
+		return null;
+	}
+	
+	
+	public static byte[] parseByteArrayQuiet(Object x)
+	{
+		try
+		{
+			return parseByteArray(x);
+		}
+		catch(Exception e)
+		{ }
 		
 		return null;
 	}
@@ -478,6 +504,17 @@ public class Parsers
 	}
 	
 	
+	public static BigInteger parseBigIntegerNotNull(Object x)
+	{
+		BigInteger v = parseBigInteger(x);
+		if(v == null)
+		{
+			throw new IllegalArgumentException("not a BigInteger: " + x);
+		}
+		return v;
+	}
+	
+	
 	public static BigDecimal parseBigDecimal(Object x)
 	{
 		if(x instanceof BigDecimal)
@@ -524,7 +561,7 @@ public class Parsers
 
 
 	public static ByteBuffer parseByteBuffer(Object x)
-    {
+	{
 		if(x != null)
 		{
 			if(x instanceof byte[])
@@ -532,12 +569,12 @@ public class Parsers
 				return ByteBuffer.wrap((byte[])x);
 			}
 		}
-	    return null;
-    }
+		return null;
+	}
 
 
 	public static <T> HashSet<T> parseHashSet(Object x)
-    {
+	{
 		if(x != null)
 		{
 			if(x instanceof Collection)
@@ -545,6 +582,6 @@ public class Parsers
 				return new HashSet((Collection)x);
 			}
 		}
-	    return new HashSet();
-    }
+		return new HashSet();
+	}
 }

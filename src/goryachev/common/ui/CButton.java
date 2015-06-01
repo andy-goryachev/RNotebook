@@ -2,7 +2,6 @@
 package goryachev.common.ui;
 import goryachev.common.ui.theme.CButtonBorder;
 import goryachev.common.ui.theme.CButtonUI;
-import goryachev.common.util.TXT;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.Action;
@@ -128,6 +127,13 @@ public class CButton
 		setText(text);
 		setToolTipText(tooltip);
 		init();
+	}
+	
+	
+	public CButton(String text, String tooltip, Action a, Color highlight)
+	{
+		this(text, tooltip, a);
+		setHighlight(highlight);
 	}
 	
 	

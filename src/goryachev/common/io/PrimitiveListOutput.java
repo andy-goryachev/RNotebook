@@ -5,7 +5,7 @@ import java.io.IOException;
 
 
 public class PrimitiveListOutput
-    implements PrimitiveOutput
+	implements PrimitiveOutput
 {
 	private CList<Object> out = new CList();
 	

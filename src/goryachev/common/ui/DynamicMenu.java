@@ -6,8 +6,8 @@ import javax.swing.event.MenuListener;
 
 
 public abstract class DynamicMenu
-    extends CMenu
-    implements MenuListener
+	extends CMenu
+	implements MenuListener
 {
 	/** good place to check id the menu is enabed */
 	protected abstract boolean isMenuEnabled();

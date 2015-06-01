@@ -16,14 +16,14 @@ import javax.swing.table.TableModel;
 public class ZTableRenderer
 	extends DefaultTableCellRenderer
 {
-	protected CTableRendererBorder border = new CTableRendererBorder();
+	protected CTableRendererBorder border = createDefaultBorder();
 	protected transient JTable table;
 	protected transient ElasticColumnHandler handler;
 	protected transient Object value;
 	protected transient int row;
 	protected transient ZTableModelCommon model;
-	private int selectedMix = 72;
-	private int selectedFocusedMix = 210;
+	private float selectedMix = 0.28235294117647058823529411764706f;
+	private float selectedFocusedMix = 0.82352941176470588235294117647059f;
 	
 	
 	public ZTableRenderer()
@@ -31,6 +31,12 @@ public class ZTableRenderer
 		setHorizontalAlignment(LEADING);
 		setVerticalAlignment(TOP);
 		UI.disableHtml(this);
+	}
+	
+
+	public static CTableRendererBorder createDefaultBorder()
+	{
+		return new CTableRendererBorder();
 	}
 	
 
@@ -58,7 +64,7 @@ public class ZTableRenderer
 				JTable.DropLocation d = table.getDropLocation();
 				if(d != null && !d.isInsertRow() && !d.isInsertColumn() && (d.getRow() == row) && (d.getColumn() == col))
 				{
-					mixBackground(48, Color.black);
+					mixBackground(Color.black, 0.18823);
 					sel = true;
 					// fg = DefaultLookup.getColor(this, ui, "Table.dropCellForeground");
 					// bg = DefaultLookup.getColor(this, ui, "Table.dropCellBackground");
@@ -71,11 +77,11 @@ public class ZTableRenderer
 					Color bg = isBackgroundSet() ? getBackground() : table.getBackground();
 					if(focus)
 					{
-						setBackground(UI.mix(selectedFocusedMix, table.getSelectionBackground(), bg));
+						setBackground(UI.mix(table.getSelectionBackground(), selectedFocusedMix, bg));
 					}
 					else
 					{
-						setBackground(UI.mix(selectedMix, table.getSelectionBackground(), bg));
+						setBackground(UI.mix(table.getSelectionBackground(), selectedMix, bg));
 					}
 				}
 				else
@@ -163,20 +169,20 @@ public class ZTableRenderer
 	}
 	
 	
-	public void mixForeground(int fraction, Color c)
+	public void mixForeground(Color c, double fraction)
 	{
 		if(c != null)
 		{
-			setForeground(UI.mix(fraction, c, getForeground()));
+			setForeground(UI.mix(c, fraction, getForeground()));
 		}
 	}
 	
 	
-	public void mixBackground(int fraction, Color c)
+	public void mixBackground(Color c, double fraction)
 	{
 		if(c != null)
 		{
-			setBackground(UI.mix(fraction, c, getBackground()));
+			setBackground(UI.mix(c, fraction, getBackground()));
 		}
 	}
 	

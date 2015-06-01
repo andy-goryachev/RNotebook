@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 
 public class DRect
-    extends Rectangle2D.Double
+	extends Rectangle2D.Double
 {
 	public DRect(double x, double y, double w, double h)
 	{

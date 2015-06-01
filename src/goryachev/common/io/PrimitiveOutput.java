@@ -5,7 +5,7 @@ import java.io.IOException;
 
 
 public interface PrimitiveOutput
-    extends Closeable
+	extends Closeable
 {
 	public void write(Object x) throws Exception;
 	

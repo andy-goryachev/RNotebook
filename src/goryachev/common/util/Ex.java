@@ -42,44 +42,44 @@ public class Ex
 		this.id = id;
 		this.parameter = value;
 	}
-	
-	
-	 public String getMessage()
-	 {
-		 SB sb = new SB();
-		 sb.a(id);
-		 if(parameter != null)
-		 {
-			 sb.sp();
-			 sb.a(parameter);
-		 }
-		 if(getCause() != null)
-		 {
-			 sb.sp();
-			 sb.a(getCause());
-		 }
-		 return sb.toString();
-	 }
-	 
-	 
-	 public Object getID()
-	 {
-		 return id;
-	 }
-	 
-	 
-	 public static Object getID(Throwable e)
-	 {
-		 if(e instanceof Ex)
-		 {
-			 return ((Ex)e).getID();
-		 }
-		 return null;
-	 }
-	 
-	 
-	 public Object getParameter()
-	 {
-		 return parameter;
-	 }
+
+
+	public String getMessage()
+	{
+		SB sb = new SB();
+		sb.a(id);
+		if(parameter != null)
+		{
+			sb.sp();
+			sb.a(parameter);
+		}
+		if(getCause() != null)
+		{
+			sb.sp();
+			sb.a(getCause());
+		}
+		return sb.toString();
+	}
+
+
+	public Object getID()
+	{
+		return id;
+	}
+
+
+	public static Object getID(Throwable e)
+	{
+		if(e instanceof Ex)
+		{
+			return ((Ex)e).getID();
+		}
+		return null;
+	}
+
+
+	public Object getParameter()
+	{
+		return parameter;
+	}
 }

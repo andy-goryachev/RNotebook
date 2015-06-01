@@ -3,6 +3,7 @@ package goryachev.common.ui.options;
 import goryachev.common.ui.CAction;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Log;
+import goryachev.common.util.SB;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import javax.swing.event.MenuListener;
 
 // file list maintains a List of files
 public class FileListOption
-    extends COption<List<File>>
+	extends COption<List<File>>
 {
 	public static final String DIVIDER = "\n";
 	private int max;
@@ -52,7 +53,7 @@ public class FileListOption
 
 	public String toProperty(List<File> value)
 	{
-		StringBuilder sb = new StringBuilder();
+		SB sb = new SB();
 		for(File f: value)
 		{
 			if(sb.length() > 0)
@@ -125,7 +126,7 @@ public class FileListOption
 	// serves as a marker 
 	// see JPopupMenu.Separator
 	protected static class MenuSeparator
-	    extends JSeparator
+		extends JSeparator
 	{
 		public MenuSeparator()
 		{
@@ -138,16 +139,19 @@ public class FileListOption
 			return "PopupMenuSeparatorUI";
 		}
 	}
+	
+	
+	//
 
 
 	public abstract class MenuItem
-	    extends JMenuItem
-	    implements MenuListener
+		extends JMenuItem
+		implements MenuListener
 	{
 		public abstract void menuFileSelected(File f);
 
 		//
-
+		
 		private JMenu menu;
 
 

@@ -88,8 +88,8 @@ public class InFieldPrompt
 	{
 		return modified;
 	}
-	
-	
+
+
 	public void setModified(boolean on)
 	{
 		modified = on;
@@ -97,22 +97,22 @@ public class InFieldPrompt
 
 
 	public void changedUpdate(DocumentEvent e)
-    {
-    }
+	{
+	}
 
 
 	public void insertUpdate(DocumentEvent e)
-    {
+	{
 		modified();
-    }
+	}
 
 
 	public void removeUpdate(DocumentEvent e)
-    {
+	{
 		modified();
-    }
-	
-	
+	}
+
+
 	protected void modified()
 	{
 		if(handleEvents)
@@ -124,26 +124,26 @@ public class InFieldPrompt
 
 
 	public void focusGained(FocusEvent e)
-    {
+	{
 		component.setForeground(originalColor);
-		
+
 		if(!isModified())
 		{
 			setTextInternal(null);
 		}
-    }
+	}
 
 
 	public void focusLost(FocusEvent e)
-    {
+	{
 		if(CKit.isBlank(component.getText()))
 		{
 			component.setForeground(promptColor);
 			setTextInternal(prompt);
 			setModified(false);
 		}
-    }
-	
+	}
+
 
 	public void actionPerformed(ActionEvent ev)
 	{

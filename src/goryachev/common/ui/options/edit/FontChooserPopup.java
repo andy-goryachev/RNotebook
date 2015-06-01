@@ -3,7 +3,7 @@ package goryachev.common.ui.options.edit;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.Theme;
 import goryachev.common.util.TXT;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 
 
 public class FontChooserPopup
-	extends CPanel
+	extends CPanel3
 {
 	private Font font;
 	private CComboBox fontCombo;
@@ -92,37 +92,27 @@ public class FontChooserPopup
 		proofArea.setBorder(new CBorder(Color.gray, 2));
 		proofArea.setPreferredSize(new Dimension(-1, 75));
 		
-		CPanel p = new CPanel();
-		p.setOpaque(false);
-		p.setLayout
+		CPanel3 p = new CPanel3(false);
+		p.setGaps(10, 5);
+		p.addColumns
 		(
-			new double[] 
-			{
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-				CPanel.FILL,
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-			},
-			new double[]
-			{
-				CPanel.PREFERRED,
-				CPanel.PREFERRED,
-				CPanel.FILL,
-			},
-			10, 5
+			CPanel3.PREFERRED,
+			CPanel3.PREFERRED,
+			CPanel3.PREFERRED,
+			CPanel3.FILL,
+			CPanel3.PREFERRED,
+			CPanel3.PREFERRED
 		);
-		int ix = 0;
-		p.add(0, ix, p.label(TXT.get("FontChooserDialog.font", "Font:")));
-		p.add(1, ix, 3, ix, fontCombo);
-		p.add(4, ix, p.label(TXT.get("FontChooserDialog.size", "Size:")));
-		p.add(5, ix, sizeCombo);
-		ix++;
-		p.add(1, ix, boldCheckbox);
-		p.add(2, ix, italicCheckbox);
-		ix++;
-		p.add(0, ix, 5, ix, proofArea);
+		
+		p.row(0, p.label(TXT.get("FontChooserDialog.font", "Font:")));
+		p.row(1, 3, fontCombo);
+		p.row(4, p.label(TXT.get("FontChooserDialog.size", "Size:")));
+		p.row(5, sizeCombo);
+		p.nextRow();
+		p.row(1, boldCheckbox);
+		p.row(2, italicCheckbox);
+		p.nextFillRow();
+		p.row(0, 6, proofArea);
 		
 		setCenter(p);
 		setBorder(new CBorder(10));

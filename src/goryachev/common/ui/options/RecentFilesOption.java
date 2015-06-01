@@ -41,15 +41,15 @@ public abstract class RecentFilesOption
 	{
 		set(new CList());
 	}
-	
-	
+
+
 	public CList<File> parseProperty(String s)
-    {
+	{
 		CList<File> a = new CList();
 		try
 		{
 			s = CKit.decompressString(s);
-			
+
 			if(CKit.isNotBlank(s))
 			{
 				for(String name: CKit.split(s, DIVIDER))
@@ -61,11 +61,11 @@ public abstract class RecentFilesOption
 		catch(Exception e)
 		{ }
 		return a;
-    }
+	}
 
 
 	public String toProperty(CList<File> fs)
-    {
+	{
 		try
 		{
 			SB sb = new SB();
@@ -81,18 +81,18 @@ public abstract class RecentFilesOption
 			return CKit.compressString(sb.toString());
 		}
 		catch(Exception e)
-		{ 
+		{
 			return null;
 		}
-    }
+	}
 
 
 	public CList<File> defaultValue()
-    {
-	    return null;
-    }
-	
-	
+	{
+		return new CList();
+	}
+
+
 	public void add(File f)
 	{
 		if(f != null)

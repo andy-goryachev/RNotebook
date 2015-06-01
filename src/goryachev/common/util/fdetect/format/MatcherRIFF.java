@@ -43,7 +43,7 @@ import goryachev.common.util.fdetect.FileType;
 //	WAV 	  	Resource Interchange File Format -- Audio for
 //	Windows file
 public class MatcherRIFF
-    extends FFMatcher
+	extends FFMatcher
 {
 	private byte[] prefix = bytes("52494646");
 	private byte[] avi = bytes("415649204C495354");

@@ -23,5 +23,5 @@ public class Styles
 	public static final Color plotViewerBackgroundColor = new Gray(242);
 	public static final Color resultColor = Colors.eclipseGreen;
 	public static final Color sectionBorderColor = Theme.hoverColor();
-	public static final Color textColor = UI.mix(64, Theme.textBG(), Theme.textFG());
+	public static final Color textColor = UI.mix(Theme.textFG(), 64, Theme.textBG());
 }

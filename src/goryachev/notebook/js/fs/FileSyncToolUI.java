@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -16,7 +16,7 @@ import research.tools.filesync.FileSyncTool;
 
 
 public class FileSyncToolUI
-	extends CPanel
+	extends CPanel3
 	implements FileSyncTool.Listener, ActionListener
 {
 	public static final int REFRESH_PERIOD = 100;
@@ -67,53 +67,37 @@ public class FileSyncToolUI
 		scroll.setTrackComponentDimensions(true);
 		scroll.setBorder(Theme.lineBorder());
 		
-		CPanel p = new CPanel();
+		CPanel3 p = new CPanel3(10, 2);
 		p.setBorder(5, 10);
 		p.setBackground(Theme.panelBG());
-		p.setLayout
+		p.addColumns
 		(
-			new double[]
-			{
-				100,
-				PREFERRED,
-				FILL
-			},
-			new double[]
-			{
-				PREFERRED,
-				PREFERRED,
-				PREFERRED,
-				PREFERRED,
-				PREFERRED,
-				PREFERRED,
-				PREFERRED,
-			},
-			10, 2
+			100,
+			CPanel3.PREFERRED,
+			CPanel3.FILL
 		);
-		
-		int ix = 0;
-		p.add(0, ix, heading("Sync"));
-		p.add(1, ix, "Current file:");
-		p.add(2, ix, currentFileField);
-		ix++;
-		p.add(0, ix, 0, ix+5, statusField);
-		p.add(1, ix, "Free space:");
-		p.add(2, ix, freeSpaceField);
-		ix++;
-		p.add(1, ix, "Updated:");
-		p.add(2, ix, copiedField);
-		ix++;
-		p.add(1, ix, "Deleted:");
-		p.add(2, ix, deletedField);
-		ix++;
-		p.add(1, ix, "Total files:");
-		p.add(2, ix, totalField);
-		ix++;
-		p.add(1, ix, "Elapsed time:");
-		p.add(2, ix, elapsedField);
-		ix++;
-		p.add(1, ix, "Errors:");
-		p.add(2, ix, errorField);
+		p.row(0, heading("Sync"));
+		p.row(1, new JLabel("Current file:"));
+		p.row(2, currentFileField);
+		p.nextRow();
+		p.row(0, 1, 5, statusField);
+		p.row(1, new JLabel("Free space:"));
+		p.row(2, freeSpaceField);
+		p.nextRow();
+		p.row(1, new JLabel("Updated:"));
+		p.row(2, copiedField);
+		p.nextRow();
+		p.row(1, new JLabel("Deleted:"));
+		p.row(2, deletedField);
+		p.nextRow();
+		p.row(1, new JLabel("Total files:"));
+		p.row(2, totalField);
+		p.nextRow();
+		p.row(1, new JLabel("Elapsed time:"));
+		p.row(2, elapsedField);
+		p.nextRow();
+		p.row(1, new JLabel("Errors:"));
+		p.row(2, errorField);
 		
 		setNorth(p);
 		setCenter(scroll);		

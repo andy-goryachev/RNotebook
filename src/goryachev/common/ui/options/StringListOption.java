@@ -35,10 +35,10 @@ public class StringListOption
 		}
 		return v;
 	}
-	
+
 
 	public CList<String> parseProperty(String s)
-    {
+	{
 		CList<String> a = new CList();
 		try
 		{
@@ -53,11 +53,11 @@ public class StringListOption
 		catch(Exception e)
 		{ }
 		return a;
-    }
+	}
 
 
 	public String toProperty(CList<String> list)
-    {
+	{
 		try
 		{
 			SB sb = new SB();
@@ -69,14 +69,14 @@ public class StringListOption
 				}
 				sb.a(s);
 			}
-		
+
 			return sb.toString();
 		}
 		catch(Exception e)
-		{ 
+		{
 			return null;
 		}
-    }
+	}
 
 
 	public CList<String> defaultValue()

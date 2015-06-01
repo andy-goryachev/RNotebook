@@ -317,7 +317,8 @@ public class NotebookWindow
 						continue;
 					}
 					
-					ChoiceDialog d = new ChoiceDialog(w, "File Modified", TXT.get("MainWindow.save on exit.file exists", "{0} has been modified.  Save changes?", w.getFileName()));
+					ChoiceDialog<Integer> d = new ChoiceDialog(w, "File Modified", TXT.get("MainWindow.save on exit.file exists", "{0} has been modified.  Save changes?", w.getFileName()));
+					d.setChoiceDefault(-1);
 					d.addButton(Menus.Cancel, 3);
 					d.addButton(Menus.DiscardChanges, 2);
 					d.addButton(Menus.SaveAll, 1, Color.magenta);
@@ -459,7 +460,8 @@ public class NotebookWindow
 		{
 			askedToSave = true;
 			
-			ChoiceDialog d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
+			ChoiceDialog<Integer> d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
+			d.setChoiceDefault(-1);
 			d.addButton(Menus.Cancel, 1);
 			d.addButton(Menus.DiscardChanges, 2, Theme.alternativeButtonHighlight());
 			d.addButton(Menus.Save, 0, true);

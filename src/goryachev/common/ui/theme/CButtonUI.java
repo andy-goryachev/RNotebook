@@ -4,7 +4,6 @@ import goryachev.common.ui.CSkin;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
@@ -13,7 +12,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.UIDefaults;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -29,7 +27,6 @@ public class CButtonUI
 	protected int dashedRectGapHeight;
 	private boolean defaults_initialized;
 	private final static CButtonUI ui = new CButtonUI();
-	private static boolean isMnemonicHidden;
 	private static Insets margin = UI.newInsets(2,10,2,10);
 	// TODO paint button gradient on top of the skin?
 	private static CSkin SKIN = new CButtonSkin();
@@ -38,13 +35,14 @@ public class CButtonUI
 
 	public static void init(UIDefaults defs)
 	{
+		defs.put("ButtonUI", CButtonUI.class.getName());
 		defs.put("Button.showMnemonics", Boolean.TRUE);
-		
-		defs.put("Button.shadow", UI.mix(127, Theme.textFG(), Theme.textBG()));
+		defs.put("Button.shadow", UI.mix(Theme.textFG(), 0.5, Theme.textBG()));
 		defs.put("Button.disabledShadow", new Color(255, 255, 255, 224));
 	}
 	
 	
+	// UIManager.getUI(JComponent) uses reflection to invoke this method.  not nice.
 	public static ComponentUI createUI(JComponent c)
 	{
 		return ui;
@@ -149,48 +147,48 @@ public class CButtonUI
 	}
 
 
-	private static Insets getOpaqueInsets(Border b, Component c)
-	{
-		if(b == null)
-		{
-			return null;
-		}
-		if(b.isBorderOpaque())
-		{
-			return b.getBorderInsets(c);
-		}
-		else if(b instanceof CompoundBorder)
-		{
-			CompoundBorder cb = (CompoundBorder) b;
-			Insets iOut = getOpaqueInsets(cb.getOutsideBorder(), c);
-			if(iOut != null && iOut.equals(cb.getOutsideBorder().getBorderInsets(c)))
-			{
-				// Outside border is opaque, keep looking
-				Insets iIn = getOpaqueInsets(cb.getInsideBorder(), c);
-				if(iIn == null)
-				{
-					// Inside is non-opaque, use outside insets
-					return iOut;
-				}
-				else
-				{
-					// Found non-opaque somewhere in the inside (which is
-					// also compound).
-					return new Insets(iOut.top + iIn.top, iOut.left + iIn.left, iOut.bottom + iIn.bottom, iOut.right + iIn.right);
-				}
-			}
-			else
-			{
-				// Outside is either all non-opaque or has non-opaque
-				// border inside another compound border
-				return iOut;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
+//	private static Insets getOpaqueInsets(Border b, Component c)
+//	{
+//		if(b == null)
+//		{
+//			return null;
+//		}
+//		if(b.isBorderOpaque())
+//		{
+//			return b.getBorderInsets(c);
+//		}
+//		else if(b instanceof CompoundBorder)
+//		{
+//			CompoundBorder cb = (CompoundBorder) b;
+//			Insets iOut = getOpaqueInsets(cb.getOutsideBorder(), c);
+//			if(iOut != null && iOut.equals(cb.getOutsideBorder().getBorderInsets(c)))
+//			{
+//				// Outside border is opaque, keep looking
+//				Insets iIn = getOpaqueInsets(cb.getInsideBorder(), c);
+//				if(iIn == null)
+//				{
+//					// Inside is non-opaque, use outside insets
+//					return iOut;
+//				}
+//				else
+//				{
+//					// Found non-opaque somewhere in the inside (which is
+//					// also compound).
+//					return new Insets(iOut.top + iIn.top, iOut.left + iIn.left, iOut.bottom + iIn.bottom, iOut.right + iIn.right);
+//				}
+//			}
+//			else
+//			{
+//				// Outside is either all non-opaque or has non-opaque
+//				// border inside another compound border
+//				return iOut;
+//			}
+//		}
+//		else
+//		{
+//			return null;
+//		}
+//	}
 	
 	
 	public boolean isButtonSelected(JComponent c)

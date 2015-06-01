@@ -31,6 +31,18 @@ public class CTextPane
 		
 		addKeyListener(new Handler());
 	}
+	
+	
+	public void setBorder(int sz)
+	{
+		setBorder(new CBorder(sz));
+	}
+	
+	
+	public void setBorder(int v, int h)
+	{
+		setBorder(new CBorder(v, h));
+	}
 
 
 	protected EditorKit createDefaultEditorKit()
@@ -44,14 +56,20 @@ public class CTextPane
 		setText(s);
 		setCaretPosition(0);
 	}
-	
-	
+
+
 	public void setAutoIndent(boolean on)
-    {
+	{
 		autoIndent = on;
-    }
+	}
 	
 	
+	public boolean getAutoIndent()
+	{
+		return autoIndent;
+	}
+
+
 	// FIX I think this is wrong
 	public boolean getScrollableTracksViewportWidth()
 	{
@@ -225,7 +243,7 @@ public class CTextPane
 
 
 	public class Handler
-	    implements KeyListener
+		implements KeyListener
 	{
 		public void keyTyped(KeyEvent ev)
 		{

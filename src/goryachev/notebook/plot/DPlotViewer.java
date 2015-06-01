@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.plot;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.Styles;
@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
 
 
 public class DPlotViewer
-    extends CPanel
+    extends CPanel3
 {
 	private final DPlot plot;
 	

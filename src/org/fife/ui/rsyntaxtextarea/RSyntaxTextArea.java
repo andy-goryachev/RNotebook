@@ -164,7 +164,7 @@ public class RSyntaxTextArea
 	public static final String VISIBLE_WHITESPACE_PROPERTY = "RSTA.visibleWhitespace";
 
 	private static final Color DEFAULT_BRACKET_MATCH_BG_COLOR = new Color(255, 192, 255);
-	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR = UI.mix(10, Color.black, DEFAULT_BRACKET_MATCH_BG_COLOR);
+	private static final Color DEFAULT_BRACKET_MATCH_BORDER_COLOR = UI.mix(DEFAULT_BRACKET_MATCH_BG_COLOR, 10, Color.black);
 	private static final Color DEFAULT_SELECTION_COLOR = RTheme.getDefaultSelectionBG();	
 	
 	/** The key for the syntax style to be highlighting. */

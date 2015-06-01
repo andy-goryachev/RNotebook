@@ -108,8 +108,8 @@ public class ImTools
 	public static void fillHorizontalBarrel(BufferedImage im, Color center, float fraction)
 	{
 		Graphics2D g = graphics(im);
-		Color topColor = UI.mix(fraction, center, Color.white);
-		Color bottomColor = UI.mix(fraction, center, Color.black);
+		Color topColor = UI.mix(Color.white, fraction, center);
+		Color bottomColor = UI.mix(Color.black, fraction, center);
 		
 		int h = im.getHeight();
 		int w = im.getWidth();

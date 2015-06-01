@@ -4,7 +4,7 @@ import java.awt.geom.Dimension2D;
 
 
 public class DDim
-    extends Dimension2D
+	extends Dimension2D
 {
 	private double width;
 	private double height;

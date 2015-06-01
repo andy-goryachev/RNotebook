@@ -607,14 +607,14 @@ public class UISettings
 				GraphicsDevice[] ds = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 				for(GraphicsDevice dev: ds)
 				{
-					 Rectangle screen = dev.getDefaultConfiguration().getBounds();
-					 if(r.intersects(screen))
-					 {
-						 partiallyVisible = true;
-						 break;
-					 }
+					Rectangle screen = dev.getDefaultConfiguration().getBounds();
+					if(r.intersects(screen))
+					{
+						partiallyVisible = true;
+						break;
+					}
 				}
-				
+
 				if(!partiallyVisible)
 				{
 					// show on main screen and resize if necessary
@@ -715,7 +715,7 @@ public class UISettings
 			STokenizer tok = new STokenizer(getProperty(prefix + DIALOG));
 			int w = tok.nextInt(-1);
 			int h = tok.nextInt(-1);
-			String state = tok.nextString(FRAME_NORMAL);
+			//String state = tok.nextString(FRAME_NORMAL);
 			
 			if(w < 0)
 			{

@@ -1,14 +1,14 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.ui.Application;
-import goryachev.common.ui.BaseDialog;
-import goryachev.common.ui.BasePanel;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CCheckBox;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CDialog;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.ContactSupport;
 import goryachev.common.ui.InfoField;
 import goryachev.common.ui.Menus;
+import goryachev.common.ui.Panels;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.common.ui.icons.CIcons;
@@ -20,7 +20,7 @@ import java.awt.Component;
 
 // TODO check for a new version here perhaps?
 public class ThankYouDialog
-	extends BaseDialog
+	extends CDialog
 {
 	public final CAction emailAction = new CAction() { public void action() { actionEmail(); } };
 	public final CAction okAction = new CAction() { public void action() { actionOK(); } };
@@ -53,31 +53,19 @@ public class ThankYouDialog
 		infoField = new InfoField(text, 0);
 		infoField.setForeground(Theme.textFG());
 		
-		CPanel p = new CPanel();
+		CPanel3 p = panel();
 		p.setBorder();
 		p.setBackground(Theme.textBG());
-		p.setLayout
-		(
-			new double[]
-			{
-				CPanel.FILL
-			},
-			new double[]
-			{
-				CPanel.FILL,
-				CPanel.PREFERRED,
-			}
-		);
-		p.add(0, 0, infoField);
-		p.add(0, 1, doNotShowField);
+		p.addColumn(CPanel3.FILL);
+		p.nextFillRow();
+		p.row(0, infoField);
+		p.nextRow();
+		p.row(0, doNotShowField);
 		
-		BasePanel bp = new BasePanel(p);
-		bp.setBackground(Theme.fieldBG());
-		bp.setIcon(CIcons.Success48);
-		bp.buttons().addButton("Email Us", emailAction, Theme.alternativeButtonHighlight());
-		bp.buttons().addButton(Menus.OK, okAction, true);
-		
-		setCenter(bp);
+		p.setBackground(Theme.fieldBG());
+		p.setLeading(Panels.iconField(CIcons.Success48));
+		p.buttonPanel().addButton("Email Us", emailAction, Theme.alternativeButtonHighlight());
+		p.buttonPanel().addButton(Menus.OK, okAction, true);
 		
 		UI.later(new Runnable()
 		{

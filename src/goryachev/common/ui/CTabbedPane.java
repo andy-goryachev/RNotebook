@@ -3,6 +3,7 @@ package goryachev.common.ui;
 import goryachev.common.ui.theme.CTabbedPaneUI;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Insets;
 import javax.swing.JTabbedPane;
 
 
@@ -62,5 +63,11 @@ public class CTabbedPane
 			
 			c = parent;
 		}
+	}
+	
+	
+	public void setContentBorderInsets(Insets m)
+	{
+		getCTabbedPaneUI().setContentBorderInsets(m);
 	}
 }

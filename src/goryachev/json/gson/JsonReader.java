@@ -17,7 +17,6 @@
  */
 package goryachev.json.gson;
 import java.io.Closeable;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.Reader;
 

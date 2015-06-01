@@ -2,7 +2,7 @@
 package goryachev.notebook.cell;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.ChoiceDialog;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
@@ -20,7 +20,7 @@ import research.dhtml.HDocument;
 
 
 public class NotebookPanel
-	extends CPanel
+	extends CPanel3
 {
 	public final CAction clearResultsAction = new CAction() { public void action() { actionClearResults(); } };
 	public final CAction copyAction = new CAction() { public void action() { actionCopy(); } };
@@ -534,11 +534,11 @@ public class NotebookPanel
 	
 	protected void actionRestartEngine()
 	{
-		ChoiceDialog d = new ChoiceDialog(this, "Restart Engine", "Do you want to restart the script engine?\nYou will lose all variables defined in it");
-		d.addButton("Restart", 1, Theme.alternativeButtonHighlight());
-		d.addButton("Continue Running", 0);
-		int ch = d.openChoiceDialog();		
-		if(ch == 1)
+		ChoiceDialog<Boolean> d = new ChoiceDialog(this, "Restart Engine", "Do you want to restart the script engine?\nYou will lose all variables defined in it");
+		d.addButton("Restart", Boolean.TRUE, Theme.alternativeButtonHighlight());
+		d.addButton("Continue Running", null);
+		Object rv = d.openChoiceDialog();		
+		if(Boolean.TRUE.equals(rv))
 		{
 			engine = new JsEngine(this);
 		}

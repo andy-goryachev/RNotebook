@@ -1,10 +1,10 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.wizard;
 import goryachev.common.ui.BackgroundThread;
-import goryachev.common.ui.BasePanel;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CIcon;
+import goryachev.common.ui.CPanel3;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.CTextPane;
 import goryachev.common.ui.CToolBar;
@@ -35,7 +35,7 @@ import javax.swing.text.StyleConstants;
 
 
 public abstract class BackgroundProcessPanel
-	extends BasePanel 
+	extends CPanel3 
 	implements BackgroundOperation.Monitor 
 {
 	protected abstract void updateActions();
@@ -254,28 +254,16 @@ public abstract class BackgroundProcessPanel
 	 */
 	public void setButtonEnabled(Action a, boolean on)
 	{
-		if(buttons != null)
+		if(hasButtonPanel())
 		{
-			buttons.setButtonEnabled(a, on);
+			buttonPanel().setButtonEnabled(a, on);
 		}
 	}
 	
 	
 	protected void actionCancel()
 	{
-		int rv = Dialogs.choice
-		(
-			this, 
-			TXT.get("BackgroundProcessPage.interrupt.title", "Interrupt?"), 
-			TXT.get("BackgroundProcessPage.interrupt.d", "Do you want to interrupt the current operation?"),
-			new String[] 
-			{ 
-				TXT.get("BackgroundProcessPage.button.allow", "Allow to Continue"),
-				TXT.get("BackgroundProcessPage.button.interrupt", "Interrupt")
-			}
-		);
-		
-		if(rv == 1)
+		if(Dialogs.confirmInterruption(this))
 		{
 			cancel();
 		}

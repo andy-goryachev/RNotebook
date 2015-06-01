@@ -2,16 +2,12 @@
 package goryachev.notebook;
 import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
-import goryachev.common.ui.CBorder;
-import goryachev.common.ui.CButton;
-import goryachev.common.ui.CButtonPanel;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.dialogs.license.MultiPageDialog;
 import goryachev.common.util.CKit;
 import goryachev.common.util.img.jhlabs.PixelUtils;
 import goryachev.common.util.img.mortennobel.Lanczos3Filter;
 import goryachev.json.gson.JsonReader;
-import info.clearthought.layout.TableLayout;
 import java.awt.Component;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.jsoup.Jsoup;
@@ -30,8 +26,6 @@ public class OpenSourceLicenses
 		//d.addPage("Apache POI", CKit.readStringQuiet(OpenSourceLicenses.class, "apache poi license.txt"));
 		
 		//d.addPage("BouncyCastle", LICENSE.licenseText);
-		
-		d.addPage("Clearthought Table Layout", CKit.readStringQuiet(TableLayout.class, "License.txt"));
 		
 		// https://code.google.com/p/google-gson/
 		d.addPage("Gson", CKit.readStringQuiet(JsonReader.class, "License.txt"));
@@ -63,13 +57,11 @@ public class OpenSourceLicenses
 	{
 		MultiPageDialog d = new MultiPageDialog(parent, "OpenSourceLicenses");
 
-		CButtonPanel bp = new CButtonPanel(10);
-		bp.setBorder(new CBorder(10));
-		bp.add(new CButton(Menus.OK, d.closeAction, true));
-		d.panel.setSouth(bp);
+		d.buttonPanel().addButton(Menus.OK, d.closeDialogAction, true);
 		
 		d.setTitle(Menus.OpenSourceLicenses + " - " + Application.getTitle());
-		d.setSize(900, 500);
+		d.setSize(800, 500);
+		d.split.setDividerLocation(300);
 		
 		licenses(d);
 		

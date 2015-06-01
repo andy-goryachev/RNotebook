@@ -20,12 +20,12 @@ public class SpinningDaisyIcon
 	private int size;
 	private float outerRadiusFraction = 0.48f; // fraction of size, can not exceed 0.5
 	private float innerRadiusFraction = 0.27f;
-    private int minAlpha = 16;
-    private Line2D.Float line = new Line2D.Float();
+	private int minAlpha = 16;
+	private Line2D.Float line = new Line2D.Float();
 	private Color color;
-    private static final double PI2 = Math.PI * 2;
-	
-	
+	private static final double PI2 = Math.PI * 2;
+
+
 	public SpinningDaisyIcon(int frameCount, int period, int size)
 	{
 		super(frameCount, period);

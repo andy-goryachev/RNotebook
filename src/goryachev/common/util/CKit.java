@@ -229,13 +229,13 @@ public class CKit
 			int beg = 0;
 			int end = s.length();
 
-			while((beg < end) && isBlank(s.charAt(beg))) 
+			while((beg < end) && isBlank(s.charAt(beg)))
 			{
-			    beg++;
+				beg++;
 			}
-			while((beg < end) && isBlank(s.charAt(end - 1))) 
+			while((beg < end) && isBlank(s.charAt(end - 1)))
 			{
-			    end--;
+				end--;
 			}
 			return beg == end;
 		}
@@ -400,13 +400,13 @@ public class CKit
 			close(in);
 		}
 	}
-	
-	
+
+
 	public static String readStringQuiet(Class cs, String resource)
 	{
 		try
 		{
-			 return readString(cs, resource);
+			return readString(cs, resource);
 		}
 		catch(Exception e)
 		{
@@ -414,8 +414,8 @@ public class CKit
 			return null;
 		}
 	}
-	
-	
+
+
 	public static String readString(String resource) throws Exception
 	{
 		return readString(resource, "UTF-8");
@@ -728,14 +728,17 @@ public class CKit
 	}
 
 	
+	@SuppressWarnings("resource") // actually no resource leak, the compiler does not understand our close()
 	public static byte[] readBytes(File f, int maxSize) throws Exception
 	{
-		FileInputStream in = new FileInputStream(f);
 		int len = (int)Math.min(maxSize, f.length());
-		int read = 0;
 		byte[] buf = new byte[len];
+
+		FileInputStream in = new FileInputStream(f);
 		try
 		{
+			int read = 0;
+
 			while(read < len)
 			{
 				int rv = in.read(buf, read, len-read);
@@ -865,23 +868,26 @@ public class CKit
 	{
 		CList<String> a = new CList();
 
-		int start = 0;
-		for(;;)
+		if(s != null)
 		{
-			int ix = s.indexOf(delim, start);
-			if(ix >= 0)
+			int start = 0;
+			for(;;)
 			{
-				a.add(s.substring(start, ix));
-				if(includeDelimiter)
+				int ix = s.indexOf(delim, start);
+				if(ix >= 0)
 				{
-					a.add(s.substring(ix, ix+1));
+					a.add(s.substring(start, ix));
+					if(includeDelimiter)
+					{
+						a.add(s.substring(ix, ix+1));
+					}
+					start = ix + 1;
 				}
-				start = ix + 1;
-			}
-			else
-			{
-				a.add(s.substring(start, s.length()));
-				break;
+				else
+				{
+					a.add(s.substring(start, s.length()));
+					break;
+				}
 			}
 		}
 
@@ -1003,9 +1009,9 @@ public class CKit
 	public static String toString(Object a)
 	{
 		return (a == null ? null : a.toString());
-    }
-	
-	
+	}
+
+
 	public static int hashCode(Object ... xs)
 	{
 		return hashCodeArray(xs);
@@ -1804,14 +1810,14 @@ public class CKit
 
 	/** concatenates two byte arrays */
 	public static byte[] cat(byte[] a, byte[] b)
-    {
+	{
 		byte[] rv = new byte[a.length + b.length];
 		System.arraycopy(a, 0, rv, 0, a.length);
 		System.arraycopy(b, 0, rv, a.length, b.length);
-	    return rv;
-    }
-	
-	
+		return rv;
+	}
+
+
 	public static Properties readProperties(String filename)
 	{
 		return readProperties(new File(filename));

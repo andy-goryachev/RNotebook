@@ -98,6 +98,7 @@ public class LongHashtable
 		{
 			throw new NullPointerException();
 		}
+		
 		Entry tab[] = table;
 		for(int i=tab.length; i-- > 0 ; )
 		{
@@ -108,11 +109,11 @@ public class LongHashtable
 					return true;
 				}
 			}
-	    }
+		}
 		return false;
 	}
 
-	
+
 	// Returns true if the collection contains an element for the key.
 	// @param key the key that we are looking for
 	// @see LongHashtable#contains
@@ -123,15 +124,15 @@ public class LongHashtable
 		int index = (int)((hash & MASK) % tab.length);
 		for(Entry e=tab[index]; e != null ; e=e.next)
 		{
-		    if((e.hash == hash) && (e.key == key))
+			if((e.hash == hash) && (e.key == key))
 			{
-		    	return true;
+				return true;
 			}
 		}
 		return false;
 	}
-	
-	
+
+
 	// Gets the object associated with the specified key in the 
 	// hashtable.
 	// @param key the specified key
@@ -206,21 +207,21 @@ public class LongHashtable
 		int index = (int)((hash & MASK) % tab.length);
 		for(Entry e=tab[index]; e != null; e = e.next)
 		{
-		    if((e.hash == hash) && (e.key == key))
+			if((e.hash == hash) && (e.key == key))
 			{
 				Object old = e.value;
 				e.value = value;
 				return old;
 			}
-	    }
-		
+		}
+
 		if(count >= threshold)
 		{
 			// Rehash the table if the threshold is exceeded.
 			rehash();
-			return put(key,value);
+			return put(key, value);
 		}
-		
+
 		// Creates the new entry.
 		Entry e = new Entry();
 		e.hash = hash;
@@ -251,17 +252,17 @@ public class LongHashtable
 					prev.next = e.next;
 				}
 				else
-			    {
+				{
 					tab[index] = e.next;
-			    }
+				}
 				--count;
 				return e.value;
 			}
 		}
 		return null;
 	}
-	
-	
+
+
 	// Clears the hash table so that it has no more elements in it.
 	public synchronized void clear()
 	{
@@ -272,19 +273,21 @@ public class LongHashtable
 		}
 		count = 0;
 	}
-	
-	
+
+
 	// Creates a clone of the hashtable. A shallow copy is made,
 	// the keys and elements themselves are NOT cloned. This is a
 	// relatively expensive operation.
 	public synchronized Object clone()
 	{
 		try
-	    {
+		{
 			LongHashtable t = (LongHashtable)super.clone();
 			t.table = new Entry[table.length];
-			for(int i=table.length ; i-->0 ; )
-			t.table[i] = (table[i] != null) ? (Entry)table[i].clone() : null;
+			for(int i = table.length; i-- > 0;)
+			{
+				t.table[i] = (table[i] != null) ? (Entry)table[i].clone() : null;
+			}
 			return t;
 		}
 		catch(CloneNotSupportedException e)
@@ -293,8 +296,8 @@ public class LongHashtable
 			throw new InternalError();
 		}
 	}
-	
-	
+
+
 	public synchronized String toString()
 	{
 		int max = size() - 1;
@@ -366,6 +369,7 @@ public class LongHashtable
 			{
 				return true;
 			}
+			
 			while(index-- > 0)
 			{
 				if((entry = table[index]) != null)
@@ -373,23 +377,27 @@ public class LongHashtable
 					return true;
 				}
 			}
+			
 			return false;
 		}
-		
-		
+
+
 		public Object nextElement()
 		{
 			if(entry == null)
 			{
-			    while((index-- > 0) && ((entry = table[index]) == null))
-			    { }
+				while((index-- > 0) && ((entry = table[index]) == null))
+				{
+				}
 			}
+
 			if(entry != null)
 			{
 				Entry e = entry;
 				entry = e.next;
 				return keys ? new Long(e.key) : e.value;
 			}
+
 			throw new NoSuchElementException("Enumerator");
 		}
 	}
