@@ -3,7 +3,7 @@ package goryachev.common.ui.options.edit;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.Theme;
 import goryachev.common.util.TXT;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 
 
 public class FontChooserPopup
-	extends CPanel3
+	extends CPanel
 {
 	private Font font;
 	private CComboBox fontCombo;
@@ -92,16 +92,16 @@ public class FontChooserPopup
 		proofArea.setBorder(new CBorder(Color.gray, 2));
 		proofArea.setPreferredSize(new Dimension(-1, 75));
 		
-		CPanel3 p = new CPanel3(false);
+		CPanel p = new CPanel(false);
 		p.setGaps(10, 5);
 		p.addColumns
 		(
-			CPanel3.PREFERRED,
-			CPanel3.PREFERRED,
-			CPanel3.PREFERRED,
-			CPanel3.FILL,
-			CPanel3.PREFERRED,
-			CPanel3.PREFERRED
+			CPanel.PREFERRED,
+			CPanel.PREFERRED,
+			CPanel.PREFERRED,
+			CPanel.FILL,
+			CPanel.PREFERRED,
+			CPanel.PREFERRED
 		);
 		
 		p.row(0, p.label(TXT.get("FontChooserDialog.font", "Font:")));

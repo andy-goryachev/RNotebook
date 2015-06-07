@@ -53,7 +53,7 @@ public class CDigest
 		}
 		catch(Exception e)
 		{
-			throw new CException(e);
+			throw new Rex(e);
 		}
 	}
 	
@@ -101,7 +101,7 @@ public class CDigest
 		}
 		else
 		{
-			throw new CException("unsupported type: " + x.getClass());
+			throw new Rex("unsupported type: " + x.getClass());
 		}
 	}
 	

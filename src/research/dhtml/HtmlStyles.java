@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml;
-import goryachev.common.util.CException;
+import goryachev.common.util.Rex;
 
 
 public class HtmlStyles
@@ -18,7 +18,7 @@ public class HtmlStyles
 		case PADDING_RIGHT: return "padding-right";
 		case PADDING_TOP: return "padding-top";
 		default:
-			throw new CException("unknown attribute " + a);
+			throw new Rex("unknown attribute " + a);
 		}
 	}
 }

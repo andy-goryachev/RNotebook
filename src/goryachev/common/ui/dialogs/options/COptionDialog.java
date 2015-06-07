@@ -2,9 +2,9 @@
 package goryachev.common.ui.dialogs.options;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
-import goryachev.common.ui.CButtonPanel3;
+import goryachev.common.ui.CButtonPanel;
 import goryachev.common.ui.CDialog;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
 import java.awt.Component;
@@ -15,7 +15,7 @@ public class COptionDialog
 {
 	public final CAction okAction = new CAction() { public void action() { onOk(); } };
 	public final OptionPanel optionPanel;
-	public final CButtonPanel3 buttonPanel;
+	public final CButtonPanel buttonPanel;
 	private boolean changed;
 	
 
@@ -27,12 +27,12 @@ public class COptionDialog
 
 		optionPanel = new OptionPanel(root);
 
-		buttonPanel = new CButtonPanel3(10);
+		buttonPanel = new CButtonPanel(10);
 		buttonPanel.addButton(Menus.Cancel, closeDialogAction);
 		buttonPanel.addButton(Menus.OK, okAction, true);
 		buttonPanel.setBorder(new CBorder(10));
 
-		CPanel3 p = new CPanel3();
+		CPanel p = new CPanel();
 		p.setCenter(optionPanel);
 		p.setSouth(buttonPanel);
 

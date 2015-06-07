@@ -1,9 +1,9 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
+import goryachev.common.util.Rex;
 import java.util.List;
 import javax.swing.text.JTextComponent;
 
@@ -40,7 +40,7 @@ public class InputForm
 		}
 		else
 		{
-			throw new CException("unsupported entry field type: " + CKit.simpleName(f));
+			throw new Rex("unsupported entry field type: " + CKit.simpleName(f));
 		}
 	}
 	

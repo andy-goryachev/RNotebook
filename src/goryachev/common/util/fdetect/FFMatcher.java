@@ -1,8 +1,8 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.fdetect;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Parsers;
+import goryachev.common.util.Rex;
 
 
 public abstract class FFMatcher
@@ -18,7 +18,7 @@ public abstract class FFMatcher
 		byte[] b = Parsers.parseByteArray(hex);
 		if(b == null)
 		{
-			throw new CException("unable to parse: " + hex);
+			throw new Rex("unable to parse: " + hex);
 		}
 		return b;
 	}

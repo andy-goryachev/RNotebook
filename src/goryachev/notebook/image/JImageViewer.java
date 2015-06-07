@@ -2,7 +2,7 @@
 package goryachev.notebook.image;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CExtensionFileFilter;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.ImageTools;
 import goryachev.common.ui.ShadowBorder;
@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 
 
 public class JImageViewer
-	extends CPanel3
+	extends CPanel
 {
 	public final CAction saveImageAction = new CAction() { public void action() { actionSaveImage(); } };
 	public final BufferedImage image;

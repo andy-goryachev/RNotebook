@@ -1,7 +1,7 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.table;
-import goryachev.common.util.CException;
 import goryachev.common.util.CList;
+import goryachev.common.util.Rex;
 
 
 /** 
@@ -43,7 +43,7 @@ public abstract class ZRowTableSelector<T>
 		
 		if((t.getModel() instanceof ZTableModel) == false)
 		{
-			throw new CException("needs ZTableModel");
+			throw new Rex("needs ZTableModel");
 		}
 	}
 	

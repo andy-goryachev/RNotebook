@@ -20,7 +20,7 @@ public final class CRandom
 		{
 			// should not happen
 			Log.err(e);
-			throw new CException(e);
+			throw new Rex(e);
 		}
 	}
 	

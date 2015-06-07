@@ -59,6 +59,12 @@ public class InfoField
 	}
 	
 	
+	public void setBorder()
+	{
+		setBorder(Theme.BORDER_10);
+	}
+	
+	
 	protected void onHyperLink(URL url)
 	{
 		CBrowser.openLinkQuiet(url);

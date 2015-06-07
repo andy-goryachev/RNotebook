@@ -4,7 +4,7 @@ import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CButton;
 import goryachev.common.ui.CDialog;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Dialogs;
 import goryachev.common.ui.Menus;
@@ -46,13 +46,13 @@ public class StorageEntryDialog
 		scroll = new CScrollPane(valueField, false);
 		scroll.setBorder(Theme.BORDER_FIELD);
 		
-		CPanel3 p = panel();
+		CPanel p = panel();
 		p.setGaps(10, 5);
 		p.setBorder(new CBorder(10, 10, 0, 10));
 		p.addColumns
 		(
-			CPanel3.PREFERRED,
-			CPanel3.FILL
+			CPanel.PREFERRED,
+			CPanel.FILL
 		);
 		p.row(0, p.label("Key:"));
 		p.row(1, keyField);

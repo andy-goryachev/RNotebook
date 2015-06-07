@@ -1,13 +1,13 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
 import goryachev.common.ui.ImageTools;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancelledException;
 import goryachev.common.util.Hex;
 import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
 import goryachev.common.util.RFileFilter;
+import goryachev.common.util.Rex;
 import goryachev.common.util.SB;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
@@ -107,7 +107,7 @@ public class JsUtil
 
 	public static RuntimeException todo()
 	{
-		return new CException("To be implemented...");
+		return new Rex("To be implemented...");
 	}
 
 
@@ -115,7 +115,7 @@ public class JsUtil
 	{
 		if(x == null)
 		{
-			throw new CException("expecting color");
+			throw new Rex("expecting color");
 		}
 		
 		if(x instanceof Color)

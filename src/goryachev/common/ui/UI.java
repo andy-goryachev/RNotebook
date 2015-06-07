@@ -2,7 +2,6 @@
 package goryachev.common.ui;
 import goryachev.common.ui.dialogs.ZeroFrame;
 import goryachev.common.ui.theme.InsetsResource;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CPlatform;
@@ -572,7 +571,7 @@ public class UI
 	{
 		if(!EventQueue.isDispatchThread())
 		{
-			throw new CException("must be in EDT");
+			throw new Rex("must be in EDT");
 		}
 	}
 

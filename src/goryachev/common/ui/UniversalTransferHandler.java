@@ -1,8 +1,8 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.util.CException;
 import goryachev.common.util.CList;
 import goryachev.common.util.Log;
+import goryachev.common.util.Rex;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
@@ -171,7 +171,7 @@ public abstract class UniversalTransferHandler
 				return h;
 			}
 		}
-		throw new CException("No handler defined for: " + f);
+		throw new Rex("No handler defined for: " + f);
 	}
 	
 	

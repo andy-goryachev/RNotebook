@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.util.CException;
+import goryachev.common.util.Rex;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -65,7 +65,7 @@ public class CellLayout
 
 	public void addLayoutComponent(String name, Component comp)
 	{
-		throw new CException();
+		throw new Rex();
 	}
 
 

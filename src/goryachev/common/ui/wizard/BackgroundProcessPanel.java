@@ -4,7 +4,7 @@ import goryachev.common.ui.BackgroundThread;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.CIcon;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.CTextPane;
 import goryachev.common.ui.CToolBar;
@@ -35,7 +35,7 @@ import javax.swing.text.StyleConstants;
 
 
 public abstract class BackgroundProcessPanel
-	extends CPanel3 
+	extends CPanel 
 	implements BackgroundOperation.Monitor 
 {
 	protected abstract void updateActions();

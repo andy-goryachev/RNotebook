@@ -4,7 +4,7 @@ import goryachev.common.ui.Application;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.CDialog;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.ContactSupport;
 import goryachev.common.ui.InfoField;
 import goryachev.common.ui.Menus;
@@ -53,10 +53,10 @@ public class ThankYouDialog
 		infoField = new InfoField(text, 0);
 		infoField.setForeground(Theme.textFG());
 		
-		CPanel3 p = panel();
+		CPanel p = panel();
 		p.setBorder();
 		p.setBackground(Theme.textBG());
-		p.addColumn(CPanel3.FILL);
+		p.addColumn(CPanel.FILL);
 		p.nextFillRow();
 		p.row(0, infoField);
 		p.nextRow();

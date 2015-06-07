@@ -9,7 +9,7 @@ import java.awt.Component;
 
 /** Base class for table-detail kind of panels */
 public abstract class TableDetailViewPanel<T>
-	extends CPanel3
+	extends CPanel
 {
 	protected abstract void onTableSelectionChanged();
 	
@@ -24,8 +24,8 @@ public abstract class TableDetailViewPanel<T>
 	public final CScrollPane scroll;
 	public final CTableSelector selector;
 	public final CSplitPane split;
-	public final CPanel3 tablePanel;
-	public final CPanel3 detailPanel;
+	public final CPanel tablePanel;
+	public final CPanel detailPanel;
 
 
 	public TableDetailViewPanel(String name, ZModel<T> m)
@@ -60,12 +60,12 @@ public abstract class TableDetailViewPanel<T>
 //			}
 //		};
 
-		tablePanel = new CPanel3();
+		tablePanel = new CPanel();
 		tablePanel.setCenter(scroll);
 		
 		// detail
 		
-		detailPanel = new CPanel3();
+		detailPanel = new CPanel();
 		detailPanel.setName("detail");
 		detailPanel.setBackground(Theme.textBG());
 		

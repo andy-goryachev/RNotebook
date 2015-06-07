@@ -145,4 +145,12 @@ public class CScrollPane
 		setBackground(c);
 		getViewport().setBackground(c);
 	}
+	
+	
+	/** sets opaque flag on both the scroll pane and its viewport */
+	public void setOpaque2(boolean on)
+	{
+		setOpaque(on);
+		getViewport().setOpaque(on);
+	}
 }

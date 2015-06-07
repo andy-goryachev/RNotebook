@@ -1,10 +1,10 @@
 // Copyright (c) 2010-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.table.ZTable;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CMap;
 import goryachev.common.util.Parsers;
+import goryachev.common.util.Rex;
 import goryachev.common.util.SB;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -100,7 +100,7 @@ public class CTransferable
 	{
 		if(data.put(f, x) != null)
 		{
-			throw new CException("flavor is already present: " + f);
+			throw new Rex("flavor is already present: " + f);
 		}
 	}
 	

@@ -2,7 +2,7 @@
 package goryachev.notebook.cell;
 import goryachev.common.ui.CAction;
 import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.ChoiceDialog;
 import goryachev.common.ui.InputTracker;
 import goryachev.common.ui.Theme;
@@ -20,7 +20,7 @@ import research.dhtml.HDocument;
 
 
 public class NotebookPanel
-	extends CPanel3
+	extends CPanel
 {
 	public final CAction clearResultsAction = new CAction() { public void action() { actionClearResults(); } };
 	public final CAction copyAction = new CAction() { public void action() { actionCopy(); } };

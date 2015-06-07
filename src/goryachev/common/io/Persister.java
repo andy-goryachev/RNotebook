@@ -1,12 +1,12 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.io;
-import goryachev.common.util.CException;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
 import goryachev.common.util.DKey;
 import goryachev.common.util.Hex;
 import goryachev.common.util.PTable;
+import goryachev.common.util.Rex;
 import goryachev.common.util.SKey;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
@@ -74,7 +74,7 @@ public class Persister
 		{
 			if(old.getClass() != h.getClass())
 			{
-				throw new CException("duplicate registration of type " + type);
+				throw new Rex("duplicate registration of type " + type);
 			}
 		}
 		
@@ -83,7 +83,7 @@ public class Persister
 		{
 			if(id != ((PersistenceHandler)old).getTypeID())
 			{
-				throw new CException("duplicate registration of type id " + id);
+				throw new Rex("duplicate registration of type id " + id);
 			}
 		}
 		
@@ -102,12 +102,12 @@ public class Persister
 			Constructor c = type.getConstructor();
 			if((c.getModifiers() & (2 << Member.PUBLIC)) != 0)
 			{
-				throw new CException("not public");
+				throw new Rex("not public");
 			}
 		}
 		catch(Exception e)
 		{
-			throw new CException("class must have a public no-arg constructor: " + type, e);
+			throw new Rex("class must have a public no-arg constructor: " + type, e);
 		}
 		
 		register(id, type, new PersistenceHandler()

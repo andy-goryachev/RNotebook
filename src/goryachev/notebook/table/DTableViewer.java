@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.table;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -12,7 +12,7 @@ import javax.swing.JTable;
 
 
 public class DTableViewer
-	extends CPanel3
+	extends CPanel
 {
 	public final DTableModel model;
 	public final JTable table;

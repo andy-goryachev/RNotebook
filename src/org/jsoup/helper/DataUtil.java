@@ -1,5 +1,5 @@
 package org.jsoup.helper;
-import goryachev.common.util.CException;
+import goryachev.common.util.Rex;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -106,7 +106,7 @@ public class DataUtil
 			}
 			catch(OutOfMemoryError e)
 			{
-				throw new CException(e);
+				throw new Rex(e);
 			}
 			
 			doc = parser.parseInput(docData, baseUri);

@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
-import goryachev.common.ui.CPanel3;
+import goryachev.common.ui.CPanel;
 import goryachev.common.ui.CScrollPane;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
@@ -16,7 +16,7 @@ import research.tools.filesync.FileSyncTool;
 
 
 public class FileSyncToolUI
-	extends CPanel3
+	extends CPanel
 	implements FileSyncTool.Listener, ActionListener
 {
 	public static final int REFRESH_PERIOD = 100;
@@ -67,14 +67,14 @@ public class FileSyncToolUI
 		scroll.setTrackComponentDimensions(true);
 		scroll.setBorder(Theme.lineBorder());
 		
-		CPanel3 p = new CPanel3(10, 2);
+		CPanel p = new CPanel(10, 2);
 		p.setBorder(5, 10);
 		p.setBackground(Theme.panelBG());
 		p.addColumns
 		(
 			100,
-			CPanel3.PREFERRED,
-			CPanel3.FILL
+			CPanel.PREFERRED,
+			CPanel.FILL
 		);
 		p.row(0, heading("Sync"));
 		p.row(1, new JLabel("Current file:"));

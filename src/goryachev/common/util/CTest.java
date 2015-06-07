@@ -22,7 +22,7 @@ public abstract class CTest
 	
 	public void fail(Object x)
 	{
-		throw new CException(Parsers.parseString(x));
+		throw new Rex(Parsers.parseString(x));
 	}
 	
 	
