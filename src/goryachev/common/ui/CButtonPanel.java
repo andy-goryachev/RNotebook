@@ -44,9 +44,17 @@ public class CButtonPanel
 	}
 	
 	
-	public void setBorder()
+	/** sets standard theme border */
+	public void border()
 	{
 		setBorder(Theme.BORDER_10);
+	}
+	
+	
+	/** sets standard theme border */
+	public void setBorder()
+	{
+		border();
 	}
 	
 	

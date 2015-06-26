@@ -60,6 +60,11 @@ public class ProgressLogic
 	
 	public synchronized void setProgress(double p)
 	{
+		if(start == 0)
+		{
+			start();
+		}
+		
 		// FIX
 		// average computed over all period
 		durationAverage = /*FUDGE_FACTOR * */ (time() - start) / p;

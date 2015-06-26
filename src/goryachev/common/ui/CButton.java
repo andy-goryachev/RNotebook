@@ -95,6 +95,17 @@ public class CButton
 	}
 	
 	
+	public CButton(Icon icon, String text, Action a, boolean highlight)
+	{
+		this(text, a);
+		setIcon(icon);
+		if(highlight)
+		{
+			setHighlight();
+		}
+	}
+	
+	
 	public CButton(Action a, Color highlight)
 	{
 		this(a);

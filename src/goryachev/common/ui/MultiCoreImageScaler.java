@@ -3,6 +3,7 @@ package goryachev.common.ui;
 import java.awt.Image;
 
 
+@SuppressWarnings("unused")
 public class MultiCoreImageScaler
 {
 	private final Image image;

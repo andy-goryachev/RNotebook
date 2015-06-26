@@ -6,6 +6,7 @@ import java.util.Random;
 
 
 /** Simple silly data encoder.  Is it portable though (may have a different Random instance)? */
+@SuppressWarnings("resource")
 public class HiddenData
 {
 	public static byte[] encode(byte[] b) throws Exception

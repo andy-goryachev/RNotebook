@@ -61,4 +61,22 @@ public class AChoice
 	{
 		return getName();
 	}
+	
+	
+	public Color getForeground()
+	{
+		return foreground;
+	}
+	
+	
+	public Color getBackground()
+	{
+		return background;
+	}
+	
+	
+	public Icon getIcon()
+	{
+		return icon;
+	}
 }

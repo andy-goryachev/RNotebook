@@ -2,6 +2,7 @@
 package goryachev.common.util;
 
 
+// TODO add weak references
 public class Broadcast
 {
 	public static interface Handler<K>

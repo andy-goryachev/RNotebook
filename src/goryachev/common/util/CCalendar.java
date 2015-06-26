@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -213,5 +214,11 @@ public class CCalendar
 	{
 		// WARNING: we don't control translation for the current locale
 		return cal.getDisplayName(field, style, Locale.getDefault());
+	}
+	
+	
+	public static CCalendar gregorianCalendar()
+	{
+		return new CCalendar(new GregorianCalendar());
 	}
 }

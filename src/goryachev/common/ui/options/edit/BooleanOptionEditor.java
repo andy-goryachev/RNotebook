@@ -1,24 +1,22 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.options.edit;
+import goryachev.common.ui.CCheckBox;
 import goryachev.common.ui.options.BooleanOption;
 import goryachev.common.ui.options.OptionEditor;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 
 public class BooleanOptionEditor
 	extends OptionEditor<Boolean>
 {
-	public final JCheckBox editor;
-	private String text;
+	public final CCheckBox editor;
 
 
 	public BooleanOptionEditor(BooleanOption op, String text)
 	{
 		super(op);
-		this.text = text;
 		
-		editor = new JCheckBox(text);
+		editor = new CCheckBox(text);
 		editor.setOpaque(false);
 	}
 

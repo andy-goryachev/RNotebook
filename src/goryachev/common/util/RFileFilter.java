@@ -27,6 +27,34 @@ public class RFileFilter
 	}
 	
 	
+	public boolean equals(Object x)
+	{
+		if(x == this)
+		{
+			return true;
+		}
+		else if(x instanceof RFileFilter)
+		{
+			RFileFilter o = (RFileFilter)x;
+			return 
+				(ignoreHidden == o.ignoreHidden) &&
+				(ignoreSystem == o.ignoreSystem) &&
+				CKit.equals(excludePatterns, o.excludePatterns) &&
+				CKit.equals(includePatterns, o.includePatterns);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	public int hashCode()
+	{
+		return CKit.hashCode(RFileFilter.class, ignoreHidden, ignoreSystem, excludePatterns, includePatterns);
+	}
+	
+	
 	public Object getTriggeredRule()
 	{
 		return triggeredRule;

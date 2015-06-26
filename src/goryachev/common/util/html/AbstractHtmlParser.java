@@ -24,7 +24,6 @@ public abstract class AbstractHtmlParser
 	private boolean inBreak;
 	private boolean inComment;
 	private boolean inTags;
-	private boolean inText;
 	private boolean inScript;
 	private boolean tagWillEnd;
 	

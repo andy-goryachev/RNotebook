@@ -18,7 +18,6 @@ import javax.swing.JTextArea;
 public class FontChooserPopup
 	extends CPanel
 {
-	private Font font;
 	private CComboBox fontCombo;
 	private CCheckBox boldCheckbox;
 	private CCheckBox italicCheckbox;

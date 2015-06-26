@@ -165,7 +165,7 @@ public class StorageEditor
 
 	public void commit()
     {
-		for(StorageEntry en: model.getItems())
+		for(StorageEntry en: model)
 		{
 			if(en.isModified())
 			{
@@ -212,7 +212,7 @@ public class StorageEditor
 	
 	public boolean isModified()
     {
-		for(StorageEntry en: model.getItems())
+		for(StorageEntry en: model)
 		{
 			if(en.isModified())
 			{

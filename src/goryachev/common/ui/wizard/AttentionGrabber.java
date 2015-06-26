@@ -17,7 +17,6 @@ public class AttentionGrabber
 	private Timer timer;
 	private int maxCount = 10;
 	private int count;
-	private Color bg;
 	private Color oldBG;
 	
 	
@@ -31,8 +30,6 @@ public class AttentionGrabber
 			oldBG = c.getBackground();
 			// TODO if opaque?
 		}
-		
-		bg = Color.red;
 	}
 
 

@@ -17,13 +17,13 @@ import goryachev.common.ui.options.OptionEditorInterface;
 import goryachev.common.ui.table.CTableColumn;
 import goryachev.common.ui.table.CTreeTable;
 import goryachev.common.util.CKit;
+import goryachev.common.util.CList;
 import goryachev.common.util.TXT;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -157,8 +157,11 @@ public class OptionPanel
 	
 	protected void actionClearFilter()
 	{
-		filter.clear();
-		delayed.action();
+		if(CKit.isNotBlank(filter.getText()))
+		{
+			filter.clear();
+			delayed.action();
+		}
 	}
 	
 	
@@ -397,8 +400,16 @@ public class OptionPanel
 		String expr = filter.getText();
 		if(CKit.isBlank(expr))
 		{
+			// keep selection
+			CList<OptionTreeNode> sel = tree.getSelectedNodes();
+			
 			tree.setRoot(root, false);
 			buttonLabel.setIcon(null);
+
+			if(sel.size() == 1)
+			{
+				tree.selectItem(sel.get(0));
+			}
 		}
 		else
 		{
@@ -425,6 +436,7 @@ public class OptionPanel
 	}
 	
 	
+	// FIX also search node names
 	protected OptionTreeNode findRecursive(OptionTreeNode src, OptionTreeNode parent, String expr)
 	{
 		OptionTreeNode rv = new OptionTreeNode(parent, src.getIcon(), src.getName());
@@ -441,7 +453,7 @@ public class OptionPanel
 		}
 		
 		// here we check the actual match
-		boolean found = false;
+		boolean found = false; //matches(expr, src.getName());
 		OptionEntry section = null;
 		for(OptionEntry en: src.getOptionEntries())
 		{
@@ -466,8 +478,6 @@ public class OptionPanel
 				found = true;
 			}
 		}
-		
-		//boolean nameMatches = matches(expr, rv.getName());
 		
 		if(found || ((rv.getChildrenCount() > 0) || (rv.getOptionEntryCount() > 0)))
 		{
@@ -511,5 +521,48 @@ public class OptionPanel
 		{
 			return text.toLowerCase().contains(expr);
 		}
+	}
+
+
+	public void setSelected(OptionEditorInterface ed)
+	{
+		OptionTreeNode nd = findNode(ed);
+		if(nd != null)
+		{
+			tree.expandItem(nd);
+			tree.selectItem(nd);
+		}
+	}
+
+
+	protected OptionTreeNode findNode(OptionEditorInterface ed)
+	{
+		return findNodeRecursively(root, ed);
+	}
+	
+	
+	protected OptionTreeNode findNodeRecursively(OptionTreeNode nd, OptionEditorInterface ed)
+	{
+		for(OptionEntry en: nd.getOptionEntries())
+		{
+			if(en.getEditor() == ed)
+			{
+				return nd;
+			}
+		}
+		
+		for(Object ch: nd.getChildren())
+		{
+			if(ch instanceof OptionTreeNode)
+			{
+				OptionTreeNode rv = findNodeRecursively((OptionTreeNode)ch, ed);
+				if(rv != null)
+				{
+					return rv;
+				}
+			}
+		}
+		
+		return null;
 	}
 }

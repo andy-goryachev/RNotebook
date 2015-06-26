@@ -153,4 +153,10 @@ public class CScrollPane
 		setOpaque(on);
 		getViewport().setOpaque(on);
 	}
+	
+	
+	public void noBorder()
+	{
+		setBorder(CBorder.NONE);
+	}
 }

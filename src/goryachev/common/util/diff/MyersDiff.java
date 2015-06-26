@@ -239,7 +239,7 @@ public class MyersDiff
 	// <param name="h">This extern initialized hashtable is used for storing all ever used textlines.</param>
 	// <param name="trimSpace">ignore leading and trailing space characters</param>
 	// <returns>a array of integers.</returns>
-	private static int[] diffCodes(String text, Hashtable h, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase)
+	protected static int[] diffCodes(String text, Hashtable h, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase)
 	{
 		// get all codes of the text
 		//int lastUsedCode = h.size();
