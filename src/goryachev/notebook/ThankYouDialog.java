@@ -37,6 +37,7 @@ public class ThankYouDialog
 		setMinimumSize(500, 300);
 		setSize(500, 300);
 		setCloseOnEscape();
+		borderless();
 		
 		doNotShowField = new CCheckBox(Menus.DoNotShowThisDialog);
 		
@@ -53,19 +54,20 @@ public class ThankYouDialog
 		infoField = new InfoField(text, 0);
 		infoField.setForeground(Theme.textFG());
 		
-		CPanel p = panel();
+		CPanel p = new CPanel();
 		p.setBorder();
 		p.setBackground(Theme.textBG());
 		p.addColumn(CPanel.FILL);
-		p.nextFillRow();
 		p.row(0, infoField);
+		p.nextFillRow();
 		p.nextRow();
 		p.row(0, doNotShowField);
-		
 		p.setBackground(Theme.fieldBG());
 		p.setLeading(Panels.iconField(CIcons.Success48));
-		p.buttonPanel().addButton("Email Us", emailAction, Theme.alternativeButtonHighlight());
-		p.buttonPanel().addButton(Menus.OK, okAction, true);
+		
+		panel().setCenter(p);
+		buttonPanel().addButton("Email Us", emailAction, Theme.alternativeButtonHighlight());
+		buttonPanel().addButton(Menus.OK, okAction, true);
 		
 		UI.later(new Runnable()
 		{
