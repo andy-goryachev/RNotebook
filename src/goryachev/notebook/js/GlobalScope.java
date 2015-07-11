@@ -48,24 +48,25 @@ public class GlobalScope
 	
 	
 	/**
-	 * Print a help message.
-	 *
+	 * Prints a help message.
 	 * This method is defined as a JavaScript function.
 	 */
 	public static void help(Context cx, Scriptable thisObj, Object[] args, Function f)
 	{
-		JsEngine.get().print("Help!");
+		SB sb = new SB();
+		sb.a("The notebook allows to combine java and Javascript.").nl();
+		sb.a("Built-in objects provide additional functionality: FS, IO, NET, NB, OS, UT.").nl();
+
+		JsEngine.get().print(sb.toString());
 	}
 
 
 	/**
-	 * Print the string values of its arguments.
-	 *
+	 * Prints the string values of its arguments.
 	 * This method is defined as a JavaScript function.
 	 * Note that its arguments are of the "varargs" form, which
 	 * allows it to handle an arbitrary number of arguments
 	 * supplied to the JavaScript function.
-	 *
 	 */
 	public static void print(Context cx, Scriptable thisObj, Object[] args, Function f)
 	{

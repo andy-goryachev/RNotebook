@@ -32,7 +32,7 @@ public class NB
 	
 	public String toString()
 	{
-		return "NB";
+		return getHelp().toString();
 	}
 	
 	

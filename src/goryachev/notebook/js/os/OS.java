@@ -81,7 +81,7 @@ public class OS
 	
 	public String toString()
 	{
-		return "OS";
+		return getHelp().toString();
 	}
 	
 	

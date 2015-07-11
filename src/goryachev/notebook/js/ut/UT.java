@@ -39,7 +39,7 @@ public class UT
 	
 	public String toString()
 	{
-		return "UT";
+		return getHelp().toString();
 	}
 	
 	

@@ -207,7 +207,7 @@ public class FS
 	
 	public String toString()
 	{
-		return "FS";
+		return getHelp().toString();
 	}
 	
 	

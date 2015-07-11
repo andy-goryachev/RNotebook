@@ -112,7 +112,7 @@ public class IO
 	
 	public String toString()
 	{
-		return "IO";
+		return getHelp().toString();
 	}
 	
 	

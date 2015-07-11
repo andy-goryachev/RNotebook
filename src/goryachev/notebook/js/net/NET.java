@@ -96,7 +96,7 @@ public class NET
 	
 	public String toString()
 	{
-		return "NET";
+		return getHelp().toString();
 	}
 	
 	
