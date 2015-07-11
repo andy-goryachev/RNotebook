@@ -24,7 +24,7 @@ import javax.swing.text.JTextComponent;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Token;
-import research.dhtml.HDocument;
+import research.dhtml3.HDocument;
 
 
 public class CodePanel

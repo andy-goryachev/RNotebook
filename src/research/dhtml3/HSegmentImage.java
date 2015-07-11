@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package research.dhtml;
+package research.dhtml3;
 import goryachev.common.ui.ImageTools;
 import goryachev.common.util.Base64;
 import goryachev.common.util.Log;

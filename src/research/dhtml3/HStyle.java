@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
-package research.dhtml;
+package research.dhtml3;
 import goryachev.common.util.CMap;
 import goryachev.common.util.SB;
 import goryachev.common.util.UserException;

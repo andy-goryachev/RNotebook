@@ -11,7 +11,7 @@ import java.awt.Component;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
-import research.dhtml.HDocument;
+import research.dhtml3.HDocument;
 
 
 public class TextPanel

@@ -28,7 +28,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JMenuBar;
-import research.dhtml.HDocument;
+import research.dhtml3.HDocument;
 
 
 public class MainWindow

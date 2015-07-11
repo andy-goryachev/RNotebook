@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
-import research.dhtml.HDocument;
+import research.dhtml3.HDocument;
 
 
 public abstract class CellPanel

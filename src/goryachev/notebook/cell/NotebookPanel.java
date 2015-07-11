@@ -16,7 +16,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
-import research.dhtml.HDocument;
+import research.dhtml3.HDocument;
 
 
 public class NotebookPanel
