@@ -40,9 +40,6 @@ public class JsUtil
 
 	public static String decodeException(Throwable err)
 	{
-		// FIX
-		err.printStackTrace();
-		
 		if(err instanceof CancelledException)
 		{
 			return INTERRUPTED;

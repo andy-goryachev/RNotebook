@@ -9,7 +9,7 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.DataBook;
-import goryachev.notebook.NotebookWindow;
+import goryachev.notebook.MainWindow;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsEngine;
 import java.awt.Component;
@@ -110,7 +110,7 @@ public class NotebookPanel
 		{
 			modified = on;
 			
-			NotebookWindow w = NotebookWindow.get(this);
+			MainWindow w = MainWindow.get(this);
 			if(w != null)
 			{
 				w.updateActions();

@@ -78,7 +78,7 @@ public class RNotebookApp
 	protected void storeOpenWindows()
 	{
 		CList<String> ids = new CList();
-		for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
+		for(MainWindow w: UI.getWindowsOfType(MainWindow.class))
 		{
 			File f = w.getFile();
 			if(f != null)
@@ -97,7 +97,7 @@ public class RNotebookApp
 		
 		storeOpenWindows();
 		
-		if(NotebookWindow.askToSaveAllOnExit() == false)
+		if(MainWindow.askToSaveAllOnExit() == false)
 		{
 			return false;
 		}
@@ -108,7 +108,7 @@ public class RNotebookApp
 	
 	public void openMainWindow() throws Exception
 	{
-		NotebookWindow lastWindow = null;
+		MainWindow lastWindow = null;
 
 		// load last state
 		CList<String> fs = openDocumentsOption.get();
@@ -121,7 +121,7 @@ public class RNotebookApp
 					final File f = new File(fname);
 					if(f.exists())
 					{
-						final NotebookWindow w = new NotebookWindow();
+						final MainWindow w = new MainWindow();
 						w.open();
 						lastWindow = w;
 
@@ -144,7 +144,7 @@ public class RNotebookApp
 
 		if(lastWindow == null)
 		{
-			lastWindow = new NotebookWindow();
+			lastWindow = new MainWindow();
 			lastWindow.open();
 			lastWindow.newFile();
 		}

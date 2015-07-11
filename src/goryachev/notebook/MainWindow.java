@@ -31,7 +31,7 @@ import javax.swing.JMenuBar;
 import research.dhtml.HDocument;
 
 
-public class NotebookWindow
+public class MainWindow
 	extends AppFrame
 {
 	public final CAction exportHtmlAction = new CAction() { public void action() { actionExportHtml(); } };
@@ -47,9 +47,9 @@ public class NotebookWindow
 	private boolean askedToSave;
 	
 	
-	public NotebookWindow()
+	public MainWindow()
 	{
-		super("NotebookWindow");
+		super("MainWindow");
 		
 		recentFilesOption = new RecentFilesOption("recent.files")
 		{
@@ -301,7 +301,7 @@ public class NotebookWindow
 		
 		boolean saveAll = false;
 		
-		for(NotebookWindow w: UI.getWindowsOfType(NotebookWindow.class))
+		for(MainWindow w: UI.getWindowsOfType(MainWindow.class))
 		{
 			if(w.isModified())
 			{
@@ -420,7 +420,7 @@ public class NotebookWindow
 	{
 		// TODO check if current window is blank, open there
 		
-		NotebookWindow w = new NotebookWindow();
+		MainWindow w = new MainWindow();
 		UI.cascade(this, w);
 		w.open();
 		w.openFile(f);
@@ -525,9 +525,9 @@ public class NotebookWindow
 	}
 
 
-	public static NotebookWindow get(Component c)
+	public static MainWindow get(Component c)
 	{
-		return UI.getAncestorOfClass(NotebookWindow.class, c);
+		return UI.getAncestorOfClass(MainWindow.class, c);
 	}
 	
 	

@@ -18,7 +18,7 @@ public class AgToolBarUI
 	public static void init(UIDefaults d)
 	{
 		d.put("ToolBarUI", AgToolBarUI.class.getName());
-		d.put("ToolBarUI.background", Theme.panelBG());
+		d.put("ToolBarUI.background", Theme.toolbarColor());
 		d.put("ToolBarUI.foreground", Theme.panelFG());
 		d.put("ToolBarUI.dockingBackground", Theme.panelBG());
 		d.put("ToolBarUI.dockingForeground", Theme.panelFG());
