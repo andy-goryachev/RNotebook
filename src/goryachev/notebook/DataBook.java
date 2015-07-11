@@ -33,6 +33,15 @@ public class DataBook
 	}
 	
 	
+	public DataBook(boolean add)
+	{
+		if(add)
+		{
+			addCell(CellType.CODE, null);
+		}
+	}
+	
+	
 	public void addCell(CellType type, String text)
 	{
 		addCell(type, text, -1, null);

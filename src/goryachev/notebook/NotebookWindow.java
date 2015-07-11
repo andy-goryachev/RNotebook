@@ -483,31 +483,45 @@ public class NotebookWindow
 	
 	
 	// f may be null
-	protected void openFile(File file)
+	public void openFile(File file)
 	{
 		try
 		{
-			CReader rd = (file == null ? null : new CReader(file));
-			
-			try
+			if(file != null)
 			{
-				DataBook b = (rd == null ? new DataBook() : new DataBookJsonReader(rd).read());
-
-				setFile(file);
-				setDataBook(b);
-				setModified(false);
+				CReader rd = new CReader(file);
 				
-				updateActions();
-			}
-			finally
-			{
-				CKit.close(rd);
+				try
+				{
+					DataBook b = new DataBookJsonReader(rd).read();
+	
+					setFile(file);
+					setDataBook(b);
+					setModified(false);
+					updateActions();
+					return;
+				}
+				finally
+				{
+					CKit.close(rd);
+				}
 			}
 		}
 		catch(Exception e)
 		{
 			Dialogs.err(this, e);
 		}
+		
+		newFile();
+	}
+	
+	
+	public void newFile()
+	{
+		DataBook b = new DataBook(true);
+		setDataBook(b);
+		setModified(false);
+		updateActions();
 	}
 
 
