@@ -2,7 +2,9 @@
 package goryachev.common.ui.table;
 import goryachev.common.ui.CBorder;
 import goryachev.common.ui.Theme;
+import goryachev.common.ui.ThemeKey;
 import goryachev.common.ui.UI;
+import goryachev.common.ui.theme.ThemeColor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,6 +29,7 @@ public class CTableRowHeader
 	private Color highlight;
 	private static JLabel renderer;
 	public static final Border BORDER = new CBorder(1,3);
+	public static final Color BG = ThemeColor.shadow(ThemeKey.COLOR_TEXT_BG, 0.2);
 
 
 	public CTableRowHeader(JTable t)
@@ -34,7 +37,7 @@ public class CTableRowHeader
 		this.table = t;
 		t.getSelectionModel().addListSelectionListener(this);
 		highlight = UI.getTableHeaderHighlight(t);
-		setBackground(Theme.brighter(Theme.panelBG()));
+		setBackground(BG);
 	}
 	
 	

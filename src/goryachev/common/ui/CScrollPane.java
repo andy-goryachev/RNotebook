@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.theme.CScrollBar;
-import goryachev.common.ui.theme.CScrollPaneUI;
+import goryachev.common.ui.theme.AgScrollPaneUI;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -44,7 +44,7 @@ public class CScrollPane
 	
 	public void updateUI()
 	{
-		setUI(new CScrollPaneUI());
+		setUI(new AgScrollPaneUI());
 	}
 	
 

@@ -7,10 +7,9 @@
 // API class
 
 package org.mozilla.javascript;
-
-import java.lang.reflect.Method;
 import java.lang.reflect.Member;
 import java.util.Iterator;
+
 
 public abstract class VMBridge
 {

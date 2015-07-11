@@ -1,7 +1,7 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.theme.CButtonBorder;
-import goryachev.common.ui.theme.CButtonUI;
+import goryachev.common.ui.theme.AgButtonUI;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.Action;
@@ -204,7 +204,7 @@ public class CButton
 	
 	public void updateUI()
 	{
-		setUI(new CButtonUI());
+		setUI(new AgButtonUI());
 	}
 	
 	

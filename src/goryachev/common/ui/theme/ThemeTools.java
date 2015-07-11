@@ -25,7 +25,6 @@ import javax.swing.table.TableCellRenderer;
 
 public class ThemeTools
 {
-	//public static final FontRenderContext FRC = new FontRenderContext(null, false, false);
 	private static final int CHAR_BUFFER_SIZE = 128;
 	private static final Object charsBufferLock = new Object();
 	private static char[] charsBuffer = new char[CHAR_BUFFER_SIZE];

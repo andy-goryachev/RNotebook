@@ -9,7 +9,7 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
 
 
-public class CScrollPaneUI
+public class AgScrollPaneUI
 	extends BasicScrollPaneUI
 {
 	private static CScrollPaneBorder BORDER = new CScrollPaneBorder();
@@ -17,7 +17,7 @@ public class CScrollPaneUI
 	
 	public static void init(UIDefaults defs)
 	{
-		defs.put("ScrollPaneUI", CScrollPaneUI.class.getName());
+		defs.put("ScrollPaneUI", AgScrollPaneUI.class.getName());
 		defs.put("ScrollPane.border", BORDER);
 		defs.put("ScrollPane.background", Theme.textBG());
 		defs.put("Table.scrollPaneBorder", BORDER);

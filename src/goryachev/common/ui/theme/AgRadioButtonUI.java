@@ -13,18 +13,18 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
 
 
-public class CRadioButtonUI
+public class AgRadioButtonUI
 	extends BasicRadioButtonUI
 {
-	private final static CRadioButtonUI radioButtonUI = new CRadioButtonUI();
+	private final static AgRadioButtonUI radioButtonUI = new AgRadioButtonUI();
 	protected Color focusColor;
 	
 	
-	public static void init(UIDefaults defs)
+	public static void init(UIDefaults d)
 	{
-		// does not work on mac
-		//defs.put("RadioButtonUI", CRadioButtonUI.class.getName());
-		defs.put("RadioButton.contentAreaFilled", Boolean.FALSE);
+		d.put("RadioButtonUI", AgRadioButtonUI.class.getName());
+		d.put("RadioButton.contentAreaFilled", Boolean.FALSE);
+		d.put("RadioButton.icon", new AgRadioButtonIcon());
 	}
 
 

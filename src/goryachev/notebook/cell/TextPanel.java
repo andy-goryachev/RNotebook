@@ -1,6 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
 import goryachev.common.ui.CMenuItem;
+import goryachev.common.ui.CTextArea;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
@@ -16,14 +17,14 @@ import research.dhtml.HDocument;
 public class TextPanel
 	extends CellPanel
 {
-	public final JTextArea textField;
+	public final CTextArea textField;
 	
 	
 	public TextPanel(NotebookPanel np, String text)
 	{
 		super(np);
 		
-		textField = new JTextArea(text);
+		textField = new CTextArea(text);
 		textField.setFont(Theme.plainFont());
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);

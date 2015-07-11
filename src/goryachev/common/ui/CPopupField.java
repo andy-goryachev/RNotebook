@@ -1,7 +1,7 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
 import goryachev.common.ui.options.OptionEditor;
-import goryachev.common.ui.theme.CComboBoxUI;
+import goryachev.common.ui.theme.AgComboBoxUI;
 import goryachev.common.ui.theme.CPopupWindow;
 import goryachev.common.util.Log;
 import java.awt.AWTEvent;
@@ -40,7 +40,7 @@ public abstract class CPopupField<T extends JComponent>
 	
 	public final CAction showPopupAction = new CAction() { public void action() { actionTogglePopup(); } };
 	public final CAction cancelPopupAction = new CAction() { public void action() { actionCancelPopup(); } };
-	private static int arrowButtonWidth = CComboBoxUI.DEFAULT_BUTTON_WIDTH;
+	private static int arrowButtonWidth = AgComboBoxUI.DEFAULT_BUTTON_WIDTH;
 	public final JLabel textField;
 	public final JButton button;
 	protected Handler handler;
@@ -62,7 +62,7 @@ public abstract class CPopupField<T extends JComponent>
 		textField.setBackground(Theme.textBG());
 		textField.addMouseListener(handler);
 		
-		button = CComboBoxUI.createDefaultArrowButton();
+		button = AgComboBoxUI.createDefaultArrowButton();
 		button.setAction(showPopupAction);
 		
 		setLayout(createLayoutManager());

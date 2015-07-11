@@ -2,6 +2,7 @@
 package goryachev.common.ui.theme;
 import goryachev.common.ui.CSkin;
 import goryachev.common.ui.Theme;
+import goryachev.common.ui.ThemeKey;
 import goryachev.common.ui.UI;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +19,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 
-public class CButtonUI
+public class AgButtonUI
 	extends BasicButtonUI
 {
 	protected int dashedRectGapX;
@@ -26,19 +27,21 @@ public class CButtonUI
 	protected int dashedRectGapWidth;
 	protected int dashedRectGapHeight;
 	private boolean defaults_initialized;
-	private final static CButtonUI ui = new CButtonUI();
-	private static Insets margin = UI.newInsets(2,10,2,10);
+	private final static AgButtonUI ui = new AgButtonUI();
+	private static Insets margin = UI.newInsets(2, 10, 2, 10);
 	// TODO paint button gradient on top of the skin?
 	private static CSkin SKIN = new CButtonSkin();
 	private static CButtonUiBorder BORDER = new CButtonUiBorder();
 	
 
-	public static void init(UIDefaults defs)
+	public static void init(UIDefaults d)
 	{
-		defs.put("ButtonUI", CButtonUI.class.getName());
-		defs.put("Button.showMnemonics", Boolean.TRUE);
-		defs.put("Button.shadow", UI.mix(Theme.textFG(), 0.5, Theme.textBG()));
-		defs.put("Button.disabledShadow", new Color(255, 255, 255, 224));
+		d.put("ButtonUI", AgButtonUI.class.getName());
+		d.put("Button.background", Theme.panelBG());
+		d.put("Button.foreground", Theme.textFG());
+		d.put("Button.showMnemonics", Boolean.TRUE);
+		d.put("Button.shadow", ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.5, ThemeKey.COLOR_TEXT_BG));
+		d.put("Button.disabledShadow", ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.12, ThemeKey.COLOR_TEXT_BG));
 	}
 	
 	
@@ -103,10 +106,10 @@ public class CButtonUI
 	}
 
 
-	protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text)
-	{
-		ThemeTools.paintText(g, b, textRect, text, getTextShiftOffset());
-	}
+//	protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text)
+//	{
+//		ThemeTools.paintText(g, b, textRect, text, getTextShiftOffset());
+//	}
 
 
 	protected void paintFocus(Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect)

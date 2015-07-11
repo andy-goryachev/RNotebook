@@ -6,9 +6,7 @@
 
 
 package org.mozilla.javascript;
-
 import java.io.CharArrayWriter;
-import java.io.File;
 import java.io.FilenameFilter;
 import java.io.PrintStream;
 import java.io.PrintWriter;

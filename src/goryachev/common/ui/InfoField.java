@@ -61,7 +61,7 @@ public class InfoField
 	
 	public void setBorder()
 	{
-		setBorder(Theme.BORDER_10);
+		setBorder(Theme.border10());
 	}
 	
 	

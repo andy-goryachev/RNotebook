@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.ui.theme.CButtonUI;
+import goryachev.common.ui.theme.AgButtonUI;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.Action;
@@ -108,7 +108,7 @@ public class CToggleToolBarButton
 	
 	public void updateUI()
 	{
-		setUI(new CButtonUI());
+		setUI(new AgButtonUI());
 	}
 	
 	

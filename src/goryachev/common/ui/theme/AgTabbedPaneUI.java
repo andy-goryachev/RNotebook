@@ -11,31 +11,35 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 
-public class CTabbedPaneUI
+public class AgTabbedPaneUI
 	extends BasicTabbedPaneUI
 {
 	private static Set managingFocusForwardTraversalKeys;
 	private static Set managingFocusBackwardTraversalKeys;
 
 
-	public static void init(UIDefaults defs)
+	public static void init(UIDefaults d)
 	{
-		defs.put("TabbedPane.contentOpaque", Boolean.TRUE);	
+		d.put("TabbedPaneUI", AgTabbedPaneUI.class.getName());
+		d.put("TabbedPane.contentOpaque", Boolean.TRUE);
+		d.put("TabbedPane.opaque", Boolean.FALSE);
 	}
 	
-	
+
+	public static ComponentUI createUI(JComponent c)
+	{
+		return new AgTabbedPaneUI();
+	}
+
+
 	protected void installDefaults()
 	{
 		super.installDefaults();
-		
-		// fixes for OS X
-		LookAndFeel.installProperty(tabPane, "opaque", Boolean.FALSE);
 		
 		tabInsets = new Insets(0, 4, 1, 4);
 		selectedTabPadInsets = new Insets(2, 2, 2, 1);
@@ -66,12 +70,6 @@ public class CTabbedPaneUI
 		tabPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		tabPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		super.uninstallDefaults();
-	}
-
-
-	public static ComponentUI createUI(JComponent c)
-	{
-		return new CTabbedPaneUI();
 	}
 
 

@@ -1,6 +1,6 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.ui.theme.CTabbedPaneUI;
+import goryachev.common.ui.theme.AgTabbedPaneUI;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Insets;
@@ -18,13 +18,13 @@ public class CTabbedPane
 	
 	public void updateUI()
 	{
-		setUI(new CTabbedPaneUI());
+		setUI(new AgTabbedPaneUI());
 	}
 	
 	
-	public CTabbedPaneUI getCTabbedPaneUI()
+	public AgTabbedPaneUI getCTabbedPaneUI()
 	{
-		return (CTabbedPaneUI)getUI();
+		return (AgTabbedPaneUI)getUI();
 	}
 	
 	
@@ -69,5 +69,11 @@ public class CTabbedPane
 	public void setContentBorderInsets(Insets m)
 	{
 		getCTabbedPaneUI().setContentBorderInsets(m);
+	}
+	
+	
+	public void setContentBorderInsets(int m)
+	{
+		getCTabbedPaneUI().setContentBorderInsets(new Insets(m, m, m, m));
 	}
 }

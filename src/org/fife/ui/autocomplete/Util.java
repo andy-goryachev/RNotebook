@@ -7,7 +7,6 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.autocomplete;
-
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -19,8 +18,6 @@ import java.security.AccessControlException;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
-
-import org.fife.ui.rsyntaxtextarea.PopupWindowDecorator;
 
 
 /**

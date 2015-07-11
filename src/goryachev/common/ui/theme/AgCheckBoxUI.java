@@ -13,18 +13,18 @@ import javax.swing.plaf.basic.BasicCheckBoxUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 
-public class CCheckBoxUI
+public class AgCheckBoxUI
 	extends BasicCheckBoxUI
 {
-	private final static CCheckBoxUI checkBoxUI = new CCheckBoxUI();
-	protected Color focusColor;
+	private final static AgCheckBoxUI checkBoxUI = new AgCheckBoxUI();
+	protected Color focusColor; // FIX theme color
 	
 
 	public static void init(UIDefaults defs)
 	{
-		// FIX does not work on mac
-		//defs.put("CheckBoxUI", CCheckBoxUI.class.getName());
+		defs.put("CheckBoxUI", AgCheckBoxUI.class.getName());
 		defs.put("CheckBoxUI.contentAreaFilled", Boolean.FALSE);
+		defs.put("CheckBox.icon", new AgCheckBoxIcon());
 	}
 
 

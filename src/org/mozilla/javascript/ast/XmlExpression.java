@@ -6,7 +6,6 @@
 
 package org.mozilla.javascript.ast;
 
-import org.mozilla.javascript.Token;
 
 /**
  * AST node for an embedded JavaScript expression within an E4X XML literal.

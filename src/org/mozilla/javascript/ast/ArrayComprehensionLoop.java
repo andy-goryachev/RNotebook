@@ -6,7 +6,6 @@
 
 package org.mozilla.javascript.ast;
 
-import org.mozilla.javascript.Token;
 
 /**
  * AST node for a single 'for (foo in bar)' loop construct in a JavaScript 1.7

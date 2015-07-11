@@ -1,6 +1,9 @@
 ﻿http://www.goryachev.com/products/rnotebook/
 
 
+TODO
+- new file: create empty code
+
 
 app name
 	R/Notebook

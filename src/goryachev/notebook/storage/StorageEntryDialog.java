@@ -44,7 +44,7 @@ public class StorageEntryDialog
 		valueField.setWrapStyleWord(true);
 		
 		scroll = new CScrollPane(valueField, false);
-		scroll.setBorder(Theme.BORDER_FIELD);
+		scroll.setBorder(Theme.fieldBorder());
 		
 		CPanel p = panel();
 		p.setGaps(10, 5);

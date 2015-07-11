@@ -8,8 +8,6 @@
  */
 package org.fife.ui.autocomplete;
 
-import javax.swing.text.JTextComponent;
-
 
 /**
  * A completion for a variable (or constant) in a programming language.<p>

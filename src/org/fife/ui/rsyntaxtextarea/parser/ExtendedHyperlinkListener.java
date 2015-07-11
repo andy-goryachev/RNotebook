@@ -7,12 +7,9 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea.parser;
-
 import java.util.EventListener;
 import javax.swing.event.HyperlinkEvent;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.focusabletip.FocusableTip;
 
 
 /**
@@ -23,9 +20,9 @@ import org.fife.ui.rsyntaxtextarea.focusabletip.FocusableTip;
  * @author Robert Futrell
  * @version 1.0
  */
-public interface ExtendedHyperlinkListener extends EventListener {
-
-
+public interface ExtendedHyperlinkListener 
+	extends EventListener
+{
 	/**
 	 * Called when a link in a {@link FocusableTip} is clicked.
 	 *
@@ -33,6 +30,4 @@ public interface ExtendedHyperlinkListener extends EventListener {
 	 * @param e The event.
 	 */
 	public void linkClicked(RSyntaxTextArea textArea, HyperlinkEvent e);
-
-
 }

@@ -7,14 +7,11 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea.parser;
-
 import java.awt.Color;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.text.Element;
-
-import org.fife.ui.rsyntaxtextarea.ErrorStrip;
 import org.fife.ui.rsyntaxtextarea.RSyntaxDocument;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Token;
@@ -27,10 +24,11 @@ import org.fife.ui.rsyntaxtextarea.Token;
  * @author Robert Futrell
  * @version 1.0
  */
-public class TaskTagParser extends AbstractParser {
-
+public class TaskTagParser 
+	extends AbstractParser
+{
 	private DefaultParseResult result;
-	private String DEFAULT_TASK_PATTERN	= "TODO|FIXME|HACK";
+	private String DEFAULT_TASK_PATTERN = "TODO|FIXME|HACK";
 	private Pattern taskPattern;
 
 	private static final Color COLOR = new Color(48, 150, 252);
@@ -41,7 +39,8 @@ public class TaskTagParser extends AbstractParser {
 	 * identifiers in comments as task definitions:  "<code>TODO</code>",
 	 * "<code>FIXME</code>", and "<code>HACK</code>".
 	 */
-	public TaskTagParser() {
+	public TaskTagParser()
+	{
 		result = new DefaultParseResult(this);
 		setTaskPattern(DEFAULT_TASK_PATTERN);
 	}
@@ -55,43 +54,49 @@ public class TaskTagParser extends AbstractParser {
 	 *         specified).
 	 * @see #setTaskPattern(String)
 	 */
-	public String getTaskPattern() {
-		return taskPattern==null ? null : taskPattern.pattern();
+	public String getTaskPattern()
+	{
+		return taskPattern == null ? null : taskPattern.pattern();
 	}
 
 
 	@SuppressWarnings("null")
-    public ParseResult parse(RSyntaxDocument doc, String style) {
+	public ParseResult parse(RSyntaxDocument doc, String style)
+	{
 
 		Element root = doc.getDefaultRootElement();
 		int lineCount = root.getElementCount();
 
-		if (taskPattern==null ||
-				style==null || SyntaxConstants.SYNTAX_STYLE_NONE.equals(style)){
+		if(taskPattern == null || style == null || SyntaxConstants.SYNTAX_STYLE_NONE.equals(style))
+		{
 			result.clearNotices();
-			result.setParsedLines(0, lineCount-1);
+			result.setParsedLines(0, lineCount - 1);
 			return result;
 		}
 
 		// TODO: Pass in parsed line range and just do that
 		result.clearNotices();
-		result.setParsedLines(0, lineCount-1);
+		result.setParsedLines(0, lineCount - 1);
 
-		for (int line=0; line<lineCount; line++) {
+		for(int line = 0; line < lineCount; line++)
+		{
 
 			Token t = doc.getTokenListForLine(line);
 			int offs = -1;
 			int start = -1;
 			String text = null;
 
-			while (t!=null && t.isPaintable()) {
-				if (t.isComment()) {
+			while(t != null && t.isPaintable())
+			{
+				if(t.isComment())
+				{
 
 					offs = t.getOffset();
 					text = t.getLexeme();
 
 					Matcher m = taskPattern.matcher(text);
-					if (m.find()) {
+					if(m.find())
+					{
 						start = m.start();
 						offs += start;
 						break;
@@ -101,7 +106,8 @@ public class TaskTagParser extends AbstractParser {
 				t = t.getNextToken();
 			}
 
-			if (start>-1) {
+			if(start > -1)
+			{
 				text = text.substring(start);
 				// TODO: Strip off end of MLC's if they're there.
 				int len = text.length();
@@ -130,11 +136,14 @@ public class TaskTagParser extends AbstractParser {
 	 *         regular expression.
 	 * @see #getTaskPattern()
 	 */
-	public void setTaskPattern(String pattern) throws PatternSyntaxException {
-		if (pattern==null || pattern.length()==0) {
+	public void setTaskPattern(String pattern) throws PatternSyntaxException
+	{
+		if(pattern == null || pattern.length() == 0)
+		{
 			taskPattern = null;
 		}
-		else {
+		else
+		{
 			taskPattern = Pattern.compile(pattern);
 		}
 	}
@@ -146,14 +155,11 @@ public class TaskTagParser extends AbstractParser {
 	 * though they are <code>INFO</code>-level and marked as "don't show in
 	 * editor."
 	 */
-	public static class TaskNotice extends DefaultParserNotice {
-
-		public TaskNotice(Parser parser, String message, int line, int offs,
-							int length) {
+	public static class TaskNotice extends DefaultParserNotice
+	{
+		public TaskNotice(Parser parser, String message, int line, int offs, int length)
+		{
 			super(parser, message, line, offs, length);
 		}
-
 	}
-
-
 }

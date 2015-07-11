@@ -7,12 +7,8 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea.parser;
-
 import java.net.URL;
 import javax.swing.event.HyperlinkListener;
-
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.focusabletip.FocusableTip;
 
 
 /**

@@ -3,7 +3,8 @@ package goryachev.notebook;
 import goryachev.common.ui.Colors;
 import goryachev.common.ui.Gray;
 import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
+import goryachev.common.ui.ThemeKey;
+import goryachev.common.ui.theme.ThemeColor;
 import java.awt.Color;
 
 
@@ -22,6 +23,6 @@ public class Styles
 	public static final float plotTitleFontSize = 1.5f;
 	public static final Color plotViewerBackgroundColor = new Gray(242);
 	public static final Color resultColor = Colors.eclipseGreen;
-	public static final Color sectionBorderColor = Theme.hoverColor();
-	public static final Color textColor = UI.mix(Theme.textFG(), 64, Theme.textBG());
+	public static final Color sectionBorderColor = Theme.targetColor();
+	public static final Color textColor = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.8, ThemeKey.COLOR_TEXT_BG);
 }
