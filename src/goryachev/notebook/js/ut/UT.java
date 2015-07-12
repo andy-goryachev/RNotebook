@@ -85,6 +85,12 @@ public class UT
 	}
 	
 	
+	public BBuffer newByteBuffer(int size)
+	{
+		return new BBuffer(size);
+	}
+	
+	
 	public InlineHelp getHelp()
 	{
 		InlineHelp h = new InlineHelp("");
@@ -96,6 +102,7 @@ public class UT
 		h.a("decodeHex(string)", "decodes a hexadecimal string");
 		h.a("encodeHex(bytes)", "encodes a byte array into a hexadecimal string");
 		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
+		h.a("newByteBuffer(size)", "returns a new BBuffer instance");
 		h.a("parseHtml(html)", "parse HTML document");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
 		return h;

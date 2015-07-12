@@ -12,6 +12,7 @@ import goryachev.common.util.SB;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
 import goryachev.notebook.js.classes.JImage;
+import goryachev.notebook.js.ut.BBuffer;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
@@ -483,6 +484,10 @@ public class JsUtil
 		{
 			return (byte[])x;
 		}
+		else if(x instanceof BBuffer)
+		{
+			return ((BBuffer)x).toByteArray();
+		}
 		else if(x instanceof NativeArray)
 		{
 			NativeArray a = (NativeArray)x;
@@ -690,5 +695,34 @@ public class JsUtil
 		}
 		
 		return new BasicStroke(w, cap, join, miterlimit, dash, phase);
+    }
+
+
+	public static boolean parseBit(Object x)
+    {
+		if(x == null)
+		{
+			return false;
+		}
+		else if(x instanceof Boolean)
+		{
+			return Boolean.TRUE.equals(x);
+		}
+		else if(x instanceof Number)
+		{
+			return !(((Number)x).longValue() == 0);
+		}
+		
+		String s = x.toString();
+		if("t".equalsIgnoreCase(s))
+		{
+			return true;
+		}
+		if("true".equalsIgnoreCase(s))
+		{
+			return true;
+		}
+		
+	    return false;
     }
 }
