@@ -3,6 +3,7 @@ package goryachev.common.ui.theme;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.ThemeKey;
 import goryachev.common.ui.UI;
+import goryachev.common.ui.options.StringOption;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CPlatform;
@@ -36,6 +37,8 @@ public class ATheme
 	
 	public static final float TITLE_FONT_FACTOR = 1.6f;
 	
+	public static final StringOption themeOption = new StringOption("ui.theme", NAME_ANDY);
+	
 	protected static Font basePlainFont;
 	protected static Font baseMonospacedFont;
 	protected static Color basePanelBG;
@@ -63,7 +66,7 @@ public class ATheme
 		
 		set(ThemeKey.COLOR_BUTTON_AFFIRM, Color.green);
 		set(ThemeKey.COLOR_BUTTON_DESTRUCTIVE, Color.magenta);
-		set(ThemeKey.COLOR_FIELD_BG, UI.mix(Color.black, 0.85, basePanelBG));
+		set(ThemeKey.COLOR_FIELD_BG, UI.mix(Color.white, 0.85, basePanelBG));
 		set(ThemeKey.COLOR_FIELD_FG, UI.mix(Color.white, 0.65, Color.black));
 		set(ThemeKey.COLOR_FOCUS, new Color(90, 90, 90));
 		set(ThemeKey.COLOR_GRID, new Color(242, 242, 242));
@@ -126,18 +129,24 @@ public class ATheme
 	{
 		if(instance == null)
 		{
-			// TODO user pref
-			instance = create(NAME_ANDY);
+			String name = themeOption.get();
+			instance = create(name);
 		}
 		return instance;
 	}
 
 	
-	public static void setTheme(String name)
+	public static void setTheme(String name, boolean save)
 	{
-		if(CKit.notEquals(name, getTheme().getName()))
+		if(save || CKit.notEquals(name, getTheme().getName()))
 		{
 			ATheme t = ATheme.create(name);
+			
+			if(save)
+			{
+				themeOption.set(t.getName());
+			}
+			
 			instance = t;
 			
 			for(Window w: UI.getVisibleWindows())
@@ -310,6 +319,9 @@ public class ATheme
 		// selection
 		setBySuffix(d, Theme.textSelectionFG(), ".selectionForeground");
 		setBySuffix(d, Theme.textSelectionBG(), ".selectionBackground");
+		
+		// caret
+		setBySuffix(d, Theme.textFG(), ".caretForeground");
 	}
 	
 	

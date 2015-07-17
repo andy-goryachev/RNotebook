@@ -35,8 +35,8 @@ public class DarkTheme
 		set(ThemeKey.COLOR_TEXT_FG, Color.white);
 		set(ThemeKey.COLOR_TEXT_SELECTION_BG, UI.mix(Color.green, 0.5, Color.black));
 		set(ThemeKey.COLOR_TEXT_SELECTION_FG, Color.green);
-		set(ThemeKey.COLOR_TOOL_TIP_BG, new Color(255, 255, 225));
-		set(ThemeKey.COLOR_TOOLBAR, new Color(0xb2aea7));
+		set(ThemeKey.COLOR_TOOL_TIP_BG, new Color(48, 48, 48));
+		set(ThemeKey.COLOR_TOOLBAR, UI.mix(Color.white, 0.1, panelBG));
 		
 		if(CPlatform.isWindows())
 		{

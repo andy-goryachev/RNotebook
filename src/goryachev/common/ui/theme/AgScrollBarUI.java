@@ -1,7 +1,6 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.theme;
 import goryachev.common.ui.CBorder;
-import goryachev.common.ui.ColorTools;
 import goryachev.common.ui.Theme;
 import goryachev.common.ui.ThemeKey;
 import goryachev.common.ui.UI;
@@ -15,11 +14,8 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
-import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.DimensionUIResource;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -32,7 +28,7 @@ public class AgScrollBarUI
 	private static int thumbGap = 3;
 	private static final Border BORDER = new CBorder.UIResource();
 	private static final BasicStroke STROKE = new BasicStroke(trackThickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-	private static final Color THUMB_COLOR = ThemeColor.shadow(ThemeKey.COLOR_TEXT_BG, 48);
+	private static final Color THUMB_COLOR = ThemeColor.shadow(ThemeKey.COLOR_TEXT_BG, 128);
 	private static final Color DIRECTION_COLOR = ThemeColor.create(ThemeKey.COLOR_TARGET, 0.5, ThemeKey.COLOR_TEXT_BG);
 	
 	
@@ -47,11 +43,10 @@ public class AgScrollBarUI
 		d.put("ScrollBar.minimumThumbSize", new DimensionUIResource(10, 10));
 		d.put("ScrollBar.maximumThumbSize", new DimensionUIResource(4096, 4096));
 		d.put("ScrollBar.border", BORDER);
-		d.put("ScrollBar.track", Theme.fieldBG());
+		d.put("ScrollBar.track", ThemeColor.shadow(ThemeKey.COLOR_TEXT_BG, 0.05));
 		
 		d.put("ScrollBar.background", Theme.textBG());
 		d.put("ScrollBar.foreground", Theme.textFG());
-		//d.put("ScrollBar.track", Theme.fieldBG());
 		
 		//thumbHighlightColor = UIManager.getColor("ScrollBar.thumbHighlight");
 		//thumbLightShadowColor = UIManager.getColor("ScrollBar.thumbShadow");

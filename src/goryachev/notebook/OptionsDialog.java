@@ -6,6 +6,7 @@ import goryachev.common.ui.CAction;
 import goryachev.common.ui.Menus;
 import goryachev.common.ui.dialogs.options.COptionDialog;
 import goryachev.common.ui.dialogs.options.OptionTreeBuilder;
+import goryachev.common.ui.dialogs.options.ThemeOptionEditor;
 import goryachev.common.ui.options.edit.DateFormatOptionEditor;
 import goryachev.common.ui.options.edit.KeyBindingsEditor;
 import goryachev.common.ui.options.edit.NumberFormatOptionEditor;
@@ -28,6 +29,13 @@ public class OptionsDialog
 		// appearance
 		b.addChild(Menus.Appearance);
 		{
+			// theme
+			b.addChild(Menus.Theme);
+			{
+				b.addOption(new ThemeOptionEditor());
+			}
+			b.end();
+			
 			// interface
 			b.addSection(Menus.Interface);
 			b.addOption(Menus.InterfaceLanguage, Appearance.getLanguageEditor());

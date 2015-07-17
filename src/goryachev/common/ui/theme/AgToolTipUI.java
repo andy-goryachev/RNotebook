@@ -31,6 +31,7 @@ public class AgToolTipUI
 	public static void init(UIDefaults d)
 	{
 		d.put("ToolTipUI", AgToolTipUI.class.getName());
+		d.put("ToolTipManager.enableToolTipMode", "activeApplication");
 		
 		d.put("ToolTip.background", Theme.toolTipBG());
 		d.put("ToolTip.backgroundInactive", Theme.toolTipBG());
@@ -39,7 +40,7 @@ public class AgToolTipUI
 		d.put("ToolTip.foreground", Theme.textFG());
 		d.put("ToolTip.foregroundInactive", Theme.fieldFG());
 		d.put("ToolTip.hideAccelerator", Boolean.FALSE);
-		d.put("ToolTipManager.enableToolTipMode", "activeApplication");
+		
 		// defs.put("ToolTip.font" // set by ATheme
 		
 		// configure tooltips
@@ -47,6 +48,6 @@ public class AgToolTipUI
 		m.setInitialDelay(50);
 		m.setDismissDelay(Integer.MAX_VALUE);
 		
-		// TODO more intelligent placement of tool tips
+		// TODO more intelligent placement of tool tips - need to overwrite each component
 	}
 }

@@ -141,7 +141,6 @@ public class CScrollPane
 	/** sets scrollpane and its viewport background */ 
 	public void setBackground2(Color c)
 	{
-		c = UI.clone(c);
 		setBackground(c);
 		getViewport().setBackground(c);
 	}

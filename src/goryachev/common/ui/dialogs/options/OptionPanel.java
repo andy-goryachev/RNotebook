@@ -122,8 +122,7 @@ public class OptionPanel
 		
 		CScrollPane scroll = new CScrollPane(tree, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setViewportBorder(new CBorder());
-		scroll.getViewport().setBackground(Theme.fieldBG());
-		scroll.setBackground(Theme.fieldBG());
+		scroll.setBackground2(Theme.fieldBG());
 		
 		CPanel left = new CPanel();
 		left.setNorth(filterPanel);
@@ -504,6 +503,10 @@ public class OptionPanel
 			return true;
 		}
 		else if(matches(expr, en.getEditorSearchString()))
+		{
+			return true;
+		}
+		else if(matches(expr, new StringCollector(en.getComponent()).collect()))
 		{
 			return true;
 		}

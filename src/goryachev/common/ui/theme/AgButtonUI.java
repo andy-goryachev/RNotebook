@@ -22,6 +22,9 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 public class AgButtonUI
 	extends BasicButtonUI
 {
+	public static final Color BUTTON_SHADOW = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.75, ThemeKey.COLOR_PANEL_BG);
+	public static final Color DISABLED_SHADOW = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.2, ThemeKey.COLOR_PANEL_BG);
+	public static final Color DISABLED_FOREGROUND = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.5, ThemeKey.COLOR_PANEL_BG);
 	protected int dashedRectGapX;
 	protected int dashedRectGapY;
 	protected int dashedRectGapWidth;
@@ -29,7 +32,6 @@ public class AgButtonUI
 	private boolean defaults_initialized;
 	private final static AgButtonUI ui = new AgButtonUI();
 	private static Insets margin = UI.newInsets(2, 10, 2, 10);
-	// TODO paint button gradient on top of the skin?
 	private static CSkin SKIN = new CButtonSkin();
 	private static CButtonUiBorder BORDER = new CButtonUiBorder();
 	
@@ -40,8 +42,8 @@ public class AgButtonUI
 		d.put("Button.background", Theme.panelBG());
 		d.put("Button.foreground", Theme.textFG());
 		d.put("Button.showMnemonics", Boolean.TRUE);
-		d.put("Button.shadow", ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.5, ThemeKey.COLOR_TEXT_BG));
-		d.put("Button.disabledShadow", ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.12, ThemeKey.COLOR_TEXT_BG));
+		d.put("Button.shadow", BUTTON_SHADOW);
+		d.put("Button.disabledShadow", DISABLED_SHADOW);
 	}
 	
 	

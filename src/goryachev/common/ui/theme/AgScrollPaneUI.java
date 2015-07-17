@@ -5,14 +5,13 @@ import goryachev.common.ui.Theme;
 import goryachev.common.ui.UI;
 import javax.swing.JScrollPane;
 import javax.swing.UIDefaults;
-import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
 
 
 public class AgScrollPaneUI
 	extends BasicScrollPaneUI
 {
-	private static CScrollPaneBorder BORDER = new CScrollPaneBorder();
+	private static CBorder BORDER = new CBorder();
 	
 	
 	public static void init(UIDefaults defs)
@@ -34,19 +33,5 @@ public class AgScrollPaneUI
 		}
 		
 		sp.getViewport().setBackground(Theme.textBG());
-	}
-	
-	
-	//
-	
-	
-	public static class CScrollPaneBorder
-		extends CBorder //CBevelBorder
-		implements UIResource
-	{
-		public CScrollPaneBorder()
-		{
-			//super(0.75f, true);
-		}
 	}
 }

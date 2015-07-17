@@ -585,7 +585,13 @@ public class Theme
 	
 	public static void setTheme(String name)
 	{
-		ATheme.setTheme(name);
+		ATheme.setTheme(name, true);
+	}
+	
+	
+	public static String getTheme()
+	{
+		return ATheme.getTheme().getName();
 	}
 	
 	
