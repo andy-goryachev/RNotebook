@@ -65,7 +65,7 @@ public class NotebookPanel
 		
 		setCenter(scroll);
 		
-		setBackground(Theme.textBG());
+		setBackground(Theme.TEXT_BG);
 		
 		typeField = new CComboBox(new Object[]
 		{
@@ -535,7 +535,7 @@ public class NotebookPanel
 	protected void actionRestartEngine()
 	{
 		ChoiceDialog<Boolean> d = new ChoiceDialog(this, "Restart Engine", "Do you want to restart the script engine?\nYou will lose all variables defined in it");
-		d.addButton("Restart", Boolean.TRUE, Theme.alternativeButtonHighlight());
+		d.addButton("Restart", Boolean.TRUE, Theme.DESTRUCTIVE_BUTTON_COLOR);
 		d.addButton("Continue Running", null);
 		Object rv = d.openChoiceDialog();		
 		if(Boolean.TRUE.equals(rv))

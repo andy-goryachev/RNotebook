@@ -434,15 +434,15 @@ public class UI
 	}
 	
 
-	public static Color darker(Color c, float factor)
-	{
-		return new Color
-		(
-			Math.max(0, (int)(c.getRed()   * factor)), 
-			Math.max(0, (int)(c.getGreen() * factor)), 
-			Math.max(0, (int)(c.getBlue()  * factor))
-		);
-	}
+//	public static Color darker(Color c, float factor)
+//	{
+//		return new Color
+//		(
+//			Math.max(0, (int)(c.getRed()   * factor)), 
+//			Math.max(0, (int)(c.getGreen() * factor)), 
+//			Math.max(0, (int)(c.getBlue()  * factor))
+//		);
+//	}
 	
 
 	public static void later(Runnable r)
@@ -1298,19 +1298,7 @@ public class UI
 
 	public static boolean isLeftButton(InputEvent ev)
 	{
-		// SwingUtilities2
 		return ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0);
-		/*
-		int mask = (InputEvent.BUTTON1_DOWN_MASK | InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK);
-		int ex = ev.getModifiersEx();
-		
-		if((ex & mask) == 0)
-		{
-			// I don't know why
-			return true;
-		}
-		return ((ex & mask) == InputEvent.BUTTON1_DOWN_MASK);
-		*/
 	}
 	
 	

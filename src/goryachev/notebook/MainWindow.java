@@ -463,7 +463,7 @@ public class MainWindow
 			ChoiceDialog<Integer> d = new ChoiceDialog(this, "File Modified", TXT.get("MainWindow.open.file modified", "{0} has been modified.  Save changes?", getFileName()));
 			d.setChoiceDefault(-1);
 			d.addButton(Menus.Cancel, 1);
-			d.addButton(Menus.DiscardChanges, 2, Theme.alternativeButtonHighlight());
+			d.addButton(Menus.DiscardChanges, 2, Theme.DESTRUCTIVE_BUTTON_COLOR);
 			d.addButton(Menus.Save, 0, true);
 			int rv = d.openChoiceDialog();
 			switch(rv)

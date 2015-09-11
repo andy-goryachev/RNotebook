@@ -27,7 +27,7 @@ public class DTableViewer
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setBackground(Theme.textBG());
+		table.getTableHeader().setBackground(Theme.TEXT_BG);
 		table.setDefaultRenderer(Object.class, new DTableRenderer());
 		table.addMouseListener(h);
 		UI.resizeToContent(table, 250);

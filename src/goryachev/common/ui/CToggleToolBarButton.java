@@ -165,7 +165,7 @@ public class CToggleToolBarButton
 	
 	public void setHighlight()
 	{
-		setHighlight(Theme.buttonHighlight());
+		setHighlight(Theme.AFFIRM_BUTTON_COLOR);
 	}
 	
 	

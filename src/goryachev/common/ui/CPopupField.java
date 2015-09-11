@@ -59,7 +59,7 @@ public abstract class CPopupField<T extends JComponent>
 		textField.setFont(Theme.plainFont());
 		textField.setBorder(new CBorder(2, 2));
 		textField.setOpaque(true);
-		textField.setBackground(Theme.textBG());
+		textField.setBackground(Theme.TEXT_BG);
 		textField.addMouseListener(handler);
 		
 		button = AgComboBoxUI.createDefaultArrowButton();

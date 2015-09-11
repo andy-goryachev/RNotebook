@@ -14,7 +14,7 @@ public class CellScrollPane
 	public CellScrollPane(Component c)
 	{
 		super(c);
-		setBackground2(Theme.textBG());
+		setBackground2(Theme.TEXT_BG);
 	}
 	
 	

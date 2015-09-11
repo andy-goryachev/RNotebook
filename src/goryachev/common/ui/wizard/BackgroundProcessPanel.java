@@ -231,7 +231,7 @@ public abstract class BackgroundProcessPanel
 	
 	public void print(String text)
 	{
-		print(Theme.textFG(), text);
+		print(Theme.TEXT_FG, text);
 	}
 	
 	

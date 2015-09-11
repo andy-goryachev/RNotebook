@@ -41,7 +41,7 @@ public class ColorOptionEditor
 		panel.add(editor);
 		panel.add(hexField);
 		panel.add(decField);
-		panel.setBackground(Theme.textBG());
+		panel.setBackground(Theme.TEXT_BG);
 	}
 	
 

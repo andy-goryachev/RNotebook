@@ -67,7 +67,7 @@ public abstract class TableDetailViewPanel<T>
 		
 		detailPanel = new CPanel();
 		detailPanel.setName("detail");
-		detailPanel.setBackground(Theme.textBG());
+		detailPanel.setBackground(Theme.TEXT_BG);
 		
 		// layout
 		
@@ -82,7 +82,7 @@ public abstract class TableDetailViewPanel<T>
 	protected CScrollPane createScrollPane(ZTable t)
 	{
 		CScrollPane s = new CScrollPane(t, CScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, CScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		s.getViewport().setBackground(Theme.textBG());
+		s.getViewport().setBackground(Theme.TEXT_BG);
 		return s;
 	}
 	

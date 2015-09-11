@@ -49,6 +49,7 @@ public class CodePanel
 		textField = new RSyntaxTextArea(text);
 		textField.setFont(Theme.monospacedFont());
 		textField.setBackground(Styles.codeColor);
+		textField.setForeground(Theme.TEXT_FG);
 		textField.setLineWrap(true);
 		textField.setWrapStyleWord(true);
 		textField.addMouseListener(handler);

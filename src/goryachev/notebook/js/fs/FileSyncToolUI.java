@@ -69,7 +69,7 @@ public class FileSyncToolUI
 		
 		CPanel p = new CPanel(10, 2);
 		p.setBorder(5, 10);
-		p.setBackground(Theme.panelBG());
+		p.setBackground(Theme.PANEL_BG);
 		p.addColumns
 		(
 			100,

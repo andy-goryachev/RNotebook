@@ -45,7 +45,7 @@ public class DPlotViewer
 		if(s != null)
 		{
 			g.setFont(UI.deriveFont(Theme.boldFont(), Styles.plotTitleFontSize));
-			g.setColor(Theme.textFG());
+			g.setColor(Theme.TEXT_FG);
 			Rectangle2D r = g.getFontMetrics().getStringBounds(s, g);
 			g.drawString(s, (float)(getWidth()/2.0 - r.getWidth()/2.0), (float)(y0 - r.getY()));
 			

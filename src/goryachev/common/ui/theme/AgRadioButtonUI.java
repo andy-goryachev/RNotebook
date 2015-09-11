@@ -24,8 +24,8 @@ public class AgRadioButtonUI
 		d.put("RadioButtonUI", AgRadioButtonUI.class.getName());
 		d.put("RadioButton.contentAreaFilled", Boolean.FALSE);
 		d.put("RadioButton.icon", new AgRadioButtonIcon());
-		d.put("RadioButton.foreground", Theme.textFG());
-		d.put("RadioButton.background", Theme.panelBG());
+		d.put("RadioButton.foreground", Theme.TEXT_FG);
+		d.put("RadioButton.background", Theme.PANEL_BG);
 	}
 
 
@@ -44,7 +44,7 @@ public class AgRadioButtonUI
 
 	protected Color getFocusColor()
 	{
-		return Theme.focusColor();
+		return Theme.FOCUS_COLOR;
 	}
 
 
@@ -52,11 +52,5 @@ public class AgRadioButtonUI
 	{
 		g.setColor(getFocusColor());
 		BasicGraphicsUtils.drawDashedRect(g, textRect.x, textRect.y, textRect.width, textRect.height);
-	}
-
-
-	protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text)
-	{
-		ThemeTools.paintText(g, b, textRect, text, getTextShiftOffset());
 	}
 }

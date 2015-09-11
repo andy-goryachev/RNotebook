@@ -54,7 +54,7 @@ public abstract class ThemeColor
 	}
 	
 	
-	public static ThemeColor create(final ThemeKey keyA, final double mixA, final ThemeKey keyB)
+	public static ThemeColor create(final Object keyA, final double mixA, final Object keyB)
 	{
 		return new ThemeColor()
 		{
@@ -68,7 +68,7 @@ public abstract class ThemeColor
 	}
 	
 	
-	public static ThemeColor shadow(final ThemeKey key, final double amount)
+	public static ThemeColor shadow(final Object key, final double amount)
 	{
 		return new ThemeColor()
 		{
@@ -82,7 +82,7 @@ public abstract class ThemeColor
 	}
 	
 	
-	public static ThemeColor highlight(final ThemeKey key, final double amount)
+	public static ThemeColor highlight(final Object key, final double amount)
 	{
 		return new ThemeColor()
 		{

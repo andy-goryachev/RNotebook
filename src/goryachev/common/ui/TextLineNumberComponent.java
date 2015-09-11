@@ -103,7 +103,7 @@ public class TextLineNumberComponent
 		c.addPropertyChangeListener("font", this);
 		c.addPropertyChangeListener("document", this);
 		
-		setBackground(Theme.fieldBG());
+		setBackground(Theme.FIELD_BG);
 	}
 
 

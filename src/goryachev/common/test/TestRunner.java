@@ -6,7 +6,6 @@ import goryachev.common.util.CList;
 import goryachev.common.util.CSorter;
 import goryachev.common.util.Log;
 import goryachev.common.util.Rex;
-import goryachev.common.util.SW;
 import goryachev.common.util.log.ConsoleLogWriter;
 import goryachev.common.util.log.LogWriter;
 import java.lang.annotation.Annotation;
@@ -297,7 +296,7 @@ public class TestRunner
 		
 		print("\n\n");
 		
-		String elapsed = SW.formatMillis(ended - started);
+		String elapsed = CKit.formatTimePeriod(ended - started);
 		
 		if(failed == 0)
 		{

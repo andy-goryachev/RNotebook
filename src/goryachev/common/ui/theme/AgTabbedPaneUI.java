@@ -2,12 +2,9 @@
 package goryachev.common.ui.theme;
 import goryachev.common.ui.Theme;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
@@ -17,7 +14,6 @@ import javax.swing.KeyStroke;
 import javax.swing.UIDefaults;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import javax.swing.text.View;
 
 
 public class AgTabbedPaneUI
@@ -32,8 +28,8 @@ public class AgTabbedPaneUI
 		d.put("TabbedPaneUI", AgTabbedPaneUI.class.getName());
 		d.put("TabbedPane.contentOpaque", Boolean.TRUE);
 		d.put("TabbedPane.opaque", Boolean.FALSE);
-		d.put("TabbedPane.selectedForeground", Theme.textFG());
-		d.put("TabbedPane.foreground", Theme.textFG());
+		d.put("TabbedPane.selectedForeground", Theme.TEXT_FG);
+		d.put("TabbedPane.foreground", Theme.TEXT_FG);
 		
 //		TabbedPane.ancestorInputMap = InputMapUIResource
 //		TabbedPane.background = ColorUIResource(B8CFE5)
@@ -95,8 +91,8 @@ public class AgTabbedPaneUI
 		}
 		tabPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, managingFocusBackwardTraversalKeys);
 
-		shadow = Theme.panelBG().darker();
-		darkShadow = shadow.darker();
+		shadow = ThemeTools.DARKER;
+		darkShadow = ThemeTools.DARKER_DARKER;
 	}
 
 
@@ -176,39 +172,5 @@ public class AgTabbedPaneUI
 	public void setContentBorderInsets(Insets m)
 	{
 		contentBorderInsets = m;
-	}
-
-
-	protected void paintText(Graphics g, int place, Font f, FontMetrics fm, int index, String title, Rectangle r, boolean sel)
-	{
-		g.setFont(f);
-
-		View v = getTextViewForTab(index);
-		if(v != null)
-		{
-			// html
-			v.paint(g, r);
-		}
-		else
-		{
-			// plain text
-			int ix = tabPane.getDisplayedMnemonicIndexAt(index);
-
-			if(tabPane.isEnabled() && tabPane.isEnabledAt(index))
-			{
-				Color fg = tabPane.getForegroundAt(index);
-				g.setColor(fg);
-				ThemeTools.drawStringUnderlineCharAt(tabPane, g, title, ix, r.x, r.y + fm.getAscent());
-			}
-			else
-			{ 
-				// disabled
-				g.setColor(AgButtonUI.DISABLED_SHADOW);
-				ThemeTools.drawStringUnderlineCharAt(tabPane, g, title, ix, r.x, r.y + fm.getAscent());
-				
-				g.setColor(AgButtonUI.DISABLED_FOREGROUND);
-				ThemeTools.drawStringUnderlineCharAt(tabPane, g, title, ix, r.x - 1, r.y + fm.getAscent() - 1);
-			}
-		}
 	}
 }

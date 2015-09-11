@@ -14,7 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.UIDefaults;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
@@ -22,9 +21,10 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 public class AgButtonUI
 	extends BasicButtonUI
 {
-	public static final Color BUTTON_SHADOW = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.75, ThemeKey.COLOR_PANEL_BG);
-	public static final Color DISABLED_SHADOW = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.2, ThemeKey.COLOR_PANEL_BG);
-	public static final Color DISABLED_FOREGROUND = ThemeColor.create(ThemeKey.COLOR_TEXT_FG, 0.5, ThemeKey.COLOR_PANEL_BG);
+	public static final Color BUTTON_SHADOW = ThemeColor.create(ThemeKey.TEXT_FG, 0.75, ThemeKey.PANEL_BG);
+	public static final Color DISABLED_SHADOW = ThemeColor.create(ThemeKey.TEXT_FG, 0.2, ThemeKey.PANEL_BG);
+	public static final Color DISABLED_FOREGROUND = ThemeColor.create(ThemeKey.TEXT_FG, 0.5, ThemeKey.PANEL_BG);
+	public static final Color SELECTED_BG = ThemeColor.highlight(ThemeKey.PANEL_BG, 0.85);
 	protected int dashedRectGapX;
 	protected int dashedRectGapY;
 	protected int dashedRectGapWidth;
@@ -33,14 +33,14 @@ public class AgButtonUI
 	private final static AgButtonUI ui = new AgButtonUI();
 	private static Insets margin = UI.newInsets(2, 10, 2, 10);
 	private static CSkin SKIN = new CButtonSkin();
-	private static CButtonUiBorder BORDER = new CButtonUiBorder();
+	private static Border BORDER = new CButtonBorder();
 	
 
 	public static void init(UIDefaults d)
 	{
 		d.put("ButtonUI", AgButtonUI.class.getName());
-		d.put("Button.background", Theme.panelBG());
-		d.put("Button.foreground", Theme.textFG());
+		d.put("Button.background", Theme.PANEL_BG);
+		d.put("Button.foreground", Theme.TEXT_FG);
 		d.put("Button.showMnemonics", Boolean.TRUE);
 		d.put("Button.shadow", BUTTON_SHADOW);
 		d.put("Button.disabledShadow", DISABLED_SHADOW);
@@ -104,14 +104,8 @@ public class AgButtonUI
 
 	protected Color getFocusColor()
 	{
-		return Theme.focusColor();
+		return Theme.FOCUS_COLOR;
 	}
-
-
-//	protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text)
-//	{
-//		ThemeTools.paintText(g, b, textRect, text, getTextShiftOffset());
-//	}
 
 
 	protected void paintFocus(Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect)
@@ -151,50 +145,6 @@ public class AgButtonUI
 		return d;
 	}
 
-
-//	private static Insets getOpaqueInsets(Border b, Component c)
-//	{
-//		if(b == null)
-//		{
-//			return null;
-//		}
-//		if(b.isBorderOpaque())
-//		{
-//			return b.getBorderInsets(c);
-//		}
-//		else if(b instanceof CompoundBorder)
-//		{
-//			CompoundBorder cb = (CompoundBorder) b;
-//			Insets iOut = getOpaqueInsets(cb.getOutsideBorder(), c);
-//			if(iOut != null && iOut.equals(cb.getOutsideBorder().getBorderInsets(c)))
-//			{
-//				// Outside border is opaque, keep looking
-//				Insets iIn = getOpaqueInsets(cb.getInsideBorder(), c);
-//				if(iIn == null)
-//				{
-//					// Inside is non-opaque, use outside insets
-//					return iOut;
-//				}
-//				else
-//				{
-//					// Found non-opaque somewhere in the inside (which is
-//					// also compound).
-//					return new Insets(iOut.top + iIn.top, iOut.left + iIn.left, iOut.bottom + iIn.bottom, iOut.right + iIn.right);
-//				}
-//			}
-//			else
-//			{
-//				// Outside is either all non-opaque or has non-opaque
-//				// border inside another compound border
-//				return iOut;
-//			}
-//		}
-//		else
-//		{
-//			return null;
-//		}
-//	}
-	
 	
 	public boolean isButtonSelected(JComponent c)
 	{
@@ -212,7 +162,7 @@ public class AgButtonUI
 		
 		if(isButtonSelected(c))
 		{
-			g.setColor(Theme.brighter(Theme.panelBG()));
+			g.setColor(SELECTED_BG);
 			g.fillRect(0, 0, c.getWidth(), c.getHeight());
 		}
 		else
@@ -243,17 +193,5 @@ public class AgButtonUI
 		{
 			((CButtonBorder)br).setPressed(on);
 		}
-	}
-	
-	
-	//
-	
-	
-	public static class CButtonUiBorder
-		extends CButtonBorder
-		implements UIResource
-	{
-		public CButtonUiBorder()
-		{ }
 	}
 }

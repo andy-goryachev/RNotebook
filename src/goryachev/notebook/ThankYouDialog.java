@@ -52,21 +52,21 @@ public class ThankYouDialog
 			;
 		
 		infoField = new InfoField(text, 0);
-		infoField.setForeground(Theme.textFG());
+		infoField.setForeground(Theme.TEXT_FG);
 		
 		CPanel p = new CPanel();
 		p.setBorder();
-		p.setBackground(Theme.textBG());
+		p.setBackground(Theme.TEXT_BG);
 		p.addColumn(CPanel.FILL);
 		p.row(0, infoField);
 		p.nextFillRow();
 		p.nextRow();
 		p.row(0, doNotShowField);
-		p.setBackground(Theme.fieldBG());
+		p.setBackground(Theme.FIELD_BG);
 		p.setLeading(Panels.iconField(CIcons.Success48));
 		
 		panel().setCenter(p);
-		buttonPanel().addButton("Email Us", emailAction, Theme.alternativeButtonHighlight());
+		buttonPanel().addButton("Email Us", emailAction, Theme.DESTRUCTIVE_BUTTON_COLOR);
 		buttonPanel().addButton(Menus.OK, okAction, true);
 		
 		UI.later(new Runnable()

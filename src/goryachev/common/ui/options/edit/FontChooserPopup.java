@@ -115,7 +115,7 @@ public class FontChooserPopup
 		
 		setCenter(p);
 		setBorder(new CBorder(10));
-		setBackground(Theme.fieldBG());
+		setBackground(Theme.FIELD_BG);
 		
 		fontCombo.replaceAll(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 		

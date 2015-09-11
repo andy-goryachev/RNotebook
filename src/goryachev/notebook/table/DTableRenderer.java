@@ -120,7 +120,7 @@ public class DTableRenderer
 			{
 				text = formatText(val);
 				alignment = CAlignment.LEADING;
-				fg = Theme.textFG();
+				fg = Theme.TEXT_FG;
 			}
 			
 			setHorizontalAlignment(alignment.getAlignment());

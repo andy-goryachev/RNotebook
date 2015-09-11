@@ -29,7 +29,7 @@ public class CTableRowHeader
 	private Color highlight;
 	private static JLabel renderer;
 	public static final Border BORDER = new CBorder(1,3);
-	public static final Color BG = ThemeColor.shadow(ThemeKey.COLOR_TEXT_BG, 0.2);
+	public static final Color BG = ThemeColor.shadow(ThemeKey.TEXT_BG, 0.2);
 
 
 	public CTableRowHeader(JTable t)
