@@ -6,4 +6,7 @@
 
 	RELEASE HISTORY
 
+0.04.15
+- theme
+
 0.04.00

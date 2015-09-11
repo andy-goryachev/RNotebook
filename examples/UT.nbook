@@ -8,12 +8,12 @@
     },
     {
       "type": "js",
-      "source": "UT.help",
-      "sequence": 152,
+      "source": "UT",
+      "sequence": 161,
       "output": [
         {
           "type": "text",
-          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte[] or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - create color from HSL values\n   .parseHtml(html)                     - parse HTML document\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
+          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte[] or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - create color from HSL values\n   .newByteBuffer(size)                 - returns a new BBuffer instance\n   .parseHtml(html)                     - parse HTML document\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },
@@ -60,6 +60,21 @@
           "text": "1314F8B8382A325318F60A61644FF24E"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "help()",
+      "sequence": 164,
+      "output": [
+        {
+          "type": "text",
+          "text": "The notebook allows to combine java and Javascript.\nBuilt-in objects provide additional functionality: FS, IO, NET, NB, OS, UT.\n"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": ""
     }
   ]
 }

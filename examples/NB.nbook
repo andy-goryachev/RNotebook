@@ -8,8 +8,8 @@
     },
     {
       "type": "js",
-      "source": "NB.help",
-      "sequence": 144,
+      "source": "NB",
+      "sequence": 146,
       "output": [
         {
           "type": "text",
