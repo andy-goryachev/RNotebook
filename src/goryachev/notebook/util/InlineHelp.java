@@ -4,10 +4,12 @@ import goryachev.common.util.CList;
 import goryachev.common.util.CMap;
 import goryachev.common.util.CSorter;
 import goryachev.common.util.SB;
+import java.lang.reflect.Method;
 
 
 /** Little object helps create inline help generated when js evaluates a top-level interpreter object */ 
 // TODO use annotations
+// TODO or, return a table! use search within the table
 public class InlineHelp
 {
 	private final String name;
@@ -90,5 +92,56 @@ public class InlineHelp
 		}
 		
 		return sb.toString();
+	}
+	
+	
+	public static InlineHelp create(String type, Class<?> c)
+	{
+		InlineHelp h = new InlineHelp(type);
+		
+		Doc cd = c.getAnnotation(Doc.class);
+		
+		// TODO constructor? header?
+		if(cd != null)
+		{
+			h.a(cd.value());
+		}
+		
+		Method[] ms = c.getMethods();
+		for(Method m: ms)
+		{
+			Doc d = m.getAnnotation(Doc.class);
+			if(d != null)
+			{
+				Arg a = m.getAnnotation(Arg.class);
+
+				SB sb = new SB(64);
+				sb.a(m.getName());
+				sb.a('(');
+				if(a != null)
+				{
+					String[] args = a.value();
+					boolean comma = false;
+					
+					for(String s: args)
+					{
+						if(comma)
+						{
+							sb.a(",");
+						}
+						else
+						{
+							comma = true;
+						}
+						
+						sb.a(s);
+					}
+				}
+				sb.a(')');
+
+				h.a(sb.toString(), d.value());
+			}
+		}
+		return h;
 	}
 }

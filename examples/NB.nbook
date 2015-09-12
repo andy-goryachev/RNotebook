@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "NB",
-      "sequence": 146,
+      "sequence": 153,
       "output": [
         {
           "type": "text",
-          "text": "NB provides operations with the notebook application:\n   NB.NB.display(x)         - displays an object in the code output section\n   NB.NB.getValue(key)      - returns a string value from the notebook storage\n   NB.NB.setValue(key, val) - stores a string value in the notebook storage"
+          "text": "NB provides operations with the notebook application:\n   NB.display(x)          - displays an object in the code output section\n   NB.getValue(key)       - returns a string value from the notebook storage\n   NB.setValue(key,value) - stores a string value in the notebook storage"
         }
       ]
     },
