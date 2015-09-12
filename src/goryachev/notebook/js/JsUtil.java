@@ -486,7 +486,7 @@ public class JsUtil
 		}
 		else if(x instanceof BBuffer)
 		{
-			return ((BBuffer)x).toByteArray();
+			return ((BBuffer)x).getByteArray();
 		}
 		else if(x instanceof NativeArray)
 		{

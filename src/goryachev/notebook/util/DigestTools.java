@@ -2,6 +2,7 @@
 package goryachev.notebook.util;
 import goryachev.common.util.CKit;
 import goryachev.common.util.Hex;
+import goryachev.notebook.js.ut.BBuffer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
@@ -9,14 +10,14 @@ import java.security.MessageDigest;
 
 public class DigestTools
 {
-	public static String compute(MessageDigest d, byte[] b)
+	public static BBuffer compute(MessageDigest d, byte[] b)
 	{
 		byte[] rv = d.digest(b);
-		return Hex.toHexString(rv);
+		return new BBuffer(rv);
 	}
 
 
-	public static String compute(MessageDigest d, File f) throws Exception
+	public static BBuffer compute(MessageDigest d, File f) throws Exception
 	{
 		FileInputStream in = new FileInputStream(f);
 		try
@@ -38,7 +39,7 @@ public class DigestTools
 			}
 			
 			byte[] rv = d.digest();
-			return Hex.toHexString(rv);
+			return new BBuffer(rv);
 		}
 		finally
 		{

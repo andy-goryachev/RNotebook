@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "UT",
-      "sequence": 161,
+      "sequence": 173,
       "output": [
         {
           "type": "text",
-          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte[] or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - create color from HSL values\n   .newByteBuffer(size)                 - returns a new BBuffer instance\n   .parseHtml(html)                     - parse HTML document\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
+          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte array or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - creates color from HSL values\n   .newByteBuffer(size)                 - returns a new BBuffer instance\n   .parseHtml(html)                     - parses HTML document\n   .sha256(x)                           - computes SHA-256 digest of a byte array or a file\n   .sha512(x)                           - computes SHA-512 digest of a byte array or a file\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },
@@ -31,11 +31,11 @@
     {
       "type": "js",
       "source": "b = UT.decodeHex(\"CAFEBABE000102030405060708FF\");\nb64 = UT.encodeBase64(b);\nprint(b64);\nprint(UT.decodeBase64(b64));\nprint(UT.encodeHex(b));",
-      "sequence": 153,
+      "sequence": 165,
       "output": [
         {
           "type": "text",
-          "text": "yv66vgABAgMEBQYHCP8=\n[B@36ec9d26\nCAFEBABE000102030405060708FF"
+          "text": "yv66vgABAgMEBQYHCP8=\n[B@309fcf02\nCAFEBABE000102030405060708FF"
         }
       ]
     },
@@ -53,7 +53,7 @@
     {
       "type": "js",
       "source": "b = new java.lang.String('goryachev.com').getBytes('utf-8');\nUT.computeDigest('md5', b);",
-      "sequence": 160,
+      "sequence": 169,
       "output": [
         {
           "type": "text",

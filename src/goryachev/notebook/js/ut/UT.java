@@ -67,7 +67,7 @@ public class UT
 	}
 	
 	
-	public String computeDigest(String name, Object x) throws Exception
+	public BBuffer computeDigest(String name, Object x) throws Exception
 	{
 		MessageDigest d = MessageDigest.getInstance(name);
 		
@@ -85,6 +85,18 @@ public class UT
 	}
 	
 	
+	public BBuffer sha512(Object x) throws Exception
+	{
+		return computeDigest("sha-512", x);
+	}
+	
+	
+	public BBuffer sha256(Object x) throws Exception
+	{
+		return computeDigest("sha-256", x);
+	}
+	
+	
 	public BBuffer newByteBuffer(int size)
 	{
 		return new BBuffer(size);
@@ -96,14 +108,16 @@ public class UT
 		InlineHelp h = new InlineHelp("");
 		h.a("UT offers helpful utility functions:");
 		//
-		h.a("computeDigest(algorithm, x)", "computes digest of a byte[] or a file");
+		h.a("computeDigest(algorithm, x)", "computes digest of a byte array or a file");
 		h.a("decodeBase64(string)", "decodes Base64-encoded string");
 		h.a("encodeBase64(bytes)", "encodes a byte array using Base64");
 		h.a("decodeHex(string)", "decodes a hexadecimal string");
 		h.a("encodeHex(bytes)", "encodes a byte array into a hexadecimal string");
-		h.a("hslColor(hue,saturation,luminocity)", "create color from HSL values");
+		h.a("hslColor(hue,saturation,luminocity)", "creates color from HSL values");
 		h.a("newByteBuffer(size)", "returns a new BBuffer instance");
-		h.a("parseHtml(html)", "parse HTML document");
+		h.a("parseHtml(html)", "parses HTML document");
+		h.a("sha256(x)", "computes SHA-256 digest of a byte array or a file");
+		h.a("sha512(x)", "computes SHA-512 digest of a byte array or a file");
 		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
 		return h;
 	}

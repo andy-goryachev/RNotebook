@@ -5,6 +5,8 @@ import goryachev.notebook.js.JsUtil;
 import java.util.Arrays;
 
 
+/** Elastic byte buffer */
+// TODO appendInt, insertInt, insert, ...
 public class BBuffer
 {
 	private byte[] buffer;
@@ -18,6 +20,22 @@ public class BBuffer
 	}
 	
 	
+	public BBuffer(byte[] a)
+	{
+		if(a == null)
+		{
+			size = 0;
+			buffer = new byte[0];
+		}
+		else
+		{
+			size = a.length;
+			buffer = new byte[size];
+			System.arraycopy(a, 0, buffer, 0, size);
+		}
+	}
+	
+	
 	protected BBuffer(byte[] buffer, int size)
 	{
 		this.buffer = buffer;
@@ -25,7 +43,7 @@ public class BBuffer
 	}
 	
 	
-	public byte[] toByteArray()
+	public byte[] getByteArray()
 	{
 		byte[] b = new byte[size];
 		System.arraycopy(buffer, 0, b, 0, size);
@@ -71,6 +89,7 @@ public class BBuffer
 	
 	public String toString()
 	{
+		// TODO limit output BEGIN...END
 		return dump();
 	}
 	

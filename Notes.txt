@@ -3,6 +3,9 @@
 
 TODO
 - new file: create empty code
+- use annotations tfor help
+- help/api
+- sha512
 
 
 app name

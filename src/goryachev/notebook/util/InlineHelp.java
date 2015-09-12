@@ -7,6 +7,7 @@ import goryachev.common.util.SB;
 
 
 /** Little object helps create inline help generated when js evaluates a top-level interpreter object */ 
+// TODO use annotations
 public class InlineHelp
 {
 	private final String name;
