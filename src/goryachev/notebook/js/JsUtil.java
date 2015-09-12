@@ -476,6 +476,7 @@ public class JsUtil
 
 	public static byte[] parseByteArray(Object x)
 	{
+		// make sure to change isConvertableToByteArray()
 		if(x == null)
 		{
 			return null;
@@ -507,6 +508,28 @@ public class JsUtil
 			throw new UserException("can't convert to byte array: " + x.getClass());
 		}
 	}
+	
+	
+	public static boolean isConvertableToByteArray(Object x)
+    {
+		if(x == null)
+		{
+			return false;
+		}
+		else if(x instanceof byte[])
+		{
+			return true;
+		}
+		else if(x instanceof BBuffer)
+		{
+			return true;
+		}
+		else if(x instanceof NativeArray)
+		{
+			return true;
+		}
+	    return false;
+    }
 	
 	
 	public static byte parseByte(Object x)

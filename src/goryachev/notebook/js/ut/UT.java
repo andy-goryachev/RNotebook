@@ -3,6 +3,7 @@ package goryachev.notebook.js.ut;
 import goryachev.common.util.Base64;
 import goryachev.common.util.HSLColor;
 import goryachev.common.util.Hex;
+import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.DigestTools;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.mozilla.javascript.NativeArray;
 
 
 public class UT
@@ -71,9 +73,9 @@ public class UT
 	{
 		MessageDigest d = MessageDigest.getInstance(name);
 		
-		if(x instanceof byte[])
+		if(JsUtil.isConvertableToByteArray(x))
 		{
-			byte[] b = (byte[])x;
+			byte[] b = JsUtil.parseByteArray(x);
 			return DigestTools.compute(d, b);
 		}
 		else

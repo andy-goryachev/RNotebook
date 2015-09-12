@@ -74,7 +74,14 @@
     },
     {
       "type": "js",
-      "source": ""
+      "source": "print(System.currentTimeMillis() + \".\" + UT.sha256([0]));",
+      "sequence": 176,
+      "output": [
+        {
+          "type": "text",
+          "text": "1442017503979.6E340B9CFFB37A989CA544E6BB780A2C78901D3FB33738768511A30617AFA01D"
+        }
+      ]
     }
   ]
 }
