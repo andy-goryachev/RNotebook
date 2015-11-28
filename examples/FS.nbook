@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "FS",
-      "sequence": 136,
+      "sequence": 137,
       "output": [
         {
           "type": "text",
-          "text": "FS provides access to the filesystem:\n   FS.exists(file)                    - tests whether the file exists\n   FS.freeSpace, getFreeSpace(path)   - returns the amount of free space\n   FS.isDirectory(path)               - tests whether the file denoted by this path is a directory\n   FS.isFile(path)                    - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)                  - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)              - returns the file timestamp\n   FS.ls([path],...)                  - lists files\n   FS.newFileScanner()                - returns a new file scanner tool\n   FS.newSync()                       - returns a new file synchronization tool\n   FS.pwd()                           - returns the current directory\n   FS.sync(source, target)            - synchronizes target with the source directory, ignoring failures\n   FS.tempFile(prefix, suffix)        - creates a temporary file\n   FS.totalSpace, getTotalSpace(path) - returns the amount of total space\n   FS.touch(file)                     - updates the timestamp of a file, creating it if necessary"
+          "text": "FS provides access to the filesystem\n   FS.exists(file)            - tests whether the file exists\n   FS.getFreeSpace()          - returns the amount of free space\n   FS.getFreeSpace(path)      - returns the amount of free space on the device\n   FS.getTotalSpace()         - returns the amount of total space\n   FS.getTotalSpace(path)     - returns the amount of total space on the device\n   FS.isDirectory(path)       - tests whether the file denoted by this path is a directory\n   FS.isFile(path)            - tests whether the file denoted by this path is a normal file\n   FS.isHidden(path)          - tests whether the file denoted by this path is a hidden file\n   FS.lastModified(file)      - returns the file timestamp\n   FS.ls(file,,...)           - lists files\n   FS.newFileScanner()        - returns a new file scanner tool\n   FS.newSync()               - returns a new file synchronization tool\n   FS.pwd()                   - returns the current directory\n   FS.sync(source,target)     - synchronizes target with the source directory, ignoring failures\n   FS.tempFile(prefix,suffix) - creates a temporary file\n   FS.touch(path)             - updates the timestamp of a file, creating it if necessary"
         }
       ]
     },
@@ -86,22 +86,22 @@
     {
       "type": "js",
       "source": "FS.lastModified(\"c:\");",
-      "sequence": 113,
+      "sequence": 139,
       "output": [
         {
           "type": "text",
-          "text": "1420680750346"
+          "text": "1442017597330"
         }
       ]
     },
     {
       "type": "js",
       "source": "FS.ls()",
-      "sequence": 127,
+      "sequence": 138,
       "output": [
         {
           "type": "text",
-          "text": ".classpath          \n.git/                \n.gitignore          \n.project            \narchive/             \nbuild/               \nbuild.xml           \ncompetition/         \ndoc/                 \nexamples/            \nFeature Matrix.xlsx \nlib/                 \nMAKE-JAR.bat        \nNotebook4.jar       \nNotes.txt           \nout/                 \nreference/           \nRelease Notes.txt   \nscreenshots/         \nsrc/                 \ntasks/               \ntest/                \nuser.home/           "
+          "text": ".classpath          \n.git/                \n.gitignore          \n.project            \narchive/             \nbuild/               \nbuild.xml           \ncompetition/         \ndoc/                 \nexamples/            \nFeature Matrix.xlsx \nlib/                 \nMAKE-JAR.bat        \nNotes.txt           \nout/                 \nreference/           \nRelease Notes.txt   \nRNotebook.jar       \nscreenshots/         \nsrc/                 \ntasks/               \ntest/                \nuser.home/           \nversion             "
         }
       ]
     },

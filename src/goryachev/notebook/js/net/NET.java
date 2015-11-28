@@ -5,7 +5,10 @@ import goryachev.common.util.CBrowser;
 import goryachev.common.util.CKit;
 import goryachev.common.util.TextTools;
 import goryachev.common.util.UserException;
+import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.util.Arg;
+import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,6 +18,7 @@ import java.util.zip.GZIPInputStream;
 import javax.imageio.ImageIO;
 
 
+@Doc("provides network-related functions")
 public class NET
 {
 	public NET()
@@ -22,6 +26,8 @@ public class NET
 	}
 	
 	
+	@Doc("returns content specified by the URL")
+	@Arg("url")
 	public Object get(Object url) throws Exception
 	{
 		URL u = JsUtil.parseURL(url);
@@ -87,6 +93,8 @@ public class NET
 	}
 	
 	
+	@Doc("opens a link in browser")
+	@Arg("url")
 	public void inBrowser(Object url) throws Exception
 	{
 		URL u = JsUtil.parseURL(url);
@@ -102,11 +110,6 @@ public class NET
 	
 	public InlineHelp getHelp()
 	{
-		InlineHelp h = new InlineHelp("NET");
-		h.a("NET provides network-related functions:");
-		//
-		h.a("get(url)", "returns content specified by the URL");
-		h.a("inBrowser(url)", "opens link in a browser");
-		return h;
+		return InlineHelp.create(JsObjects.NET, getClass());
 	}
 }

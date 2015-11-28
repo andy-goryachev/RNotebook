@@ -16,24 +16,24 @@ public class NB
 	}
 	
 	
-	@Arg("x")
 	@Doc("displays an object in the code output section")
+	@Arg("x")
 	public void display(Object x)
 	{
 		JsEngine.get().display(x);
 	}
 	
 	
-	@Arg({"key", "value"})
 	@Doc("stores a string value in the notebook storage")
+	@Arg({"key", "value"})
 	public void setValue(String key, String val)
 	{
 		RNotebookApp.getStorage().setValue(key, val);
 	}
 	
 	
-	@Arg({"key"})
 	@Doc("returns a string value from the notebook storage")
+	@Arg({"key"})
 	public String getValue(String key)
 	{
 		return RNotebookApp.getStorage().getValue(key);

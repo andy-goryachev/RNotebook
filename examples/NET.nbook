@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "NET.help",
-      "sequence": 128,
+      "sequence": 129,
       "output": [
         {
           "type": "text",
-          "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens link in a browser"
+          "text": "NET provides network-related functions:\n   NET.get(url)       - returns content specified by the URL\n   NET.inBrowser(url) - opens a link in browser"
         }
       ]
     },
@@ -30,14 +30,9 @@
     },
     {
       "type": "js",
-      "source": "NET.inBrowser('http://goryachev.com/research-notebook/');",
-      "sequence": 128,
-      "output": [
-        {
-          "type": "text",
-          "text": null
-        }
-      ]
+      "source": "NET.inBrowser('http://www.goryachev.com/products/rnotebook/index.html');",
+      "sequence": 132,
+      "output": []
     }
   ]
 }

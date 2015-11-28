@@ -31,11 +31,11 @@
     {
       "type": "js",
       "source": "b = UT.decodeHex(\"CAFEBABE000102030405060708FF\");\nb64 = UT.encodeBase64(b);\nprint(b64);\nprint(UT.decodeBase64(b64));\nprint(UT.encodeHex(b));",
-      "sequence": 165,
+      "sequence": 185,
       "output": [
         {
           "type": "text",
-          "text": "yv66vgABAgMEBQYHCP8=\n[B@309fcf02\nCAFEBABE000102030405060708FF"
+          "text": "yv66vgABAgMEBQYHCP8=\n[B@1733ff0d\nCAFEBABE000102030405060708FF"
         }
       ]
     },
@@ -64,7 +64,7 @@
     {
       "type": "js",
       "source": "help()",
-      "sequence": 164,
+      "sequence": 186,
       "output": [
         {
           "type": "text",
@@ -75,11 +75,11 @@
     {
       "type": "js",
       "source": "print(System.currentTimeMillis() + \".\" + UT.sha256([0]));",
-      "sequence": 176,
+      "sequence": 187,
       "output": [
         {
           "type": "text",
-          "text": "1442017503979.6E340B9CFFB37A989CA544E6BB780A2C78901D3FB33738768511A30617AFA01D"
+          "text": "1448670595182.6E340B9CFFB37A989CA544E6BB780A2C78901D3FB33738768511A30617AFA01D"
         }
       ]
     }

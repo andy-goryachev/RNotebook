@@ -108,7 +108,7 @@ public class InlineHelp
 		}
 		else
 		{
-			h.a(type + " " +cd.value());
+			h.a(type + " " +cd.value() + ":");
 		}
 		
 		Method[] ms = c.getMethods();

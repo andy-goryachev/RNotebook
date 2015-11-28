@@ -1,10 +1,14 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.os;
+import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.util.Arg;
+import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
 import java.net.InetAddress;
 
 
+@Doc("provides access to the following system functions")
 public class OS
 {
 	public OS()
@@ -12,36 +16,48 @@ public class OS
 	}
 	
 	
+	@Doc("returns number of processor cores")
+	@Arg("")
 	public int getCpuCount()
 	{
 		return Runtime.getRuntime().availableProcessors();
 	}
 	
 	
+	@Doc("current time in milliseconds")
+	@Arg("")
 	public long getTime()
 	{
 		return System.currentTimeMillis();
 	}
 	
 	
+	@Doc("returns the total amount of memory in the JVM")
+	@Arg("")
 	public long getTotalMem()
 	{
 		return Runtime.getRuntime().totalMemory();
 	}
 	
 	
+	@Doc("returns the amount of free memory in the JVM")
+	@Arg("")
 	public long getFreeMem()
 	{
 		return Runtime.getRuntime().freeMemory();
 	}
 	
 	
+	@Doc("returns the maximum amount of memory that the JVM will attempt to use")
+	@Arg("")
 	public long getMaxMem()
 	{
 		return Runtime.getRuntime().maxMemory();
 	}
 	
 	
+	@Doc("returns the amount of memory currently being used")
+	@Arg("")
 	public long getUsedMem()
 	{
 		Runtime r = Runtime.getRuntime();
@@ -49,30 +65,40 @@ public class OS
 	}
 	
 	
+	@Doc("returns the host name")
+	@Arg("")
 	public String getHostName() throws Exception
 	{
 		return InetAddress.getLocalHost().getHostName();
 	}
 	
 	
+	@Doc("returns the OS name")
+	@Arg("")
 	public String getName()
 	{
 		return System.getProperty("os.name");
 	}
 	
 	
+	@Doc("returns the OS version")
+	@Arg("")
 	public String getVersion()
 	{
 		return System.getProperty("os.version");
 	}
 	
 	
+	@Doc("returns the OS architecture")
+	@Arg("")
 	public String getArch()
 	{
 		return System.getProperty("os.arch");
 	}
 	
 	
+	@Doc("returns the user name")
+	@Arg("")
 	public String getUserName()
 	{
 		return System.getProperty("user.name");
@@ -85,6 +111,8 @@ public class OS
 	}
 	
 	
+	@Doc("launches an external command")
+	@Arg({"cmd", "[arg]", "..."})
 	public void launch(Object ... args) throws Exception
 	{
 		String[] cmd = JsUtil.parseStringArray(args);
@@ -95,6 +123,8 @@ public class OS
 	}
 	
 	
+	@Doc("executes an external executable, waits for it to finish")
+	@Arg({"cmd", "[arg]", "..."})
 	public Object exec(Object ... args) throws Exception
 	{
 		String[] cmd = JsUtil.parseStringArray(args);
@@ -110,22 +140,6 @@ public class OS
 
 	public InlineHelp getHelp()
 	{
-		InlineHelp h = new InlineHelp("OS");
-		h.a("OS provides access to the following system functions:");
-		//
-		h.a("arch", "returns the OS architecture");
-		h.a("cpuCount", "returns number of processor cores");
-		h.a("exec(cmd, [arg], ...)", "executes an external executable, wait for it to finish");
-		h.a("freeMem", "returns the amount of free memory in the JVM");
-		h.a("hostName", "returns the host name");
-		h.a("launch(cmd, [arg], ...)", "executes an external executable without waiting for it to finish");
-		h.a("maxMem", "returns the maximum amount of memory that the JVM will attempt to use");
-		h.a("name", "returns the OS name");
-		h.a("time", "current time in milliseconds");
-		h.a("totalMem", "returns the total amount of memory in the JVM");
-		h.a("usedMem", "returns the amount of memory currently being used");
-		h.a("userName", "returns the user name");
-		h.a("version", "returns the OS version");
-		return h;
+		return InlineHelp.create(JsObjects.OS, getClass());
 	}
 }

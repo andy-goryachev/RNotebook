@@ -7,11 +7,14 @@ import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.JsFileScanner;
 import goryachev.notebook.js.classes.JsFileSyncTool;
+import goryachev.notebook.util.Arg;
+import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
 import java.io.File;
 import research.tools.filesync.FileSyncTool;
 
 
+@Doc("provides access to the filesystem")
 public class FS
 {
 	private File cur;
@@ -32,6 +35,8 @@ public class FS
 	}
 	
 	
+	@Doc("returns the current directory")
+	@Arg("")
 	public String pwd() throws Exception
 	{
 		return cur().getCanonicalPath();
@@ -39,6 +44,8 @@ public class FS
 	
 	
 	// TODO ls prints, listFiles returns an array
+	@Doc("lists files")
+	@Arg({"file,", "..."})
 	public String ls(Object ... files) throws Exception
 	{
 		boolean printDirName = false;
@@ -125,12 +132,16 @@ public class FS
 	}
 	
 	
+	@Doc("returns the amount of free space")
+	@Arg("")
 	public long getFreeSpace()
 	{
 		return getFreeSpace(cur());
 	}
 	
 	
+	@Doc("returns the amount of free space on the device")
+	@Arg("path")
 	public long getFreeSpace(Object x)
 	{
 		File f = JsUtil.parseFile(x);
@@ -138,22 +149,28 @@ public class FS
 	}
 	
 	
+	@Doc("returns the amount of total space")
+	@Arg("")
 	public long getTotalSpace()
 	{
 		return getTotalSpace(cur());
 	}
 	
 	
-	public long getTotalSpace(Object x)
+	@Doc("returns the amount of total space on the device")
+	@Arg("path")
+	public long getTotalSpace(Object path)
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(path);
 		return f.getTotalSpace();
 	}
 	
 	
-	public void touch(Object x) throws Exception
+	@Doc("updates the timestamp of a file, creating it if necessary")
+	@Arg("path")
+	public void touch(Object path) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(path);
 		if(!f.exists())
 		{
 			FileTools.createZeroLengthFile(f);
@@ -165,41 +182,53 @@ public class FS
 	}
 	
 	
-	public long lastModified(Object x) throws Exception
+	@Doc("returns the file timestamp")
+	@Arg("file")
+	public long lastModified(Object file) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(file);
 		return f.lastModified();
 	}
 	
 	
-	public boolean isFile(Object x) throws Exception
+	@Doc("tests whether the file denoted by this path is a normal file")
+	@Arg("path")
+	public boolean isFile(Object path) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(path);
 		return f.isFile();
 	}
 	
 	
-	public boolean isDirectory(Object x) throws Exception
+	@Doc("tests whether the file denoted by this path is a directory")
+	@Arg("path")
+	public boolean isDirectory(Object path) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(path);
 		return f.isDirectory();
 	}
 	
 	
-	public boolean isHidden(Object x) throws Exception
+	@Doc("tests whether the file denoted by this path is a hidden file")
+	@Arg("path")
+	public boolean isHidden(Object path) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(path);
 		return f.isHidden();
 	}
 	
 	
-	public boolean exists(Object x) throws Exception
+	@Doc("tests whether the file exists")
+	@Arg("file")
+	public boolean exists(Object file) throws Exception
 	{
-		File f = JsUtil.parseFile(x);
+		File f = JsUtil.parseFile(file);
 		return f.exists();
 	}
 	
 	
+	@Doc("creates a temporary file")
+	@Arg({"prefix", "suffix"})
 	public File tempFile(String prefix, String suffix) throws Exception
 	{
 		return File.createTempFile(prefix, suffix);
@@ -212,6 +241,8 @@ public class FS
 	}
 	
 	
+	@Doc("synchronizes target with the source directory, ignoring failures")
+	@Arg({"source", "target"})
 	public String sync(Object source, Object target) throws Exception
 	{		
 		JsFileSyncTool t = new JsFileSyncTool();
@@ -238,12 +269,16 @@ public class FS
 	}
 	
 	
+	@Doc("returns a new file synchronization tool")
+	@Arg("")
 	public JsFileSyncTool newSync()
 	{
 		return new JsFileSyncTool();
 	}
 	
 	
+	@Doc("returns a new file scanner tool")
+	@Arg("")
 	public JsFileScanner newFileScanner()
 	{
 		return new JsFileScanner();
@@ -252,24 +287,6 @@ public class FS
 	
 	public InlineHelp getHelp()
 	{
-		// JsObjects.FS
-		InlineHelp h = new InlineHelp("FS");
-		h.a("FS provides access to the filesystem:");
-		
-		h.a("exists(file)", "tests whether the file exists");
-		h.a("freeSpace, getFreeSpace(path)", "returns the amount of free space");
-		h.a("isDirectory(path)", "tests whether the file denoted by this path is a directory"); 
-		h.a("isFile(path)", "tests whether the file denoted by this path is a normal file");
-		h.a("isHidden(path)", "tests whether the file denoted by this path is a hidden file"); 
-		h.a("lastModified(file)", "returns the file timestamp");
-		h.a("ls([path],...)", "lists files");
-		h.a("newFileScanner()", "returns a new file scanner tool");
-		h.a("newSync()", "returns a new file synchronization tool");
-		h.a("pwd()", "returns the current directory");
-		h.a("sync(source, target)", "synchronizes target with the source directory, ignoring failures");
-		h.a("tempFile(prefix, suffix)", "creates a temporary file");
-		h.a("totalSpace, getTotalSpace(path)", "returns the amount of total space");
-		h.a("touch(file)", "updates the timestamp of a file, creating it if necessary");
-		return h;
+		return InlineHelp.create(JsObjects.FS, getClass());
 	}
 }
