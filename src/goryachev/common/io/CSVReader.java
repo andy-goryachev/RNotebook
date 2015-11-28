@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 
 
 public class CSVReader
@@ -21,6 +22,12 @@ public class CSVReader
 	{
 		this.rd = new BufferedReader(rd);
 		this.parser = new CSVParser();
+	}
+	
+	
+	public CSVReader(String text)
+	{
+		this(new StringReader(text));
 	}
 	
 	

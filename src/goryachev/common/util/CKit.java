@@ -20,6 +20,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -1998,5 +2000,35 @@ public class CKit
 	public static int round(double x)
 	{
 		return (int)Math.round(x);
+	}
+	
+	
+	/** collect public static fields from a class, of specified type */
+	public static <T> CSet<T> collectPublicStaticFields(Class<?> c, Class<T> type)
+	{
+		CSet<T> rv = new CSet();
+		for(Field f: c.getFields())
+		{
+			int m = f.getModifiers();
+			if(Modifier.isPublic(m) && Modifier.isStatic(m))
+			{
+				try
+				{
+					Object v = f.get(null);
+					if(v != null)
+					{
+						if(type.isAssignableFrom(v.getClass()))
+						{
+							rv.add((T)v);
+						}
+					}
+				}
+				catch(Exception e)
+				{
+					Log.err(e);
+				}
+			}
+		}
+		return rv;
 	}
 }

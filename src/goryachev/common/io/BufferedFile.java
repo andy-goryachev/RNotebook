@@ -1,5 +1,7 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.io;
+import goryachev.common.util.CKit;
+import goryachev.common.util.SB;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -182,8 +184,12 @@ public class BufferedFile
 
 	public synchronized int read() throws IOException
 	{
-		//Log.print();
-		
+		return readPrivate();
+	}
+	
+	
+	protected int readPrivate() throws IOException
+	{
 		Buffer b = getBufferAtMarker();
 		if(b == null)
 		{
@@ -197,6 +203,40 @@ public class BufferedFile
 			marker++;
 		}
 		return c;
+	}
+	
+	
+	/** unlike readLine(), this method reads UTF-8 string until EOF or newline.  Returns null when EOF. */
+	public synchronized String readText() throws Exception
+	{
+		SB sb = new SB(128);
+		for(;;)
+		{
+			int c = readPrivate();
+			if(c < 0)
+			{
+				if(sb.length() == 0)
+				{
+					return null;
+				}
+				else
+				{
+					return sb.toString();
+				}
+			}
+			else if(c == '\r')
+			{
+				// ignore, we do not support mac encoding with '\r' separators
+			}
+			else if(c == '\n')
+			{
+				return sb.toString();
+			}
+			else
+			{
+				sb.append((char)c);
+			}
+		}
 	}
 	
 
@@ -274,6 +314,13 @@ public class BufferedFile
 	}
 	
 	
+	public void writeText(String s) throws IOException
+	{
+		byte[] b = s.getBytes(CKit.CHARSET_UTF8);
+		write(b);
+	}
+	
+	
 	public synchronized String readString() throws IOException
 	{
 		int sz = readInt();
@@ -289,7 +336,7 @@ public class BufferedFile
 		{
 			byte[] b = new byte[sz+sz];
 			readFully(b);
-			StringBuilder sb = new StringBuilder(sz);
+			SB sb = new SB(sz);
 			int ix = 0;
 			for(int i=0; i<sz; i++)
 			{

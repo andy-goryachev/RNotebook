@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 
 
@@ -36,14 +38,20 @@ public class CReader
 	}
 	
 	
-	public CReader(String filename) throws Exception
+	public CReader(String text)
 	{
-		this(filename, CKit.CHARSET_UTF8);
+		super(new StringReader(text));
 	}
 	
 	
 	public CReader(InputStream in) throws Exception
 	{
 		this(in, CKit.CHARSET_UTF8);
+	}
+	
+	
+	public CReader(Reader rd)
+	{
+		super(rd);
 	}
 }

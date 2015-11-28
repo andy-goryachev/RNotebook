@@ -5,7 +5,7 @@ import goryachev.common.util.Base64;
 import goryachev.common.util.CComparator;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
-import goryachev.common.util.CUnique;
+import goryachev.common.util.CSet;
 import goryachev.common.util.Hex;
 import goryachev.common.util.Log;
 import goryachev.common.util.SB;
@@ -16,8 +16,8 @@ import java.net.URI;
 
 public class HtmlTools
 {
-	private static final Html4SymbolEntities html4SymbolEntities = new Html4SymbolEntities();
-	private static CUnique<String> htmlTags = new CUnique(Html4.allTags());
+	private static Html4SymbolEntities html4SymbolEntities;
+	private static CSet<String> htmlTags;
 	
 	
 	public static String safe(String s)
@@ -71,7 +71,17 @@ public class HtmlTools
 			}
 		}
 		
-		return html4SymbolEntities.lookupChar(token);
+		return html4SymbolEntities().lookupChar(token);
+	}
+	
+	
+	private static synchronized Html4SymbolEntities html4SymbolEntities()
+	{
+		if(html4SymbolEntities == null)
+		{
+			html4SymbolEntities = new Html4SymbolEntities();
+		}
+		return html4SymbolEntities;
 	}
 
 
@@ -286,11 +296,17 @@ public class HtmlTools
 		}
 		
 		s = CKit.toLowerCase(s);
-
-		synchronized(htmlTags)
+		return htmlTags().contains(s);
+	}
+	
+	
+	private static synchronized CSet<String> htmlTags()
+	{
+		if(htmlTags == null)
 		{
-			return htmlTags.contains(s);
+			htmlTags = CKit.collectPublicStaticFields(HTML4.class, String.class);
 		}
+		return htmlTags;
 	}
 	
 	

@@ -1,5 +1,6 @@
 // Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import java.security.DigestException;
 import java.security.MessageDigest;
 
 
@@ -149,6 +150,24 @@ public class CDigest
 	public byte[] digest()
 	{
 		return md.digest();
+	}
+	
+	
+    /**
+     * Completes the hash computation by performing final operations
+     * such as padding. The digest is reset after this call is made.
+     *
+     * @param buf output buffer for the computed digest
+     * @param off offset into the output buffer to begin storing the digest
+     * @param len number of bytes within buf allotted for the digest
+     *
+     * @return the number of bytes placed into <code>buf</code>
+     *
+     * @exception DigestException if an error occurs.
+     */
+	public int digest(byte[] buf, int off, int len) throws DigestException
+	{
+		return md.digest(buf, off, len);
 	}
 	
 	

@@ -1,36 +1,49 @@
 // Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.util.HashMap;
 
 
 /**
- * Static lookup facility.
+ * Service lookup.
  */
 public class Lookup
 {
-	private static HashMap<Object,HashMap<String,Object>> map = new HashMap();
-	
-	
-	public synchronized static Object find(Object type, String name)
+	public interface ServiceProvider<T>
 	{
-		HashMap<String,Object> m = map.get(type);
-		if(m != null)
+		public T createService();	
+	}
+	
+	//
+	
+	private static final CMap<Class,ServiceProvider> providers = new CMap();
+	
+	
+	/** lookup service */
+	public static <T> T getService(Class<T> type)
+	{
+		ServiceProvider<T> p = getProvider(type);
+		if(p == null)
 		{
-			return m.get(name);
+			throw new Error("Provider not registered for " + type);
 		}
-		return null;
+		
+		return p.createService();
 	}
 	
 	
-	public synchronized static Object register(Object type, String name, Object x)
+	private synchronized static <T> ServiceProvider<T> getProvider(Class<T> type)
 	{
-		HashMap<String,Object> m = map.get(type);
-		if(m == null)
+		return providers.get(type);
+	}
+	
+	
+	/** register service provider */
+	public synchronized static <T> void registerProvider(Class<T> type, ServiceProvider<T> provider)
+	{
+		if(providers.containsKey(type))
 		{
-			m = new HashMap();
-			map.put(type, m);
+			throw new Error("Provider already registered: " + type);
 		}
 		
-		return m.put(name, x);
+		providers.put(type, provider);
 	}
 }
