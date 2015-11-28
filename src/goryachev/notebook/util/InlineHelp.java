@@ -102,9 +102,13 @@ public class InlineHelp
 		Doc cd = c.getAnnotation(Doc.class);
 		
 		// TODO constructor? header?
-		if(cd != null)
+		if(cd == null)
 		{
-			h.a(cd.value());
+			h.a(type);
+		}
+		else
+		{
+			h.a(type + " " +cd.value());
 		}
 		
 		Method[] ms = c.getMethods();

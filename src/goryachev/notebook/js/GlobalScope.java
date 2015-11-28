@@ -38,12 +38,12 @@ public class GlobalScope
 		cx.evaluateString(this, initScript, "GlobalScope.init", 1, null);
 		
 		// top level objects
-		ScriptableObject.putProperty(this, "FS", new FS());
-		ScriptableObject.putProperty(this, "IO", new IO());
-		ScriptableObject.putProperty(this, "NET", new NET());
-		ScriptableObject.putProperty(this, "NB", new NB());
-		ScriptableObject.putProperty(this, "OS", new OS());
-		ScriptableObject.putProperty(this, "UT", new UT());
+		ScriptableObject.putProperty(this, JsObjects.FS, new FS());
+		ScriptableObject.putProperty(this, JsObjects.IO, new IO());
+		ScriptableObject.putProperty(this, JsObjects.NET, new NET());
+		ScriptableObject.putProperty(this, JsObjects.NB, new NB());
+		ScriptableObject.putProperty(this, JsObjects.OS, new OS());
+		ScriptableObject.putProperty(this, JsObjects.UT, new UT());
 	}
 	
 	

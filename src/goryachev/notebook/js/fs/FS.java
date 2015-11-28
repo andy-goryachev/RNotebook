@@ -3,6 +3,7 @@ package goryachev.notebook.js.fs;
 import goryachev.common.util.CSorter;
 import goryachev.common.util.FileTools;
 import goryachev.common.util.SB;
+import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.JsFileScanner;
 import goryachev.notebook.js.classes.JsFileSyncTool;
@@ -251,6 +252,7 @@ public class FS
 	
 	public InlineHelp getHelp()
 	{
+		// JsObjects.FS
 		InlineHelp h = new InlineHelp("FS");
 		h.a("FS provides access to the filesystem:");
 		

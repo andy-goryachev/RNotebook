@@ -99,6 +99,28 @@
           "text": "6"
         }
       ]
+    },
+    {
+      "type": "js",
+      "source": "print(\"5\" + \"1\")",
+      "sequence": 229,
+      "output": [
+        {
+          "type": "text",
+          "text": "51"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "source": "print(\"5\" - \"1\")",
+      "sequence": 230,
+      "output": [
+        {
+          "type": "text",
+          "text": "4"
+        }
+      ]
     }
   ]
 }

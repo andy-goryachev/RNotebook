@@ -2,12 +2,13 @@
 package goryachev.notebook.js.nb;
 import goryachev.notebook.RNotebookApp;
 import goryachev.notebook.js.JsEngine;
+import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.util.Arg;
 import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
 
 
-@Doc("NB provides operations with the notebook application:")
+@Doc("provides operations with the notebook application:")
 public class NB
 {
 	public NB()
@@ -47,14 +48,6 @@ public class NB
 	
 	public InlineHelp getHelp()
 	{
-//		InlineHelp h = new InlineHelp("NB");
-//		h.a("NB provides operations with the notebook application:");
-//		//
-//		h.a("NB.display(x)", "displays an object in the code output section");
-//		h.a("NB.getValue(key)", "returns a string value from the notebook storage");
-//		h.a("NB.setValue(key, val)", "stores a string value in the notebook storage");
-//		return h;
-		
-		return InlineHelp.create("NB", getClass());
+		return InlineHelp.create(JsObjects.NB, getClass());
 	}
 }

@@ -9,11 +9,11 @@
     {
       "type": "js",
       "source": "UT",
-      "sequence": 173,
+      "sequence": 184,
       "output": [
         {
           "type": "text",
-          "text": "UT offers helpful utility functions:\n   .computeDigest(algorithm, x)         - computes digest of a byte array or a file\n   .decodeBase64(string)                - decodes Base64-encoded string\n   .decodeHex(string)                   - decodes a hexadecimal string\n   .encodeBase64(bytes)                 - encodes a byte array using Base64\n   .encodeHex(bytes)                    - encodes a byte array into a hexadecimal string\n   .hslColor(hue,saturation,luminocity) - creates color from HSL values\n   .newByteBuffer(size)                 - returns a new BBuffer instance\n   .parseHtml(html)                     - parses HTML document\n   .sha256(x)                           - computes SHA-256 digest of a byte array or a file\n   .sha512(x)                           - computes SHA-512 digest of a byte array or a file\n   .sleep(ms)                           - sleeps for the specified number of milliseconds"
+          "text": "UT offers helpful utility functions\n   UT.computeDigest(alg,x)                - computes digest of a byte array or a file\n   UT.decodeBase64(string)                - decodes Base64-encoded string\n   UT.decodeHex(s)                        - decodes a hexadecimal string\n   UT.encodeBase64(b)                     - encodes a byte array using Base64\n   UT.encodeHex(b)                        - encodes a byte array into a hexadecimal string\n   UT.hslColor(hue,saturation,luminocity) - creates color from HSL values\n   UT.newByteBuffer(size)                 - returns a new BBuffer instance\n   UT.parseHtml(x)                        - parses html string into a Jsoup.Document\n   UT.secureRandom()                      - returns an instance of java.security.SecureRandom\n   UT.sha256(x)                           - computes SHA-256 digest of a byte array or a file\n   UT.sha512(x)                           - computes SHA-512 digest of a byte array or a file\n   UT.sleep(ms)                           - sleeps for the specified number of milliseconds"
         }
       ]
     },

@@ -4,16 +4,19 @@ import goryachev.common.util.Base64;
 import goryachev.common.util.HSLColor;
 import goryachev.common.util.Hex;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.util.Arg;
 import goryachev.notebook.util.DigestTools;
+import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
 import java.awt.Color;
 import java.io.File;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.mozilla.javascript.NativeArray;
 
 
+@Doc("offers helpful utility functions")
 public class UT
 {
 	public UT()
@@ -21,18 +24,24 @@ public class UT
 	}
 	
 	
+	@Doc("sleeps for the specified number of milliseconds")
+	@Arg("ms")
 	public void sleep(long ms) throws Exception
 	{
 		Thread.sleep(ms);
 	}
 	
 	
+	@Doc("creates color from HSL values")
+	@Arg({"hue", "saturation", "luminocity"})
 	public Color hslColor(float hue, float sat, float lum)
 	{
 		return HSLColor.toColor(hue, sat, lum);
 	}
 	
 	
+	@Doc("parses html string into a Jsoup.Document")
+	@Arg("x")
 	public Document parseHtml(Object x)
 	{
 		return Jsoup.parse(x.toString());
@@ -45,33 +54,43 @@ public class UT
 	}
 	
 	
+	@Doc("encodes a byte array using Base64")
+	@Arg("b")
 	public String encodeBase64(byte[] b)
 	{
 		return Base64.encode(b);
 	}
 	
 	
+	@Doc("decodes Base64-encoded string")
+	@Arg("string")
 	public byte[] decodeBase64(String s) throws Exception
 	{
 		return Base64.decode(s.trim());
 	}
 	
 	
+	@Doc("encodes a byte array into a hexadecimal string")
+	@Arg("b")
 	public String encodeHex(byte[] b)
 	{
 		return Hex.toHexString(b);
 	}
 	
 	
+	@Doc("decodes a hexadecimal string")
+	@Arg("s")
 	public byte[] decodeHex(String s) throws Exception
 	{
 		return Hex.parseByteArray(s.trim());
 	}
 	
 	
-	public BBuffer computeDigest(String name, Object x) throws Exception
+	@Doc("computes digest of a byte array or a file")
+	@Arg({"alg", "x"})
+	public BBuffer computeDigest(String alg, Object x) throws Exception
 	{
-		MessageDigest d = MessageDigest.getInstance(name);
+		MessageDigest d = MessageDigest.getInstance(alg);
 		
 		if(JsUtil.isConvertableToByteArray(x))
 		{
@@ -87,18 +106,32 @@ public class UT
 	}
 	
 	
+	@Doc("returns an instance of java.security.SecureRandom")
+	@Arg("")
+	public SecureRandom secureRandom()
+	{
+		return new SecureRandom();
+	}
+	
+	
+	@Doc("computes SHA-512 digest of a byte array or a file")
+	@Arg("x")
 	public BBuffer sha512(Object x) throws Exception
 	{
 		return computeDigest("sha-512", x);
 	}
 	
 	
+	@Doc("computes SHA-256 digest of a byte array or a file")
+	@Arg("x")
 	public BBuffer sha256(Object x) throws Exception
 	{
 		return computeDigest("sha-256", x);
 	}
 	
 	
+	@Doc("returns a new BBuffer instance")
+	@Arg("size")
 	public BBuffer newByteBuffer(int size)
 	{
 		return new BBuffer(size);
@@ -107,20 +140,6 @@ public class UT
 	
 	public InlineHelp getHelp()
 	{
-		InlineHelp h = new InlineHelp("");
-		h.a("UT offers helpful utility functions:");
-		//
-		h.a("computeDigest(algorithm, x)", "computes digest of a byte array or a file");
-		h.a("decodeBase64(string)", "decodes Base64-encoded string");
-		h.a("encodeBase64(bytes)", "encodes a byte array using Base64");
-		h.a("decodeHex(string)", "decodes a hexadecimal string");
-		h.a("encodeHex(bytes)", "encodes a byte array into a hexadecimal string");
-		h.a("hslColor(hue,saturation,luminocity)", "creates color from HSL values");
-		h.a("newByteBuffer(size)", "returns a new BBuffer instance");
-		h.a("parseHtml(html)", "parses HTML document");
-		h.a("sha256(x)", "computes SHA-256 digest of a byte array or a file");
-		h.a("sha512(x)", "computes SHA-512 digest of a byte array or a file");
-		h.a("sleep(ms)", "sleeps for the specified number of milliseconds");
-		return h;
+		return InlineHelp.create("UT", getClass());
 	}
 }
