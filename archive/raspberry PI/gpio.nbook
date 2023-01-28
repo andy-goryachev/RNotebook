@@ -1,0 +1,32 @@
+{
+  "type": "ResearchNotebook",
+  "version": 1,
+  "cells": [
+    {
+      "type": "js",
+      "source": "print(\"architecture\", OS.arch);\nprint(\"version\", OS.version);\nprint(\"cpu count\", OS.cpuCount);\nprint(\"free memory\", OS.freeMem);\nprint(\"total memory\", OS.totalMem);",
+      "sequence": 7,
+      "output": [
+        {
+          "type": "text",
+          "text": "architecture arm\nversion 3.18.11-v7+\ncpu count 4\nfree memory 7293968\ntotal memory 16252928"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "source": "\nThe following code attempts to control Raspberry Pi GPIO pins using pi4j package.\n"
+    },
+    {
+      "type": "js",
+      "source": "//importPackage(com.pi4j.io.gpio);\n\nprint(Packages.com.pi4j.io.gpio.GpioFactory.getDefaultProvider());\n\n// create gpio controller\ngpio = com.pi4j.io.gpio.GpioFactory.getInstance();\n\n// provision gpio pin #01 as an output pin and turn on\npin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, \"MyLED\", PinState.HIGH);\n\n// set shutdown state for this pin\npin.setShutdownOptions(true, PinState.LOW);\n\npin.low();\npin.high();\npin.toggle();\n\ngpio.shutdown();",
+      "sequence": 28,
+      "output": [
+        {
+          "type": "error",
+          "text": "EcmaError: TypeError: Cannot call property getDefaultProvider in object [JavaPackage com.pi4j.io.gpio.GpioFactory]. It is not a function, it is \"object\". (line #3)"
+        }
+      ]
+    }
+  ]
+}
