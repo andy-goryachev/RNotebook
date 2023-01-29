@@ -1,18 +1,17 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
-import goryachev.common.ui.ImageTools;
+import goryachev.common.log.Log;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CancelledException;
 import goryachev.common.util.Hex;
-import goryachev.common.util.Log;
 import goryachev.common.util.Parsers;
 import goryachev.common.util.RFileFilter;
-import goryachev.common.util.Rex;
 import goryachev.common.util.SB;
 import goryachev.common.util.SvgColorNames;
 import goryachev.common.util.UserException;
 import goryachev.notebook.js.classes.JImage;
 import goryachev.notebook.js.ut.BBuffer;
+import goryachev.swing.ImageTools;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
@@ -34,6 +33,7 @@ import org.mozilla.javascript.RhinoException;
 public class JsUtil
 {
 	private static final String INTERRUPTED = "Interrupted";
+	static Log log = Log.get("JsUtil");
 	private static SvgColorNames colorNames;
 	private static Object[] strokeCaps;
 	private static Object[] strokeJoins;
@@ -108,7 +108,7 @@ public class JsUtil
 
 	public static RuntimeException todo()
 	{
-		return new Rex("To be implemented...");
+		return new RuntimeException("To be implemented...");
 	}
 
 
@@ -116,7 +116,7 @@ public class JsUtil
 	{
 		if(x == null)
 		{
-			throw new Rex("expecting color");
+			throw new Error("expecting color");
 		}
 		
 		if(x instanceof Color)
@@ -268,7 +268,7 @@ public class JsUtil
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		return CKit.CHARSET_UTF8;

@@ -1,18 +1,18 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CBorder;
-import goryachev.common.ui.CMenuItem;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
+import goryachev.common.log.Log;
 import goryachev.common.util.CList;
-import goryachev.common.util.Log;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.image.JImageViewer;
 import goryachev.notebook.js.JsError;
+import goryachev.swing.CBorder;
+import goryachev.swing.CMenuItem;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
+import goryachev.swing.XAction;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -40,6 +40,7 @@ public class CodePanel
 	private CList<Object> results;
 	private CList<JComponent> resultComponents;
 	private static CBorder BORDER = new CBorder(2, 4);
+	static Log log = Log.get("CodePanel");
 	
 	
 	public CodePanel(NotebookPanel np, String text, int seq, CList<Object> results)
@@ -167,7 +168,7 @@ public class CodePanel
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		else if(r != null)
@@ -363,7 +364,7 @@ public class CodePanel
 			//m.add(new CMenuItem("Run", Accelerators.RUN_CELL, np.runCellAction));
 			m.add(new CMenuItem(NotebookIcons.Start, "Run in Place", Accelerators.RUN_IN_PLACE, np.runInPlaceAction));
 			//m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
-			m.add(new CMenuItem("Run in Debugger", CAction.TODO));
+			m.add(new CMenuItem("Run in Debugger", XAction.DISABLED));
 			m.add(new CMenuItem("Clear Result", np.clearResultsAction));
 		}
 		

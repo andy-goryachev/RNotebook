@@ -1,8 +1,8 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CScrollPane;
-import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
+import goryachev.swing.CScrollPane;
+import goryachev.swing.Theme;
 import java.awt.Component;
 import java.awt.Graphics;
 import javax.swing.JViewport;

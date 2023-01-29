@@ -1,12 +1,9 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.test;
 import goryachev.common.util.CJob;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CSorter;
-import goryachev.common.util.Log;
-import goryachev.common.util.log.ConsoleLogWriter;
-import goryachev.common.util.log.LogWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,9 +15,9 @@ import java.util.Vector;
 
 public class TestRunner
 {
-	private final CList<Class> classes = new CList();
+	private final CList<Class> classes = new CList<>();
 	private int failed;
-	protected final Vector<TestCase> cases = new Vector();
+	protected final Vector<TestCase> cases = new Vector<>();
 	protected long started;
 	protected long ended;
 	
@@ -57,10 +54,7 @@ public class TestRunner
 	
 	public static void initLog()
 	{
-		LogWriter wr = new ConsoleLogWriter("console");
-		wr.setAsync(false);
-		Log.addWriter(wr);
-		Log.addErrorWriter(wr);
+		// TODO
 	}
 
 
@@ -72,6 +66,7 @@ public class TestRunner
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	protected void checkConstructor(Class c)
 	{
 		try
@@ -86,7 +81,7 @@ public class TestRunner
 		}
 		catch(Exception e)
 		{
-			throw new TestException("Test class must define a single no-arg constructor: " + CKit.simpleName(c), e);
+			throw new TestException("Test class must define a single no-arg constructor: " + CKit.getSimpleName(c), e);
 		}
 	}
 	
@@ -105,11 +100,11 @@ public class TestRunner
 					{
 						if(needsStatic)
 						{
-							throw new TestException("method " + CKit.simpleName(c) + "." + m.getName() + "() must be static");
+							throw new TestException("method " + CKit.getSimpleName(c) + "." + m.getName() + "() must be static");
 						}
 						else
 						{
-							throw new TestException("method " + CKit.simpleName(c) + "." + m.getName() + "() must not be static");
+							throw new TestException("method " + CKit.getSimpleName(c) + "." + m.getName() + "() must not be static");
 						}
 					}
 
@@ -130,13 +125,13 @@ public class TestRunner
 
 	protected void executeTests()
 	{
-		CList<CJob> jobs = new CList();
+		CList<CJob> jobs = new CList<>();
 		
 		started = System.currentTimeMillis();
 		
 		for(final Class c: classes)
 		{
-			CJob job = new CJob("test " + CKit.simpleName(c))
+			CJob job = new CJob("test " + CKit.getSimpleName(c))
 			{
 				protected void process() throws Exception
 				{
@@ -162,11 +157,11 @@ public class TestRunner
 	
 	protected void executeTestClass(CJob parent, final Class c) throws Exception
 	{
-		final CList<RunEntry> beforeAll = new CList();
-		final CList<RunEntry> before = new CList();
-		final CList<RunEntry> tests = new CList();
-		final CList<RunEntry> after = new CList();
-		final CList<RunEntry> afterAll = new CList();
+		final CList<RunEntry> beforeAll = new CList<>();
+		final CList<RunEntry> before = new CList<>();
+		final CList<RunEntry> tests = new CList<>();
+		final CList<RunEntry> after = new CList<>();
+		final CList<RunEntry> afterAll = new CList<>();
 		
 		extract(c, beforeAll, BeforeClass.class, true);
 		extract(c, before, Before.class, false);
@@ -176,7 +171,7 @@ public class TestRunner
 
 		if(tests.size() == 0)
 		{
-			System.out.println("No tests in " + CKit.simpleName(c));
+			System.out.println("No tests in " + CKit.getSimpleName(c));
 			return;
 		}
 			
@@ -185,12 +180,12 @@ public class TestRunner
 			m.invoke(null);
 		}
 		
-		CList<CJob> jobs = new CList();
+		CList<CJob> jobs = new CList<>();
 		
 		// individual tests
 		for(final RunEntry m: tests)
 		{
-			CJob job = new CJob(parent, "test " + CKit.simpleName(c) + "." + m)
+			CJob job = new CJob(parent, "test " + CKit.getSimpleName(c) + "." + m)
 			{
 				protected void process() throws Exception
 				{
@@ -212,7 +207,7 @@ public class TestRunner
 	
 	protected void executeInstance(Class c, RunEntry testMethod, CList<RunEntry> before, CList<RunEntry> after)
 	{
-		String name = CKit.simpleName(c) + "." + testMethod;
+		String name = CKit.getSimpleName(c) + "." + testMethod;
 		final TestCase tc = new TestCase(name);
 		cases.add(tc);
 		tc.started();
@@ -377,7 +372,7 @@ public class TestRunner
 			}
 			else if(expected != null)
 			{
-				throw new Exception("This test case is expected to throw an " + CKit.simpleName(expected));
+				throw new Exception("This test case is expected to throw an " + CKit.getSimpleName(expected));
 			}
 		}
 	

@@ -1,20 +1,20 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CCheckBox;
-import goryachev.common.ui.CDialog;
-import goryachev.common.ui.CPanel;
 import goryachev.common.ui.ContactSupport;
-import goryachev.common.ui.InfoField;
-import goryachev.common.ui.Menus;
-import goryachev.common.ui.Panels;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
-import goryachev.common.ui.icons.CIcons;
-import goryachev.common.ui.options.BooleanOption;
 import goryachev.common.util.ProductInfo;
-import goryachev.common.util.TXT;
+import goryachev.i18n.Menus;
+import goryachev.i18n.TXT;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.CCheckBox;
+import goryachev.swing.CDialog;
+import goryachev.swing.CPanel;
+import goryachev.swing.InfoField;
+import goryachev.swing.Panels;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
+import goryachev.swing.icons.CIcons;
+import goryachev.swing.options.BooleanOption;
 import java.awt.Component;
 
 

@@ -1,12 +1,15 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package test.nb;
+import goryachev.common.log.Log;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;
-import goryachev.common.util.Log;
 
 
 public class TestLog
 {
+	static Log log = Log.get("TestLog");
+	
+
 	public static void main(String args[])
 	{
 		TF.run();
@@ -16,6 +19,6 @@ public class TestLog
 	@Test
 	public void test() throws Exception
 	{
-		Log.err(new Exception());
+		log.error(new Exception());
 	}
 }

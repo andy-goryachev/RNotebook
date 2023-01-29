@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Collection;
 
@@ -141,7 +141,8 @@ public class ObjectCounter<T>
 	
 	public int hashCode()
 	{
-		return CKit.hashCode(ObjectCounter.class, counts);
+		int h = FH.hash(ObjectCounter.class);
+		return FH.hash(h, counts);
 	}
 
 

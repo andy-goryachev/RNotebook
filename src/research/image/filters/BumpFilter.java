@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package research.image.filters;
-import goryachev.common.util.img.jhlabs.ImageMath;
-import goryachev.common.util.img.jhlabs.WholeImageFilter;
+import goryachev.swing.img.jhlabs.ImageMath;
+import goryachev.swing.img.jhlabs.WholeImageFilter;
 import java.awt.Rectangle;
 
 

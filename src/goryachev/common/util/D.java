@@ -1,21 +1,17 @@
-// Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2007-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.Map;
-import javax.swing.text.AttributeSet;
+import java.util.function.Function;
 
 
 /** debug printing */
 // TODO move conversion to Dump
 public class D
 {
-	private static Boolean eclipseDetected;
-	
-	
-	// convert milliseconds to MM:SS or HHH:MM:SS String
+	/** convert milliseconds to MM:SS or HHH:MM:SS String */
 	public static String msToString(long ms)
 	{
 		StringBuffer sb = new StringBuffer();
@@ -118,9 +114,9 @@ public class D
 		{
 			listLongArray((long[])x);
 		}
-		else if(x instanceof AttributeSet)
+		else if(x instanceof double[])
 		{
-			listAttributeSet((AttributeSet)x);
+			listDoubleArray((double[])x);
 		}
 		else 
 		{
@@ -134,7 +130,7 @@ public class D
 		SB sb = new SB();
 		sb.append(a.size());
 		
-		CList<Object> keys = new CList(a.keySet());
+		CList<Object> keys = new CList<>(a.keySet());
 		CSorter.sort(keys);
 		
 		for(Object key: keys)
@@ -215,36 +211,54 @@ public class D
 	private static void listLongArray(long[] a)
 	{
 		SB sb = new SB();
-		sb.append(a.length);
+		sb.a("[");
+		sb.a(a.length);
+		sb.a("]{");
 		
+		boolean comma = false;
 		for(long d: a)
 		{
-			sb.append("\n");
-			sb.append("    ");
+			if(comma)
+			{
+				sb.a(", ");
+			}
+			else
+			{
+				comma = true;
+			}
 			sb.append(d);
 		}
+		sb.a("}");
 
 		log(sb.toString(), 2);
 	}
 	
 	
-	private static void listAttributeSet(AttributeSet as)
+	private static void listDoubleArray(double[] a)
 	{
 		SB sb = new SB();
-		sb.append(as.getAttributeCount());
+		sb.a("[");
+		sb.a(a.length);
+		sb.a("]{");
 		
-		Enumeration en = as.getAttributeNames();
-		while(en.hasMoreElements())
+		boolean comma = false;
+		for(double d: a)
 		{
-			Object att = en.nextElement();
-			sb.append("\n");
-			sb.append("    ");
-			sb.append(att);
+			if(comma)
+			{
+				sb.a(", ");
+			}
+			else
+			{
+				comma = true;
+			}
+			sb.append(d);
 		}
+		sb.a("}");
 
 		log(sb.toString(), 2);
 	}
-
+	
 	
 	public static void trace()
 	{
@@ -306,41 +320,9 @@ public class D
 	}
 	
 	
-	private static void log(String msg, int depth)
-	{
-		StackTraceElement t = new Throwable().getStackTrace()[depth];
-		String className = getClassName(t);
-		System.out.println(className + "." + t.getMethodName() + " " + msg);
-	}
-
-
-//	public static int hashCode(Object ... xs)
-//	{
-//		return hashCodeArray(xs);
-//	}
-//
-//
-//	public static int hashCodeArray(Object[] xs)
-//	{
-//		int c = 0;
-//		for(Object x: xs)
-//		{
-//			if(c == 0)
-//			{
-//				c = x.hashCode();
-//			}
-//			else
-//			{
-//				c ^= x.hashCode();
-//			}
-//		}
-//		return c;
-//	}
-	
-	
 	public static void dump(byte[] b)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
 			if(b == null)
 			{
@@ -348,7 +330,7 @@ public class D
 			}
 			else
 			{
-				print("\n" + Hex.toHexStringAscii(b));
+				print("\n" + Hex.toHexStringASCII(b));
 			}
 		}
 	}
@@ -356,7 +338,7 @@ public class D
 	
 	public static void dump(String s, byte[] b)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
 			if(b == null)
 			{
@@ -364,7 +346,7 @@ public class D
 			}
 			else
 			{
-				print(s, "\n" + Hex.toHexStringAscii(b));
+				print(s, "\n" + Hex.toHexStringASCII(b));
 			}
 		}
 	}
@@ -372,83 +354,34 @@ public class D
 	
 	public static void describe(Object x)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
 			print(Dump.describe(x));
 		}
 	}
 	
 	
-	// TODO what is it?
-	public static void where(Object ... ss)
-	{
-		if(isEclipse())
-		{
-			StackTraceElement[] tr = new Throwable().getStackTrace();
-			int start = 1;
-			int max = 5;
-			boolean space = false;
-			
-			SB sb = new SB();
-			if(ss.length > 0)
-			{
-				space = true;
-				
-				for(Object x: ss)
-				{
-					sb.a(String.valueOf(x));
-					sb.a(' ');
-				}
-				
-				sb.nl();
-			}
-			
-			for(int i=0; i<max; i++)
-			{
-				int ix = start + i;
-				if(ix >= tr.length)
-				{
-					break;
-				}
-				
-				StackTraceElement t = tr[ix];
-				if(space)
-				{
-					sb.a("  ");
-				}
-				else
-				{
-					space = true;
-				}
-				
-				sb.a(getClassName(t) + "." + t.getMethodName() + " (" + t.getFileName() + ":" + t.getLineNumber() + ")\n");
-			}
-			System.out.println(sb);
-		}
-	}
-	
-	
 	public static void pp(Object a)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
-			System.out.print(a == null ? "<null>" : a.toString());
+			System.err.print(a == null ? "<null>" : a.toString());
 		}
 	}
 	
 	
 	public static void p(Object a)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
-			System.out.println(a == null ? "<null>" : a.toString());
+			System.err.println(a == null ? "<null>" : a.toString());
 		}
 	}
 	
 	
 	public static void p(Object ... a)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
 			SB sb = new SB();
 			for(Object x: a)
@@ -459,26 +392,100 @@ public class D
 				}
 				sb.append(x);
 			}
-			System.out.println(sb.toString());
+			System.err.println(sb.toString());
+		}
+	}
+	
+	
+	/** when running in eclipse, prints formatted string to stderr */
+	public static void f(String fmt, Object ... args)
+	{
+		if(CKit.isEclipse())
+		{
+			System.err.println(String.format(fmt, args));
 		}
 	}
 	
 	
 	public static void simpleName(Object x)
 	{
-		if(isEclipse())
+		if(CKit.isEclipse())
 		{
-			System.out.println(Dump.simpleName(x));
+			System.err.println(Dump.simpleName(x));
+		}
+	}
+	
+
+	public static void injectException()
+	{
+		if(true)
+		{
+			throw new RuntimeException();
+		}
+	}
+
+
+	private static void log(String msg, int depth)
+	{
+		StackTraceElement t = new Throwable().getStackTrace()[depth];
+		String className = getClassName(t);
+		String s = className + "." + t.getMethodName() + ":" + t.getLineNumber() + " " + msg;
+		System.err.println(s);
+	}
+	
+	
+	/** list content of a collection-type or array-type object */
+	public static <T> void list(Iterable<T> iterable, Function<T,String> f)
+	{
+		if(iterable == null)
+		{
+			print("null");
+		}
+		else
+		{
+			SB sb = new SB();
+			for(T item: iterable)
+			{
+				try
+				{
+					String s = f.apply(item);
+					sb.a(s);
+				}
+				catch(Throwable e)
+				{
+					sb.a("ERR: ").a(CKit.stackTrace(e));
+				}
+				sb.nl();
+			}
+			print(sb);
 		}
 	}
 	
 	
-	public static boolean isEclipse()
+	/** dumps an object in a JSON-like format */
+	public static void dump(Object x)
 	{
-		if(eclipseDetected == null)
+		dump(null, " ", false, x);
+	}
+	
+	
+	/** dumps an object in a JSON-like format */
+	public static void dump(String name, String indent, boolean prettyPrint, Object x)
+	{
+		SB sb = new SB();
+		if(name != null)
 		{
-			eclipseDetected = new File(".project").exists() && new File(".classpath").exists();
+			sb.append(name).append(": ");
 		}
-		return eclipseDetected;
+		
+		new JsonDump(sb, indent, prettyPrint, x).print();
+		print(sb);
+	}
+	
+	
+	/** throws an Error.  used in debugging to avoid 'unreachable code' warning */
+	public static void err()
+	{
+		throw new Error();
 	}
 }

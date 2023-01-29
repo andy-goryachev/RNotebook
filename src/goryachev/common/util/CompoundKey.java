@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 
 
@@ -59,7 +59,7 @@ public class CompoundKey
 	{
 		if(hash == 0)
 		{
-			hash = CKit.hashCodeArray(keys);
+			hash = FH.hash(keys);
 		}
 		return hash;
 	}

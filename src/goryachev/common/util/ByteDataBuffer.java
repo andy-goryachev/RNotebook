@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2009-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.EOFException;
 import java.io.InputStream;
@@ -31,6 +31,13 @@ public class ByteDataBuffer
 	{
 		buffer = reuse;
 		size = reuse.length;
+	}
+	
+	
+	public void clear()
+	{
+		position = 0;
+		size = 0;
 	}
 	
 	

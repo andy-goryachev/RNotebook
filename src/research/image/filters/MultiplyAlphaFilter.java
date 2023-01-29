@@ -1,7 +1,7 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image.filters;
 import goryachev.common.util.CKit;
-import goryachev.common.util.img.jhlabs.AbstractBufferedImageOp;
+import goryachev.swing.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;

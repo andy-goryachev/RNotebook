@@ -2,7 +2,6 @@
 package goryachev.notebook.js.io;
 import goryachev.common.io.CReader;
 import goryachev.common.io.CSVReader;
-import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CKit;
 import goryachev.notebook.js.JsObjects;
 import goryachev.notebook.js.JsUtil;
@@ -10,6 +9,7 @@ import goryachev.notebook.js.classes.DTable;
 import goryachev.notebook.util.Arg;
 import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
+import goryachev.swing.ImageTools;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.charset.Charset;

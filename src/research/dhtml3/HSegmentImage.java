@@ -1,15 +1,16 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml3;
-import goryachev.common.ui.ImageTools;
+import goryachev.common.log.Log;
 import goryachev.common.util.Base64;
-import goryachev.common.util.Log;
 import goryachev.common.util.SB;
+import goryachev.swing.ImageTools;
 import java.awt.image.BufferedImage;
 
 
 public class HSegmentImage
     extends HAbstractSegment
 {
+	static Log log = Log.get("HSegmentImage");
 	private final byte[] bytes;
 	
 	
@@ -28,7 +29,7 @@ public class HSegmentImage
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 			return null;
 		}
 	}

@@ -8,7 +8,7 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-import goryachev.common.ui.UI;
+import goryachev.swing.UI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -584,21 +584,6 @@ public class RSyntaxTextArea
 			return;
 		}
 
-		// Make sure there is a system clipboard, and that we can write
-		// to it.
-		SecurityManager sm = System.getSecurityManager();
-		if(sm != null)
-		{
-			try
-			{
-				sm.checkSystemClipboardAccess();
-			}
-			catch(SecurityException se)
-			{
-				UIManager.getLookAndFeel().provideErrorFeedback(null);
-				return;
-			}
-		}
 		Clipboard cb = getToolkit().getSystemClipboard();
 
 		// Create the RTF selection.

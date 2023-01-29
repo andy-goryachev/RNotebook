@@ -1,13 +1,14 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
-import goryachev.common.ui.BackgroundThread;
+import goryachev.common.log.Log;
 import goryachev.common.util.CList;
-import goryachev.common.util.Log;
+import goryachev.swing.BackgroundThread;
 
 
 public abstract class JsThread
     extends BackgroundThread
 {
+	static Log log = Log.get("JsThread");
 	private CList<Runnable> onFinish;
 
 
@@ -37,7 +38,7 @@ public abstract class JsThread
 				}
 				catch(Throwable e)
 				{
-					Log.err(e);
+					log.error(e);
 				}
 			}
 		}

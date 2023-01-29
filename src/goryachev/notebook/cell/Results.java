@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.Theme;
 import goryachev.notebook.Styles;
 import goryachev.notebook.image.JImageViewer;
 import goryachev.notebook.js.JsError;
@@ -12,6 +11,7 @@ import goryachev.notebook.js.classes.JImageBuilder;
 import goryachev.notebook.js.os.ProcessMonitor;
 import goryachev.notebook.plot.DPlotViewer;
 import goryachev.notebook.table.DTableViewer;
+import goryachev.swing.Theme;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;

@@ -1,15 +1,15 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.UI;
-import goryachev.common.ui.options.IntOption;
-import goryachev.common.ui.options.StringListOption;
+import goryachev.common.log.Log;
 import goryachev.common.util.CList;
-import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.js.nb.NEmbeddedStorage;
 import goryachev.notebook.storage.EmbeddedStorage;
+import goryachev.swing.Application;
+import goryachev.swing.UI;
+import goryachev.swing.options.IntOption;
+import goryachev.swing.options.StringListOption;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,7 +20,7 @@ public class RNotebookApp
 {
 	public static final String VERSION = "0.04.16";
 	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
-	public static final String WEB_SITE = "http://goryachev.com/products/rnotebook";
+	public static final String WEB_SITE = "https://goryachev.com/products/rnotebook";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);
 	public static final int REMINDER_COUNT = 60;
@@ -137,7 +137,7 @@ public class RNotebookApp
 				}
 				catch(Exception e)
 				{
-					Log.err(e);
+					log.error(e);
 				}
 			}
 		}

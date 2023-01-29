@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
 import goryachev.common.util.CList;
-import goryachev.common.util.Noobfuscate;
+import goryachev.common.util.Keep;
 import java.util.Arrays;
 
 
-@Noobfuscate
+@Keep
 public class DTable
 {
 	protected CList<String> columns;

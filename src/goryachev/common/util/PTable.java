@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 
 
@@ -100,7 +100,7 @@ public class PTable
 		for(int c=0; c<cells.length; c++)
 		{
 			Object v = cells[c];
-			setValueAt(v, r, c);
+			setValueAt(r, c, v);
 		}
 	}
 	
@@ -111,12 +111,12 @@ public class PTable
 		for(int c=0; c<cells.length; c++)
 		{
 			Object v = cells[c];
-			setValueAt(v, r, c);
+			setValueAt(r, c, v);
 		}
 	}
 	
 	
-	public Object setValueAt(Object value, int row, int col)
+	public Object setValueAt(int row, int col, Object value)
 	{
 		ensureColumn(col);
 		
@@ -212,7 +212,7 @@ public class PTable
 				{
 					for(int c=0; c<vss.length; c++)
 					{
-						setValueAt(vss[c], ix, c);
+						setValueAt(ix, c, vss[c]);
 					}
 				}
 			}
@@ -271,7 +271,7 @@ public class PTable
 		for(int c=getColumnCount()-1; c>=0; --c)
 		{
 			Object a = getColumn(c);
-			h ^= CKit.hashCodeObject(a);
+			h = FH.hash(h, a);
 		}
 		
 		for(int r=getRowCount()-1; r>=0; --r)
@@ -279,7 +279,7 @@ public class PTable
 			for(int c=getColumnCount()-1; c>=0; --c)
 			{
 				Object a = getValueAt(r, c);
-				h ^= CKit.hashCodeObject(a);
+				h = FH.hash(h, a);
 			}
 		}
 		

@@ -1,8 +1,13 @@
-// Copyright (c) 2005-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2005-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import java.lang.reflect.Array;
 import java.util.Collection;
 
 
+/** 
+ * Various helpful text utility methods.
+ * Unfortunately, most of them do not handle supplementary unicode code points.
+ */  
 public class TextTools
 {
 	public interface SeparatorFunction
@@ -13,17 +18,30 @@ public class TextTools
 	public static final SeparatorFunction ANY_BLANK = new SeparatorFunction() { public boolean isSeparator(char c) { return CKit.isBlank(c); }};
 	public static final SeparatorFunction BLANK_OR_PUNCT = new SeparatorFunction() { public boolean isSeparator(char c) { return isBlankOrPunctuation(c); }};
 	
-	
 	//
-	
 
 	// attempt to trim on the word boundary up to max characters
 	public static String trimNicely(String s, int max)
+	{
+		try
+		{
+			return trimNicely_FIX(s, max);
+		}
+		catch(Exception e)
+		{
+			return s;
+		}
+	}
+	// FIX throws an exception
+	// in the middle of this: "- https://icons.theforgesmith.com/"
+	private static String trimNicely_FIX(String s, int max)
 	{
 		if(s == null)
 		{
 			return "";
 		}
+		
+		s = s.trim();
 		
 		if(s.length() < max)
 		{
@@ -105,6 +123,60 @@ public class TextTools
 				}
 			}
 		}
+		return -1;
+	}
+	
+	
+	public static int skipWhitespace(String text, int start)
+	{
+		if(text == null)
+		{
+			return -1;
+		}
+		else if(start < 0)
+		{
+			return -1;
+		}
+		
+		int sz = text.length();
+		for(int i=start; i<sz; i++)
+		{
+			if(CKit.isNotBlank(text.charAt(i)))
+			{
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	public static int skipNonWhitespace(String text)
+	{
+		return skipNonWhitespace(text, 0);
+	}
+	
+	
+	public static int skipNonWhitespace(String text, int start)
+	{
+		if(text == null)
+		{
+			return -1;
+		}
+		else if(start < 0)
+		{
+			return -1;
+		}
+		
+		int sz = text.length();
+		for(int i=start; i<sz; i++)
+		{
+			if(CKit.isBlank(text.charAt(i)))
+			{
+				return i;
+			}
+		}
+		
 		return -1;
 	}
 	
@@ -244,8 +316,8 @@ public class TextTools
 		return false;
 	}
 	
-	
 
+	/** returns true if the character is non-word punctuation that does not contribute to the meaning */
 	public static boolean isTrimmablePunctuation(int c)
 	{
 		switch(c)
@@ -281,6 +353,7 @@ public class TextTools
 		case '/':
 		case '\\':
 		case '-':
+		case '*':
 			
 		case '"':
 		case '\'':
@@ -363,6 +436,28 @@ public class TextTools
 		case '‧': // middle dot
 		case '׃': // hebrew colon
 		case '׀': // hebrew paseq
+		case '‥': // japanese ellipsis
+		case '！': // japanese
+		case '：': // japanese
+		case '？': // japanese
+		case '·': // korean
+			return true;
+		}
+
+		return false;
+	}
+	
+	
+	/** returns true if the character signifies end of a sentence */
+	public static boolean isSentenceEnd(int c)
+	{
+		switch(c)
+		{
+		case '.':
+		case '…':
+		case '!':
+		case '?':
+		case '。': // full stop
 		case '‥': // japanese ellipsis
 		case '！': // japanese
 		case '：': // japanese
@@ -688,6 +783,40 @@ public class TextTools
 	}
 	
 	
+	public static int lastIndexOfWhitespace(String s, int pos)
+	{
+		if(s != null)
+		{
+			int len = s.length();
+			if(pos < 0)
+			{
+				throw new IllegalArgumentException("pos<0");
+			}
+			else if(pos >= len)
+			{
+				pos = len;
+			}
+			
+			for(int i=pos-1; i>=0; i--)
+			{
+				char c = s.charAt(i);
+				if(CKit.isBlank(c))
+				{
+					return i+1;
+				}
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	public static int lastIndexOfWhitespace(String s)
+	{
+		return lastIndexOfWhitespace(s, Integer.MAX_VALUE);
+	}
+	
+	
 	public static int indexOfSeparator(String s, int pos, SeparatorFunction f)
 	{
 		int len = s.length();
@@ -727,7 +856,7 @@ public class TextTools
 	/** split to words using whitespace and word-delimiting punctuation */
 	public static CList<String> splitWords(String text)
 	{
-		CList<String> list = new CList();
+		CList<String> list = new CList<>();
 		if(text != null)
 		{
 			int start = 0;
@@ -815,6 +944,7 @@ public class TextTools
 		int start = 0;
 		for(;;)
 		{
+			// FIX suboptimal
 			int ix = sb.indexOfIgnoreCase(pattern, start);
 			if(ix < 0)
 			{
@@ -858,7 +988,7 @@ public class TextTools
 	}
 
 
-	protected static int indexOfIgnoreCase(String text, String pattern, int fromIndex)
+	public static int indexOfIgnoreCase(CharSequence text, String pattern, int fromIndex)
 	{
 		int textLen = text.length();
 		int patternLen = pattern.length();
@@ -908,6 +1038,15 @@ public class TextTools
 	/** educated guess, may fail with some numbers */
 	public static boolean isNumber(String s)
 	{
+		if(CKit.isBlank(s))
+		{
+			return false;
+		}
+		
+		boolean number = false;
+		boolean exp = false;
+		int sign = 0;
+		
 		for(int i=0; i<s.length(); i++)
 		{
 			char c = s.charAt(i);
@@ -923,23 +1062,47 @@ public class TextTools
 			case '7':
 			case '8':
 			case '9':
+				number = true;
+				break;
 			case '-':
 			case '+':
+				sign++;
+				break;
 			case '.':
 			case ',':
-			case ' ':
+				break;
 			case 'e':
 			case 'E':
 			case 'f':
 			case 'F':
 			case 'g':
 			case 'G':
+				if(exp)
+				{
+					return false;
+				}
+				else
+				{
+					exp = true;
+				}
 				break;
 			default:
 				return false;
 			}
 		}
-		return true;
+		
+		if(sign > 2)
+		{
+			return false;
+		}
+		else if(number)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	
@@ -1014,5 +1177,215 @@ public class TextTools
 			return (text.indexOf(c) >= 0);
 		}
 		return false;
+	}
+
+
+	/** returns true if text contains any whitespace character */
+	public static boolean containsWhitespace(String text)
+	{
+		if(text != null)
+		{
+			int sz = text.length();
+			for(int i=0; i<sz; i++)
+			{
+				char c = text.charAt(i);
+				if(CKit.isBlank(c))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	private static String printable(int c)
+	{
+		switch(c)
+		{
+		case '\b': return "\\b";
+		case '\f': return "\\f";
+		case '\n': return "\\n";
+		case '\r': return "\\r";
+		case '\t': return "\\t";
+		case '\\': return "\\\\";
+		}
+		return null;
+	}
+	
+	
+	/** escape control characters (<0x20) and backslash for debugging. */
+	public static String escapeControlsForPrintout(String text)
+	{
+		if(text == null)
+		{
+			return null;
+		}
+		
+		SB sb = new SB(text.length() + 64);
+		text.codePoints().forEach((c) ->
+		{
+			if(c < ' ')
+			{
+				String s = printable(c);
+				if(s == null)
+				{
+					sb.append(Hex.toHexString((short)c));
+				}
+				else
+				{
+					sb.append(s);
+				}
+			}
+			else
+			{
+				sb.appendCodePoint(c);
+			}
+		});
+		return sb.toString();
+	}
+	
+	
+	/** creates a single String[], using Object.toString(), skipping nulls, and recursively unpacking Collection's and arrays */ 
+	public static String[] array(Object ... items)
+	{
+		CList<String> rv = new CList(128);
+		array(rv, items);
+		return CKit.toArray(rv);
+	}
+	
+	
+	private static void array(CList<String> list, Object x)
+	{
+		CKit.checkCancelled();
+		
+		if(x == null)
+		{
+			return;
+		}
+		
+		if(x.getClass().isArray())
+		{
+			int sz = Array.getLength(x);
+			for(int i=0; i<sz; i++)
+			{
+				array(list, Array.get(x, i));
+			}
+		}
+		else if(x instanceof Collection)
+		{
+			for(Object item: (Collection)x)
+			{
+				array(list, item);
+			}
+		}
+		else
+		{
+			list.add(x.toString());
+		}
+	}
+	
+	
+	public static int indexOf(CharSequence text, CharSequence pattern)
+	{
+		return indexOf(text, pattern, 0);
+	}
+	
+	
+	public static int indexOf(CharSequence text, CharSequence pattern, int start)
+	{
+		int len = pattern.length();
+		if(start >= text.length())
+		{
+			return (len == 0 ? text.length() : -1);
+		}
+		else if(start < 0)
+		{
+			start = 0;
+		}
+		
+		if(len == 0)
+		{
+			return start;
+		}
+
+		int mx = text.length() - len;
+		char ch0 = pattern.charAt(0);
+
+		for(int i=start; i<=mx; i++)
+		{
+			if(text.charAt(i) != ch0)
+			{
+				while((++i <= mx) && (text.charAt(i) != ch0))
+				{ 
+				}
+			}
+
+			if(i <= mx)
+			{
+				int j = i + 1;
+				int end = j + len - 1;
+				for(int k=1; (j<end) && (text.charAt(j) == pattern.charAt(k)); j++,k++)
+				{
+				}
+
+				if(j == end)
+				{
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	
+	public static boolean isWhiteSpaceOrCtrl(char c)
+	{
+		if(c <= ' ')
+		{
+			return true;
+		}
+		return isWhitespace(c);
+	}
+	
+	
+	/** trims, replaces any repeating control or whitespace characters with a single space */ 
+	public static String toSingleLine(String text)
+	{
+		if(text == null)
+		{
+			return null;
+		}
+		
+		int len = text.length();
+		SB sb = new SB(len);
+		
+		boolean white = true;
+		for(int i=0; i<len; i++)
+		{
+			char c = text.charAt(i);
+			if(isWhiteSpaceOrCtrl(c))
+			{
+				if(!white)
+				{
+					white = true;
+				}
+				continue;
+			}
+			else
+			{
+				if(white)
+				{
+					if(sb.length() > 0)
+					{
+						sb.append(' ');
+					}
+				}
+				white = false;
+				sb.append(c);
+			}
+		}
+		
+		return sb.toString();
 	}
 }

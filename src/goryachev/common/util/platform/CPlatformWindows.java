@@ -1,8 +1,8 @@
-// Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2007-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.platform;
+import goryachev.common.log.Log;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CPlatform;
-import goryachev.common.util.Log;
 import java.io.File;
 import java.nio.charset.Charset;
 
@@ -13,6 +13,7 @@ public class CPlatformWindows
 	private static final String REGQUERY_UTIL = "reg query ";
 	private static final String REGSTR_TOKEN = "REG_SZ";
 	private static final String DESKTOP_FOLDER_CMD = REGQUERY_UTIL + "\"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\" /v DESKTOP";
+	protected static final Log log = Log.get("CPlatformWindows");
 
 
 	public CPlatformWindows()
@@ -35,9 +36,23 @@ public class CPlatformWindows
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		return null;
+	}
+	
+	
+	@Deprecated
+	public File getDefaultSettingsFolder()
+	{
+		return new File(getUserHome(), SETTINGS_FOLDER);
+	}
+
+
+	protected File getSettingsFolderPrivate()
+	{
+		// TODO "Documents"?
+		return new File(getUserHome(), SETTINGS_FOLDER);
 	}
 }

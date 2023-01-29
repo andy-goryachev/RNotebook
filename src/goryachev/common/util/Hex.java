@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.ByteArrayOutputStream;
 
@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 public class Hex
 {
 	public static final String HEX = "0123456789ABCDEF";
+	public static final String HEX_ALL = "0123456789ABCDEFabcdef";
 
 	
 	public static String toHexString(int d, int digits)
@@ -73,6 +74,13 @@ public class Hex
 	public static String toHexString(byte[] b, int start, int length)
 	{
 		SB sb = new SB(b.length);
+		appendHexString(sb, b, start, length);
+		return sb.toString();
+	}
+	
+	
+	public static void appendHexString(SB sb, byte[] b, int start, int length)
+	{
 		int end = start + length;
 		for(int i=start; i<end; i++)
 		{
@@ -80,7 +88,7 @@ public class Hex
 			sb.append(HEX.charAt((x >> 4) & 0x0f));
 			sb.append(HEX.charAt(x & 0x0f));
 		}
-		return sb.toString();
+		
 	}
 	
 	
@@ -93,12 +101,18 @@ public class Hex
 	/** returns hex value of a char in the range 0..15, throws an exception if not a hex char */
 	public static int parseHexChar(char c) throws Exception
 	{
-		int x = HEX.indexOf(Character.toUpperCase(c));
+		int x = parseHexCharPrivate(c);
 		if(x < 0)
 		{
 			throw new Exception("not a hexadecimal character: " + c);
 		}
 		return x;
+	}
+	
+	
+	public static int parseHexCharPrivate(char c)
+	{
+		return HEX.indexOf(Character.toUpperCase(c));
 	}
 	
 	
@@ -161,12 +175,12 @@ public class Hex
 	
 	
 	// dumps byte array into a nicely formatted String
-	// printing address first, then 16 bytes of hex then ascii representation then newline
+	// printing address first, then 16 bytes of hex then ASCII representation then newline
 	//     "0000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" or
 	// "00000000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" 
 	// depending on startAddress
 	// address starts with startAddress
-	public static String toHexStringAscii(byte[] bytes)
+	public static String toHexStringASCII(byte[] bytes)
 	{
 		long startAddress = 0;
 		boolean bigfile = ((startAddress + bytes.length) > 65535);
@@ -199,7 +213,9 @@ public class Hex
 			// space or newline
 			if(col >= 15)
 			{
-				dumpAscii(sb, bytes, lineStart);
+				sb.sp();
+				dumpASCII(sb, bytes, lineStart);
+				sb.nl();
 				col = 0;
 			}
 			else
@@ -217,10 +233,82 @@ public class Hex
 				sb.append("   ");
 			}
 
-			dumpAscii(sb, bytes, lineStart);
+			sb.sp();
+			dumpASCII(sb, bytes, lineStart);
+			sb.nl();
 		}
 		
 		return sb.toString();
+	}
+	
+	
+	// dumps byte array into a nicely formatted String
+	// printing address first, then 16 bytes of hex then ASCII representation then newline
+	//     "0000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" or
+	// "00000000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" 
+	// depending on startAddress
+	// address starts with startAddress
+	public static String[] toHexStringsASCII(byte[] bytes)
+	{
+		SB sb = new SB(78);
+		int len = bytes.length;
+		boolean bigfile = (bytes.length > 65535);
+		int lines = CKit.binCount(len, 16);
+		CList<String> rv = new CList(lines);
+		
+		int col = 0;
+		int addr = 0;
+		int lineStart = 0;
+
+		for(int i=0; i<len; i++)
+		{
+			// offset
+			if(col == 0)
+			{
+				lineStart = i;
+				if(bigfile)
+				{
+					hexByte(sb, addr >> 24);
+					hexByte(sb, addr >> 16);
+				}
+				hexByte(sb, addr >> 8);
+				hexByte(sb, addr);
+				sb.append("  ");
+			}
+			
+			// byte
+			hexByte(sb,bytes[i]);
+			sb.append(' ');
+
+			// space or newline
+			if(col >= 15)
+			{
+				sb.sp();
+				dumpASCII(sb, bytes, lineStart);
+				rv.add(sb.getAndClear());
+				col = 0;
+			}
+			else
+			{
+				col++;
+			}
+
+			addr++;
+		}
+
+		if(col != 0)
+		{
+			while(col++ < 16)
+			{
+				sb.append("   ");
+			}
+
+			sb.sp();
+			dumpASCII(sb, bytes, lineStart);
+			rv.add(sb.getAndClear());
+		}
+		
+		return CKit.toArray(rv);
 	}
 	
 	
@@ -231,11 +319,8 @@ public class Hex
 	}
 	
 	
-	private static void dumpAscii(SB sb, byte[] bytes, int lineStart)
+	private static void dumpASCII(SB sb, byte[] bytes, int lineStart)
 	{
-		// first, print padding
-		sb.append(' ');
-	
 		int max = Math.min(bytes.length,lineStart+16);
 		for(int i=lineStart; i<max; i++)
 		{
@@ -246,15 +331,12 @@ public class Hex
 			}
 			sb.append((char)d);
 		}
-		
-		sb.append('\n');
 	}
 
 
 	public static boolean isHexChar(char c)
 	{
-		c = Character.toUpperCase(c);
-		return (HEX.indexOf(c) >= 0);
+		return (HEX_ALL.indexOf(c) >= 0);
 	}
 	
 	
@@ -283,6 +365,44 @@ public class Hex
 			
 			char c = s.charAt(i);
 			int nibble = parseHexChar(c);
+			d |= nibble;
+		}
+		return d;
+	}
+	
+	
+	/** parses hex-encoded int value */
+	public static int parseInt(String s) throws Exception
+	{
+		return parseInt(s, 0, s.length());
+	}
+	
+	
+	/** parses hex-encoded int value */
+	public static int parseInt(String s, int defaultValue)
+	{
+		try
+		{
+			return parseInt(s, 0, s.length());
+		}
+		catch(Exception e)
+		{
+			return defaultValue;
+		}
+	}
+	
+	
+	/** parses hex-encoded int value */
+	public static int parseInt(String s, int off, int len) throws Exception
+	{
+		int d = 0;
+		int sz = Math.min(len, 8);
+		for(int i=0; i<sz; i++)
+		{
+			char c = s.charAt(i);
+			int nibble = parseHexChar(c);
+
+			d <<= 4;
 			d |= nibble;
 		}
 		return d;

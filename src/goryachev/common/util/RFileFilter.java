@@ -1,11 +1,13 @@
-// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
 import java.io.File;
 import java.io.FileFilter;
 
 
 public class RFileFilter
 {
+	protected static final Log log = Log.get("RFileFilter");
 	public static final String HIDDEN = "Hidden Files";
 	public static final String SYSTEM = "System Files";
 	
@@ -51,7 +53,11 @@ public class RFileFilter
 	
 	public int hashCode()
 	{
-		return CKit.hashCode(RFileFilter.class, ignoreHidden, ignoreSystem, excludePatterns, includePatterns);
+		int h = FH.hash(RFileFilter.class);
+		h = FH.hash(h, excludePatterns);
+		h = FH.hash(h, includePatterns);
+		h = FH.hash(h, ignoreHidden);
+		return FH.hash(h, ignoreSystem); 
 	}
 	
 	
@@ -121,7 +127,7 @@ public class RFileFilter
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		
@@ -223,7 +229,7 @@ public class RFileFilter
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		RFileFilter f = new RFileFilter();

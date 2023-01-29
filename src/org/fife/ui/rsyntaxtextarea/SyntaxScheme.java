@@ -8,7 +8,7 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-import goryachev.common.util.Log;
+import goryachev.common.log.Log;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -30,6 +30,7 @@ public class SyntaxScheme
     implements Cloneable, TokenTypes
 {
 	protected Style[] styles;
+	static Log log = Log.get("SyntaxScheme");
 
 
 	/**
@@ -192,7 +193,7 @@ public class SyntaxScheme
 		}
 		catch(CloneNotSupportedException e)
 		{
-			Log.err(e);
+			log.error(e);
 			return null;
 		}
 		

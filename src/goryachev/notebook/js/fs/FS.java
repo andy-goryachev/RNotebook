@@ -173,7 +173,7 @@ public class FS
 		File f = JsUtil.parseFile(path);
 		if(!f.exists())
 		{
-			FileTools.createZeroLengthFile(f);
+			FileTools.createNewFile(f);
 		}
 		else
 		{

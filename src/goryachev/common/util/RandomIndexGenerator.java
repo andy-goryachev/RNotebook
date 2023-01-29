@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2012-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Random;
 

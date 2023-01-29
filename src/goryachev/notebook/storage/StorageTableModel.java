@@ -1,8 +1,8 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.storage;
-import goryachev.common.ui.table.ZColumnHandler;
-import goryachev.common.ui.table.ZModel;
 import goryachev.common.util.CKit;
+import goryachev.swing.table.ZColumnHandler;
+import goryachev.swing.table.ZModel;
 
 
 public class StorageTableModel

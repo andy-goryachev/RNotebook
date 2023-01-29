@@ -1,12 +1,12 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js;
-import goryachev.common.ui.BackgroundThread;
-import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;
 import goryachev.notebook.cell.CodePanel;
 import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.cell.Results;
+import goryachev.swing.BackgroundThread;
+import goryachev.swing.UI;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -191,7 +191,7 @@ public class JsEngine
 		BackgroundThread t = thread;
 		if(t != null)
 		{
-			t.cancel();
+			t.interrupt();
 		}
 	}
 	

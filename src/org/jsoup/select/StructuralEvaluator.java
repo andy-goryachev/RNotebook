@@ -6,13 +6,11 @@ import org.jsoup.nodes.Element;
 /**
  * Base structural evaluator.
  */
-abstract class StructuralEvaluator
-	extends Evaluator
+abstract class StructuralEvaluator extends Evaluator
 {
 	Evaluator evaluator;
 
-	static class Root
-		extends Evaluator
+	static class Root extends Evaluator
 	{
 		public boolean matches(Element root, Element element)
 		{
@@ -20,8 +18,7 @@ abstract class StructuralEvaluator
 		}
 	}
 
-	static class Has
-		extends StructuralEvaluator
+	static class Has extends StructuralEvaluator
 	{
 		public Has(Evaluator evaluator)
 		{
@@ -40,14 +37,14 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":has(%s)", evaluator);
 		}
 	}
 
-	static class Not
-		extends StructuralEvaluator
+	static class Not extends StructuralEvaluator
 	{
 		public Not(Evaluator evaluator)
 		{
@@ -61,14 +58,14 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":not%s", evaluator);
 		}
 	}
 
-	static class Parent
-		extends StructuralEvaluator
+	static class Parent extends StructuralEvaluator
 	{
 		public Parent(Evaluator evaluator)
 		{
@@ -92,14 +89,14 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":parent%s", evaluator);
 		}
 	}
 
-	static class ImmediateParent
-		extends StructuralEvaluator
+	static class ImmediateParent extends StructuralEvaluator
 	{
 		public ImmediateParent(Evaluator evaluator)
 		{
@@ -117,14 +114,14 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":ImmediateParent%s", evaluator);
 		}
 	}
 
-	static class PreviousSibling
-		extends StructuralEvaluator
+	static class PreviousSibling extends StructuralEvaluator
 	{
 		public PreviousSibling(Evaluator evaluator)
 		{
@@ -150,14 +147,14 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":prev*%s", evaluator);
 		}
 	}
 
-	static class ImmediatePreviousSibling
-		extends StructuralEvaluator
+	static class ImmediatePreviousSibling extends StructuralEvaluator
 	{
 		public ImmediatePreviousSibling(Evaluator evaluator)
 		{
@@ -175,6 +172,7 @@ abstract class StructuralEvaluator
 		}
 
 
+		@Override
 		public String toString()
 		{
 			return String.format(":prev%s", evaluator);

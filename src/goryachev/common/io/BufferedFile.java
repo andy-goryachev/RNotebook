@@ -1,6 +1,7 @@
-// Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2009-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.io;
 import goryachev.common.util.CKit;
+import goryachev.common.util.CList;
 import goryachev.common.util.SB;
 import java.io.File;
 import java.io.IOException;
@@ -10,30 +11,39 @@ import java.util.Random;
 
 
 // RandomAccessFile equivalent with an internal read cache.
-// cache uses linear search, so it will not be effctive with large number of buffers
+// cache uses linear search, so it will not be effective with a large number of buffers
 // (although it's probably more efficient with a small number of buffers than using a hashtable)
 // TODO implement FIFO cache, linked list of free/used buffers
-//
-// TODO perhaps this should not extend RandomAccessFile because the file pointer points to blocks 
-// rather than the actual file pointer.
 public class BufferedFile
 	extends RandomAccessFile
 {
+	public enum Mode
+	{
+		/** "r" Open for reading only */  
+		READ,
+		/** "rw" Open for reading and writing. If the file does not already exist then an attempt will be made to create it. */  
+		READ_WRITE,
+		/** "rws" Open for reading and writing, and also require that every update to the file's <b>content or metadata</b> be written synchronously to the underlying storage device. */
+		READ_WRITE_CONTENT_METADATA,
+		/** "rwd" Open for reading and writing, and also require that every update to the file's <b>content</b> be written synchronously to the underlying storage device. */
+		READ_WRITE_CONTENT,
+	}
+	
 	private Buffer[] buffers;
 	private int blockSize;
-	private ArrayList<Buffer> free;
+	private CList<Buffer> free;
 	private long marker;
 	private Random random = new Random();
 
 
-	public BufferedFile(File f, String mode, int bufferSize, int bufferCount) throws Exception
+	public BufferedFile(File f, BufferedFile.Mode mode, int bufferSize, int bufferCount) throws Exception
 	{
-		super(f, mode);
+		super(f, modeToString(mode));
 		
 		this.blockSize = bufferSize;
 		
 		buffers = new Buffer[bufferCount];
-		free = new ArrayList(bufferCount);
+		free = new CList<>(bufferCount);
 		for(int i=0; i<bufferCount; i++)
 		{
 			Buffer b = new Buffer(bufferSize);
@@ -43,9 +53,27 @@ public class BufferedFile
 	}
 
 
-	public BufferedFile(File f, String mode) throws Exception
+	public BufferedFile(File f, BufferedFile.Mode mode) throws Exception
 	{
 		this(f, mode, 4096, 4);
+	}
+	
+	
+	protected static String modeToString(Mode m)
+	{
+		switch(m)
+		{
+		case READ:
+			return "r";
+		case READ_WRITE:
+			return "rw";
+		case READ_WRITE_CONTENT:
+			return "rwd";
+		case READ_WRITE_CONTENT_METADATA:
+			return "rws";
+		default:
+			throw new Error("?" + m);
+		}
 	}
 
 
@@ -153,6 +181,10 @@ public class BufferedFile
 		}
 		
 		int sz = Math.min(blockSize, (int)(length() - start));
+		if(sz < 0)
+		{
+			return null;
+		}
 		b.read(this, start, sz);
 		return b;
 	}
@@ -184,11 +216,18 @@ public class BufferedFile
 
 	public synchronized int read() throws IOException
 	{
-		return readPrivate();
+		return readPrivate(true);
 	}
 	
 	
-	protected int readPrivate() throws IOException
+	/** returns next byte without advancing the file pointer */
+	public synchronized int peek() throws IOException
+	{
+		return readPrivate(false);
+	}
+	
+	
+	protected int readPrivate(boolean advance) throws IOException
 	{
 		Buffer b = getBufferAtMarker();
 		if(b == null)
@@ -198,21 +237,25 @@ public class BufferedFile
 		}
 		
 		int c = b.get(marker);
-		if(c >= 0)
+		if(advance)
 		{
-			marker++;
+			if(c >= 0)
+			{
+				marker++;
+			}
 		}
 		return c;
 	}
 	
 	
 	/** unlike readLine(), this method reads UTF-8 string until EOF or newline.  Returns null when EOF. */
+	@Deprecated // or improve
 	public synchronized String readText() throws Exception
 	{
 		SB sb = new SB(128);
 		for(;;)
 		{
-			int c = readPrivate();
+			int c = readPrivate(true);
 			if(c < 0)
 			{
 				if(sb.length() == 0)

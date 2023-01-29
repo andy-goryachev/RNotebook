@@ -1,68 +1,63 @@
 package org.jsoup.select;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.ListIterator;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.FormElement;
+import org.jsoup.nodes.Node;
+import java.util.*;
 
 
 /**
- A list of {@link Element Elements}, with methods that act on every element in the list.
- <p/>
- To get an Elements object, use the {@link Element#select(String)} method.
+ A list of {@link Element}s, with methods that act on every element in the list.
+ <p>
+ To get an {@code Elements} object, use the {@link Element#select(String)} method.
+ </p>
 
  @author Jonathan Hedley, jonathan@hedley.net */
-public class Elements
-	implements List<Element>, Cloneable
+public class Elements extends ArrayList<Element>
 {
-	private List<Element> contents;
-
-
 	public Elements()
 	{
-		contents = new ArrayList<Element>();
 	}
 
 
 	public Elements(int initialCapacity)
 	{
-		contents = new ArrayList<Element>(initialCapacity);
+		super(initialCapacity);
 	}
 
 
 	public Elements(Collection<Element> elements)
 	{
-		contents = new ArrayList<Element>(elements);
+		super(elements);
 	}
 
 
 	public Elements(List<Element> elements)
 	{
-		contents = elements;
+		super(elements);
 	}
 
 
-	public Elements(Element ... elements)
+	public Elements(Element... elements)
 	{
-		this(Arrays.asList(elements));
+		super(Arrays.asList(elements));
 	}
 
 
+	/**
+	 * Creates a deep copy of these elements.
+	 * @return a deep copy
+	 */
 	@Override
 	public Elements clone()
 	{
-		List<Element> elements = new ArrayList<Element>();
-		for(Element e: contents)
-		{
-			elements.add(e.clone());
-		}
+		Elements clone = new Elements(size());
 
-		return new Elements(elements);
+		for(Element e: this)
+			clone.add(e.clone());
+
+		return clone;
 	}
 
 
@@ -76,12 +71,10 @@ public class Elements
 	 */
 	public String attr(String attributeKey)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(element.hasAttr(attributeKey))
-			{
 				return element.attr(attributeKey);
-			}
 		}
 		return "";
 	}
@@ -94,12 +87,10 @@ public class Elements
 	 */
 	public boolean hasAttr(String attributeKey)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(element.hasAttr(attributeKey))
-			{
 				return true;
-			}
 		}
 		return false;
 	}
@@ -113,7 +104,7 @@ public class Elements
 	 */
 	public Elements attr(String attributeKey, String attributeValue)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.attr(attributeKey, attributeValue);
 		}
@@ -128,7 +119,7 @@ public class Elements
 	 */
 	public Elements removeAttr(String attributeKey)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.removeAttr(attributeKey);
 		}
@@ -143,7 +134,7 @@ public class Elements
 	 */
 	public Elements addClass(String className)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.addClass(className);
 		}
@@ -158,7 +149,7 @@ public class Elements
 	 */
 	public Elements removeClass(String className)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.removeClass(className);
 		}
@@ -173,7 +164,7 @@ public class Elements
 	 */
 	public Elements toggleClass(String className)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.toggleClass(className);
 		}
@@ -188,12 +179,10 @@ public class Elements
 	 */
 	public boolean hasClass(String className)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(element.hasClass(className))
-			{
 				return true;
-			}
 		}
 		return false;
 	}
@@ -207,13 +196,9 @@ public class Elements
 	public String val()
 	{
 		if(size() > 0)
-		{
 			return first().val();
-		}
 		else
-		{
 			return "";
-		}
 	}
 
 
@@ -224,10 +209,8 @@ public class Elements
 	 */
 	public Elements val(String value)
 	{
-		for(Element element: contents)
-		{
+		for(Element element: this)
 			element.val(value);
-		}
 		return this;
 	}
 
@@ -243,12 +226,10 @@ public class Elements
 	public String text()
 	{
 		StringBuilder sb = new StringBuilder();
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(sb.length() != 0)
-			{
 				sb.append(" ");
-			}
 			sb.append(element.text());
 		}
 		return sb.toString();
@@ -257,12 +238,10 @@ public class Elements
 
 	public boolean hasText()
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(element.hasText())
-			{
 				return true;
-			}
 		}
 		return false;
 	}
@@ -277,12 +256,10 @@ public class Elements
 	public String html()
 	{
 		StringBuilder sb = new StringBuilder();
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(sb.length() != 0)
-			{
 				sb.append("\n");
-			}
 			sb.append(element.html());
 		}
 		return sb.toString();
@@ -298,12 +275,10 @@ public class Elements
 	public String outerHtml()
 	{
 		StringBuilder sb = new StringBuilder();
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			if(sb.length() != 0)
-			{
 				sb.append("\n");
-			}
 			sb.append(element.outerHtml());
 		}
 		return sb.toString();
@@ -316,6 +291,7 @@ public class Elements
 	 * @see #text()
 	 * @see #html()
 	 */
+	@Override
 	public String toString()
 	{
 		return outerHtml();
@@ -331,7 +307,7 @@ public class Elements
 	 */
 	public Elements tagName(String tagName)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.tagName(tagName);
 		}
@@ -347,7 +323,7 @@ public class Elements
 	 */
 	public Elements html(String html)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.html(html);
 		}
@@ -363,7 +339,7 @@ public class Elements
 	 */
 	public Elements prepend(String html)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.prepend(html);
 		}
@@ -379,7 +355,7 @@ public class Elements
 	 */
 	public Elements append(String html)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.append(html);
 		}
@@ -395,7 +371,7 @@ public class Elements
 	 */
 	public Elements before(String html)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.before(html);
 		}
@@ -411,7 +387,7 @@ public class Elements
 	 */
 	public Elements after(String html)
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.after(html);
 		}
@@ -431,7 +407,7 @@ public class Elements
 	public Elements wrap(String html)
 	{
 		Validate.notEmpty(html);
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.wrap(html);
 		}
@@ -442,19 +418,20 @@ public class Elements
 	/**
 	 * Removes the matched elements from the DOM, and moves their children up into their parents. This has the effect of
 	 * dropping the elements but keeping their children.
-	 * <p/>
+	 * <p>
 	 * This is useful for e.g removing unwanted formatting elements but keeping their contents.
-	 * <p/>
-	 * E.g. with HTML: {@code <div><font>One</font> <font><a href="/">Two</a></font></div>}<br/>
-	 * {@code doc.select("font").unwrap();}<br/>
-	 * HTML = {@code <div>One <a href="/">Two</a></div>}
+	 * </p>
+	 * 
+	 * E.g. with HTML: <p>{@code <div><font>One</font> <font><a href="/">Two</a></font></div>}</p>
+	 * <p>{@code doc.select("font").unwrap();}</p>
+	 * <p>HTML = {@code <div>One <a href="/">Two</a></div>}</p>
 	 *
 	 * @return this (for chaining)
 	 * @see Node#unwrap
 	 */
 	public Elements unwrap()
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.unwrap();
 		}
@@ -475,7 +452,7 @@ public class Elements
 	 */
 	public Elements empty()
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.empty();
 		}
@@ -497,7 +474,7 @@ public class Elements
 	 */
 	public Elements remove()
 	{
-		for(Element element: contents)
+		for(Element element: this)
 		{
 			element.remove();
 		}
@@ -544,7 +521,7 @@ public class Elements
 	 */
 	public Elements eq(int index)
 	{
-		return contents.size() > index ? new Elements(get(index)) : new Elements();
+		return size() > index ? new Elements(get(index)) : new Elements();
 	}
 
 
@@ -567,7 +544,7 @@ public class Elements
 	public Elements parents()
 	{
 		HashSet<Element> combo = new LinkedHashSet<Element>();
-		for(Element e: contents)
+		for(Element e: this)
 		{
 			combo.addAll(e.parents());
 		}
@@ -578,11 +555,11 @@ public class Elements
 	// list-like methods
 	/**
 	 Get the first matched element.
-	 @return The first matched element, or <code>null</code> if contents is empty;
+	 @return The first matched element, or <code>null</code> if contents is empty.
 	 */
 	public Element first()
 	{
-		return contents.isEmpty() ? null : contents.get(0);
+		return isEmpty() ? null : get(0);
 	}
 
 
@@ -592,7 +569,7 @@ public class Elements
 	 */
 	public Element last()
 	{
-		return contents.isEmpty() ? null : contents.get(contents.size() - 1);
+		return isEmpty() ? null : get(size() - 1);
 	}
 
 
@@ -605,7 +582,7 @@ public class Elements
 	{
 		Validate.notNull(nodeVisitor);
 		NodeTraversor traversor = new NodeTraversor(nodeVisitor);
-		for(Element el: contents)
+		for(Element el: this)
 		{
 			traversor.traverse(el);
 		}
@@ -613,153 +590,18 @@ public class Elements
 	}
 
 
-	// implements List<Element> delegates:
-	public int size()
+	/**
+	 * Get the {@link FormElement} forms from the selected elements, if any.
+	 * @return a list of {@link FormElement}s pulled from the matched elements. The list will be empty if the elements contain
+	 * no forms.
+	 */
+	public List<FormElement> forms()
 	{
-		return contents.size();
+		ArrayList<FormElement> forms = new ArrayList<FormElement>();
+		for(Element el: this)
+			if(el instanceof FormElement)
+				forms.add((FormElement)el);
+		return forms;
 	}
 
-
-	public boolean isEmpty()
-	{
-		return contents.isEmpty();
-	}
-
-
-	public boolean contains(Object o)
-	{
-		return contents.contains(o);
-	}
-
-
-	public Iterator<Element> iterator()
-	{
-		return contents.iterator();
-	}
-
-
-	public Object[] toArray()
-	{
-		return contents.toArray();
-	}
-
-
-	public <T> T[] toArray(T[] a)
-	{
-		return contents.toArray(a);
-	}
-
-
-	public boolean add(Element element)
-	{
-		return contents.add(element);
-	}
-
-
-	public boolean remove(Object o)
-	{
-		return contents.remove(o);
-	}
-
-
-	public boolean containsAll(Collection<?> c)
-	{
-		return contents.containsAll(c);
-	}
-
-
-	public boolean addAll(Collection<? extends Element> c)
-	{
-		return contents.addAll(c);
-	}
-
-
-	public boolean addAll(int index, Collection<? extends Element> c)
-	{
-		return contents.addAll(index, c);
-	}
-
-
-	public boolean removeAll(Collection<?> c)
-	{
-		return contents.removeAll(c);
-	}
-
-
-	public boolean retainAll(Collection<?> c)
-	{
-		return contents.retainAll(c);
-	}
-
-
-	public void clear()
-	{
-		contents.clear();
-	}
-
-
-	public boolean equals(Object o)
-	{
-		return contents.equals(o);
-	}
-
-
-	public int hashCode()
-	{
-		return contents.hashCode();
-	}
-
-
-	public Element get(int index)
-	{
-		return contents.get(index);
-	}
-
-
-	public Element set(int index, Element element)
-	{
-		return contents.set(index, element);
-	}
-
-
-	public void add(int index, Element element)
-	{
-		contents.add(index, element);
-	}
-
-
-	public Element remove(int index)
-	{
-		return contents.remove(index);
-	}
-
-
-	public int indexOf(Object o)
-	{
-		return contents.indexOf(o);
-	}
-
-
-	public int lastIndexOf(Object o)
-	{
-		return contents.lastIndexOf(o);
-	}
-
-
-	public ListIterator<Element> listIterator()
-	{
-		return contents.listIterator();
-	}
-
-
-	public ListIterator<Element> listIterator(int index)
-	{
-		return contents.listIterator(index);
-	}
-
-
-	public List<Element> subList(int fromIndex, int toIndex)
-	{
-		return contents.subList(fromIndex, toIndex);
-	}
 }

@@ -1,12 +1,11 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
-import goryachev.common.ui.CPanel;
-import goryachev.common.ui.CScrollPane;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
-import goryachev.common.ui.icons.CIcons;
-import goryachev.common.ui.table.ZTable;
-import goryachev.common.util.CKit;
+import goryachev.swing.CPanel;
+import goryachev.swing.CScrollPane;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
+import goryachev.swing.icons.CIcons;
+import goryachev.swing.table.ZTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -126,7 +125,7 @@ public class FileSyncToolUI
 
 	public void handleSyncRunning(final FileSyncTool tool, final boolean on)
 	{
-		final boolean cancelled = CKit.isCancelled();
+		final boolean cancelled = Thread.currentThread().isInterrupted();
 		
 		UI.inEDTW(new Runnable()
 		{

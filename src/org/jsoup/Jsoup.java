@@ -1,20 +1,21 @@
 package org.jsoup;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import org.jsoup.helper.DataUtil;
-import org.jsoup.helper.HttpConnection;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
+import org.jsoup.helper.DataUtil;
+import org.jsoup.helper.HttpConnection;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 
 /**
- * The core public access point to the jsoup functionality.
- * @author Jonathan Hedley 
- */
+ The core public access point to the jsoup functionality.
+
+ @author Jonathan Hedley */
 public class Jsoup
 {
 	private Jsoup()
@@ -200,7 +201,7 @@ public class Jsoup
 
 	 @see #connect(String)
 	 */
-	public static Document parse(URL url, int timeoutMillis) throws Exception
+	public static Document parse(URL url, int timeoutMillis) throws IOException
 	{
 		Connection con = HttpConnection.connect(url);
 		con.timeout(timeoutMillis);
@@ -280,4 +281,5 @@ public class Jsoup
 		Cleaner cleaner = new Cleaner(whitelist);
 		return cleaner.isValid(dirty);
 	}
+
 }

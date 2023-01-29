@@ -1,7 +1,9 @@
-// Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2007-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class CList<T>
@@ -24,6 +26,18 @@ public class CList<T>
 		if(c != null)
 		{
 			addAll(c);
+		}
+	}
+	
+	
+	public CList(Iterator<? extends T> it)
+	{
+		if(it != null)
+		{
+			while(it.hasNext())
+			{
+				add(it.next());
+			}
 		}
 	}
 	
@@ -110,6 +124,28 @@ public class CList<T>
 	}
 	
 	
+	public void setAll(T[] items)
+	{
+		clear();
+		
+		if(items != null)
+		{
+			addAll(items);
+		}
+	}
+	
+	
+	public void setAll(Collection<T> items)
+	{
+		clear();
+		
+		if(items != null)
+		{
+			addAll(items);
+		}
+	}
+	
+	
 	public void addAll(T[] items)
 	{
 		if(items != null)
@@ -137,6 +173,47 @@ public class CList<T>
 	}
 	
 	
+	/** remove elements from 'fromInclusive' onwards, silently ignoring out-of-bounds argument */
+	public void prune(int fromInclusive)
+	{
+		if(fromInclusive >= 0)
+		{
+			int ct = size() - fromInclusive;
+			if(ct > 0)
+			{
+				removeRange(fromInclusive, size());
+			}
+		}
+	}
+	
+	
+	/** 
+	 * returns last element of null if the list is empty.  
+	 * keep in mind this method does not distingush between two scenarios:
+	 * when the list is empty and when the last element is null.
+	 */
+	public T getLast()
+	{
+		if(size() > 0)
+		{
+			return get(size() - 1);
+		}
+		return null;
+	}
+	
+	
+	/** removes last element */
+	public T removeLast()
+	{
+		int ix = size() - 1;
+		if(ix >= 0)
+		{
+			return remove(ix);
+		}
+		return null;
+	}
+	
+	
 	public static CList parse(Object x)
 	{
 		if(x instanceof CList)
@@ -144,5 +221,63 @@ public class CList<T>
 			return (CList)x;
 		}
 		return null;
+	}
+
+
+	public boolean isValidIndex(int ix)
+	{
+		return (ix >= 0) && (ix < size());
+	}
+	
+	
+	public void prepareFor(int ix)
+	{
+		int sz = ix + 1;
+		while(size() < sz)
+		{
+			super.add(null);
+		}
+	}
+	
+	
+	/** 
+	 * safely inserts an item into the list, adding an item to the end of the list when index is >= size, 
+	 * or inserting at the position 0 when index is <= 0
+	 */
+	public void insert(int index, T item)
+	{
+		if(index < 0)
+		{
+			index = 0;
+		}
+		
+		if(index >= size())
+		{
+			add(item);
+		}
+		else
+		{
+			add(index, item);
+		}
+	}
+
+
+	public static <V> CList<V> of(V ... a)
+	{
+		return new CList(a);
+	}
+	
+	
+	public static <V> CList<V> copy(Collection<V> items)
+	{
+		if(items == null)
+		{
+			return null;
+		}
+		
+		int sz = items.size();
+		CList<V> rv = new CList(sz);
+		rv.addAll(items);
+		return rv;
 	}
 }

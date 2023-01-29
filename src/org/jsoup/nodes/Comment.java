@@ -1,12 +1,10 @@
 package org.jsoup.nodes;
 
-
 /**
  A comment node.
 
  @author Jonathan Hedley, jonathan@hedley.net */
-public class Comment
-	extends Node
+public class Comment extends Node
 {
 	private static final String COMMENT_KEY = "comment";
 
@@ -52,6 +50,7 @@ public class Comment
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return outerHtml();

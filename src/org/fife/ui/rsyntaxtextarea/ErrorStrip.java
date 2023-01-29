@@ -8,7 +8,7 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rsyntaxtextarea;
-import goryachev.common.util.TXT;
+import goryachev.i18n.TXT;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;

@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2006-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
@@ -395,7 +395,7 @@ public class LongHashtable
 			{
 				Entry e = entry;
 				entry = e.next;
-				return keys ? new Long(e.key) : e.value;
+				return keys ? Long.valueOf(e.key) : e.value;
 			}
 
 			throw new NoSuchElementException("Enumerator");

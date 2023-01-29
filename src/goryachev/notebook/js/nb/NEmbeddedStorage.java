@@ -1,9 +1,9 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.nb;
-import goryachev.common.ui.DelayedAction;
+import goryachev.common.log.Log;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
-import goryachev.common.util.Log;
+import goryachev.common.util.DelayedAction;
 import goryachev.notebook.storage.EmbeddedStorage;
 import java.io.File;
 import java.util.Properties;
@@ -15,6 +15,7 @@ public class NEmbeddedStorage
 	private final File file;
 	private Properties prop;
 	private DelayedAction saveAction;
+	static Log log = Log.get("NEmbeddedStorage");
 	
 	
 	public NEmbeddedStorage(File f)
@@ -46,16 +47,10 @@ public class NEmbeddedStorage
 		
 		if(saveAction == null)
 		{
-			saveAction = new DelayedAction(150)
-			{
-				public void action()
-				{
-					save();
-				}
-			};
+			saveAction = new DelayedAction("save", this::save);
 		}
 		
-		saveAction.trigger();
+		saveAction.schedule(150);
 	}
 
 
@@ -79,7 +74,7 @@ public class NEmbeddedStorage
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 package org.jsoup.parser;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -31,8 +32,7 @@ public class Parser
 	public Document parseInput(String html, String baseUri)
 	{
 		errors = isTrackErrors() ? ParseErrorList.tracking(maxErrors) : ParseErrorList.noTracking();
-		Document doc = treeBuilder.parse(html, baseUri, errors);
-		return doc;
+		return treeBuilder.parse(html, baseUri, errors);
 	}
 
 
@@ -125,6 +125,20 @@ public class Parser
 
 
 	/**
+	 * Parse a fragment of XML into a list of nodes.
+	 *
+	 * @param fragmentXml the fragment of XML to parse
+	 * @param baseUri base URI of document (i.e. original fetch location), for resolving relative URLs.
+	 * @return list of nodes parsed from the input XML.
+	 */
+	public static List<Node> parseXmlFragment(String fragmentXml, String baseUri)
+	{
+		XmlTreeBuilder treeBuilder = new XmlTreeBuilder();
+		return treeBuilder.parseFragment(fragmentXml, baseUri, ParseErrorList.noTracking());
+	}
+
+
+	/**
 	 * Parse a fragment of HTML into the {@code body} of a Document.
 	 *
 	 * @param bodyHtml fragment of HTML
@@ -138,6 +152,10 @@ public class Parser
 		Element body = doc.body();
 		List<Node> nodeList = parseFragment(bodyHtml, body, baseUri);
 		Node[] nodes = nodeList.toArray(new Node[nodeList.size()]); // the node list gets modified when re-parented
+		for(int i = nodes.length - 1; i > 0; i--)
+		{
+			nodes[i].remove();
+		}
 		for(Node node: nodes)
 		{
 			body.appendChild(node);

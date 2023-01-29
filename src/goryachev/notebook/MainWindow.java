@@ -1,29 +1,30 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.io.CReader;
-import goryachev.common.ui.AppFrame;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CMenu;
-import goryachev.common.ui.CMenuBar;
-import goryachev.common.ui.CMenuItem;
-import goryachev.common.ui.CToolBar;
-import goryachev.common.ui.ChoiceDialog;
-import goryachev.common.ui.Dialogs;
-import goryachev.common.ui.Menus;
-import goryachev.common.ui.TButton;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
-import goryachev.common.ui.dialogs.CFileChooser;
 import goryachev.common.ui.options.RecentFilesOption;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
-import goryachev.common.util.TXT;
+import goryachev.i18n.Menus;
+import goryachev.i18n.TXT;
 import goryachev.notebook.cell.NotebookPanel;
 import goryachev.notebook.icons.NotebookIcons;
 import goryachev.notebook.util.DataBookJsonReader;
 import goryachev.notebook.util.DataBookJsonWriter;
 import goryachev.notebook.util.FileFilters;
+import goryachev.swing.AppFrame;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.CMenu;
+import goryachev.swing.CMenuBar;
+import goryachev.swing.CMenuItem;
+import goryachev.swing.CToolBar;
+import goryachev.swing.ChoiceDialog;
+import goryachev.swing.Dialogs;
+import goryachev.swing.TButton;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
+import goryachev.swing.XAction;
+import goryachev.swing.dialogs.CFileChooser;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -88,7 +89,7 @@ public class MainWindow
 		m.add(new CMenuItem(Menus.Save, Accelerators.SAVE, saveAction));
 		m.add(new CMenuItem(Menus.SaveAs, Accelerators.SAVE_AS, saveAsAction));
 		m.addSeparator();
-		m.add(new CMenuItem("Export PDF", CAction.TODO));
+		m.add(new CMenuItem("Export PDF", XAction.DISABLED));
 		m.add(new CMenuItem("Export HTML", exportHtmlAction));
 		m.addSeparator();
 		m.add(new CMenuItem(Menus.Preferences, Accelerators.PREFERENCES, OptionsDialog.openDialogAction));
@@ -99,10 +100,10 @@ public class MainWindow
 		
 		// edit
 		mb.add(m = new CMenu(Menus.Edit));
-		m.add(new CMenuItem("Cut Cell", CAction.TODO));
-		m.add(new CMenuItem("Copy Cell", CAction.TODO));
-		m.add(new CMenuItem("Paste Cell Above", CAction.TODO));
-		m.add(new CMenuItem("Paste Cell Below", CAction.TODO));
+		m.add(new CMenuItem("Cut Cell", XAction.DISABLED));
+		m.add(new CMenuItem("Copy Cell", XAction.DISABLED));
+		m.add(new CMenuItem("Paste Cell Above", XAction.DISABLED));
+		m.add(new CMenuItem("Paste Cell Below", XAction.DISABLED));
 		m.add(new CMenuItem("Delete", np.deleteCellAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Split Cell", np.splitCellAction));
@@ -117,8 +118,8 @@ public class MainWindow
 		
 		// view
 		mb.add(m = new CMenu(Menus.View));
-		m.add(new CMenuItem("Toggle Header ?", CAction.TODO));
-		m.add(new CMenuItem("Toggle Toolbar ?", CAction.TODO));
+		m.add(new CMenuItem("Toggle Header ?", XAction.DISABLED));
+		m.add(new CMenuItem("Toggle Toolbar ?", XAction.DISABLED));
 		
 		// insert
 		mb.add(m = new CMenu(Menus.Insert));
@@ -132,7 +133,7 @@ public class MainWindow
 		m.add(new CMenuItem("Run All", Accelerators.RUN_ALL, np.runAllAction));
 		m.addSeparator();
 		m.add(new CMenuItem("Code", Accelerators.TO_CODE, np.toCodeAction));
-//		m.add(new CMenuItem("Markdown", CAction.TODO));
+//		m.add(new CMenuItem("Markdown", XAction.DISABLED));
 		m.add(new CMenuItem("Text", Accelerators.TO_TEXT, np.toTextAction));
 		m.add(new CMenuItem("Heading 1", Accelerators.TO_H1, np.toH1Action));
 		m.add(new CMenuItem("Heading 2", Accelerators.TO_H2, np.toH2Action));
@@ -158,9 +159,9 @@ public class MainWindow
 		CToolBar t = Theme.toolbar();
 		t.add(new TButton(NotebookIcons.Save, "Save", true, saveAction));
 		t.space();
-		t.add(new TButton(NotebookIcons.Cut, "Cut", true, CAction.TODO));
-		t.add(new TButton(NotebookIcons.Copy, "Copy", true, CAction.TODO));
-		t.add(new TButton(NotebookIcons.Paste, "Paste", true, CAction.TODO));
+		t.add(new TButton(NotebookIcons.Cut, "Cut", true, XAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Copy, "Copy", true, XAction.DISABLED));
+		t.add(new TButton(NotebookIcons.Paste, "Paste", true, XAction.DISABLED));
 		t.space();
 		t.add(new TButton(NotebookIcons.MoveUp, "Move Cell Up", true, np.moveCellUpAction));
 		t.add(new TButton(NotebookIcons.MoveDown, "Move Cell Down", true, np.moveCellDownAction));

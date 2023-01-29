@@ -1,7 +1,7 @@
-// Copyright (c) 2008-2013 AquaFold, Inc.
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.text;
 import goryachev.common.util.CKit;
-import goryachev.common.util.IntArray;
+import goryachev.common.util.ElasticIntArray;
 import java.util.Locale;
 
 
@@ -90,7 +90,7 @@ public class FindOperation
 			return null;
 		}
 
-		IntArray ixs = null;
+		ElasticIntArray ixs = null;
 		while(ix >= 0)
 		{
 			if(wholeWords)
@@ -104,7 +104,7 @@ public class FindOperation
 			
 			if(ixs == null)
 			{
-				ixs = new IntArray(16);
+				ixs = new ElasticIntArray(16);
 			}
 			
 			ixs.add(ix);

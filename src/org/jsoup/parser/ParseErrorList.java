@@ -8,8 +8,7 @@ import java.util.ArrayList;
  * 
  * @author Jonathan Hedley
  */
-class ParseErrorList
-	extends ArrayList<ParseError>
+class ParseErrorList extends ArrayList<ParseError>
 {
 	private static final int INITIAL_CAPACITY = 16;
 	private final int maxSize;

@@ -1,14 +1,14 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.image;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CExtensionFileFilter;
-import goryachev.common.ui.CPanel;
-import goryachev.common.ui.Dialogs;
-import goryachev.common.ui.ImageTools;
-import goryachev.common.ui.ShadowBorder;
-import goryachev.common.ui.dialogs.CFileChooser;
 import goryachev.common.util.CKit;
 import goryachev.notebook.util.FileFilters;
+import goryachev.swing.CAction;
+import goryachev.swing.CExtensionFileFilter;
+import goryachev.swing.CPanel;
+import goryachev.swing.Dialogs;
+import goryachev.swing.ImageTools;
+import goryachev.swing.ShadowBorder;
+import goryachev.swing.dialogs.CFileChooser;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.ImageIcon;

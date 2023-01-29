@@ -30,8 +30,7 @@ public class Collector
 		return elements;
 	}
 
-	private static class Accumulator
-		implements NodeVisitor
+	private static class Accumulator implements NodeVisitor
 	{
 		private final Element root;
 		private final Elements elements;

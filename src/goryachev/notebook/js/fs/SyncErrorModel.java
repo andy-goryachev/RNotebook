@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.fs;
-import goryachev.common.ui.table.ZColumnHandler;
-import goryachev.common.ui.table.ZModel;
+import goryachev.swing.table.ZColumnHandler;
+import goryachev.swing.table.ZModel;
 import java.io.File;
 
 

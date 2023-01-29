@@ -1,7 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.net;
-import goryachev.common.ui.Application;
-import goryachev.common.util.CBrowser;
 import goryachev.common.util.CKit;
 import goryachev.common.util.TextTools;
 import goryachev.common.util.UserException;
@@ -10,6 +8,8 @@ import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.Arg;
 import goryachev.notebook.util.Doc;
 import goryachev.notebook.util.InlineHelp;
+import goryachev.swing.Application;
+import goryachev.swing.CBrowser;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;

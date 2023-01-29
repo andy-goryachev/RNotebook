@@ -1,12 +1,12 @@
 package org.jsoup;
+
 import java.io.IOException;
 
 
 /**
  * Signals that a HTTP request resulted in a not OK HTTP response.
  */
-public class HttpStatusException
-	extends IOException
+public class HttpStatusException extends IOException
 {
 	private int statusCode;
 	private String url;

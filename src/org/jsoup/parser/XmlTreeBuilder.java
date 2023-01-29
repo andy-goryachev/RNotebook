@@ -1,25 +1,25 @@
 package org.jsoup.parser;
-import java.util.Iterator;
+
 import org.jsoup.helper.Validate;
-import org.jsoup.nodes.Comment;
-import org.jsoup.nodes.DocumentType;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
-import org.jsoup.nodes.XmlDeclaration;
+import org.jsoup.nodes.*;
+import java.util.List;
 
 
 /**
+ * Use the {@code XmlTreeBuilder} when you want to parse XML without any of the HTML DOM rules being applied to the
+ * document.
+ * <p>Usage example: {@code Document xmlDoc = Jsoup.parse(html, baseUrl, Parser.xmlParser());}</p>
+ *
  * @author Jonathan Hedley
  */
-public class XmlTreeBuilder
-	extends TreeBuilder
+public class XmlTreeBuilder extends TreeBuilder
 {
 	@Override
 	protected void initialiseParse(String input, String baseUri, ParseErrorList errors)
 	{
 		super.initialiseParse(input, baseUri, errors);
 		stack.add(doc); // place the document onto the stack. differs from HtmlTreeBuilder (not on stack)
+		doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
 	}
 
 
@@ -69,9 +69,7 @@ public class XmlTreeBuilder
 		{
 			tokeniser.acknowledgeSelfClosingFlag();
 			if(!tag.isKnownTag()) // unknown tag, remember this is self closing for output. see above.
-			{
 				tag.setSelfClosing();
-			}
 		}
 		else
 		{
@@ -86,8 +84,7 @@ public class XmlTreeBuilder
 		Comment comment = new Comment(commentToken.getData(), baseUri);
 		Node insert = comment;
 		if(commentToken.bogus)
-		{ 
-			// xml declarations are emitted as bogus comments (which is right for html, but not xml)
+		{ // xml declarations are emitted as bogus comments (which is right for html, but not xml)
 			String data = comment.getData();
 			if(data.length() > 1 && (data.startsWith("!") || data.startsWith("?")))
 			{
@@ -124,10 +121,9 @@ public class XmlTreeBuilder
 		String elName = endTag.name();
 		Element firstFound = null;
 
-		Iterator<Element> it = stack.descendingIterator();
-		while(it.hasNext())
+		for(int pos = stack.size() - 1; pos >= 0; pos--)
 		{
-			Element next = it.next();
+			Element next = stack.get(pos);
 			if(next.nodeName().equals(elName))
 			{
 				firstFound = next;
@@ -135,23 +131,22 @@ public class XmlTreeBuilder
 			}
 		}
 		if(firstFound == null)
-		{
 			return; // not found, skip
-		}
 
-		it = stack.descendingIterator();
-		while(it.hasNext())
+		for(int pos = stack.size() - 1; pos >= 0; pos--)
 		{
-			Element next = it.next();
+			Element next = stack.get(pos);
+			stack.remove(pos);
 			if(next == firstFound)
-			{
-				it.remove();
 				break;
-			}
-			else
-			{
-				it.remove();
-			}
 		}
+	}
+
+
+	List<Node> parseFragment(String inputFragment, String baseUri, ParseErrorList errors)
+	{
+		initialiseParse(inputFragment, baseUri, errors);
+		runParser();
+		return doc.childNodes();
 	}
 }

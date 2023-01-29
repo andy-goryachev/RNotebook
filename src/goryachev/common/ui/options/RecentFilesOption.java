@@ -1,13 +1,14 @@
 // Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui.options;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CMenu;
-import goryachev.common.ui.CMenuItem;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;
-import goryachev.common.util.TXT;
 import goryachev.common.util.html.HtmlTools;
+import goryachev.i18n.TXT;
+import goryachev.swing.CAction;
+import goryachev.swing.CMenu;
+import goryachev.swing.CMenuItem;
+import goryachev.swing.options.COption;
 import java.io.File;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;

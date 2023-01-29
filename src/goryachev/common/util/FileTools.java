@@ -1,4 +1,4 @@
-// Copyright (c) 2004-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2004-2023 Andy Goryachev <andy@goryachev.com>
 // Contains fragments of Apache FileNameUtils code
 // http://www.apache.org/licenses/LICENSE-2.0
 package goryachev.common.util;
@@ -9,17 +9,14 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Stack;
-import javax.swing.ImageIcon;
 
 
 public class FileTools
 {
-	public static final String COPYRIGHT = "Copyright (c) Andy Goryachev <andy@goryachev.com>.  All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright © Andy Goryachev <andy@goryachev.com>.  All Rights Reserved.";
 	
 	
 	public static final String[] IMAGE =
@@ -219,7 +216,60 @@ public class FileTools
 	}
 
 
-	// returns path to root
+	/** 
+	 * returns path to root, including the file name.
+	 * returns null if file and root are unrelated.
+	 * 
+	 * example:
+	 * root = "C:\\A\\B"
+	 * file = "C:\\A\\B\\C\\1.jpg"
+	 * result = "C/1.jpg"
+	 */
+	public static String getPathToRootWithName(File root, File file)
+	{
+		SB prefix = filePrefix(root, file);
+		if(prefix == null)
+		{
+			return null;
+		}
+		return prefix.toString();
+	}
+	
+	
+	private static SB filePrefix(File root, File file)
+	{
+		if(root.equals(file))
+		{
+			return new SB();
+		}
+		
+		File parent = file.getParentFile();
+		if(parent == null)
+		{
+			return null;
+		}
+		
+		SB prefix = filePrefix(root, parent);
+		if(prefix == null)
+		{
+			return null;
+		}
+		
+		if(prefix.length() > 0)
+		{
+			prefix.append('/');
+		}
+		prefix.append(file.getName());
+		return prefix;
+	}
+	
+	
+	/** returns path to root, excluding the file name.
+	 * example:
+	 * root = "C:\\A\\B"
+	 * file = "C:\\A\\B\\C\\1.jpg"
+	 * result = "C"
+	 */
 	public static String getPathToRoot(File root, File file)
 	{
 		String rootPath = root.getAbsolutePath();
@@ -241,59 +291,50 @@ public class FileTools
 		return path;
 	}
 
-	
-	// serialize object to a file
-	@Deprecated // don't use serialization
-	public static void write(Object d, File file) throws Exception
+
+	public static String getPathToParent(File parent, File f)
 	{
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-		try
+		StringBuilder sb = new StringBuilder();
+		
+		for(;;)
 		{
-			out.writeObject(d);
+			f = f.getParentFile();
+			if(f == null)
+			{
+				break;
+			}
+			else if(parent.equals(f))
+			{
+				break;
+			}
+			
+			if(sb.length() > 0)
+			{
+				sb.insert(0, "/");
+			}
+			sb.insert(0, f.getName());
 		}
-		finally
-		{
-			close(out);
-		}
+		
+		return sb.toString();
 	}
 	
 	
-	// serialize object to a file
-	@Deprecated // don't use serialization
-	public static void write(Object d, String filename) throws Exception
+	/** returns an integer file length, or throws a RuntimeException if the length exceeds Integer.MAX_VALUE */
+	public static int getIntFileLength(File f)
 	{
-		write(d, new File(filename));
-	}
-
-
-	// deserialize object from a file
-	@Deprecated // don't use serialization
-	public static Object read(File file) throws Exception
-	{
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-		try
+		long len = f.length();
+		if(len <= Integer.MAX_VALUE)
 		{
-			Object d = in.readObject();
-			return d;
+			return (int)len;
 		}
-		finally
-		{
-			close(in);
-		}
-	}
-
-
-	// deserialize object from a file
-	@Deprecated // don't use serialization
-	public static Object read(String filename) throws Exception
-	{
-		return read(new File(filename));
+		throw new RuntimeException("file length exceeds 2^31: " + len);
 	}
 
 
 	public static byte[] readByteArray(File file) throws Exception
 	{
-		byte[] array = new byte[(int)file.length()];
+		int len = getIntFileLength(file);
+		byte[] array = new byte[len];
 		FileInputStream in = new FileInputStream(file);
 		try
 		{
@@ -301,26 +342,30 @@ public class FileTools
 		}
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
 		return array;
 	}
 	
 	
-	// get byte array from the file system 
+	/** reads a (small) File into a byte array */ 
 	public static byte[] readByteArray(String name) throws Exception
 	{
 		File file = new File(name);	
-		FileInputStream inp = new FileInputStream(file);
-		// small files only
-		int length = (int)file.length();
-		byte[] data = new byte[length];
-		inp.read(data);
-		inp.close();
+		FileInputStream in = new FileInputStream(file);
+		try
+		{
+			int len = getIntFileLength(file);
+			byte[] data = new byte[len];
+			in.read(data);
+			return data;
+		}
+		finally
+		{
+			CKit.close(in);
+		}
+	}	
 
-		return data;
-	}
-	
 	
 	public static void writeByteArray(File file, byte[] data) throws Exception
 	{
@@ -332,23 +377,9 @@ public class FileTools
 		}
 		finally
 		{
-			close(out);
+			CKit.close(out);
 		}
 	}
-
-	
-	// get image from either JAR path or a file
-	/** @deprecated - use Img.load() or Img.get() */
-	public static ImageIcon loadImageIcon(String name)
-	{
-		// try jar first
-		URL url = ClassLoader.getSystemResource(name);
-		if(url != null)
-		{
-			return new ImageIcon(url);
-		}
-		return new ImageIcon(name);
-	}		
 
 	
 	// get input stream from either a JAR or a file
@@ -394,7 +425,7 @@ public class FileTools
 		{ }
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
 		return sb.toString();
 	}
@@ -418,7 +449,7 @@ public class FileTools
 		{ }
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
 		return sb.toString();
 	}
@@ -435,12 +466,12 @@ public class FileTools
 		}
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
 	}
 
 
-	// read file as an ascii string
+	// read file as an ASCII string
 	public static String loadFile(String file) throws Exception
 	{
 		File f = new File(file);
@@ -454,19 +485,8 @@ public class FileTools
 		}
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
-	}
-	
-	
-	public static void close(Closeable c)
-	{
-		try
-		{
-			c.close();
-		}
-		catch(Exception ignore)
-		{ }
 	}
 	
 
@@ -479,37 +499,10 @@ public class FileTools
 		}
 		finally
 		{
-			close(in);
+			CKit.close(in);
 		}
 	}
 
-
-	public static String getPathToParent(File parent, File f)
-	{
-		StringBuilder sb = new StringBuilder();
-		
-		for(;;)
-		{
-			f = f.getParentFile();
-			if(f == null)
-			{
-				break;
-			}
-			else if(parent.equals(f))
-			{
-				break;
-			}
-			
-			if(sb.length() > 0)
-			{
-				sb.insert(0, "/");
-			}
-			sb.insert(0, f.getName());
-		}
-		
-		return sb.toString();
-	}
-	
 	
 	public static boolean isFileExist(File f)
 	{
@@ -550,18 +543,25 @@ public class FileTools
 	}
 
 
-	public static void createZeroLengthFile(File f) throws Exception
+	public static void createNewFile(File f) throws Exception
 	{
 		ensureParentFolder(f);
-		FileOutputStream os = new FileOutputStream(f);
-		CKit.close(os);
+		f.createNewFile();
 	}
 	
 	
+	/** copies file, preserving the file stamp.  throws an exception if both arguments point to the same absolute file */
 	public static void copy(File src, File dst) throws Exception
 	{
+		if(src.getAbsoluteFile().equals(dst.getAbsoluteFile()))
+		{
+			throw new Exception("same file");
+		}
+		
+		long t = src.lastModified();
 		FileInputStream in = new FileInputStream(src);
 		copy(in, dst);
+		dst.setLastModified(t);
 	}
 
 
@@ -888,11 +888,7 @@ public class FileTools
 	/** returns true if the specified file is either an empty directory or does not exist */
 	public static boolean isEmptyDirectory(File f)
 	{
-		if(!f.exists())
-		{
-			return true;
-		}
-		else if(f.isDirectory())
+		if(f.isDirectory())
 		{
 			File[] fs = f.listFiles();
 			if(fs == null)
@@ -926,6 +922,54 @@ public class FileTools
 		catch(Exception e)
 		{
 			return f.getAbsolutePath();
+		}
+	}
+	
+	
+	/** creates a file in the same directory */
+	public static File inSameDir(File file, String name)
+	{
+		File parent = file.getParentFile();
+		return new File(parent, name);
+	}
+	
+	
+	/** returns file extension (after the last period) or null */ 
+	public static String getExtension(String name)
+	{
+		if(name == null)
+		{
+			return null;
+		}
+		
+		int ix = name.lastIndexOf('.');
+		if(ix >= 0)
+		{
+			return name.substring(ix + 1);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	
+	/** returns base file name (before the last period) */ 
+	public static String getBaseName(String name)
+	{
+		if(name == null)
+		{
+			return null;
+		}
+		
+		int ix = name.lastIndexOf('.');
+		if(ix >= 0)
+		{
+			return name.substring(0, ix);
+		}
+		else
+		{
+			return name;
 		}
 	}
 }

@@ -1,7 +1,10 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.ui;
-import goryachev.common.util.MailTools;
 import goryachev.common.util.ProductInfo;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.Dialogs;
+import goryachev.swing.MailTools;
 import java.awt.Component;
 
 

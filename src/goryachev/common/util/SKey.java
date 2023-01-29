@@ -1,17 +1,31 @@
-// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2012-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import goryachev.common.io.BitStream;
 
 
 /** String-based database identifier (key) */
 public class SKey
+	implements Cloneable, Comparable<SKey>
 {
+	public static interface Getter
+	{
+		public SKey getSKey();
+	}
+	
+	//
+	
 	private String key;
 	
 	
 	public SKey(String key)
 	{
 		this.key = key;
+	}
+	
+	
+	public static SKey format(String format, Object ... args)
+	{
+		String s = String.format(format, args);
+		return new SKey(s);
 	}
 	
 	
@@ -50,14 +64,6 @@ public class SKey
 	}
 	
 	
-	public BitStream getBitStream()
-	{
-		CDigest md = new CDigest.SHA512();
-		byte[] b = md.digest(key);
-		return new BitStream(b);
-	}
-	
-	
 	public boolean equals(Object x)
 	{
 		if(x == this)
@@ -77,7 +83,7 @@ public class SKey
 	
 	public int hashCode()
 	{
-		return SKey.class.hashCode() ^ key.hashCode();
+		return FH.hash(SKey.class.hashCode(), key);
 	}
 
 
@@ -90,5 +96,11 @@ public class SKey
 	public boolean endsWith(String suffix)
 	{
 		return key.endsWith(suffix);
+	}
+
+
+	public int compareTo(SKey x)
+	{
+		return key.compareTo(x.key);
 	}
 }

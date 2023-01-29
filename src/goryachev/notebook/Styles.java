@@ -1,10 +1,10 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Colors;
-import goryachev.common.ui.Gray;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.ThemeKey;
-import goryachev.common.ui.theme.ThemeColor;
+import goryachev.swing.Colors;
+import goryachev.swing.Gray;
+import goryachev.swing.Theme;
+import goryachev.swing.ThemeKey;
+import goryachev.swing.theme.ThemeColor;
 import java.awt.Color;
 
 

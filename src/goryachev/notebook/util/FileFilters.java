@@ -1,9 +1,9 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
-import goryachev.common.ui.CAcceptAllFileFilter;
-import goryachev.common.ui.CExtensionFileFilter;
 import goryachev.common.util.CList;
-import goryachev.common.util.TXT;
+import goryachev.i18n.TXT;
+import goryachev.swing.CAcceptAllFileFilter;
+import goryachev.swing.CExtensionFileFilter;
 import javax.swing.filechooser.FileFilter;
 
 

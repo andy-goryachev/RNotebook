@@ -103,7 +103,7 @@ public class TokenQueue
 	 @param seq list of strings to case insensitively check for
 	 @return true of any matched, false if none did
 	 */
-	public boolean matchesAny(String ... seq)
+	public boolean matchesAny(String... seq)
 	{
 		for(String s: seq)
 		{
@@ -114,7 +114,7 @@ public class TokenQueue
 	}
 
 
-	public boolean matchesAny(char ... seq)
+	public boolean matchesAny(char... seq)
 	{
 		if(isEmpty())
 			return false;
@@ -259,8 +259,7 @@ public class TokenQueue
 				pos++;
 		}
 
-		String data = queue.substring(start, pos);
-		return data;
+		return queue.substring(start, pos);
 	}
 
 
@@ -271,7 +270,7 @@ public class TokenQueue
 	 */
 	// todo: method name. not good that consumeTo cares for case, and consume to any doesn't. And the only use for this
 	// is is a case sensitive time...
-	public String consumeToAny(String ... seq)
+	public String consumeToAny(String... seq)
 	{
 		int start = pos;
 		while(!isEmpty() && !matchesAny(seq))
@@ -279,8 +278,7 @@ public class TokenQueue
 			pos++;
 		}
 
-		String data = queue.substring(start, pos);
-		return data;
+		return queue.substring(start, pos);
 	}
 
 
@@ -319,7 +317,8 @@ public class TokenQueue
 	 */
 	public String chompBalanced(char open, char close)
 	{
-		StringBuilder accum = new StringBuilder();
+		int start = -1;
+		int end = -1;
 		int depth = 0;
 		char last = 0;
 
@@ -331,16 +330,20 @@ public class TokenQueue
 			if(last == 0 || last != ESC)
 			{
 				if(c.equals(open))
+				{
 					depth++;
+					if(start == -1)
+						start = pos;
+				}
 				else if(c.equals(close))
 					depth--;
 			}
 
 			if(depth > 0 && last != 0)
-				accum.append(c); // don't include the outer match pair in the return
+				end = pos; // don't include the outer match pair in the return
 			last = c;
 		} while(depth > 0);
-		return accum.toString();
+		return (end >= 0) ? queue.substring(start, end) : "";
 	}
 
 
@@ -370,6 +373,7 @@ public class TokenQueue
 
 	/**
 	 * Pulls the next run of whitespace characters of the queue.
+	 * @return Whether consuming whitespace or not
 	 */
 	public boolean consumeWhitespace()
 	{
@@ -461,15 +465,13 @@ public class TokenQueue
 	 */
 	public String remainder()
 	{
-		StringBuilder accum = new StringBuilder();
-		while(!isEmpty())
-		{
-			accum.append(consume());
-		}
-		return accum.toString();
+		final String remainder = queue.substring(pos, queue.length());
+		pos = queue.length();
+		return remainder;
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return queue.substring(pos);

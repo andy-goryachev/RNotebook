@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.io;
 import goryachev.common.util.CList;
 
@@ -32,13 +32,13 @@ public class DContainer
 	
 	public DContainer(DContainer x)
 	{
-		data = new CList(x.data);
+		data = new CList<>(x.data);
 	}
 	
 	
 	public DContainer()
 	{
-		data = new CList();
+		data = new CList<>();
 	}
 	
 	

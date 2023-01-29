@@ -1,10 +1,49 @@
-// Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2015-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 
+/** Reflection helper */
 public class Reflector
 {
+	protected static final Log log = Log.get("Reflector");
+	
+	
+	/** returns an accessible method, wrapped in an exception-eating wrapper */
+	public static CMethod method(Class c, String name, Class<?> ... args)
+	{
+		try
+		{
+			Method m = c.getDeclaredMethod(name, args);
+			m.setAccessible(true);
+			return new CMethod(m);
+		}
+		catch(Exception e)
+		{
+			throw new Error(e);
+		}
+	}
+	
+	
+	/** returns the speicifed field, made accessible */
+	public static CField field(Class c, String name)
+	{
+		try
+		{
+			Field f = c.getDeclaredField(name);
+			f.setAccessible(true);
+			return new CField(f);
+		}
+		catch(Exception e)
+		{
+			throw new Error(e);
+		}
+	}
+	
+	
+	/** invokes a specified method via reflection */
 	public static <T> T invoke(Class<T> returnType, String methodName, Object object, Object ... args)
 	{
 		if(object == null)
@@ -40,12 +79,12 @@ public class Reflector
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		return null;

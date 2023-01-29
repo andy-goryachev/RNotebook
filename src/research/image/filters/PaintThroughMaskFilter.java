@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package research.image.filters;
-import goryachev.common.util.img.jhlabs.AbstractBufferedImageOp;
+import goryachev.swing.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;

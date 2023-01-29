@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.text;
 import goryachev.common.util.CList;
 
@@ -18,6 +18,18 @@ public class ZQuery
 		p.parse();
 		this.includes = p.getIncludes();
 		this.excludes = p.getExcludes();
+	}
+	
+	
+	public int includedSegmentCount()
+	{
+		return includes == null ? 0 : includes.size();
+	}
+	
+	
+	public QuerySegment getIncludeSegment(int ix)
+	{
+		return includes.get(ix);
 	}
 	
 	

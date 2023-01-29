@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
 package research.image.filters;
-import goryachev.common.util.img.jhlabs.AbstractBufferedImageOp;
+import goryachev.swing.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;

@@ -8,7 +8,7 @@
  * RSyntaxTextArea.License.txt file for details.
  */
 package org.fife.ui.rtextarea;
-import goryachev.common.ui.CScrollPane;
+import goryachev.swing.CScrollPane;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;

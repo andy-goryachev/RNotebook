@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
 import goryachev.common.util.FileScanner;
-import goryachev.common.util.Noobfuscate;
+import goryachev.common.util.Keep;
 import goryachev.common.util.RFileFilter;
 import goryachev.notebook.js.JsUtil;
 import java.io.File;
@@ -10,7 +10,7 @@ import org.mozilla.javascript.InterpretedFunction;
 import org.mozilla.javascript.Scriptable;
 
 
-@Noobfuscate
+@Keep
 public class JsFileScanner
 {
 	private final FileScanner scanner;

@@ -1,7 +1,5 @@
-// Copyright (c) 2004-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2004-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.awt.Component;
-import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -9,17 +7,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.StyledDocument;
 
 
 /** converts various objects to their printable user-friendly representation for debugging purposes */
@@ -75,7 +67,7 @@ public class Dump
 			}
 			else
 			{
-				return "Can't list " + CKit.simpleName(x);
+				return "Can't list " + CKit.getSimpleName(x);
 			}
 		}
 	}
@@ -167,7 +159,7 @@ public class Dump
 	
 	private static String listMap(Map<?,?> map)
 	{
-		CList<String> a = new CList();
+		CList<String> a = new CList<>();
 		Iterator<?> it = map.entrySet().iterator();
 		while(it.hasNext())
 		{
@@ -180,13 +172,18 @@ public class Dump
 	
 	
 	// dumps byte array into a nicely formatted String
-	// printing address first, then 16 bytes of hex then ascii representation then newline
+	// printing address first, then 16 bytes of hex then ASCII representation then newline
 	//     "0000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" or
 	// "00000000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" 
 	// depending on startAddress
 	// address starts with startAddress
 	public static String hex(byte[] bytes, long startAddress)
 	{
+		if(bytes == null)
+		{
+			return "";
+		}
+		
 		SB sb = new SB(((bytes.length/16)+1) * 77 + 1);
 		hex(sb, bytes, startAddress, 0);
 		return sb.toString();
@@ -234,7 +231,7 @@ public class Dump
 			// space or newline
 			if(col >= 15)
 			{
-				dumpAscii(sb, bytes, lineStart);
+				dumpASCII(sb, bytes, lineStart);
 				col = 0;
 			}
 			else
@@ -252,13 +249,13 @@ public class Dump
 				sb.append("   ");
 			}
 
-			dumpAscii(sb, bytes, lineStart);
+			dumpASCII(sb, bytes, lineStart);
 		}
 	}
 	
 	
 	// dumps byte array into a nicely formatted String
-	// printing address first, then 16 bytes of hex then ascii representation then newline
+	// printing address first, then 16 bytes of hex then ASCII representation then newline
 	//     "0000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" or
 	// "00000000  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................" 
 	public static String hex(byte[] bytes)
@@ -384,7 +381,7 @@ public class Dump
 	}
 	
 	
-	private static void dumpAscii(SB sb, byte[] bytes, int lineStart)
+	private static void dumpASCII(SB sb, byte[] bytes, int lineStart)
 	{
 		// first, print padding
 		sb.append(' ');
@@ -425,101 +422,6 @@ public class Dump
 		return new String(ch);
 	}
 
-
-	public static String dumpDocument(Document doc, boolean inclideText)
-	{
-		try
-		{
-			StyledDocument d = (StyledDocument)doc;
-
-			SB b = new SB();
-			b.a("<\n");
-
-			int len = d.getLength();
-			int pos = 0;
-			while(pos < len)
-			{
-				Element em = d.getCharacterElement(pos);
-				b.a(pos).a(' ');
-				int end = em.getEndOffset();
-
-				if(inclideText)
-				{
-					String text;
-					try
-					{
-						text = d.getText(pos, end - pos);
-					}
-					catch(Exception e)
-					{
-						text = "?ERR" + pos + "," + end;
-					}
-					b.a("[").a(text).a("] ");
-				}
-
-				AttributeSet a = em.getAttributes();
-				Enumeration<?> en = a.getAttributeNames();
-				CList<Object> names = new CList();
-				while(en.hasMoreElements())
-				{
-					names.add(en.nextElement());
-				}
-				Collections.sort(names, new Comparator<Object>()
-				{
-					public int compare(Object a, Object b)
-					{
-						return a.toString().compareTo(b.toString());
-					}
-				});
-
-				for(Object name: names)
-				{
-					b.a(name).a("=").a(a.getAttribute(name)).a(" ");
-				}
-				b.a("\n");
-
-				pos = end;
-			}
-			b.a(">\n");
-
-			return b.toString();
-		}
-		catch(Exception e)
-		{
-			return CKit.stackTrace(e);
-		}
-	}
-
-
-	public static String documentStructure(Document d)
-	{
-		SB sb = new SB("\n");
-		Element root = d.getDefaultRootElement();
-		dump(root, 0, sb); 
-		return sb.toString();
-	}
-	
-	
-	private static void dump(Element em, int indent, SB sb)
-	{
-		for(int i=0; i<indent; i++)
-		{
-			sb.a("  ");
-		}
-		
-		sb.a(em.getClass().getSimpleName()).a(" ");
-		sb.a("start=").a(em.getStartOffset());
-		sb.a(" end=").a(em.getEndOffset());
-		sb.nl();
-		
-		int sz = em.getElementCount();
-		indent++;
-		for(int i=0; i<sz; i++)
-		{
-			dump(em.getElement(i), indent, sb); 
-		}
-	}
-	
 	
 	public static String toHexString(byte[] b)
 	{
@@ -603,15 +505,9 @@ public class Dump
 			{
 				describeMap((Map)x, sb, indent + 1);
 			}
-			else if(x instanceof Rectangle2D)
-			{
-				Rectangle2D r = (Rectangle2D)x;
-				sb.a(CKit.simpleName(x)).a("[").a(r.getX()).a(",").a(r.getY()).a(",").a(r.getWidth()).a(",").a(r.getHeight());
-				//.nl();
-			}
 			else if(isPrimitive(x.getClass()))
 			{
-				sb.a(CKit.simpleName(x)).a("=").a(x);
+				sb.a(simpleName(x)).a("=").a(x);
 			}
 			else if(x instanceof Enum)
 			{
@@ -648,7 +544,7 @@ public class Dump
 		
 		try
 		{
-			CMultiMap<String,Object> m = new CMultiMap();
+			CMultiMap<String,Object> m = new CMultiMap<>();
 			
 			while(c != null)
 			{
@@ -682,7 +578,7 @@ public class Dump
 				}
 			}
 			
-			CList<String> names = new CList(m.keySet());
+			CList<String> names = new CList<>(m.keySet());
 			CSorter.sort(names);
 			
 			for(String fname: names)
@@ -741,7 +637,7 @@ public class Dump
 	
 	public static void toShortString(String s, SB sb)
 	{
-		toShortString(s, sb, 26);
+		toShortString(s, sb, 80);
 	}
 	
 	
@@ -775,7 +671,7 @@ public class Dump
 	
 	private static void describeMap(Map x, SB sb, int indent)
 	{
-		sb.a(CKit.simpleName(x)).a("(").a(x.size()).a(")").nl();
+		sb.a(CKit.getSimpleName(x)).a("(").a(x.size()).a(")").nl();
 		
 		for(Object k: x.keySet())
 		{
@@ -790,7 +686,7 @@ public class Dump
 	
 	private static void describeCollection(Collection x, SB sb, int indent)
 	{
-		sb.a(CKit.simpleName(x)).a("(").a(x.size()).a(")").nl();
+		sb.a(CKit.getSimpleName(x)).a("(").a(x.size()).a(")").nl();
 		
 		for(Object item: x.toArray())
 		{
@@ -803,7 +699,7 @@ public class Dump
 	private static void describeArray(Object x, SB sb, int indent)
 	{
 		int sz = Array.getLength(x);
-		sb.a(CKit.simpleName(x.getClass().getComponentType())).a("[").a(sz).a("]\n");
+		sb.a(CKit.getSimpleName(x.getClass().getComponentType())).a("[").a(sz).a("]\n");
 		for(int i=0; i<sz; i++)
 		{
 			describe(Array.get(x, i), sb, indent+1);
@@ -868,22 +764,47 @@ public class Dump
 	}
 	
 	
-	public static String componentHierarchy(Component c)
+	public static String toPrintable(Object x)
 	{
-		if(c == null)
+		if(x == null)
 		{
-			return "<null>";
+			return "";
 		}
 		
-		SB sb = new SB();
-		while(c != null)
+		String s = x.toString();
+		int len = s.length();
+		SB sb = new SB(len);
+		for(int i=0; i<len; i++)
 		{
-			if(sb.isNotEmpty())
+			char c = s.charAt(i);
+			switch(c)
 			{
-				sb.a("\n  ");
+			case '\b':
+				sb.append("\\b");
+				break;
+			case '\t':
+				sb.append("\\t");
+				break;
+			case '\r':
+				sb.append("\\r");
+				break;
+			case '\n':
+				sb.append("\\n");
+				break;
+			case '\f':
+				sb.append("\\f");
+				break;
+			default:
+				if(c < 0x20)
+				{
+					sb.append("\\x");
+					sb.append(Hex.toHexByte(c));
+				}
+				else
+				{
+					sb.append(c);
+				}
 			}
-			sb.a(simpleName(c));
-			c = c.getParent();
 		}
 		return sb.toString();
 	}

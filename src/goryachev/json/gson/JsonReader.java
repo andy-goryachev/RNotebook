@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Contains modifications Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+ * Contains modifications Copyright (c) 2013-2023 Andy Goryachev <andy@goryachev.com>
  */
 package goryachev.json.gson;
 import java.io.Closeable;

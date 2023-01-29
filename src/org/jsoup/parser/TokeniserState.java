@@ -1,5 +1,8 @@
 package org.jsoup.parser;
 
+import java.util.Arrays;
+
+
 /**
  * States and transition activations for the Tokeniser.
  */
@@ -26,7 +29,7 @@ enum TokeniserState
 				t.emit(new Token.EOF());
 				break;
 			default:
-				String data = r.consumeToAny('&', '<', nullChar);
+				String data = r.consumeData();
 				t.emit(data);
 				break;
 			}
@@ -37,7 +40,7 @@ enum TokeniserState
 		// from & in data
 		void read(Tokeniser t, CharacterReader r)
 		{
-			Character c = t.consumeCharacterReference(null, false);
+			char[] c = t.consumeCharacterReference(null, false);
 			if(c == null)
 				t.emit('&');
 			else
@@ -77,7 +80,7 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			Character c = t.consumeCharacterReference(null, false);
+			char[] c = t.consumeCharacterReference(null, false);
 			if(c == null)
 				t.emit('&');
 			else
@@ -219,7 +222,8 @@ enum TokeniserState
 		void read(Tokeniser t, CharacterReader r)
 		{
 			// previous TagOpen state did NOT consume, will have a letter char in current
-			String tagName = r.consumeToAny('\t', '\n', '\r', '\f', ' ', '/', '>', nullChar).toLowerCase();
+			//String tagName = r.consumeToAnySorted(tagCharsSorted).toLowerCase();
+			String tagName = r.consumeTagName().toLowerCase();
 			t.tagPending.appendTagName(tagName);
 
 			switch(r.consume())
@@ -258,11 +262,11 @@ enum TokeniserState
 				t.createTempBuffer();
 				t.advanceTransition(RCDATAEndTagOpen);
 			}
-			else if(r.matchesLetter() && !r.containsIgnoreCase("</" + t.appropriateEndTagName()))
+			else if(r.matchesLetter() && t.appropriateEndTagName() != null && !r.containsIgnoreCase("</" + t.appropriateEndTagName()))
 			{
 				// diverge from spec: got a start tag, but there's no appropriate end tag (</title>), so rather than
 				// consuming to EOF; break out here
-				t.tagPending = new Token.EndTag(t.appropriateEndTagName());
+				t.tagPending = t.createTagPending(false).name(t.appropriateEndTagName());
 				t.emitTagPending();
 				r.unconsume(); // undo "<"
 				t.transition(Data);
@@ -341,6 +345,7 @@ enum TokeniserState
 		private void anythingElse(Tokeniser t, CharacterReader r)
 		{
 			t.emit("</" + t.dataBuffer.toString());
+			r.unconsume();
 			t.transition(Rcdata);
 		}
 	},
@@ -380,47 +385,7 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			if(r.matchesLetter())
-			{
-				String name = r.consumeLetterSequence();
-				t.tagPending.appendTagName(name.toLowerCase());
-				t.dataBuffer.append(name);
-				return;
-			}
-
-			if(t.isAppropriateEndTagToken() && !r.isEmpty())
-			{
-				char c = r.consume();
-				switch(c)
-				{
-				case '\t':
-				case '\n':
-				case '\r':
-				case '\f':
-				case ' ':
-					t.transition(BeforeAttributeName);
-					break;
-				case '/':
-					t.transition(SelfClosingStartTag);
-					break;
-				case '>':
-					t.emitTagPending();
-					t.transition(Data);
-					break;
-				default:
-					t.dataBuffer.append(c);
-					anythingElse(t, r);
-				}
-			}
-			else
-				anythingElse(t, r);
-		}
-
-
-		private void anythingElse(Tokeniser t, CharacterReader r)
-		{
-			t.emit("</" + t.dataBuffer.toString());
-			t.transition(Rawtext);
+			handleDataEndTag(t, r, Rawtext);
 		}
 	},
 	ScriptDataLessthanSign
@@ -465,49 +430,7 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			if(r.matchesLetter())
-			{
-				String name = r.consumeLetterSequence();
-				t.tagPending.appendTagName(name.toLowerCase());
-				t.dataBuffer.append(name);
-				return;
-			}
-
-			if(t.isAppropriateEndTagToken() && !r.isEmpty())
-			{
-				char c = r.consume();
-				switch(c)
-				{
-				case '\t':
-				case '\n':
-				case '\r':
-				case '\f':
-				case ' ':
-					t.transition(BeforeAttributeName);
-					break;
-				case '/':
-					t.transition(SelfClosingStartTag);
-					break;
-				case '>':
-					t.emitTagPending();
-					t.transition(Data);
-					break;
-				default:
-					t.dataBuffer.append(c);
-					anythingElse(t, r);
-				}
-			}
-			else
-			{
-				anythingElse(t, r);
-			}
-		}
-
-
-		private void anythingElse(Tokeniser t, CharacterReader r)
-		{
-			t.emit("</" + t.dataBuffer.toString());
-			t.transition(ScriptData);
+			handleDataEndTag(t, r, ScriptData);
 		}
 	},
 	ScriptDataEscapeStart
@@ -683,84 +606,14 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			if(r.matchesLetter())
-			{
-				String name = r.consumeLetterSequence();
-				t.tagPending.appendTagName(name.toLowerCase());
-				t.dataBuffer.append(name);
-				return;
-			}
-
-			if(t.isAppropriateEndTagToken() && !r.isEmpty())
-			{
-				char c = r.consume();
-				switch(c)
-				{
-				case '\t':
-				case '\n':
-				case '\r':
-				case '\f':
-				case ' ':
-					t.transition(BeforeAttributeName);
-					break;
-				case '/':
-					t.transition(SelfClosingStartTag);
-					break;
-				case '>':
-					t.emitTagPending();
-					t.transition(Data);
-					break;
-				default:
-					t.dataBuffer.append(c);
-					anythingElse(t, r);
-					break;
-				}
-			}
-			else
-			{
-				anythingElse(t, r);
-			}
-		}
-
-
-		private void anythingElse(Tokeniser t, CharacterReader r)
-		{
-			t.emit("</" + t.dataBuffer.toString());
-			t.transition(ScriptDataEscaped);
+			handleDataEndTag(t, r, ScriptDataEscaped);
 		}
 	},
 	ScriptDataDoubleEscapeStart
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			if(r.matchesLetter())
-			{
-				String name = r.consumeLetterSequence();
-				t.dataBuffer.append(name.toLowerCase());
-				t.emit(name);
-				return;
-			}
-
-			char c = r.consume();
-			switch(c)
-			{
-			case '\t':
-			case '\n':
-			case '\r':
-			case '\f':
-			case ' ':
-			case '/':
-			case '>':
-				if(t.dataBuffer.toString().equals("script"))
-					t.transition(ScriptDataDoubleEscaped);
-				else
-					t.transition(ScriptDataEscaped);
-				t.emit(c);
-				break;
-			default:
-				r.unconsume();
-				t.transition(ScriptDataEscaped);
-			}
+			handleDataDoubleEscapeTag(t, r, ScriptDataDoubleEscaped, ScriptDataEscaped);
 		}
 	},
 	ScriptDataDoubleEscaped
@@ -876,34 +729,7 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			if(r.matchesLetter())
-			{
-				String name = r.consumeLetterSequence();
-				t.dataBuffer.append(name.toLowerCase());
-				t.emit(name);
-				return;
-			}
-
-			char c = r.consume();
-			switch(c)
-			{
-			case '\t':
-			case '\n':
-			case '\r':
-			case '\f':
-			case ' ':
-			case '/':
-			case '>':
-				if(t.dataBuffer.toString().equals("script"))
-					t.transition(ScriptDataEscaped);
-				else
-					t.transition(ScriptDataDoubleEscaped);
-				t.emit(c);
-				break;
-			default:
-				r.unconsume();
-				t.transition(ScriptDataDoubleEscaped);
-			}
+			handleDataDoubleEscapeTag(t, r, ScriptDataEscaped, ScriptDataDoubleEscaped);
 		}
 	},
 	BeforeAttributeName
@@ -958,7 +784,7 @@ enum TokeniserState
 		// from before attribute name
 		void read(Tokeniser t, CharacterReader r)
 		{
-			String name = r.consumeToAny('\t', '\n', '\r', '\f', ' ', '/', '=', '>', nullChar, '"', '\'', '<');
+			String name = r.consumeToAnySorted(attributeNameCharsSorted);
 			t.tagPending.appendAttributeName(name.toLowerCase());
 
 			char c = r.consume();
@@ -1077,6 +903,7 @@ enum TokeniserState
 				break;
 			case eof:
 				t.eofError(this);
+				t.emitTagPending();
 				t.transition(Data);
 				break;
 			case '>':
@@ -1101,9 +928,11 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			String value = r.consumeToAny('"', '&', nullChar);
+			String value = r.consumeToAnySorted(attributeDoubleValueCharsSorted);
 			if(value.length() > 0)
 				t.tagPending.appendAttributeValue(value);
+			else
+				t.tagPending.setEmptyAttributeValue();
 
 			char c = r.consume();
 			switch(c)
@@ -1112,7 +941,7 @@ enum TokeniserState
 				t.transition(AfterAttributeValue_quoted);
 				break;
 			case '&':
-				Character ref = t.consumeCharacterReference('"', true);
+				char[] ref = t.consumeCharacterReference('"', true);
 				if(ref != null)
 					t.tagPending.appendAttributeValue(ref);
 				else
@@ -1134,9 +963,11 @@ enum TokeniserState
 	{
 		void read(Tokeniser t, CharacterReader r)
 		{
-			String value = r.consumeToAny('\'', '&', nullChar);
+			String value = r.consumeToAnySorted(attributeSingleValueCharsSorted);
 			if(value.length() > 0)
 				t.tagPending.appendAttributeValue(value);
+			else
+				t.tagPending.setEmptyAttributeValue();
 
 			char c = r.consume();
 			switch(c)
@@ -1145,7 +976,7 @@ enum TokeniserState
 				t.transition(AfterAttributeValue_quoted);
 				break;
 			case '&':
-				Character ref = t.consumeCharacterReference('\'', true);
+				char[] ref = t.consumeCharacterReference('\'', true);
 				if(ref != null)
 					t.tagPending.appendAttributeValue(ref);
 				else
@@ -1182,7 +1013,7 @@ enum TokeniserState
 				t.transition(BeforeAttributeName);
 				break;
 			case '&':
-				Character ref = t.consumeCharacterReference('>', true);
+				char[] ref = t.consumeCharacterReference('>', true);
 				if(ref != null)
 					t.tagPending.appendAttributeValue(ref);
 				else
@@ -1507,6 +1338,9 @@ enum TokeniserState
 				break;
 			case eof:
 				t.eofError(this);
+				// note: fall through to > case
+			case '>': // catch invalid <!DOCTYPE>
+				t.error(this);
 				t.createDoctypePending();
 				t.doctypePending.forceQuirks = true;
 				t.emitDoctypePending();
@@ -1539,6 +1373,7 @@ enum TokeniserState
 				break; // ignore whitespace
 			case nullChar:
 				t.error(this);
+				t.createDoctypePending();
 				t.doctypePending.name.append(replacementChar);
 				t.transition(DoctypeName);
 				break;
@@ -2067,8 +1902,104 @@ enum TokeniserState
 
 	abstract void read(Tokeniser t, CharacterReader r);
 
-	private static final char nullChar = '\u0000';
-	private static final char replacementChar = Tokeniser.replacementChar;
+	static final char nullChar = '\u0000';
+	protected static final char[] attributeSingleValueCharsSorted = new char[] { '\'', '&', nullChar };
+	protected static final char[] attributeDoubleValueCharsSorted = new char[] { '"', '&', nullChar };
+	protected static final char[] attributeNameCharsSorted = new char[] { '\t', '\n', '\r', '\f', ' ', '/', '=', '>', nullChar, '"', '\'', '<' };
+
+	protected static final char replacementChar = Tokeniser.replacementChar;
 	protected static final String replacementStr = String.valueOf(Tokeniser.replacementChar);
-	private static final char eof = CharacterReader.EOF;
+	protected static final char eof = CharacterReader.EOF;
+
+	static
+	{
+		Arrays.sort(attributeSingleValueCharsSorted);
+		Arrays.sort(attributeDoubleValueCharsSorted);
+		Arrays.sort(attributeNameCharsSorted);
+	}
+
+
+	/**
+	 * Handles RawtextEndTagName, ScriptDataEndTagName, and ScriptDataEscapedEndTagName. Same body impl, just
+	 * different else exit transitions.
+	 */
+	protected static void handleDataEndTag(Tokeniser t, CharacterReader r, TokeniserState elseTransition)
+	{
+		if(r.matchesLetter())
+		{
+			String name = r.consumeLetterSequence();
+			t.tagPending.appendTagName(name.toLowerCase());
+			t.dataBuffer.append(name);
+			return;
+		}
+
+		boolean needsExitTransition = false;
+		if(t.isAppropriateEndTagToken() && !r.isEmpty())
+		{
+			char c = r.consume();
+			switch(c)
+			{
+			case '\t':
+			case '\n':
+			case '\r':
+			case '\f':
+			case ' ':
+				t.transition(BeforeAttributeName);
+				break;
+			case '/':
+				t.transition(SelfClosingStartTag);
+				break;
+			case '>':
+				t.emitTagPending();
+				t.transition(Data);
+				break;
+			default:
+				t.dataBuffer.append(c);
+				needsExitTransition = true;
+			}
+		}
+		else
+		{
+			needsExitTransition = true;
+		}
+
+		if(needsExitTransition)
+		{
+			t.emit("</" + t.dataBuffer.toString());
+			t.transition(elseTransition);
+		}
+	}
+
+
+	protected static void handleDataDoubleEscapeTag(Tokeniser t, CharacterReader r, TokeniserState primary, TokeniserState fallback)
+	{
+		if(r.matchesLetter())
+		{
+			String name = r.consumeLetterSequence();
+			t.dataBuffer.append(name.toLowerCase());
+			t.emit(name);
+			return;
+		}
+
+		char c = r.consume();
+		switch(c)
+		{
+		case '\t':
+		case '\n':
+		case '\r':
+		case '\f':
+		case ' ':
+		case '/':
+		case '>':
+			if(t.dataBuffer.toString().equals("script"))
+				t.transition(primary);
+			else
+				t.transition(fallback);
+			t.emit(c);
+			break;
+		default:
+			r.unconsume();
+			t.transition(fallback);
+		}
+	}
 }

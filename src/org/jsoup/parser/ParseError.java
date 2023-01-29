@@ -16,7 +16,7 @@ public class ParseError
 	}
 
 
-	ParseError(int pos, String errorFormat, Object ... args)
+	ParseError(int pos, String errorFormat, Object... args)
 	{
 		this.errorMsg = String.format(errorFormat, args);
 		this.pos = pos;

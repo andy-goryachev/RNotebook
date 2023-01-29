@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2006-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.Serializable;
 import java.util.Enumeration;
@@ -399,7 +399,7 @@ public class IntHashtable<T>
 			{
 				Entry<Object> e = entry;
 				entry = e.next;
-				return keys ? new Integer(e.key) : e.value;
+				return keys ? Integer.valueOf(e.key) : e.value;
 			}
 			
 			throw new NoSuchElementException("IntHashtableEnumerator");

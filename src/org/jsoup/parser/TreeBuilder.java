@@ -1,26 +1,27 @@
 package org.jsoup.parser;
-import org.jsoup.helper.DescendableLinkedList;
+
 import org.jsoup.helper.Validate;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import java.util.ArrayList;
 
 
 /**
  * @author Jonathan Hedley
  */
-public abstract class TreeBuilder
+abstract class TreeBuilder
 {
-	protected abstract boolean process(Token token);
-	
-	//
-
 	CharacterReader reader;
 	Tokeniser tokeniser;
 	protected Document doc; // current doc we are building into
-	protected DescendableLinkedList<Element> stack; // the stack of open elements
+	protected ArrayList<Element> stack; // the stack of open elements
 	protected String baseUri; // current base uri, for creating new elements
 	protected Token currentToken; // currentToken is used only for error tracking.
 	protected ParseErrorList errors; // null when not tracking errors
+
+	private Token.StartTag start = new Token.StartTag(); // start tag to process
+	private Token.EndTag end = new Token.EndTag();
 
 
 	protected void initialiseParse(String input, String baseUri, ParseErrorList errors)
@@ -32,7 +33,7 @@ public abstract class TreeBuilder
 		reader = new CharacterReader(input);
 		this.errors = errors;
 		tokeniser = new Tokeniser(reader, errors);
-		stack = new DescendableLinkedList<Element>();
+		stack = new ArrayList<Element>(32);
 		this.baseUri = baseUri;
 	}
 
@@ -53,18 +54,56 @@ public abstract class TreeBuilder
 
 	protected void runParser()
 	{
-		Token token;
-		do
+		while(true)
 		{
-			token = tokeniser.read();
+			Token token = tokeniser.read();
 			process(token);
-			
-		} while(token.type != Token.TokenType.EOF);
+			token.reset();
+
+			if(token.type == Token.TokenType.EOF)
+				break;
+		}
+	}
+
+
+	protected abstract boolean process(Token token);
+
+
+	protected boolean processStartTag(String name)
+	{
+		if(currentToken == start)
+		{ // don't recycle an in-use token
+			return process(new Token.StartTag().name(name));
+		}
+		return process(start.reset().name(name));
+	}
+
+
+	public boolean processStartTag(String name, Attributes attrs)
+	{
+		if(currentToken == start)
+		{ // don't recycle an in-use token
+			return process(new Token.StartTag().nameAttr(name, attrs));
+		}
+		start.reset();
+		start.nameAttr(name, attrs);
+		return process(start);
+	}
+
+
+	protected boolean processEndTag(String name)
+	{
+		if(currentToken == end)
+		{ // don't recycle an in-use token
+			return process(new Token.EndTag().name(name));
+		}
+		return process(end.reset().name(name));
 	}
 
 
 	protected Element currentElement()
 	{
-		return stack.getLast();
+		int size = stack.size();
+		return size > 0 ? stack.get(size - 1) : null;
 	}
 }

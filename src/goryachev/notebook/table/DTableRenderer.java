@@ -1,13 +1,13 @@
 // Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.table;
-import goryachev.common.ui.CAlignment;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
-import goryachev.common.ui.table.CTableRendererBorder;
-import goryachev.common.util.Log;
-import goryachev.common.util.Parsers;
+import goryachev.common.log.Log;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsUtil;
+import goryachev.notebook.util.NBUtil;
+import goryachev.swing.CAlignment;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
+import goryachev.swing.table.CTableRendererBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
@@ -21,6 +21,7 @@ import org.mozilla.javascript.IdScriptableObject;
 public class DTableRenderer
 	extends DefaultTableCellRenderer
 {
+	static Log log = Log.get("DTableRenderer");
 	protected CTableRendererBorder border = new CTableRendererBorder();
 	private int selectedMix = 72;
 	private int selectedFocusedMix = 210;
@@ -73,7 +74,7 @@ public class DTableRenderer
 				
 			// icon
 
-			Icon ic = Parsers.parseIcon(val);
+			Icon ic = NBUtil.parseIcon(val);
 			setIcon(ic);
 				
 			// alignment
@@ -129,7 +130,7 @@ public class DTableRenderer
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		return this;
 	}

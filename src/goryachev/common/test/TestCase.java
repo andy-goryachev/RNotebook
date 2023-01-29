@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.test;
 import goryachev.common.util.SB;
 
@@ -11,7 +11,7 @@ public class TestCase
 	private SB text = new SB();
 	private long startTime;
 	private long stopTime;
-	protected static final ThreadLocal<TestCase> currentTestCase = new ThreadLocal();
+	protected static final ThreadLocal<TestCase> currentTestCase = new ThreadLocal<>();
 	
 	
 	public TestCase(String name)
@@ -73,7 +73,7 @@ public class TestCase
 	public static void print(Object x)
 	{
 		TestCase tc = get();
-		if(tc == null)
+		if((tc == null) || TF.isForcePrint())
 		{
 			System.out.println(x);	
 		}

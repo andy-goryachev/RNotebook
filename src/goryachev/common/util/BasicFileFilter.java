@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2009-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.io.File;
 import java.io.FileFilter;

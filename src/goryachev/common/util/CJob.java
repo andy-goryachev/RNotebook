@@ -1,5 +1,6 @@
-// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2012-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
 import goryachev.common.util.platform.ApplicationSupport;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -13,17 +14,18 @@ public abstract class CJob
 	/** called in a background thread when the job has been completed or has thrown an exception */
 	protected void onThisJobCompleted() { }
 	
-	protected void handleJobError(Throwable e) { Log.err(e); }
+	protected void handleJobError(Throwable e) { log.error(e); }
 	
 	//
 	
+	protected static final Log log = Log.get("CJob");
 	private String name;
 	private volatile Object result;
 	private CList<CJob> children;
 	private volatile boolean cancelled;
 	private static final Object NULL = new Object();
-	private static final ParallelExecutor exec = init();
-	private static final ThreadLocal<CJob> currentJob = new ThreadLocal();
+	private static final ParallelExecutor exec = createExecutor();
+	private static final ThreadLocal<CJob> currentJob = new ThreadLocal<>();
 	
 	
 	public CJob(String name)
@@ -55,7 +57,7 @@ public abstract class CJob
 	}
 	
 	
-	private static ParallelExecutor init()
+	private static ParallelExecutor createExecutor()
 	{
 		return new ParallelExecutor("cjob", 10);
 	}
@@ -99,7 +101,7 @@ public abstract class CJob
 	{
 		if(children == null)
 		{
-			children = new CList();
+			children = new CList<>();
 		}
 		
 		children.add(ch);
@@ -136,7 +138,7 @@ public abstract class CJob
 		}
 		catch(Throwable e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		currentJob.set(null);
@@ -157,8 +159,18 @@ public abstract class CJob
 	}
 	
 	
+	protected boolean hasResult()
+	{
+		return (result != null);
+	}
+	
+	
 	protected synchronized Object getResult()
 	{
+		if(result == NULL)
+		{
+			return null;
+		}
 		return result;
 	}
 	
@@ -176,8 +188,7 @@ public abstract class CJob
 	// FIX add the job to the child and release the thread
 	public void waitForCompletion() throws Exception
 	{
-		Object rv;
-		while((rv = getResult()) == null)
+		while(!hasResult())
 		{
 			if(isCancelled())
 			{
@@ -189,15 +200,16 @@ public abstract class CJob
 				try
 				{
 					// FIX something is wrong here, should not need the timeout parameter
-					wait(1000);
+					wait(100);
 				}
 				catch(Exception e)
 				{
-					Log.err(e);
+					log.error(e);
 				}
 			}
 		}
 		
+		Object rv = getResult();
 		if(rv instanceof Exception)
 		{
 			throw (Exception)rv;
@@ -223,7 +235,7 @@ public abstract class CJob
 	public CList<CJob> getChildren()
 	{
 		CList<CJob> cs = getChildrenPrivate();
-		return cs == null ? new CList() : cs;
+		return cs == null ? new CList<>() : cs;
 	}
 	
 	
@@ -235,15 +247,21 @@ public abstract class CJob
 		}
 		else
 		{
-			return new CList(children);
+			return new CList<>(children);
 		}
 	}
 	
 	
 	public void submit()
 	{
+		submit(this);
+	}
+	
+	
+	public static void submit(Runnable r)
+	{
 		ApplicationSupport.shutdownCJobExecutor = true;
-		exec.submit(this);
+		exec.submit(r);
 	}
 	
 	
@@ -255,7 +273,7 @@ public abstract class CJob
 		}
 		catch(Exception e)
 		{ 
-			Log.err(e);
+			log.error(e);
 		}
 	}
 	

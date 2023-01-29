@@ -1,17 +1,17 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CComboBox;
-import goryachev.common.ui.CPanel;
-import goryachev.common.ui.ChoiceDialog;
-import goryachev.common.ui.InputTracker;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.MainWindow;
 import goryachev.notebook.Styles;
 import goryachev.notebook.js.JsEngine;
+import goryachev.swing.CAction;
+import goryachev.swing.CComboBox;
+import goryachev.swing.CPanel;
+import goryachev.swing.ChoiceDialog;
+import goryachev.swing.InputTracker;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
 import java.awt.Component;
 import java.awt.Rectangle;
 import javax.swing.JPanel;

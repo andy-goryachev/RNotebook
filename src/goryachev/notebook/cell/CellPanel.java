@@ -1,12 +1,12 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CMenuItem;
-import goryachev.common.ui.InputTracker;
-import goryachev.common.ui.UI;
 import goryachev.common.util.CList;
 import goryachev.common.util.TextTools;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.icons.NotebookIcons;
+import goryachev.swing.CMenuItem;
+import goryachev.swing.InputTracker;
+import goryachev.swing.UI;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;

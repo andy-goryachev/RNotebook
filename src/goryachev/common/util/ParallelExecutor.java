@@ -1,5 +1,6 @@
-// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2012-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ParallelExecutor
 	implements ThreadFactory
 {
+	protected static final Log log = Log.get("ParallelExecutor");
 	private String name;
 	private AtomicInteger number = new AtomicInteger();
 	private ThreadPoolExecutor exec;
@@ -27,14 +29,15 @@ public class ParallelExecutor
 		this.name = name;
 		
 		exec = new ThreadPoolExecutor(0, Integer.MAX_VALUE, keepAliveTimeSeconds, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), this);
-
 		exec.allowCoreThreadTimeOut(true);
 	}
 	
 	
 	public Thread newThread(Runnable r)
 	{
-		return new Thread(r, name + "." + number.getAndIncrement());
+		Thread t = new Thread(r, name + "." + number.getAndIncrement());
+		t.setDaemon(true);
+		return t;
 	}
 	
 	
@@ -57,7 +60,7 @@ public class ParallelExecutor
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 			closed = true;
 		}

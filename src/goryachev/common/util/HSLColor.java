@@ -1,5 +1,6 @@
 // Copyright (c) 2006-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
 import java.awt.Color;
 
 
@@ -9,6 +10,7 @@ public class HSLColor
 	private static final float FRACT_1_3 = 1f/3f;
 	private static final float FRACT_1_6 = 1f/6f;
 	private static final float FRACT_2_3 = 2f/3f;
+	static Log log = Log.get("HSLColor");
 	
 	// TODO immutable
 	private float hue;
@@ -214,8 +216,8 @@ public class HSLColor
 		}
 		catch(Exception e)
 		{
-			Log.print(r + "." + g + "." + b);
-			Log.err(e);
+			log.debug(() -> r + "." + g + "." + b);
+			log.error(e);
 			return new Color(0, 0, 0, 0);
 		}
 	}

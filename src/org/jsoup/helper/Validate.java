@@ -1,11 +1,11 @@
 package org.jsoup.helper;
 
-
 /**
  * Simple validation methods. Designed for jsoup internal use
  */
 public final class Validate
 {
+
 	private Validate()
 	{
 	}
@@ -18,9 +18,7 @@ public final class Validate
 	public static void notNull(Object obj)
 	{
 		if(obj == null)
-		{
 			throw new IllegalArgumentException("Object must not be null");
-		}
 	}
 
 
@@ -32,9 +30,7 @@ public final class Validate
 	public static void notNull(Object obj, String msg)
 	{
 		if(obj == null)
-		{
 			throw new IllegalArgumentException(msg);
-		}
 	}
 
 
@@ -45,9 +41,7 @@ public final class Validate
 	public static void isTrue(boolean val)
 	{
 		if(!val)
-		{
 			throw new IllegalArgumentException("Must be true");
-		}
 	}
 
 
@@ -59,9 +53,7 @@ public final class Validate
 	public static void isTrue(boolean val, String msg)
 	{
 		if(!val)
-		{
 			throw new IllegalArgumentException(msg);
-		}
 	}
 
 
@@ -72,9 +64,7 @@ public final class Validate
 	public static void isFalse(boolean val)
 	{
 		if(val)
-		{
 			throw new IllegalArgumentException("Must be false");
-		}
 	}
 
 
@@ -86,9 +76,7 @@ public final class Validate
 	public static void isFalse(boolean val, String msg)
 	{
 		if(val)
-		{
 			throw new IllegalArgumentException(msg);
-		}
 	}
 
 
@@ -110,12 +98,8 @@ public final class Validate
 	public static void noNullElements(Object[] objects, String msg)
 	{
 		for(Object obj: objects)
-		{
 			if(obj == null)
-			{
 				throw new IllegalArgumentException(msg);
-			}
-		}
 	}
 
 
@@ -126,9 +110,7 @@ public final class Validate
 	public static void notEmpty(String string)
 	{
 		if(string == null || string.length() == 0)
-		{
 			throw new IllegalArgumentException("String must not be empty");
-		}
 	}
 
 
@@ -140,9 +122,7 @@ public final class Validate
 	public static void notEmpty(String string, String msg)
 	{
 		if(string == null || string.length() == 0)
-		{
 			throw new IllegalArgumentException(msg);
-		}
 	}
 
 

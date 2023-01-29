@@ -1,4 +1,4 @@
-// Copyright (c) 2010-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2010-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Locale;
 import java.util.TimeZone;

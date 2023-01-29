@@ -1,11 +1,11 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.plot;
-import goryachev.common.ui.CPanel;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
 import goryachev.notebook.Styles;
 import goryachev.notebook.cell.CellHandler;
 import goryachev.notebook.js.classes.DPlot;
+import goryachev.swing.CPanel;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;

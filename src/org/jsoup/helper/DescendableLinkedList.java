@@ -1,4 +1,5 @@
 package org.jsoup.helper;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -6,10 +7,11 @@ import java.util.ListIterator;
 
 /**
  * Provides a descending iterator and other 1.6 methods to allow support on the 1.5 JRE.
+ * @param <E> Type of elements
  */
-public class DescendableLinkedList<E>
-	extends LinkedList<E>
+public class DescendableLinkedList<E> extends LinkedList<E>
 {
+
 	/**
 	 * Create a new DescendableLinkedList.
 	 */
@@ -23,6 +25,7 @@ public class DescendableLinkedList<E>
 	 * Add a new element to the start of the list.
 	 * @param e element to add
 	 */
+	@Override
 	public void push(E e)
 	{
 		addFirst(e);
@@ -33,6 +36,7 @@ public class DescendableLinkedList<E>
 	 * Look at the last element, if there is one.
 	 * @return the last element, or null
 	 */
+	@Override
 	public E peekLast()
 	{
 		return size() == 0 ? null : getLast();
@@ -43,6 +47,7 @@ public class DescendableLinkedList<E>
 	 * Remove and return the last element, if there is one
 	 * @return the last element, or null
 	 */
+	@Override
 	public E pollLast()
 	{
 		return size() == 0 ? null : removeLast();
@@ -53,25 +58,21 @@ public class DescendableLinkedList<E>
 	 * Get an iterator that starts and the end of the list and works towards the start.
 	 * @return an iterator that starts and the end of the list and works towards the start.
 	 */
+	@Override
 	public Iterator<E> descendingIterator()
 	{
 		return new DescendingIterator<E>(size());
 	}
-	
-	
-	//
-	
 
-	protected class DescendingIterator<X>
-		implements Iterator<X>
+	private class DescendingIterator<E2> implements Iterator<E2>
 	{
-		private final ListIterator<X> iter;
+		private final ListIterator<E2> iter;
 
 
 		@SuppressWarnings("unchecked")
 		protected DescendingIterator(int index)
 		{
-			iter = (ListIterator<X>)listIterator(index);
+			iter = (ListIterator<E2>)listIterator(index);
 		}
 
 
@@ -89,7 +90,7 @@ public class DescendableLinkedList<E>
 		 * Get the next element.
 		 * @return the next element.
 		 */
-		public X next()
+		public E2 next()
 		{
 			return iter.previous();
 		}

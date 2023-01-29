@@ -1,5 +1,6 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,20 @@ public class CMap<K,V>
 	
 	public CList<K> keys()
 	{
-		return new CList(keySet());
+		return new CList<>(keySet());
+	}
+	
+	
+	/** removes values identified by the supplied keys.  passing null has no effect */
+	public void removeAll(Collection<K> keys)
+	{
+		if(keys != null)
+		{
+			for(K k: keys)
+			{
+				remove(k);
+			}
+		}
 	}
 	
 	
@@ -51,7 +65,7 @@ public class CMap<K,V>
 	
 	public CMap<K,V> copyCMap()
 	{
-		return new CMap(this);
+		return new CMap<>(this);
 	}
 	
 	
@@ -67,9 +81,9 @@ public class CMap<K,V>
 			
 			for(int i=0; i<sz; )
 			{
-				Object k = xx[i++];
-				Object v = xx[i++];
-				put((K)k, (V)v);
+				K k = (K)xx[i++];
+				V v = (V)xx[i++];
+				put(k, v);
 			}
 		}
 	}

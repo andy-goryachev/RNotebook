@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CPopupMenu;
-import goryachev.common.ui.CPopupMenuController;
+import goryachev.swing.CPopupMenu;
+import goryachev.swing.CPopupMenuController;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -6,39 +6,33 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-/** Convenience wrapper for java Calendar class */
+/** Convenience wrapper for java GregorianCalendar class */
 public class CCalendar
 {
-	protected final Calendar cal;
+	protected final GregorianCalendar cal;
 	
 	
-	protected CCalendar(Calendar c)
+	protected CCalendar()
 	{
-		this.cal = c;
+		this.cal = new GregorianCalendar();
 	}
 	
 	
-	public static CCalendar getInstance()
+	public CCalendar(Locale loc)
 	{
-		return new CCalendar(Calendar.getInstance());
+		this.cal = new GregorianCalendar(loc);
 	}
 	
 	
-	public static CCalendar getInstance(Locale loc)
+	public CCalendar(TimeZone tz)
 	{
-		return new CCalendar(Calendar.getInstance(loc));
+		this.cal = new GregorianCalendar(tz);
 	}
 	
 	
-	public static CCalendar getInstance(TimeZone tz)
+	public CCalendar(TimeZone tz, Locale loc)
 	{
-		return new CCalendar(Calendar.getInstance(tz));
-	}
-	
-	
-	public static CCalendar getInstance(TimeZone tz, Locale loc)
-	{
-		return new CCalendar(Calendar.getInstance(tz, loc));
+		this.cal = new GregorianCalendar(tz, loc);
 	}
 	
 	
@@ -138,9 +132,17 @@ public class CCalendar
 	}
 	
 	
+	/** sets Calendar class month!  Calendar.JANUARY = 0 */
 	public void setMonth(int x)
 	{
 		cal.set(Calendar.MONTH, x);
+	}
+	
+	
+	/** sets human month (January = 1) */
+	public void setMonthHuman(int x)
+	{
+		cal.set(Calendar.MONTH, x - 1);
 	}
 	
 	
@@ -180,7 +182,15 @@ public class CCalendar
 	}
 	
 	
+	/** @return time in milliseconds */
 	public long getTime()
+	{
+		return cal.getTimeInMillis();
+	}
+	
+	
+	/** @return time in milliseconds */
+	public long getTimeInMillis()
 	{
 		return cal.getTimeInMillis();
 	}
@@ -192,6 +202,7 @@ public class CCalendar
 	}
 	
 	
+	@Deprecated // TODO rename setStartOfDay
 	public void set0000()
 	{
 		CalendarTools.set0000(cal);
@@ -217,8 +228,8 @@ public class CCalendar
 	}
 	
 	
-	public static CCalendar gregorianCalendar()
+	public String toString()
 	{
-		return new CCalendar(new GregorianCalendar());
+		return cal.toString();
 	}
 }

@@ -1,7 +1,7 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Accelerator;
-import goryachev.common.ui.Menus;
+import goryachev.i18n.Menus;
+import goryachev.swing.Accelerator;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 

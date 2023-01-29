@@ -1,15 +1,14 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.ui.CMenuItem;
-import goryachev.common.ui.CTextArea;
-import goryachev.common.ui.Theme;
-import goryachev.common.ui.UI;
 import goryachev.notebook.Accelerators;
 import goryachev.notebook.DataBook;
 import goryachev.notebook.Styles;
+import goryachev.swing.CMenuItem;
+import goryachev.swing.CTextArea;
+import goryachev.swing.Theme;
+import goryachev.swing.UI;
 import java.awt.Component;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 import research.dhtml3.HDocument;
 

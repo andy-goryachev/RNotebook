@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package research.dhtml3;
-import goryachev.common.util.Rex;
 
 
 public class HtmlStyles
@@ -18,7 +17,7 @@ public class HtmlStyles
 		case PADDING_RIGHT: return "padding-right";
 		case PADDING_TOP: return "padding-top";
 		default:
-			throw new Rex("unknown attribute " + a);
+			throw new Error("unknown attribute " + a);
 		}
 	}
 }

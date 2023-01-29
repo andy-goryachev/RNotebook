@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
-import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CList;
 import goryachev.json.JsonDecoder;
 import goryachev.notebook.DataBook;
@@ -10,6 +9,7 @@ import goryachev.notebook.js.JsError;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.classes.DPlot;
 import goryachev.notebook.js.classes.DTable;
+import goryachev.swing.ImageTools;
 import java.io.Reader;
 
 

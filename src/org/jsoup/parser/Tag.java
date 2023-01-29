@@ -22,6 +22,8 @@ public class Tag
 	private boolean empty = false; // can hold nothing; e.g. img
 	private boolean selfClosing = false; // can self close (<foo />). used for unknown tags that self close, without forcing them as empty.
 	private boolean preserveWhitespace = false; // for pre, textarea, script etc
+	private boolean formList = false; // a control that appears in forms: input, textarea, output etc
+	private boolean formSubmit = false; // a control that can be submitted in a form: input etc
 
 
 	private Tag(String tagName)
@@ -43,9 +45,10 @@ public class Tag
 
 	/**
 	 * Get a Tag by name. If not previously defined (unknown), returns a new generic tag, that can do anything.
-	 * <p/>
+	 * <p>
 	 * Pre-defined tags (P, DIV etc) will be ==, but unknown tags are not registered and will only .equals().
-	 *
+	 * </p>
+	 * 
 	 * @param tagName Name of tag, e.g. "p". Case insensitive.
 	 * @return The tag, either defined or new generic.
 	 */
@@ -183,6 +186,26 @@ public class Tag
 	}
 
 
+	/**
+	 * Get if this tag represents a control associated with a form. E.g. input, textarea, output
+	 * @return if associated with a form
+	 */
+	public boolean isFormListed()
+	{
+		return formList;
+	}
+
+
+	/**
+	 * Get if this tag represents an element that should be submitted with a form. E.g. input, option
+	 * @return if submittable with a form
+	 */
+	public boolean isFormSubmittable()
+	{
+		return formSubmit;
+	}
+
+
 	Tag setSelfClosing()
 	{
 		selfClosing = true;
@@ -200,6 +223,8 @@ public class Tag
 
 		Tag tag = (Tag)o;
 
+		if(!tagName.equals(tag.tagName))
+			return false;
 		if(canContainBlock != tag.canContainBlock)
 			return false;
 		if(canContainInline != tag.canContainInline)
@@ -214,10 +239,9 @@ public class Tag
 			return false;
 		if(selfClosing != tag.selfClosing)
 			return false;
-		if(!tagName.equals(tag.tagName))
+		if(formList != tag.formList)
 			return false;
-
-		return true;
+		return formSubmit == tag.formSubmit;
 	}
 
 
@@ -232,10 +256,13 @@ public class Tag
 		result = 31 * result + (empty ? 1 : 0);
 		result = 31 * result + (selfClosing ? 1 : 0);
 		result = 31 * result + (preserveWhitespace ? 1 : 0);
+		result = 31 * result + (formList ? 1 : 0);
+		result = 31 * result + (formSubmit ? 1 : 0);
 		return result;
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return tagName;
@@ -243,26 +270,16 @@ public class Tag
 
 	// internal static initialisers:
 	// prepped from http://www.w3.org/TR/REC-html40/sgml/dtd.html and other sources
-	private static final String[] blockTags =
-	{
-		"html", "head", "body", "frameset", "script", "noscript", "style", "meta", "link", "title", "frame", "noframes", "section", "nav", "aside", "hgroup", "header", "footer", "p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "pre", "div", "blockquote", "hr", "address", "figure", "figcaption", "form", "fieldset", "ins", "del", "dl", "dt", "dd", "li", "table", "caption", "thead", "tfoot", "tbody", "colgroup", "col", "tr", "th", "td", "video", "audio", "canvas", "details", "menu", "plaintext"
+	private static final String[] blockTags = { "html", "head", "body", "frameset", "script", "noscript", "style", "meta", "link", "title", "frame", "noframes", "section", "nav", "aside", "hgroup", "header", "footer", "p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "pre", "div", "blockquote", "hr", "address", "figure", "figcaption", "form", "fieldset", "ins", "del", "s", "dl", "dt", "dd", "li", "table", "caption", "thead", "tfoot", "tbody", "colgroup", "col", "tr", "th", "td", "video", "audio", "canvas", "details", "menu", "plaintext", "template", "article", "main", "svg", "math" };
+	private static final String[] inlineTags = { "object", "base", "font", "tt", "i", "b", "u", "big", "small", "em", "strong", "dfn", "code", "samp", "kbd", "var", "cite", "abbr", "time", "acronym", "mark", "ruby", "rt", "rp", "a", "img", "br", "wbr", "map", "q", "sub", "sup", "bdo", "iframe", "embed", "span", "input", "select", "textarea", "label", "button", "optgroup", "option", "legend", "datalist", "keygen", "output", "progress", "meter", "area", "param", "source", "track", "summary", "command", "device", "area", "basefont", "bgsound", "menuitem", "param", "source", "track", "data", "bdi" };
+	private static final String[] emptyTags = { "meta", "link", "base", "frame", "img", "br", "wbr", "embed", "hr", "input", "keygen", "col", "command", "device", "area", "basefont", "bgsound", "menuitem", "param", "source", "track" };
+	private static final String[] formatAsInlineTags = { "title", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "address", "li", "th", "td", "script", "style", "ins", "del", "s" };
+	private static final String[] preserveWhitespaceTags = { "pre", "plaintext", "title", "textarea"
+	// script is not here as it is a data node, which always preserve whitespace
 	};
-	private static final String[] inlineTags =
-	{
-		"object", "base", "font", "tt", "i", "b", "u", "big", "small", "em", "strong", "dfn", "code", "samp", "kbd", "var", "cite", "abbr", "time", "acronym", "mark", "ruby", "rt", "rp", "a", "img", "br", "wbr", "map", "q", "sub", "sup", "bdo", "iframe", "embed", "span", "input", "select", "textarea", "label", "button", "optgroup", "option", "legend", "datalist", "keygen", "output", "progress", "meter", "area", "param", "source", "track", "summary", "command", "device"
-	};
-	private static final String[] emptyTags =
-	{
-		"meta", "link", "base", "frame", "img", "br", "wbr", "embed", "hr", "input", "keygen", "col", "command", "device"
-	};
-	private static final String[] formatAsInlineTags =
-	{
-		"title", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "address", "li", "th", "td", "script", "style"
-	};
-	private static final String[] preserveWhitespaceTags =
-	{
-		"pre", "plaintext", "title", "textarea"
-	};
+	// todo: I think we just need submit tags, and can scrub listed
+	private static final String[] formListedTags = { "button", "fieldset", "input", "keygen", "object", "output", "select", "textarea" };
+	private static final String[] formSubmitTags = { "input", "keygen", "object", "select", "textarea" };
 
 	static
 	{
@@ -303,6 +320,20 @@ public class Tag
 			Tag tag = tags.get(tagName);
 			Validate.notNull(tag);
 			tag.preserveWhitespace = true;
+		}
+
+		for(String tagName: formListedTags)
+		{
+			Tag tag = tags.get(tagName);
+			Validate.notNull(tag);
+			tag.formList = true;
+		}
+
+		for(String tagName: formSubmitTags)
+		{
+			Tag tag = tags.get(tagName);
+			Validate.notNull(tag);
+			tag.formSubmit = true;
 		}
 	}
 

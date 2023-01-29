@@ -1,30 +1,25 @@
 package org.jsoup.nodes;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import org.jsoup.helper.Validate;
+import java.util.*;
 
 
 /**
  * The attributes of an Element.
- * <p/>
+ * <p>
  * Attributes are treated as a map: there can be only one value associated with an attribute key.
- * <p/>
+ * </p>
+ * <p>
  * Attribute key and value comparisons are done case insensitively, and keys are normalised to
  * lower-case.
+ * </p>
  * 
  * @author Jonathan Hedley, jonathan@hedley.net
  */
-public class Attributes
-	implements Iterable<Attribute>, Cloneable
+public class Attributes implements Iterable<Attribute>, Cloneable
 {
 	protected static final String dataPrefix = "data-";
+
 	protected LinkedHashMap<String,Attribute> attributes = null;
 
 
@@ -42,9 +37,7 @@ public class Attributes
 		Validate.notEmpty(key);
 
 		if(attributes == null)
-		{
 			return "";
-		}
 
 		Attribute attr = attributes.get(key.toLowerCase());
 		return attr != null ? attr.getValue() : "";
@@ -64,6 +57,20 @@ public class Attributes
 
 
 	/**
+	Set a new boolean attribute, remove attribute if value is false.
+	@param key attribute key
+	@param value attribute value
+	*/
+	public void put(String key, boolean value)
+	{
+		if(value)
+			put(new BooleanAttribute(key));
+		else
+			remove(key);
+	}
+
+
+	/**
 	 Set a new attribute, or replace an existing one by key.
 	 @param attribute attribute
 	 */
@@ -71,9 +78,7 @@ public class Attributes
 	{
 		Validate.notNull(attribute);
 		if(attributes == null)
-		{
 			attributes = new LinkedHashMap<String,Attribute>(2);
-		}
 		attributes.put(attribute.getKey(), attribute);
 	}
 
@@ -86,9 +91,7 @@ public class Attributes
 	{
 		Validate.notEmpty(key);
 		if(attributes == null)
-		{
 			return;
-		}
 		attributes.remove(key.toLowerCase());
 	}
 
@@ -111,9 +114,7 @@ public class Attributes
 	public int size()
 	{
 		if(attributes == null)
-		{
 			return 0;
-		}
 		return attributes.size();
 	}
 
@@ -125,13 +126,9 @@ public class Attributes
 	public void addAll(Attributes incoming)
 	{
 		if(incoming.size() == 0)
-		{
 			return;
-		}
 		if(attributes == null)
-		{
 			attributes = new LinkedHashMap<String,Attribute>(incoming.size());
-		}
 		attributes.putAll(incoming.attributes);
 	}
 
@@ -150,9 +147,7 @@ public class Attributes
 	public List<Attribute> asList()
 	{
 		if(attributes == null)
-		{
 			return Collections.emptyList();
-		}
 
 		List<Attribute> list = new ArrayList<Attribute>(attributes.size());
 		for(Map.Entry<String,Attribute> entry: attributes.entrySet())
@@ -189,9 +184,7 @@ public class Attributes
 	void html(StringBuilder accum, Document.OutputSettings out)
 	{
 		if(attributes == null)
-		{
 			return;
-		}
 
 		for(Map.Entry<String,Attribute> entry: attributes.entrySet())
 		{
@@ -202,34 +195,36 @@ public class Attributes
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return html();
 	}
 
 
+	/**
+	 * Checks if these attributes are equal to another set of attributes, by comparing the two sets
+	 * @param o attributes to compare with
+	 * @return if both sets of attributes have the same content
+	 */
 	@Override
 	public boolean equals(Object o)
 	{
 		if(this == o)
-		{
 			return true;
-		}
 		if(!(o instanceof Attributes))
-		{
 			return false;
-		}
 
 		Attributes that = (Attributes)o;
-		if(attributes != null ? !attributes.equals(that.attributes) : that.attributes != null)
-		{
-			return false;
-		}
 
-		return true;
+		return !(attributes != null ? !attributes.equals(that.attributes) : that.attributes != null);
 	}
 
 
+	/**
+	 * Calculates the hashcode of these attributes, by iterating all attributes and summing their hashcodes.
+	 * @return calculated hashcode
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -241,9 +236,7 @@ public class Attributes
 	public Attributes clone()
 	{
 		if(attributes == null)
-		{
 			return new Attributes();
-		}
 
 		Attributes clone;
 		try
@@ -256,26 +249,14 @@ public class Attributes
 		}
 		clone.attributes = new LinkedHashMap<String,Attribute>(attributes.size());
 		for(Attribute attribute: this)
-		{
 			clone.attributes.put(attribute.getKey(), attribute.clone());
-		}
 		return clone;
 	}
-	
-	
-	protected static String dataKey(String key)
-	{
-		return dataPrefix + key;
-	}
-	
-	
-	//
-	
 
-	public class Dataset
-		extends AbstractMap<String,String>
+	
+	private class Dataset extends AbstractMap<String,String>
 	{
-		public Dataset()
+		protected Dataset()
 		{
 			if(attributes == null)
 			{
@@ -284,6 +265,7 @@ public class Attributes
 		}
 
 
+		@Override
 		public Set<Entry<String,String>> entrySet()
 		{
 			return new EntrySet();
@@ -299,20 +281,18 @@ public class Attributes
 			attributes.put(dataKey, attr);
 			return oldValue;
 		}
-		
 
-		//
 		
-		
-		public class EntrySet
-			extends AbstractSet<Map.Entry<String,String>>
+		protected class EntrySet extends AbstractSet<Map.Entry<String,String>>
 		{
+			@Override
 			public Iterator<Map.Entry<String,String>> iterator()
 			{
 				return new DatasetIterator();
 			}
 
 
+			@Override
 			public int size()
 			{
 				int count = 0;
@@ -322,13 +302,8 @@ public class Attributes
 				return count;
 			}
 		}
-		
-		
-		//
-		
 
-		public class DatasetIterator
-			implements Iterator<Map.Entry<String,String>>
+		protected class DatasetIterator implements Iterator<Map.Entry<String,String>>
 		{
 			private Iterator<Attribute> attrIter = attributes.values().iterator();
 			private Attribute attr;
@@ -340,7 +315,9 @@ public class Attributes
 				{
 					attr = attrIter.next();
 					if(attr.isDataAttribute())
+					{
 						return true;
+					}
 				}
 				return false;
 			}
@@ -357,5 +334,11 @@ public class Attributes
 				attributes.remove(attr.getKey());
 			}
 		}
+	}
+
+
+	protected static String dataKey(String key)
+	{
+		return dataPrefix + key;
 	}
 }

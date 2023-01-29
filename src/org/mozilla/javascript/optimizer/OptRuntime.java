@@ -10,9 +10,9 @@ import org.mozilla.javascript.*;
 public final class OptRuntime extends ScriptRuntime
 {
 
-    public static final Double zeroObj = new Double(0.0);
-    public static final Double oneObj = new Double(1.0);
-    public static final Double minusOneObj = new Double(-1.0);
+    public static final Double zeroObj = Double.valueOf(0.0);
+    public static final Double oneObj = Double.valueOf(1.0);
+    public static final Double minusOneObj = Double.valueOf(-1.0);
 
     /**
      * Implement ....() call shrinking optimizer code.
@@ -106,7 +106,7 @@ public final class OptRuntime extends ScriptRuntime
     public static Object elemIncrDecr(Object obj, double index,
                                       Context cx, int incrDecrMask)
     {
-        return ScriptRuntime.elemIncrDecr(obj, new Double(index), cx,
+        return ScriptRuntime.elemIncrDecr(obj, Double.valueOf(index), cx,
                                           incrDecrMask);
     }
 
@@ -154,7 +154,7 @@ public final class OptRuntime extends ScriptRuntime
         } else if (num != num) {
             return NaNobj;
         }
-        return new Double(num);
+        return Double.valueOf(num);
     }
 
     static String encodeIntArray(int[] array)

@@ -1,6 +1,5 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.io;
-import goryachev.common.util.CKit;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -13,6 +12,7 @@ import java.io.InputStream;
 
 /** Conventient binary data reader */
 public class DReader
+	extends InputStream
 	implements Closeable
 {
 	protected InputStream in;
@@ -38,54 +38,27 @@ public class DReader
 
 	public void readFully(byte[] b) throws IOException
 	{
-		readFully(b, 0, b.length);
+		CIOTools.readFully(in, b);
+	}
+	
+	
+	public byte[] readFully(int byteCount) throws IOException
+	{
+		byte[] b = new byte[byteCount];
+		CIOTools.readFully(in, b);
+		return b;
 	}
 
 
 	public void readFully(byte[] b, int off, int len) throws IOException
 	{
-		if(len < 0)
-		{
-			throw new IndexOutOfBoundsException();
-		}
-		
-		int n = 0;
-		while(n < len)
-		{
-			int count = in.read(b, off + n, len - n);
-			if(count < 0)
-			{
-				throw new EOFException();
-			}
-			n += count;
-		}
+		CIOTools.readFully(in, b, off, len);
 	}
 	
 	
 	public byte[] readByteArray(int max) throws IOException
 	{
-		int count = readInt();
-		if(count < 0)
-		{
-			if(count == -1)
-			{
-				return null;
-			}
-			else
-			{
-				throw new IOException("unexpected byte array size " + count);
-			}
-		}
-		else
-		{
-			if(count >= max)
-			{
-				throw new IOException("expecting no more than " + max + " bytes, received " + count);
-			}
-			byte[] b = new byte[count];
-			readFully(b);
-			return b;
-		}
+		return CIOTools.readByteArray(in, max);
 	}
 	
 
@@ -108,6 +81,30 @@ public class DReader
 			throw new EOFException();
 		}
 		return (byte)(ch);
+	}
+	
+	
+	/** reads one byte as an unsigned int (range 0..255) */
+	public int readUInt8() throws IOException
+	{
+		int ch = in.read();
+		if(ch < 0)
+		{
+			throw new EOFException();
+		}
+		return ch;
+	}
+	
+	
+	/** reads one byte as an signed int (range -128 to 127) */
+	public int readInt8() throws IOException
+	{
+		int ch = in.read();
+		if(ch < 0)
+		{
+			throw new EOFException();
+		}
+		return (byte)ch;
 	}
 	
 	
@@ -238,22 +235,59 @@ public class DReader
 
 	public String readString() throws IOException
 	{
-		int len = readInt();
-		if(len < 0)
-		{
-			return null;
-		}
-		else
-		{
-			byte[] b = new byte[len];
-			readFully(b);
-			return new String(b, CKit.CHARSET_UTF8);
-		}
+		return CIOTools.readString(in);
 	}
 	
 	
 	public void close() throws IOException
 	{
 		in.close();
+	}
+	
+	
+	public long skip(long nbytes) throws IOException
+	{
+		return in.skip(nbytes);
+	}
+	
+
+	public int read() throws IOException
+	{
+		return in.read();
+	}
+
+
+	public int read(byte[] buf) throws IOException
+	{
+		return in.read(buf);
+	}
+
+
+	public int read(byte[] buf, int off, int len) throws IOException
+	{
+		return in.read(buf, off, len);
+	}
+
+
+	public int available() throws IOException
+	{
+		return in.available();
+	}
+
+
+	public synchronized void mark(int readlimit)
+	{
+	}
+
+
+	public synchronized void reset() throws IOException
+	{
+		throw new IOException("reset not supported");
+	}
+
+
+	public boolean markSupported()
+	{
+		return false;
 	}
 }

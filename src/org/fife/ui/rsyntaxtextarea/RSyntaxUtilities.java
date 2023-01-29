@@ -19,8 +19,11 @@ import java.awt.Toolkit;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JViewport;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.Document;
@@ -29,7 +32,6 @@ import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import javax.swing.text.TabExpander;
 import javax.swing.text.View;
-
 import org.fife.ui.rsyntaxtextarea.TokenUtils.TokenSubList;
 import org.fife.ui.rsyntaxtextarea.folding.FoldManager;
 import org.fife.ui.rtextarea.Gutter;

@@ -4,10 +4,9 @@ package org.jsoup.nodes;
  An XML Declaration.
 
  @author Jonathan Hedley, jonathan@hedley.net */
-public class XmlDeclaration
-	extends Node
+public class XmlDeclaration extends Node
 {
-	private static final String DECL_KEY = "declaration";
+	static final String DECL_KEY = "declaration";
 	private final boolean isProcessingInstruction; // <! if true, <? if false, declaration (and last data char should be ?)
 
 
@@ -37,7 +36,31 @@ public class XmlDeclaration
 	 */
 	public String getWholeDeclaration()
 	{
-		return attributes.get(DECL_KEY);
+		final String decl = attributes.get(DECL_KEY);
+
+		if(decl.equals("xml") && attributes.size() > 1)
+		{
+			StringBuilder sb = new StringBuilder(decl);
+			final String version = attributes.get("version");
+
+			if(version != null)
+			{
+				sb.append(" version=\"").append(version).append("\"");
+			}
+
+			final String encoding = attributes.get("encoding");
+
+			if(encoding != null)
+			{
+				sb.append(" encoding=\"").append(encoding).append("\"");
+			}
+
+			return sb.toString();
+		}
+		else
+		{
+			return attributes.get(DECL_KEY);
+		}
 	}
 
 
@@ -52,6 +75,7 @@ public class XmlDeclaration
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return outerHtml();

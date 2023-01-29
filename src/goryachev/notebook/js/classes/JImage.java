@@ -1,24 +1,24 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
-import goryachev.common.ui.ImageScaler;
-import goryachev.common.ui.ImageTools;
 import goryachev.common.util.CKit;
-import goryachev.common.util.Noobfuscate;
-import goryachev.common.util.img.SepiaFilter;
-import goryachev.common.util.img.jhlabs.BlurFilter;
-import goryachev.common.util.img.jhlabs.ContrastFilter;
-import goryachev.common.util.img.jhlabs.GammaFilter;
-import goryachev.common.util.img.jhlabs.GaussianFilter;
-import goryachev.common.util.img.jhlabs.GrayscaleFilter;
-import goryachev.common.util.img.jhlabs.SharpenFilter;
+import goryachev.common.util.Keep;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.util.InlineHelp;
+import goryachev.swing.ImageScaler;
+import goryachev.swing.ImageTools;
+import goryachev.swing.img.SepiaFilter;
+import goryachev.swing.img.jhlabs.BlurFilter;
+import goryachev.swing.img.jhlabs.ContrastFilter;
+import goryachev.swing.img.jhlabs.GammaFilter;
+import goryachev.swing.img.jhlabs.GaussianFilter;
+import goryachev.swing.img.jhlabs.GrayscaleFilter;
+import goryachev.swing.img.jhlabs.SharpenFilter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
-@Noobfuscate
+@Keep
 public class JImage
 {
 	private BufferedImage image;
@@ -96,7 +96,7 @@ public class JImage
 	{
 		int w = CKit.round(getWidth() * factor);
 		int h = CKit.round(getHeight() * factor);
-		image = ImageScaler.resize(image, ImageTools.hasAlpha(image), w, h, true);
+		image = ImageScaler.resize_OLD(image, ImageTools.hasAlpha(image), w, h, true);
 		return this;
 	}
 	

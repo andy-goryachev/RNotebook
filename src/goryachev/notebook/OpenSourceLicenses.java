@@ -1,13 +1,13 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.Menus;
-import goryachev.common.ui.dialogs.license.MultiPageDialog;
 import goryachev.common.util.CKit;
-import goryachev.common.util.img.jhlabs.PixelUtils;
-import goryachev.common.util.img.mortennobel.Lanczos3Filter;
+import goryachev.i18n.Menus;
 import goryachev.json.gson.JsonReader;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.dialogs.license.MultiPageDialog;
+import goryachev.swing.img.jhlabs.PixelUtils;
+import goryachev.swing.img.mortennobel.Lanczos3Filter;
 import java.awt.Component;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.jsoup.Jsoup;

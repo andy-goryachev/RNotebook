@@ -1,5 +1,6 @@
-// Copyright (c) 2012-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2012-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import goryachev.common.log.Log;
 import java.io.InputStream;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -12,6 +13,9 @@ import javax.sound.sampled.LineListener;
 
 public class ClipPlayer
 {
+	protected static final Log log = Log.get("ClipPlayer");
+	
+	
 	public static void play(InputStream in)
 	{
 		try
@@ -37,7 +41,7 @@ public class ClipPlayer
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 	}
 	

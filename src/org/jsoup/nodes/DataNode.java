@@ -1,12 +1,10 @@
 package org.jsoup.nodes;
 
-
 /**
  A data node, for contents of style, script tags etc, where contents should not show in text().
 
  @author Jonathan Hedley, jonathan@hedley.net */
-public class DataNode
-	extends Node
+public class DataNode extends Node
 {
 	private static final String DATA_KEY = "data";
 
@@ -62,6 +60,7 @@ public class DataNode
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return outerHtml();

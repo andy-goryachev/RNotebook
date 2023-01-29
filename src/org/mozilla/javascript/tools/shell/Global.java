@@ -468,7 +468,7 @@ public class Global
 		}
 		String session = Context.toString(args[0]);
 		Global global = getInstance(funObj);
-		return new Integer(global.runDoctest(cx, global, session, null, 0));
+		return Integer.valueOf(global.runDoctest(cx, global, session, null, 0));
 	}
 
 
@@ -882,7 +882,7 @@ public class Global
 			ScriptableObject.putProperty(params, "err", s);
 		}
 
-		return new Integer(exitCode);
+		return Integer.valueOf(exitCode);
 	}
 
 

@@ -853,7 +853,7 @@ public class NativeJavaObject
 		// Double, Float
 		if(type == ScriptRuntime.ObjectClass || type == ScriptRuntime.DoubleClass || type == Double.TYPE)
 		{
-			return valueClass == ScriptRuntime.DoubleClass ? value : new Double(toDouble(value));
+			return valueClass == ScriptRuntime.DoubleClass ? value : Double.valueOf(toDouble(value));
 		}
 
 		if(type == ScriptRuntime.FloatClass || type == Float.TYPE)
@@ -867,22 +867,22 @@ public class NativeJavaObject
 				double number = toDouble(value);
 				if(Double.isInfinite(number) || Double.isNaN(number) || number == 0.0)
 				{
-					return new Float((float)number);
+					return Float.valueOf((float)number);
 				}
 				else
 				{
 					double absNumber = Math.abs(number);
 					if(absNumber < Float.MIN_VALUE)
 					{
-						return new Float((number > 0.0) ? +0.0 : -0.0);
+						return Float.valueOf((number > 0.0) ? +0.0f : -0.0f);
 					}
 					else if(absNumber > Float.MAX_VALUE)
 					{
-						return new Float((number > 0.0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY);
+						return Float.valueOf((number > 0.0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY);
 					}
 					else
 					{
-						return new Float((float)number);
+						return Float.valueOf((float)number);
 					}
 				}
 			}
@@ -946,7 +946,7 @@ public class NativeJavaObject
 			}
 		}
 
-		return new Double(toDouble(value));
+		return Double.valueOf(toDouble(value));
 	}
 
 

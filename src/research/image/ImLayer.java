@@ -1,8 +1,8 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image;
-import goryachev.common.ui.ImageTools;
-import goryachev.common.util.img.jhlabs.GaussianFilter;
-import goryachev.common.util.img.jhlabs.InvertFilter;
+import goryachev.swing.ImageTools;
+import goryachev.swing.img.jhlabs.GaussianFilter;
+import goryachev.swing.img.jhlabs.InvertFilter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

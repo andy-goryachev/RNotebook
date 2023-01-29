@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.icons;
-import goryachev.common.ui.Img;
+import goryachev.swing.Img;
 
 
 public class NotebookIcons

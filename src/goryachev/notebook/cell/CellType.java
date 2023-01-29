@@ -1,6 +1,6 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.cell;
-import goryachev.common.util.TXT;
+import goryachev.i18n.TXT;
 import goryachev.notebook.Schema;
 
 

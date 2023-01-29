@@ -1,12 +1,12 @@
 package org.jsoup;
+
 import java.io.IOException;
 
 
 /**
  * Signals that a HTTP response returned a mime type that is not supported.
  */
-public class UnsupportedMimeTypeException
-	extends IOException
+public class UnsupportedMimeTypeException extends IOException
 {
 	private String mimeType;
 	private String url;

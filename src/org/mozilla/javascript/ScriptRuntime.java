@@ -326,7 +326,7 @@ public class ScriptRuntime
 		{
 			return ScriptRuntime.NaNobj;
 		}
-		return new Double(x);
+		return Double.valueOf(x);
 	}
 
 
@@ -443,7 +443,7 @@ public class ScriptRuntime
 	// A similar problem exists for negative zero.
 	public static final double negativeZero = Double.longBitsToDouble(0x8000000000000000L);
 
-	public static final Double NaNobj = new Double(NaN);
+	public static final Double NaNobj = Double.valueOf(NaN);
 
 
 	/*

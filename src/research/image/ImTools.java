@@ -1,9 +1,9 @@
 // Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
 package research.image;
-import goryachev.common.ui.UI;
 import goryachev.common.util.UserException;
-import goryachev.common.util.img.jhlabs.EmbossFilter;
-import goryachev.common.util.img.jhlabs.GaussianFilter;
+import goryachev.swing.UI;
+import goryachev.swing.img.jhlabs.EmbossFilter;
+import goryachev.swing.img.jhlabs.GaussianFilter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;

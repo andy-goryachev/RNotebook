@@ -1,16 +1,16 @@
 // Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.storage;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.CBorder;
-import goryachev.common.ui.CButton;
-import goryachev.common.ui.CDialog;
-import goryachev.common.ui.CPanel;
-import goryachev.common.ui.CScrollPane;
-import goryachev.common.ui.Dialogs;
-import goryachev.common.ui.Menus;
-import goryachev.common.ui.Theme;
 import goryachev.common.util.CKit;
 import goryachev.common.util.UserException;
+import goryachev.i18n.Menus;
+import goryachev.swing.CAction;
+import goryachev.swing.CBorder;
+import goryachev.swing.CButton;
+import goryachev.swing.CDialog;
+import goryachev.swing.CPanel;
+import goryachev.swing.CScrollPane;
+import goryachev.swing.Dialogs;
+import goryachev.swing.Theme;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 

@@ -1,16 +1,16 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.classes;
-import goryachev.common.ui.UI;
-import goryachev.common.util.Noobfuscate;
+import goryachev.common.util.Keep;
 import goryachev.common.util.RFileFilter;
 import goryachev.notebook.js.JsUtil;
 import goryachev.notebook.js.fs.FileSyncToolUI;
+import goryachev.swing.UI;
 import java.io.File;
 import javax.swing.JComponent;
 import research.tools.filesync.FileSyncTool;
 
 
-@Noobfuscate
+@Keep
 public class JsFileSyncTool
 {
 	private FileSyncTool tool;

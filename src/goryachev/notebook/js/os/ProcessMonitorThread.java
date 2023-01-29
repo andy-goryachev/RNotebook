@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.os;
+import goryachev.common.log.Log;
 import goryachev.common.util.CKit;
-import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import goryachev.notebook.js.JsError;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ public class ProcessMonitorThread
 	protected final boolean capture;
 	protected final InputStreamReader input;
 	protected final SB buffer;
+	static Log log = Log.get("ProcessMonitorThread");
 	
 	
 	public ProcessMonitorThread(ProcessMonitor p, String name, boolean capture, InputStream in)
@@ -51,7 +52,7 @@ public class ProcessMonitorThread
 		}
 		catch(Throwable e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		finally
 		{

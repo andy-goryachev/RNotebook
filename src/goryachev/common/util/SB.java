@@ -1,9 +1,15 @@
-// Copyright (c) 2010-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2010-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Formatter;
+import java.util.Map;
 
 
-/** StringBuilder with a few convenient methods */
+/** An extended version of StringBuilder */
 public class SB
+	implements Appendable, CharSequence
 {
 	protected StringBuilder sb;
 
@@ -52,6 +58,13 @@ public class SB
 	}
 	
 	
+	public SB comma()
+	{
+		sb.append(',');
+		return this;
+	}
+	
+	
 	public SB tab()
 	{
 		sb.append("\t");
@@ -66,6 +79,18 @@ public class SB
 			sb.append("\t");
 		}
 		return this;
+	}
+	
+	
+	/** append an object, separating it with the specified delimiter if the buffer is not empty */
+	public SB a(char delimiter, Object x)
+	{
+		if(isNotEmpty())
+		{
+			sb.append(delimiter);
+		}
+		
+		return a(x);
 	}
 	
 	
@@ -111,6 +136,16 @@ public class SB
 	}
 	
 	
+	public SB append(char c, int count)
+	{
+		for(int i=0; i<count; i++)
+		{
+			sb.append(c);
+		}
+		return this;
+	}
+	
+	
 	public void safeHtml(Object x)
 	{
 		if(x != null)
@@ -120,6 +155,22 @@ public class SB
 			s = s.replace("&", "&amp;");
 			sb.append(s);
 		}
+	}
+	
+	
+	/** appends json-escaped value */
+	public SB safeJson(Object x)
+	{
+		if(x == null)
+		{
+			sb.append("null");
+		}
+		else
+		{
+			String s = JsonDump.toJsonString(x);
+			sb.append(s);
+		}
+		return this;
 	}
 	
 	
@@ -136,6 +187,13 @@ public class SB
 	public SB append(String s)
 	{
 		sb.append(s);
+		return this;
+	}
+	
+	
+	public Appendable append(CharSequence cs)
+	{
+		sb.append(cs);
 		return this;
 	}
 
@@ -283,6 +341,19 @@ public class SB
 	public SB insert(int offset, char c)
 	{
 		sb.insert(offset, c);
+		return this;
+	}
+	
+	
+	public SB insert(int offset, char c, int count)
+	{
+		if(count > 0)
+		{
+			char[] cs = new char[count];
+			Arrays.fill(cs, c);
+			
+			sb.insert(offset, cs);
+		}
 		return this;
 	}
 
@@ -485,6 +556,23 @@ public class SB
 	{
 		sb.getChars(srcBegin, srcEnd, dst, dstBegin);
 	}
+	
+	
+	public char[] getChars()
+	{
+		int sz = sb.length();
+		char[] rv = new char[sz];
+		sb.getChars(0, sz, rv, 0);
+		return rv;
+	}
+	
+	
+	public char[] getCharsAndClear()
+	{
+		char[] rv = getChars();
+		sb.setLength(0);
+		return rv;
+	}
 
 
 	public String getAndClear()
@@ -579,6 +667,19 @@ public class SB
 	}
 	
 	
+	public void replace(char old, char newChar)
+	{
+		for(int i=sb.length()-1; i>=0; i--)
+		{
+			char c = sb.charAt(i);
+			if(c == old)
+			{
+				sb.setCharAt(i, newChar);
+			}
+		}
+	}
+	
+	
 	public void toLowerCase()
 	{
 		int sz = sb.length();
@@ -639,5 +740,136 @@ public class SB
 		{
 			sb.append(c);
 		}
+	}
+	
+	
+	/** append all items separated by the separator (all nulls are treated as empty strings) */
+	public void addAll(Object[] ss, Object sep)
+	{
+		boolean first = true;
+		for(Object s: ss)
+		{
+			if(first)
+			{
+				first = false;
+			}
+			else
+			{
+				a(sep);
+			}
+			
+			a(s);
+		}
+	}
+
+
+	public CharSequence subSequence(int start, int end)
+	{
+		return sb.subSequence(start, end);
+	}
+	
+	
+	public SB repeat(char c, int count)
+	{
+		for(int i=0; i<count; i++)
+		{
+			sb.append(c);
+		}
+		return this;
+	}
+	
+	
+	public SB list(Collection<?> items, char delimiter)
+	{
+		if(items != null)
+		{
+			boolean sep = false;
+			
+			for(Object x: items)
+			{
+				if(sep)
+				{
+					sb.append(delimiter);
+				}
+				else
+				{
+					sep = true;
+				}
+				sb.append(x);
+			}
+		}
+		return this;
+	}
+	
+		
+	public SB list(Object[] items, char delimiter)
+	{
+		if(items != null)
+		{
+			boolean sep = false;
+			
+			for(Object x: items)
+			{
+				if(sep)
+				{
+					sb.append(delimiter);
+				}
+				else
+				{
+					sep = true;
+				}
+				sb.append(x);
+			}
+		}
+		return this;
+	}
+	
+	
+	public SB list(Map<?,?> items, char delimiter)
+	{
+		if(items != null)
+		{
+			boolean sep = false;
+			// would be nice to sort, but keys may not be sortable
+			for(Object k: items.keySet())
+			{
+				if(sep)
+				{
+					sb.append(delimiter);
+				}
+				else
+				{
+					sep = true;
+				}
+				
+				Object v = items.get(k);
+				sb.append(k);
+				sb.append('=');
+				sb.append(v);
+			}
+		}
+		return this;
+	}
+	
+	
+	/** appends formatted string, see String.format() */
+	public SB format(String fmt, Object ... args)
+	{
+		Formatter f = new Formatter(sb);
+		try
+		{
+			f.format(fmt, args);
+		}
+		finally
+		{
+			CKit.close(f);
+		}
+		return this;
+	}
+	
+	
+	public byte[] getBytes(Charset cs)
+	{
+		return toString().getBytes(cs);
 	}
 }

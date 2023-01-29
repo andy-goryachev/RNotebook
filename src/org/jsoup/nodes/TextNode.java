@@ -1,16 +1,15 @@
 package org.jsoup.nodes;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
 
 
 /**
  A text node.
- @author Jonathan Hedley, jonathan@hedley.net 
- */
-public class TextNode
-	extends Node
+
+ @author Jonathan Hedley, jonathan@hedley.net */
+public class TextNode extends Node
 {
-	public static final String NAME = "#text";
 	/*
 	TextNode is a node, and so by default comes with attributes and children. The attributes are seldom used, but use
 	memory, and the child nodes are never used. So we don't have them, and override accessors to attributes to create
@@ -36,7 +35,7 @@ public class TextNode
 
 	public String nodeName()
 	{
-		return NAME;
+		return "#text";
 	}
 
 
@@ -60,9 +59,7 @@ public class TextNode
 	{
 		this.text = text;
 		if(attributes != null)
-		{
 			attributes.put(TEXT_KEY, text);
-		}
 		return this;
 	}
 
@@ -103,9 +100,7 @@ public class TextNode
 		text(head);
 		TextNode tailNode = new TextNode(tail, this.baseUri());
 		if(parent() != null)
-		{
 			parent().addChildren(siblingIndex() + 1, tailNode);
-		}
 
 		return tailNode;
 	}
@@ -113,17 +108,11 @@ public class TextNode
 
 	void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out)
 	{
-		String html = Entities.escape(getWholeText(), out);
-		if(out.prettyPrint() && parent() instanceof Element && !((Element)parent()).preserveWhitespace())
-		{
-			html = normaliseWhitespace(html);
-		}
-
-		if(out.prettyPrint() && siblingIndex() == 0 && parentNode instanceof Element && ((Element)parentNode).tag().formatAsBlock() && !isBlank())
-		{
+		if(out.prettyPrint() && ((siblingIndex() == 0 && parentNode instanceof Element && ((Element)parentNode).tag().formatAsBlock() && !isBlank()) || (out.outline() && siblingNodes().size() > 0 && !isBlank())))
 			indent(accum, depth, out);
-		}
-		accum.append(html);
+
+		boolean normaliseWhite = out.prettyPrint() && parent() instanceof Element && !Element.preserveWhitespace(parent());
+		Entities.escape(accum, getWholeText(), out, false, normaliseWhite, false);
 	}
 
 
@@ -132,6 +121,7 @@ public class TextNode
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return outerHtml();
@@ -141,6 +131,7 @@ public class TextNode
 	/**
 	 * Create a new TextNode from HTML encoded (aka escaped) data.
 	 * @param encodedText Text containing encoded HTML (e.g. &amp;lt;)
+	 * @param baseUri Base uri
 	 * @return TextNode containing unencoded data (e.g. &lt;)
 	 */
 	public static TextNode createFromEncoded(String encodedText, String baseUri)
@@ -225,5 +216,30 @@ public class TextNode
 	{
 		ensureAttributes();
 		return super.absUrl(attributeKey);
+	}
+
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
+		if(!super.equals(o))
+			return false;
+
+		TextNode textNode = (TextNode)o;
+
+		return !(text != null ? !text.equals(textNode.text) : textNode.text != null);
+	}
+
+
+	@Override
+	public int hashCode()
+	{
+		int result = super.hashCode();
+		result = 31 * result + (text != null ? text.hashCode() : 0);
+		return result;
 	}
 }

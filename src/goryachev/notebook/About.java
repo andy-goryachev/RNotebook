@@ -1,10 +1,10 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.dialogs.AboutDialog;
-import goryachev.common.ui.text.CDocumentBuilder;
 import goryachev.notebook.icons.NotebookIcons;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.dialogs.AboutDialog;
+import goryachev.swing.text.CDocumentBuilder;
 import java.awt.Window;
 
 

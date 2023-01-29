@@ -1,18 +1,20 @@
 package org.jsoup.parser;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
+import org.jsoup.nodes.BooleanAttribute;
 
 
 /**
  * Parse tokens for the Tokeniser.
  */
-public abstract class Token
+abstract class Token
 {
 	TokenType type;
 
 
-	public Token()
+	protected Token()
 	{
 	}
 
@@ -21,79 +23,24 @@ public abstract class Token
 	{
 		return this.getClass().getSimpleName();
 	}
-	
-	
-	boolean isDoctype()
+
+
+	/**
+	 * Reset the data represent by this token, for reuse. Prevents the need to create transfer objects for every
+	 * piece of data, which immediately get GCed.
+	 */
+	abstract Token reset();
+
+
+	static void reset(StringBuilder sb)
 	{
-		return type == TokenType.Doctype;
+		if(sb != null)
+		{
+			sb.delete(0, sb.length());
+		}
 	}
 
-
-	Doctype asDoctype()
-	{
-		return (Doctype)this;
-	}
-
-
-	boolean isStartTag()
-	{
-		return type == TokenType.StartTag;
-	}
-
-
-	StartTag asStartTag()
-	{
-		return (StartTag)this;
-	}
-
-
-	boolean isEndTag()
-	{
-		return type == TokenType.EndTag;
-	}
-
-
-	EndTag asEndTag()
-	{
-		return (EndTag)this;
-	}
-
-
-	boolean isComment()
-	{
-		return type == TokenType.Comment;
-	}
-
-
-	Comment asComment()
-	{
-		return (Comment)this;
-	}
-
-
-	boolean isCharacter()
-	{
-		return type == TokenType.Character;
-	}
-
-
-	Character asCharacter()
-	{
-		return (Character)this;
-	}
-
-
-	boolean isEOF()
-	{
-		return type == TokenType.EOF;
-	}
-	
-	
-	//
-	
-
-	public static class Doctype
-	    extends Token
+	static final class Doctype extends Token
 	{
 		final StringBuilder name = new StringBuilder();
 		final StringBuilder publicIdentifier = new StringBuilder();
@@ -101,9 +48,20 @@ public abstract class Token
 		boolean forceQuirks = false;
 
 
-		public Doctype()
+		Doctype()
 		{
 			type = TokenType.Doctype;
+		}
+
+
+		@Override
+		Token reset()
+		{
+			reset(name);
+			reset(publicIdentifier);
+			reset(systemIdentifier);
+			forceQuirks = false;
+			return this;
 		}
 
 
@@ -130,51 +88,56 @@ public abstract class Token
 			return forceQuirks;
 		}
 	}
-	
-	
-	//
-	
 
-	public static abstract class Tag
-	    extends Token
+	static abstract class Tag extends Token
 	{
 		protected String tagName;
 		private String pendingAttributeName; // attribute names are generally caught in one hop, not accumulated
-		private StringBuilder pendingAttributeValue; // but values are accumulated, from e.g. & in hrefs
-
+		private StringBuilder pendingAttributeValue = new StringBuilder(); // but values are accumulated, from e.g. & in hrefs
+		private boolean hasEmptyAttributeValue = false; // distinguish boolean attribute from empty string value
+		private boolean hasPendingAttributeValue = false;
 		boolean selfClosing = false;
 		Attributes attributes; // start tags get attributes on construction. End tags get attributes on first new attribute (but only for parser convenience, not used).
 
 
-		void newAttribute()
+		@Override
+		Tag reset()
+		{
+			tagName = null;
+			pendingAttributeName = null;
+			reset(pendingAttributeValue);
+			hasEmptyAttributeValue = false;
+			hasPendingAttributeValue = false;
+			selfClosing = false;
+			attributes = null;
+			return this;
+		}
+
+
+		final void newAttribute()
 		{
 			if(attributes == null)
-			{
 				attributes = new Attributes();
-			}
 
 			if(pendingAttributeName != null)
 			{
 				Attribute attribute;
-				if(pendingAttributeValue == null)
-				{
-					attribute = new Attribute(pendingAttributeName, "");
-				}
-				else
-				{
+				if(hasPendingAttributeValue)
 					attribute = new Attribute(pendingAttributeName, pendingAttributeValue.toString());
-				}
+				else if(hasEmptyAttributeValue)
+					attribute = new Attribute(pendingAttributeName, "");
+				else
+					attribute = new BooleanAttribute(pendingAttributeName);
 				attributes.put(attribute);
 			}
 			pendingAttributeName = null;
-			if(pendingAttributeValue != null)
-			{
-				pendingAttributeValue.delete(0, pendingAttributeValue.length());
-			}
+			hasEmptyAttributeValue = false;
+			hasPendingAttributeValue = false;
+			reset(pendingAttributeValue);
 		}
 
 
-		void finaliseTag()
+		final void finaliseTag()
 		{
 			// finalises for emit
 			if(pendingAttributeName != null)
@@ -185,78 +148,94 @@ public abstract class Token
 		}
 
 
-		String name()
+		final String name()
 		{
-			Validate.isFalse(tagName.length() == 0);
+			Validate.isFalse(tagName == null || tagName.length() == 0);
 			return tagName;
 		}
 
 
-		Tag name(String name)
+		final Tag name(String name)
 		{
 			tagName = name;
 			return this;
 		}
 
 
-		boolean isSelfClosing()
+		final boolean isSelfClosing()
 		{
 			return selfClosing;
 		}
 
 
 		@SuppressWarnings({ "TypeMayBeWeakened" })
-		Attributes getAttributes()
+		final Attributes getAttributes()
 		{
 			return attributes;
 		}
 
 
 		// these appenders are rarely hit in not null state-- caused by null chars.
-		void appendTagName(String append)
+		final void appendTagName(String append)
 		{
 			tagName = tagName == null ? append : tagName.concat(append);
 		}
 
 
-		void appendTagName(char append)
+		final void appendTagName(char append)
 		{
 			appendTagName(String.valueOf(append));
 		}
 
 
-		void appendAttributeName(String append)
+		final void appendAttributeName(String append)
 		{
 			pendingAttributeName = pendingAttributeName == null ? append : pendingAttributeName.concat(append);
 		}
 
 
-		void appendAttributeName(char append)
+		final void appendAttributeName(char append)
 		{
 			appendAttributeName(String.valueOf(append));
 		}
 
 
-		void appendAttributeValue(String append)
+		final void appendAttributeValue(String append)
 		{
-			pendingAttributeValue = pendingAttributeValue == null ? new StringBuilder(append) : pendingAttributeValue.append(append);
+			ensureAttributeValue();
+			pendingAttributeValue.append(append);
 		}
 
 
-		void appendAttributeValue(char append)
+		final void appendAttributeValue(char append)
 		{
-			appendAttributeValue(String.valueOf(append));
+			ensureAttributeValue();
+			pendingAttributeValue.append(append);
+		}
+
+
+		final void appendAttributeValue(char[] append)
+		{
+			ensureAttributeValue();
+			pendingAttributeValue.append(append);
+		}
+
+
+		final void setEmptyAttributeValue()
+		{
+			hasEmptyAttributeValue = true;
+		}
+
+
+		private void ensureAttributeValue()
+		{
+			hasPendingAttributeValue = true;
 		}
 	}
-	
-	
-	//
-	
 
-	public static class StartTag
-	    extends Tag
+	final static class StartTag extends Tag
 	{
-		public StartTag()
+		StartTag()
 		{
 			super();
 			attributes = new Attributes();
@@ -264,18 +243,21 @@ public abstract class Token
 		}
 
 
-		public StartTag(String name)
+		@Override
+		Tag reset()
 		{
-			this();
-			this.tagName = name;
+			super.reset();
+			attributes = new Attributes();
+			// todo - would prefer these to be null, but need to check Element assertions
+			return this;
 		}
 
 
-		public StartTag(String name, Attributes attributes)
+		StartTag nameAttr(String name, Attributes attributes)
 		{
-			this();
 			this.tagName = name;
 			this.attributes = attributes;
+			return this;
 		}
 
 
@@ -283,34 +265,18 @@ public abstract class Token
 		public String toString()
 		{
 			if(attributes != null && attributes.size() > 0)
-			{
 				return "<" + name() + " " + attributes.toString() + ">";
-			}
 			else
-			{
 				return "<" + name() + ">";
-			}
 		}
 	}
-	
-	
-	//
-	
 
-	public static class EndTag
-	    extends Tag
+	final static class EndTag extends Tag
 	{
-		public EndTag()
+		EndTag()
 		{
 			super();
 			type = TokenType.EndTag;
-		}
-
-
-		public EndTag(String name)
-		{
-			this();
-			this.tagName = name;
 		}
 
 
@@ -320,19 +286,23 @@ public abstract class Token
 			return "</" + name() + ">";
 		}
 	}
-	
-	
-	//
-	
 
-	public static class Comment
-	    extends Token
+	final static class Comment extends Token
 	{
 		final StringBuilder data = new StringBuilder();
 		boolean bogus = false;
 
 
-		public Comment()
+		@Override
+		Token reset()
+		{
+			reset(data);
+			bogus = false;
+			return this;
+		}
+
+
+		Comment()
 		{
 			type = TokenType.Comment;
 		}
@@ -350,21 +320,31 @@ public abstract class Token
 			return "<!--" + getData() + "-->";
 		}
 	}
-	
-	
-	//
-	
 
-	public static class Character
-	    extends Token
+	final static class Character extends Token
 	{
-		private final String data;
+		private String data;
 
 
-		public Character(String data)
+		Character()
 		{
+			super();
 			type = TokenType.Character;
+		}
+
+
+		@Override
+		Token reset()
+		{
+			data = null;
+			return this;
+		}
+
+
+		Character data(String data)
+		{
 			this.data = data;
+			return this;
 		}
 
 
@@ -380,23 +360,87 @@ public abstract class Token
 			return getData();
 		}
 	}
-	
-	
-	//
-	
 
-	public static class EOF
-	    extends Token
+	final static class EOF extends Token
 	{
-		public EOF()
+		EOF()
 		{
 			type = Token.TokenType.EOF;
 		}
-	}
-	
-	
-	//
 
+
+		@Override
+		Token reset()
+		{
+			return this;
+		}
+	}
+
+
+	final boolean isDoctype()
+	{
+		return type == TokenType.Doctype;
+	}
+
+
+	final Doctype asDoctype()
+	{
+		return (Doctype)this;
+	}
+
+
+	final boolean isStartTag()
+	{
+		return type == TokenType.StartTag;
+	}
+
+
+	final StartTag asStartTag()
+	{
+		return (StartTag)this;
+	}
+
+
+	final boolean isEndTag()
+	{
+		return type == TokenType.EndTag;
+	}
+
+
+	final EndTag asEndTag()
+	{
+		return (EndTag)this;
+	}
+
+
+	final boolean isComment()
+	{
+		return type == TokenType.Comment;
+	}
+
+
+	final Comment asComment()
+	{
+		return (Comment)this;
+	}
+
+
+	final boolean isCharacter()
+	{
+		return type == TokenType.Character;
+	}
+
+
+	final Character asCharacter()
+	{
+		return (Character)this;
+	}
+
+
+	final boolean isEOF()
+	{
+		return type == TokenType.EOF;
+	}
 
 	enum TokenType
 	{

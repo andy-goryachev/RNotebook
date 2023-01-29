@@ -1,19 +1,19 @@
 // Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.Appearance;
-import goryachev.common.ui.Application;
-import goryachev.common.ui.CAction;
-import goryachev.common.ui.Menus;
-import goryachev.common.ui.dialogs.options.COptionDialog;
-import goryachev.common.ui.dialogs.options.OptionTreeBuilder;
-import goryachev.common.ui.dialogs.options.ThemeOptionEditor;
-import goryachev.common.ui.options.edit.DateFormatOptionEditor;
-import goryachev.common.ui.options.edit.KeyBindingsEditor;
-import goryachev.common.ui.options.edit.NumberFormatOptionEditor;
-import goryachev.common.ui.options.edit.TimeFormatOptionEditor;
-import goryachev.common.ui.theme.ThemeOptions;
-import goryachev.common.util.TXT;
+import goryachev.i18n.Menus;
+import goryachev.i18n.TXT;
 import goryachev.notebook.storage.StorageEditor;
+import goryachev.swing.Appearance;
+import goryachev.swing.Application;
+import goryachev.swing.CAction;
+import goryachev.swing.dialogs.options.COptionDialog;
+import goryachev.swing.dialogs.options.OptionTreeBuilder;
+import goryachev.swing.dialogs.options.ThemeOptionEditor;
+import goryachev.swing.options.edit.DateFormatOptionEditor;
+import goryachev.swing.options.edit.KeyBindingsEditor;
+import goryachev.swing.options.edit.NumberFormatOptionEditor;
+import goryachev.swing.options.edit.TimeFormatOptionEditor;
+import goryachev.swing.theme.ThemeOptions;
 import java.awt.Component;
 
 

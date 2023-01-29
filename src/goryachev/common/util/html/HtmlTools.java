@@ -1,21 +1,20 @@
-// Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2008-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util.html;
-import goryachev.common.ui.ImageTools;
+import goryachev.common.log.Log;
 import goryachev.common.util.Base64;
 import goryachev.common.util.CComparator;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.CSet;
 import goryachev.common.util.Hex;
-import goryachev.common.util.Log;
 import goryachev.common.util.SB;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.net.URI;
 
 
 public class HtmlTools
 {
+	protected static final Log log = Log.get("HtmlTools");
 	private static Html4SymbolEntities html4SymbolEntities;
 	private static CSet<String> htmlTags;
 	
@@ -304,7 +303,7 @@ public class HtmlTools
 	{
 		if(htmlTags == null)
 		{
-			htmlTags = CKit.collectPublicStaticFields(HTML4.class, String.class);
+			htmlTags = new CSet<>(CKit.collectPublicStaticFields(HTML4.class, String.class));
 		}
 		return htmlTags;
 	}
@@ -369,7 +368,7 @@ public class HtmlTools
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		return u;
@@ -386,13 +385,5 @@ public class HtmlTools
 			return Base64.decode(s);
 		}
 		return null;
-	}
-	
-	
-	public static void appendBase64PNG(BufferedImage im, SB sb) throws Exception
-	{
-		byte[] b = ImageTools.toPNG(im);
-		sb.a("data:image/png;base64,");
-		sb.a(Base64.encode(b));
 	}
 }

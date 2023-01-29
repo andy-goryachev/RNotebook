@@ -1,14 +1,12 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.common.util;
-import java.awt.Color;
+import goryachev.common.log.Log;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.TimeZone;
-import javax.swing.Icon;
 
 
 /** 
@@ -17,6 +15,9 @@ import javax.swing.Icon;
  */
 public class Parsers
 {
+	protected static final Log log = Log.get("Parsers");
+	
+	
 	public static Double parseDouble(Object x)
 	{
 		if(x instanceof Number)
@@ -253,20 +254,6 @@ public class Parsers
 	}
 	
 	
-	public static Color parseColor(Object x)
-	{
-		if(x instanceof Color)
-		{
-			return (Color)x;
-		}
-		else if(x instanceof Integer)
-		{
-			return new Color((Integer)x, true);
-		}
-		return null;
-	}
-	
-	
 	public static char[] parseCharArray(Object x)
 	{
 		if(x instanceof char[])
@@ -337,7 +324,7 @@ public class Parsers
 		}
 		catch(Exception e)
 		{
-			Log.err(e);
+			log.error(e);
 		}
 		
 		return null;
@@ -354,34 +341,6 @@ public class Parsers
 		{ }
 		
 		return null;
-	}
-	
-
-	public static Icon parseIcon(Object x)
-	{
-		return (x instanceof Icon) ? (Icon)x : null;
-	}
-	
-	
-	public static String parseTimeZoneCode(Object x)
-	{
-		if(x instanceof CTimeZone)
-		{
-			return ((CTimeZone)x).getID();
-		}
-		else if(x instanceof TimeZone)
-		{
-			return ((TimeZone)x).getID();
-		}
-		else if(x instanceof String)
-		{
-			// no validation
-			return (String)x;
-		}
-		else
-		{
-			return null;
-		}
 	}
 	
 	
@@ -402,7 +361,7 @@ public class Parsers
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		return null;
@@ -433,13 +392,13 @@ public class Parsers
 					}
 					catch(Exception e)
 					{
-						Log.err(e);
+						log.error(e);
 					}
 				}
 			}
 			catch(Exception e)
 			{
-				Log.err(e);
+				log.error(e);
 			}
 		}
 		return null;
@@ -573,15 +532,40 @@ public class Parsers
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public static <T> HashSet<T> parseHashSet(Object x)
 	{
 		if(x != null)
 		{
 			if(x instanceof Collection)
 			{
-				return new HashSet((Collection)x);
+				return new HashSet<>((Collection)x);
 			}
 		}
-		return new HashSet();
+		return new HashSet<>();
+	}
+	
+	
+	/** parses an Enum value */
+	public static <T extends Enum> T parseEnum(Object val, Class<T> type, T defaultValue)
+	{
+		if(val != null)
+		{
+			T[] values = type.getEnumConstants();
+			for(T v: values)
+			{
+				if(v == val)
+				{
+					return v;
+				}
+				
+				String s = val.toString();
+				if(v.toString().equals(s))
+				{
+					return v;
+				}
+			}
+		}
+		return defaultValue;
 	}
 }
