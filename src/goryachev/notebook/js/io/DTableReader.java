@@ -315,18 +315,25 @@ public class DTableReader
 		{
 			boolean header = firstRowContainsColumnNames;
 			CSVReader csv = new CSVReader(rd);
-			String[] ss;
-			while((ss = csv.readNext()) != null)
+			try
 			{
-				if(header)
+				String[] ss;
+				while((ss = csv.readNext()) != null)
 				{
-					setColumns(t, ss);
-					header = false;
+					if(header)
+					{
+						setColumns(t, ss);
+						header = false;
+					}
+					else
+					{
+						addRow(t, ss);
+					}
 				}
-				else
-				{
-					addRow(t, ss);
-				}
+			}
+			finally
+			{
+				CKit.close(csv);
 			}
 		}
 		finally

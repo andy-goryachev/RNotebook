@@ -16,6 +16,7 @@ import java.security.PrivilegedAction;
  *
  * <p> This improves startup time and average memory usage.
  */
+@SuppressWarnings("removal")
 public final class LazilyLoadedCtor
     implements java.io.Serializable
 {

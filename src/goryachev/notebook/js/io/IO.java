@@ -44,18 +44,25 @@ public class IO
 		{
 			boolean header = true;
 			CSVReader csv = new CSVReader(rd);
-			String[] ss;
-			while((ss = csv.readNext()) != null)
+			try
 			{
-				if(header)
+				String[] ss;
+				while((ss = csv.readNext()) != null)
 				{
-					t.setColumns(ss);
-					header = false;
+					if(header)
+					{
+						t.setColumns(ss);
+						header = false;
+					}
+					else
+					{
+						t.addRow((Object[])ss);
+					}
 				}
-				else
-				{
-					t.addRow((Object[])ss);
-				}
+			}
+			finally
+			{
+				CKit.close(csv);
 			}
 		}
 		finally

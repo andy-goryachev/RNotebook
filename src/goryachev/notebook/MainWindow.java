@@ -490,11 +490,10 @@ public class MainWindow
 		{
 			if(file != null)
 			{
-				CReader rd = new CReader(file);
-				
+				DataBookJsonReader rd = new DataBookJsonReader(new CReader(file));
 				try
 				{
-					DataBook b = new DataBookJsonReader(rd).read();
+					DataBook b = rd.read();
 	
 					setFile(file);
 					setDataBook(b);

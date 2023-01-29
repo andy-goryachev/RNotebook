@@ -106,6 +106,7 @@ import java.security.PrivilegedAction;
  *
  * </pre>
  */
+@SuppressWarnings("removal")
 public class ContextFactory
 {
 	private static volatile boolean hasCustomGlobal;

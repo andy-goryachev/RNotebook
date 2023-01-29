@@ -44,7 +44,7 @@ public class TestRhino
 			// the top-level variable "counter". This is
 			// equivalent to the JavaScript code
 			//    counter = new Counter(7);
-			Object[] arg = { new Integer(7) };
+			Object[] arg = { 7 };
 			Scriptable myCounter = cx.newObject(scope, "Counter", arg);
 			scope.put("counter", scope, myCounter);
 

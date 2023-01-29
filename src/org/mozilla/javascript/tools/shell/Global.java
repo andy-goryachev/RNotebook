@@ -753,6 +753,7 @@ public class Global
 	 *   value of the err property.
 	 * </ul>
 	 */
+	@SuppressWarnings("resource")
 	public static Object runCommand(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws IOException
 	{
 		int L = args.length;
@@ -763,7 +764,8 @@ public class Global
 
 		InputStream in = null;
 		OutputStream out = null, err = null;
-		ByteArrayOutputStream outBytes = null, errBytes = null;
+		ByteArrayOutputStream outBytes = null;
+		ByteArrayOutputStream errBytes = null;
 		Object outObj = null, errObj = null;
 		String[] environment = null;
 		Scriptable params = null;

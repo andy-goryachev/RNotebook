@@ -12,6 +12,7 @@ package org.mozilla.javascript;
  * <code>ProtectionDomain</code> as the script code that created them.
  * Embeddings that implement their own SecurityManager can use this as base class.
  */
+@SuppressWarnings("removal")
 public class RhinoSecurityManager extends SecurityManager {
 
     /**

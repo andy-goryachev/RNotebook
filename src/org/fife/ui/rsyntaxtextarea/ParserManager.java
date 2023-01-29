@@ -46,6 +46,7 @@ import org.fife.ui.rtextarea.RTextAreaHighlighter.HighlightInfo;
  * @author Robert Futrell
  * @version 0.9
  */
+@SuppressWarnings("removal")
 class ParserManager implements DocumentListener, ActionListener,
 								HyperlinkListener, PropertyChangeListener {
 

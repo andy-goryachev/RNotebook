@@ -24,6 +24,7 @@ import org.mozilla.javascript.GeneratedClassLoader;
 import org.mozilla.javascript.Scriptable;
 
 
+@SuppressWarnings("removal")
 public class JavaPolicySecurity
     extends SecurityProxy
 {

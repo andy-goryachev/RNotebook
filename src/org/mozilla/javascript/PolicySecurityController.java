@@ -28,6 +28,7 @@ import org.mozilla.classfile.ClassFileWriter;
  * implementation-specific way you're using.
  * @author Attila Szegedi
  */
+@SuppressWarnings("removal")
 public class PolicySecurityController
     extends SecurityController
 {

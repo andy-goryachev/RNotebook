@@ -22,6 +22,7 @@ import java.util.WeakHashMap;
 /**
  * @author Attila Szegedi
  */
+@SuppressWarnings("removal")
 public abstract class SecureCaller
 {
 	protected static final byte[] secureCallerImplBytecode = loadBytecode();

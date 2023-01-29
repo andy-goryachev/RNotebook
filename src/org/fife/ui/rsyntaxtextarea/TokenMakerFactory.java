@@ -42,6 +42,7 @@ public abstract class TokenMakerFactory {
 	 * @return The factory.
 	 * @see #setDefaultInstance(TokenMakerFactory)
 	 */
+	@SuppressWarnings("removal")
 	public static synchronized TokenMakerFactory getDefaultInstance() {
 		if (DEFAULT_INSTANCE==null) {
 			String clazz = null;

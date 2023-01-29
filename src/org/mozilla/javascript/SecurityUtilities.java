@@ -13,6 +13,7 @@ import java.security.ProtectionDomain;
 /**
  * @author Attila Szegedi
  */
+@SuppressWarnings("removal")
 public class SecurityUtilities
 {
     /**
