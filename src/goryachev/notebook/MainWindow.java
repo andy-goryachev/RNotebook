@@ -1,7 +1,6 @@
 // Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.io.CReader;
-import goryachev.common.ui.options.RecentFilesOption;
 import goryachev.common.util.CKit;
 import goryachev.common.util.SB;
 import goryachev.i18n.Menus;

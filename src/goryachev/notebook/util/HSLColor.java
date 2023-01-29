@@ -1,5 +1,5 @@
 // Copyright © 2006-2023 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.util;
+package goryachev.notebook.util;
 import goryachev.common.log.Log;
 import java.awt.Color;
 

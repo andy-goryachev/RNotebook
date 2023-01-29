@@ -1,6 +1,5 @@
 // Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.ContactSupport;
 import goryachev.i18n.Menus;
 import goryachev.swing.Application;
 import goryachev.swing.CAction;

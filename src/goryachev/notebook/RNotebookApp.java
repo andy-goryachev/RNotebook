@@ -21,6 +21,7 @@ public class RNotebookApp
 	public static final String VERSION = "2023.0128.2108";
 	public static final String COPYRIGHT = "copyright © 2023 andy goryachev";	
 	public static final String WEB_SITE = "https://goryachev.com/products/rnotebook";
+	public static final String SUPPORT_EMAIL = "support@goryachev.com";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);
 	public static final int REMINDER_COUNT = 60;

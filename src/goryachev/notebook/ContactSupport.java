@@ -1,7 +1,5 @@
 // Copyright © 2008-2023 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.ui;
-import goryachev.common.util.ProductInfo;
-import goryachev.swing.Application;
+package goryachev.notebook;
 import goryachev.swing.CAction;
 import goryachev.swing.Dialogs;
 import goryachev.swing.MailTools;
@@ -17,8 +15,8 @@ public class ContactSupport
 	{
 		try
 		{
-			String email = ProductInfo.getSupportEmail();
-			String subject = "Question about " + Application.getTitle() + " ver. " + Application.getVersion();
+			String email = RNotebookApp.SUPPORT_EMAIL;
+			String subject = "Question about " + RNotebookApp.getTitle() + " ver. " + RNotebookApp.getVersion();
 			MailTools.mail(email, subject, body);
 		}
 		catch(Exception e)

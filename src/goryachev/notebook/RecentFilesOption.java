@@ -1,5 +1,5 @@
 // Copyright (c) 2007-2015 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.ui.options;
+package goryachev.notebook;
 import goryachev.common.util.CKit;
 import goryachev.common.util.CList;
 import goryachev.common.util.SB;

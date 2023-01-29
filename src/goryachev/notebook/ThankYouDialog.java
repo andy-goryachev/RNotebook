@@ -1,7 +1,5 @@
 // Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
-import goryachev.common.ui.ContactSupport;
-import goryachev.common.util.ProductInfo;
 import goryachev.i18n.Menus;
 import goryachev.i18n.TXT;
 import goryachev.swing.Application;
@@ -48,7 +46,7 @@ public class ThankYouDialog
 			"Our engineers and testers spent countless hours making sure the product works, and works right.  " +
 			"Should you, however, find that something is not working right, or can be improved — do not hesitate to tell us.  " +
 			"\n\n" + 
-			TXT.get("ThankYouDialog.thank you.4", "You can reach us at {0}", ProductInfo.getSupportEmail())
+			TXT.get("ThankYouDialog.thank you.4", "You can reach us at {0}", RNotebookApp.SUPPORT_EMAIL)
 			;
 		
 		infoField = new InfoField(text, 0);

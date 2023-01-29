@@ -1,5 +1,6 @@
 // Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
-package goryachev.common.util;
+package goryachev.notebook.util;
+import goryachev.common.util.CMap;
 import java.awt.Color;
 
 
