@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2008-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.storage;
 import goryachev.common.util.CKit;
 import goryachev.common.util.UserException;

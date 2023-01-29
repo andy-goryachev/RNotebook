@@ -1,3 +1,4 @@
+// Copyright © 2015-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

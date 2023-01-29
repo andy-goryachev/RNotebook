@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.log.Log;
 import goryachev.common.util.CList;
@@ -18,8 +18,8 @@ import javax.swing.ImageIcon;
 public class RNotebookApp
 	extends Application
 {
-	public static final String VERSION = "0.04.16";
-	public static final String COPYRIGHT = "copyright © 2015 andy goryachev";	
+	public static final String VERSION = "2023.0128.2108";
+	public static final String COPYRIGHT = "copyright © 2023 andy goryachev";	
 	public static final String WEB_SITE = "https://goryachev.com/products/rnotebook";
 	protected static final StringListOption openDocumentsOption = new StringListOption("open.documents");
 	protected static final IntOption startCountOption = new IntOption("start.count", 0, 0, Integer.MAX_VALUE);

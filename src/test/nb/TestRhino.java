@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2015-2023 Andy Goryachev <andy@goryachev.com>
 package test.nb;
 import goryachev.common.test.TF;
 import goryachev.common.test.Test;

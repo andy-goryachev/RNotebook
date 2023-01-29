@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2014-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.util;
 import goryachev.common.util.CList;
 import goryachev.common.util.CMap;

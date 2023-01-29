@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2015-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook.js.ut;
 import goryachev.common.util.Base64;
 import goryachev.common.util.HSLColor;

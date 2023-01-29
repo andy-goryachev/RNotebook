@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package research.image.filters;
 import goryachev.common.util.CKit;
 import goryachev.swing.img.jhlabs.AbstractBufferedImageOp;

@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2013-2023 Andy Goryachev <andy@goryachev.com>
 package goryachev.notebook;
 import goryachev.common.ui.ContactSupport;
 import goryachev.common.util.ProductInfo;

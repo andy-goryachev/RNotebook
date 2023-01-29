@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2011-2023 Andy Goryachev <andy@goryachev.com>
 package research.image.filters;
 import goryachev.swing.img.jhlabs.AbstractBufferedImageOp;
 import java.awt.BasicStroke;

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Andy Goryachev <andy@goryachev.com>
+// Copyright © 2015-2023 Andy Goryachev <andy@goryachev.com>
 package research.dhtml3;
 import goryachev.common.util.CMap;
 import goryachev.common.util.SB;
